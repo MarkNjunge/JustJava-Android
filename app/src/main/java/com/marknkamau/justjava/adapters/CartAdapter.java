@@ -50,7 +50,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     public interface updateCartRequest {
         void saveCartEdit(Map<String, String> data);
-
         void deleteCartItem(String itemID);
     }
 

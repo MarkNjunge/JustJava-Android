@@ -27,6 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.marknkamau.justjava.utils.FirebaseUtil;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -203,6 +206,13 @@ public class SignUpActivity extends AppCompatActivity {
         address = etDeliveryAddress.getText().toString().trim();
 
         Boolean bool = true;
+        Pattern pattern1 = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+");
+        Matcher matcher1 = pattern1.matcher(email);
+
+        if (matcher1.matches()) {
+            etEmailAddress.setError("Can not use @justjava.com");
+            bool = false;
+        }
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(passwordRpt)
                 || TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show();

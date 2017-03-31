@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/PENDING_ORDERS_KEY"
+        android:summary="Show orders that are pending"
+        android:title="Show pending" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/IN_PROGRESS_ORDERS_KEY"
+        android:summary="Show orders that are in progress"
+        android:title="Show in progress" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/COMPLETED_ORDERS_KEY"
+        android:summary="Show orders that have been completed"
+        android:title="Show completed" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/DELIVERED_ORDERS_KEY"
+        android:summary="Show orders that have been delivered"
+        android:title="Show delivered" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="@string/CANCELLED_ORDERS_KEY"
+        android:summary="Show orders that have been cancelled"
+        android:title="Show cancelled" />
+
+</PreferenceScreen>

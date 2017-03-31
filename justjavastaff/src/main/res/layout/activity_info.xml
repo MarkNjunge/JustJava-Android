@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.marknkamau.justjavastaff.InfoActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="56dp"
+            app:srcCompat="@drawable/ic_just_java_text" />
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:id="@+id/view_pending"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_pending"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
+        android:id="@+id/tv_pending"
+        style="@style/main_text_alt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="Pending"
+        app:layout_constraintBottom_toBottomOf="@+id/view_pending"
+        app:layout_constraintLeft_toRightOf="@+id/view_pending"
+        app:layout_constraintTop_toTopOf="@+id/view_pending"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <View
+        android:id="@+id/view_in_progress"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_in_progress"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_pending" />
+
+    <TextView
+        android:id="@+id/tv_in_progress"
+        style="@style/main_text_alt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="In progress"
+        app:layout_constraintBottom_toBottomOf="@+id/view_in_progress"
+        app:layout_constraintLeft_toRightOf="@+id/view_in_progress"
+        app:layout_constraintTop_toTopOf="@+id/view_in_progress"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <View
+        android:id="@+id/view_completed"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_completed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_in_progress" />
+
+    <TextView
+        android:id="@+id/tv_completed"
+        style="@style/main_text_alt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="Completed"
+        app:layout_constraintBottom_toBottomOf="@+id/view_completed"
+        app:layout_constraintLeft_toRightOf="@+id/view_completed"
+        app:layout_constraintTop_toTopOf="@+id/view_completed"
+        app:layout_constraintVertical_bias="0.428" />
+
+    <View
+        android:id="@+id/view_delivered"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_delivered"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_completed" />
+
+    <TextView
+        android:id="@+id/tv_delivered"
+        style="@style/main_text_alt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="Delivered"
+        app:layout_constraintBottom_toBottomOf="@+id/view_delivered"
+        app:layout_constraintLeft_toRightOf="@+id/view_delivered"
+        app:layout_constraintTop_toTopOf="@+id/view_delivered"
+        app:layout_constraintVertical_bias="0.571" />
+
+    <View
+        android:id="@+id/view_cancelled"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_cancelled"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_delivered" />
+
+    <TextView
+        android:id="@+id/tv_cancelled"
+        style="@style/main_text_alt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="0dp"
+        android:text="Cancelled"
+        app:layout_constraintBottom_toBottomOf="@+id/view_cancelled"
+        app:layout_constraintLeft_toRightOf="@+id/view_cancelled"
+        app:layout_constraintTop_toTopOf="@+id/view_cancelled"
+        app:layout_constraintVertical_bias="0.571" />
+
+</android.support.constraint.ConstraintLayout>

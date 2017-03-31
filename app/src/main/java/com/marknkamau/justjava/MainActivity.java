@@ -141,11 +141,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         invalidateOptionsMenu();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     @OnClick(R.id.fab_cart)
     public void onClick() {
         startActivity(new Intent(MainActivity.this, CartActivity.class));

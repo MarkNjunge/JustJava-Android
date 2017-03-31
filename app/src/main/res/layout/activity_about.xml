@@ -105,6 +105,7 @@
             android:alpha=".54"
             android:text="@string/mark_njung_e_kamau"
             android:textColor="@android:color/white"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -117,6 +118,7 @@
             android:alpha=".54"
             android:text="@string/mark_kamau_outlook_com"
             android:textColor="@android:color/white"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -172,17 +174,18 @@
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
             android:alpha=".54"
             android:text="@string/butter_knife"
             android:textColor="@android:color/white"
-            app:layout_constraintTop_toTopOf="@+id/img_butter_knife"
-            android:layout_marginTop="0dp"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/img_butter_knife"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintVertical_bias="0.571"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_butter_knife"
+            app:layout_constraintVertical_bias="0.571" />
 
         <ImageView
             android:id="@+id/img_butter_knife"
@@ -197,19 +200,47 @@
             android:layout_marginLeft="16dp" />
 
         <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="0dp"
+            android:alpha=".54"
+            android:text="@string/picasso"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="@+id/img_picasso"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_picasso"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/img_picasso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".54"
+            app:layout_constraintLeft_toRightOf="@+id/textView5"
+            app:layout_constraintTop_toBottomOf="@+id/img_butter_knife"
+            app:srcCompat="@drawable/ic_launch" />
+
+        <TextView
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
             android:alpha=".54"
             android:text="@string/androidslidinguppanel"
             android:textColor="@android:color/white"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="0dp"
-            app:layout_constraintTop_toTopOf="@+id/img_sliding_panel"
+            android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/img_sliding_panel"
-            android:layout_marginBottom="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/img_sliding_panel"
             app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
@@ -224,32 +255,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/img_picasso"
-            app:srcCompat="@drawable/ic_launch" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha=".54"
-            android:text="@string/picasso"
-            android:textColor="@android:color/white"
-            android:layout_marginLeft="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/img_picasso"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/img_picasso"
-            android:layout_marginBottom="0dp"
-            app:layout_constraintVertical_bias="0.0" />
-
-        <ImageView
-            android:id="@+id/img_picasso"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:alpha=".54"
-            app:layout_constraintLeft_toRightOf="@+id/textView5"
-            app:layout_constraintTop_toBottomOf="@+id/img_butter_knife"
             app:srcCompat="@drawable/ic_launch" />
 
     </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">JustJava Staff</string>
+    <string name="ALL_ORDERS_KEY">preference_all_orders</string>
+    <string name="PENDING_ORDERS_KEY">preference_pending_orders</string>
+    <string name="IN_PROGRESS_ORDERS_KEY">preference_in_progress_orders</string>
+    <string name="COMPLETED_ORDERS_KEY">preference_completed_orders</string>
+    <string name="DELIVERED_ORDERS_KEY">preference_delivered_orders</string>
+    <string name="CANCELLED_ORDERS_KEY">preference_cancelled_orders</string>
+
+    <!--Because "Render problem caused by TextInputLayout-->
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
+</resources>
