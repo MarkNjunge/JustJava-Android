@@ -1,5 +1,4 @@
 # Built application files
-*.apk
 *.ap_
 
 # Files for the Dalvik VM
@@ -37,3 +36,7 @@ app/fabric\.properties
 gradle/
 *.iml
 app/google-services\.json
+
+app/app-release\.apk
+
+justjavastaff/justjavastaff-release\.apk

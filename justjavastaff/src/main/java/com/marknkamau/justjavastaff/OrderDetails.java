@@ -134,11 +134,6 @@ public class OrderDetails extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     @OnClick({R.id.btn_advance_order, R.id.btn_cancel_order})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -153,7 +148,8 @@ public class OrderDetails extends AppCompatActivity {
 
     public void confirmAdvanceOrder() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure you want to advance the order?")
+
+        builder.setMessage("Are you sure you want to set the order to " + nextStatus + "?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -224,19 +220,19 @@ public class OrderDetails extends AppCompatActivity {
         if (currentStatusIs(PENDING)) {
             tvOrderStatus.setBackgroundColor(colorPending);
             nextStatus = IN_PROGRESS;
-
+            btnAdvanceOrder.setText("Set order to " + nextStatus);
             btnAdvanceOrder.setBackground(drawableInProgress);
 
         } else if (currentStatusIs(IN_PROGRESS)) {
             tvOrderStatus.setBackgroundColor(colorInProgress);
             nextStatus = COMPLETED;
-
+            btnAdvanceOrder.setText("Set order to " + nextStatus);
             btnAdvanceOrder.setBackground(drawableCompleted);
 
         } else if (currentStatusIs(COMPLETED)) {
             tvOrderStatus.setBackgroundColor(colorCompleted);
             nextStatus = DELIVERED;
-
+            btnAdvanceOrder.setText("Set order to " + nextStatus);
             btnAdvanceOrder.setBackground(drawableDelivered);
             btnCancelOrder.setVisibility(View.GONE);
 
@@ -272,7 +268,7 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     private void updateDatabaseStatus(String status){
-        DatabaseReference orderStatusRef = databaseReference.child("orders/" + orderID + "/orderStatus");
+        DatabaseReference orderStatusRef = databaseReference.child("allOrders/" + orderID + "/orderStatus");
         orderStatusRef.setValue(status).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -283,6 +279,15 @@ public class OrderDetails extends AppCompatActivity {
                 }
             }
         });
+
+        if (TextUtils.equals(status, COMPLETED)){
+            DatabaseReference completedOrders = databaseReference.child("completedOrders");
+            completedOrders.push().setValue(orderID);
+        }
+        if (TextUtils.equals(status, CANCELLED)){
+            DatabaseReference cancelledOrders = databaseReference.child("cancelledOrders");
+            cancelledOrders.push().setValue(orderID);
+        }
     }
 
 }

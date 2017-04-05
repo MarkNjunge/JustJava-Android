@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void getOrders() {
         DatabaseReference databaseReference = FirebaseUtil.getDatabase().getReference();
-        query = databaseReference.child("orders").orderByKey();
+        query = databaseReference.child("allOrders").orderByKey();
 
         eventListener = new ValueEventListener() {
             @Override

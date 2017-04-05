@@ -103,12 +103,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pbLoadingOrders.setVisibility(View.GONE);
-                previousOrders = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Query orderItem = databaseReference.child("orders/" + snapshot.getValue());
-                    orderItem.addListenerForSingleValueEvent(new ValueEventListener() {
+                    Query orderItem = databaseReference.child("allOrders/" + snapshot.getValue());
+                    orderItem.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            previousOrders = new ArrayList<>();
                             previousOrders.add(new PreviousOrder(
                                     dataSnapshot.child("deliveryAddress").getValue().toString()
                                     , dataSnapshot.child("timestamp").getValue().toString()

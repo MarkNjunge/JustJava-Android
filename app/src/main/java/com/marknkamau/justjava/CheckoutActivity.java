@@ -24,11 +24,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.marknkamau.justjava.database.CartTable;
 import com.marknkamau.justjava.database.DataSource;
 import com.marknkamau.justjava.models.CartItem;
@@ -177,7 +175,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
 
             final DatabaseReference database = FirebaseUtil.getDatabase().getReference();
 
-            DatabaseReference orderRef = database.child("orders").push();
+            DatabaseReference orderRef = database.child("allOrders").push();
             final String key = orderRef.getKey();
 
             orderRef.child("orderID").setValue(key);
@@ -188,6 +186,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
             orderRef.child("orderStatus").setValue("Pending");
             orderRef.child("deliveryAddress").setValue(address);
             orderRef.child("additionalComments").setValue(comments);
+            orderRef.child("deviceToken").setValue(FirebaseInstanceId.getInstance().getToken());
             orderRef.child("timestamp").setValue(ServerValue.TIMESTAMP);
             if (user != null) {
                 orderRef.child("user").setValue(user.getUid());
