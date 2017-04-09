@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pbLoading.setVisibility(View.GONE);
-                Log.i("MNK", "onDataChange: ");
                 customerOrders = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String orderStatus = String.valueOf(snapshot.child("orderStatus").getValue());

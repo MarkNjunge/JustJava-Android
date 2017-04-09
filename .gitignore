@@ -40,3 +40,5 @@ app/google-services\.json
 app/app-release\.apk
 
 justjavastaff/justjavastaff-release\.apk
+
+sync.ffs_db

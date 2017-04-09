@@ -67,21 +67,26 @@ public class CustomerOrdersAdapter extends RecyclerView.Adapter<CustomerOrdersAd
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CustomerOrder customerOrder = customerOrders.get(position);
 
-        tvOrderId.setText(customerOrder.getOrderID());
-        tvTimestamp.setText(getFormattedDate(Long.valueOf(customerOrder.getTimestamp())));
-        tvItemsCount.setText(customerOrder.getItemsCount());
-        tvTotalPrice.setText(customerOrder.getTotalPrice());
-        String orderStatus = customerOrder.getOrderStatus();
-        if (TextUtils.equals(orderStatus, "Pending"))
-            viewStatus.setBackgroundColor(colorPending);
-        else if (TextUtils.equals(orderStatus, "In progress"))
-            viewStatus.setBackgroundColor(colorInProgress);
-        else if (TextUtils.equals(orderStatus, "Completed"))
-            viewStatus.setBackgroundColor(colorCompleted);
-        else if (TextUtils.equals(orderStatus, "Delivered"))
-            viewStatus.setBackgroundColor(colorDelivered);
-        else if (TextUtils.equals(orderStatus, "Cancelled"))
-            viewStatus.setBackgroundColor(colorCancelled);
+        try {
+            tvOrderId.setText(customerOrder.getOrderID());
+            tvTimestamp.setText(getFormattedDate(Long.valueOf(customerOrder.getTimestamp())));
+            tvItemsCount.setText(customerOrder.getItemsCount());
+            tvTotalPrice.setText(customerOrder.getTotalPrice());
+            String orderStatus = customerOrder.getOrderStatus();
+            if (TextUtils.equals(orderStatus, "Pending"))
+                viewStatus.setBackgroundColor(colorPending);
+            else if (TextUtils.equals(orderStatus, "In progress"))
+                viewStatus.setBackgroundColor(colorInProgress);
+            else if (TextUtils.equals(orderStatus, "Completed"))
+                viewStatus.setBackgroundColor(colorCompleted);
+            else if (TextUtils.equals(orderStatus, "Delivered"))
+                viewStatus.setBackgroundColor(colorDelivered);
+            else if (TextUtils.equals(orderStatus, "Cancelled"))
+                viewStatus.setBackgroundColor(colorCancelled);
+        } catch (Exception e) {
+            // Some values may be null due to data being retrieved before the whole order details are uploaded
+            return;
+        }
 
         orderItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
