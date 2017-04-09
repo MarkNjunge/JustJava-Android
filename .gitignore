@@ -31,14 +31,11 @@ proguard/
 captures/
 
 .idea/
-keystore\.properties
-app/fabric\.properties
 gradle/
 *.iml
-app/google-services\.json
-
-app/app-release\.apk
-
-justjavastaff/justjavastaff-release\.apk
-
+keystore.properties
+fabric.properties
+google-services.json
+app/app-release.apk
+justjavastaff/justjavastaff-release.apk
 sync.ffs_db
