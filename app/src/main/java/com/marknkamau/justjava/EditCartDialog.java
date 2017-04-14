@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.marknkamau.justjava.database.CartTable;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.models.DataProvider;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,9 +53,9 @@ public class EditCartDialog extends DialogFragment {
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
 
     public interface EditCartResponse {
-        void saveChanges(Map<String, String> data);
+        void saveChanges(CartItem cartItem);
 
-        void deleteItem(String itemID);
+        void deleteItem(CartItem cartItem);
     }
 
     public void setResponseListener(EditCartResponse response) {
@@ -129,7 +126,7 @@ public class EditCartDialog extends DialogFragment {
             case R.id.img_delete:
                 dismiss();
                 if (cartResponse != null) {
-                    cartResponse.deleteItem(item.getItemID());
+                    cartResponse.deleteItem(item);
                 }
                 break;
             case R.id.img_save:
@@ -141,16 +138,14 @@ public class EditCartDialog extends DialogFragment {
     }
 
     private void saveChanges() {
-        Map<String, String> data = new HashMap<>();
-        data.put(CartTable.COLUMN_ID, item.getItemID());
-        data.put(CartTable.COLUMN_QTY, String.valueOf(quantity));
-        data.put(CartTable.COLUMN_CINNAMON, String.valueOf(withCinnamon));
-        data.put(CartTable.COLUMN_CHOCOLATE, String.valueOf(withChocolate));
-        data.put(CartTable.COLUMN_MARSHMALLOW, String.valueOf(withMarshmallow));
-        data.put(CartTable.COLUMN_PRICE, String.valueOf(updateSubtotal()));
-
         if (cartResponse != null) {
-            cartResponse.saveChanges(data);
+            cartResponse.saveChanges(new CartItem(item.getItemID(),
+                    item.getItemName(),
+                    String.valueOf(quantity),
+                    String.valueOf(withCinnamon),
+                    String.valueOf(withChocolate),
+                    String.valueOf(withMarshmallow),
+                    updateSubtotal()));
         }
     }
 

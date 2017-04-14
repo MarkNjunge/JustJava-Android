@@ -18,17 +18,15 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.adapters.CatalogAdapter;
-import com.marknkamau.justjava.database.DataSource;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.squareup.picasso.Picasso;
 
-import java.util.UUID;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
@@ -67,12 +65,16 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink_details);
         ButterKnife.bind(this);
+        Realm.init(this);
+
+        realm = Realm.getDefaultInstance();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -231,18 +233,31 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     }
 
     private void addToCart() {
-        String randomID = UUID.randomUUID().toString();
-        String cinnamon = (withCinnamon) ? "true" : "false";
-        String choc = (withChocolate) ? "true" : "false";
-        String marshmallow = (withMarshmallow) ? "true" : "false";
-        int total = updateSubtotal();
+        final String cinnamon = (withCinnamon) ? "true" : "false";
+        final String choc = (withChocolate) ? "true" : "false";
+        final String marshmallow = (withMarshmallow) ? "true" : "false";
+        final int total = updateSubtotal();
 
-        CartItem item = new CartItem(randomID, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, String.valueOf(total));
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Number current = realm.where(CartItem.class).max("itemID");
+                int nextID;
+                if (current == null) {
+                    nextID = 1;
+                }else {
+                    nextID = current.intValue() + 1;
+                }
+                CartItem item = new CartItem(
+                        nextID, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, total
+                );
 
-        DataSource dataSource = new DataSource(this);
-        dataSource.addToDatabase(item);
-        Toast.makeText(this, getString(R.string.added_to_cart), Toast.LENGTH_SHORT).show();
-        finish();
+                realm.copyToRealm(item);
+                Toast.makeText(DrinkDetailsActivity.this, getString(R.string.added_to_cart), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
     }
 
     private void switchCinnamon(Boolean selected) {

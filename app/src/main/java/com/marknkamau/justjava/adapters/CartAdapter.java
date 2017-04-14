@@ -49,8 +49,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     }
 
     public interface updateCartRequest {
-        void saveCartEdit(Map<String, String> data);
-        void deleteCartItem(String itemID);
+        void saveCartEdit(CartItem item);
+        void deleteCartItem(CartItem item);
     }
 
     @Override
@@ -99,13 +99,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         editCartDialog.setResponseListener(new EditCartDialog.EditCartResponse() {
             @Override
-            public void saveChanges(Map<String, String> data) {
-                updateCartRequest.saveCartEdit(data);
+            public void saveChanges(CartItem cartItem) {
+                updateCartRequest.saveCartEdit(cartItem);
             }
 
             @Override
-            public void deleteItem(String itemID) {
-                updateCartRequest.deleteCartItem(itemID);
+            public void deleteItem(CartItem cartItem) {
+                updateCartRequest.deleteCartItem(cartItem);
             }
         });
     }

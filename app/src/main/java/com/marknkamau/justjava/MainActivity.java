@@ -1,6 +1,7 @@
 package com.marknkamau.justjava;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
         }
+
+        this.deleteDatabase("orderCart.db"); //in case old database exists;
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

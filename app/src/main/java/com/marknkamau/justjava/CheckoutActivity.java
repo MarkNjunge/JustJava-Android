@@ -27,8 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.marknkamau.justjava.database.CartTable;
-import com.marknkamau.justjava.database.DataSource;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.FirebaseUtil;
 import com.marknkamau.justjava.utils.MenuActions;
@@ -40,6 +38,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
@@ -65,12 +64,16 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
     private String name, phone, address, comments;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         ButterKnife.bind(this);
+        Realm.init(this);
+
+        realm = Realm.getDefaultInstance();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -167,11 +170,9 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
             btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled);
             btnPlaceOrder.setEnabled(false);
 
-            final DataSource dataSource = new DataSource(this);
-
-            final List<CartItem> cartItems = dataSource.getDatabaseItems(CartTable.COLUMN_NAME);
-            int items = (int) dataSource.getItemCount();
-            int totalCost = dataSource.getTotalPrice();
+            final List<CartItem> cartItems = realm.where(CartItem.class).findAll();
+            int items = cartItems.size();
+            int totalCost = realm.where(CartItem.class).sum("itemPrice").intValue();
 
             final DatabaseReference database = FirebaseUtil.getDatabase().getReference();
 
@@ -203,7 +204,12 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
                     if (task.isSuccessful()) {
                         Toast.makeText(CheckoutActivity.this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
 
-                        dataSource.clearTable();
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.deleteAll();
+                            }
+                        });
 
                         Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

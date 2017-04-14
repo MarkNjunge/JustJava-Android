@@ -1,16 +1,17 @@
 package com.marknkamau.justjava.models;
 
-import android.content.ContentValues;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.marknkamau.justjava.database.CartTable;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-public class CartItem implements Parcelable {
-    private String itemID;
+public class CartItem extends RealmObject implements Parcelable {
+    @PrimaryKey
+    private int itemID;
     private String itemName;
     private String itemQty;
-    private String itemPrice;
+    private int itemPrice;
     private String itemCinnamon;
     private String itemChoc;
     private String itemMarshmallow;
@@ -18,7 +19,7 @@ public class CartItem implements Parcelable {
     public CartItem() {
     }
 
-    public CartItem(String itemID, String itemName, String itemQty, String itemCinnamon, String itemChoc, String itemMarshmallow, String itemPrice) {
+    public CartItem(int itemID, String itemName, String itemQty, String itemCinnamon, String itemChoc, String itemMarshmallow, int itemPrice) {
         this.itemID = itemID;
         this.itemName = itemName;
         this.itemQty = itemQty;
@@ -28,7 +29,7 @@ public class CartItem implements Parcelable {
         this.itemPrice = itemPrice;
     }
 
-    public void setItemID(String itemID) {
+    public void setItemID(int itemID) {
         this.itemID = itemID;
     }
 
@@ -40,7 +41,7 @@ public class CartItem implements Parcelable {
         this.itemQty = itemQty;
     }
 
-    public void setItemPrice(String itemPrice) {
+    public void setItemPrice(int itemPrice) {
         this.itemPrice = itemPrice;
     }
 
@@ -56,7 +57,7 @@ public class CartItem implements Parcelable {
         this.itemMarshmallow = itemMarshmallow;
     }
 
-    public String getItemID() {
+    public int getItemID() {
         return itemID;
     }
 
@@ -68,7 +69,7 @@ public class CartItem implements Parcelable {
         return itemQty;
     }
 
-    public String getItemPrice() {
+    public int getItemPrice() {
         return itemPrice;
     }
 
@@ -82,20 +83,6 @@ public class CartItem implements Parcelable {
 
     public String getItemMarshmallow() {
         return itemMarshmallow;
-    }
-
-    public ContentValues toValues() {
-        ContentValues values = new ContentValues(5);
-
-        values.put(CartTable.COLUMN_ID, itemID);
-        values.put(CartTable.COLUMN_NAME, itemName);
-        values.put(CartTable.COLUMN_QTY, itemQty);
-        values.put(CartTable.COLUMN_CINNAMON, itemCinnamon);
-        values.put(CartTable.COLUMN_CHOCOLATE, itemChoc);
-        values.put(CartTable.COLUMN_MARSHMALLOW, itemMarshmallow);
-        values.put(CartTable.COLUMN_PRICE, itemPrice);
-
-        return values;
     }
 
     @Override
@@ -118,20 +105,20 @@ public class CartItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.itemID);
+        dest.writeInt(this.itemID);
         dest.writeString(this.itemName);
         dest.writeString(this.itemQty);
-        dest.writeString(this.itemPrice);
+        dest.writeInt(this.itemPrice);
         dest.writeString(this.itemCinnamon);
         dest.writeString(this.itemChoc);
         dest.writeString(this.itemMarshmallow);
     }
 
     private CartItem(Parcel in) {
-        this.itemID = in.readString();
+        this.itemID = in.readInt();
         this.itemName = in.readString();
         this.itemQty = in.readString();
-        this.itemPrice = in.readString();
+        this.itemPrice = in.readInt();
         this.itemCinnamon = in.readString();
         this.itemChoc = in.readString();
         this.itemMarshmallow = in.readString();
