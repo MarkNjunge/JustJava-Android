@@ -17,18 +17,15 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.adapters.CartAdapter;
-import com.marknkamau.justjava.adapters.CatalogAdapter;
-//import com.marknkamau.justjava.database.DataSource;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.MenuActions;
+import com.marknkamau.justjava.utils.RealmUtils;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class CartActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     @BindView(R.id.toolbar)
@@ -44,24 +41,21 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @BindView(R.id.tv_no_items)
     TextView tvNoItems;
 
-//    private DataSource datasource;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    Realm realm;
+    private RealmUtils realmUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
-        Realm.init(this);
 
-        realm = Realm.getDefaultInstance();
+        realmUtils = new RealmUtils(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-//        datasource = new DataSource(this);
         firebaseAuth = FirebaseAuth.getInstance();
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
@@ -112,11 +106,6 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     @Override
-    public void invalidateOptionsMenu() {
-        super.invalidateOptionsMenu();
-    }
-
-    @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         user = FirebaseAuth.getInstance().getCurrentUser();
         invalidateOptionsMenu();
@@ -126,14 +115,12 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_clear_cart:
-//                datasource.clearTable();
-                realm.executeTransaction(new Realm.Transaction() {
+                realmUtils.deleteAllItems(new RealmUtils.RealmActionCompleted() {
                     @Override
-                    public void execute(Realm realm) {
-                        realm.deleteAll();
+                    public void actionCompleted() {
+                        updateCartItems();
                     }
                 });
-                updateCartItems();
                 break;
             case R.id.btn_checkout:
                 startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
@@ -142,33 +129,14 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     private void updateCartItems() {
-//        List<CartItem> cartItems = datasource.getDatabaseItems(null);
-        List<CartItem> cartItems = realm.where(CartItem.class).findAll();
+        List<CartItem> cartItems = realmUtils.getAllCartItems();
 
-//        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + datasource.getTotalPrice());
-        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + realm.where(CartItem.class).sum("itemPrice"));
+        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + realmUtils.getTotalCost());
 
-        CartAdapter adapter = new CartAdapter(this, cartItems, new CartAdapter.updateCartRequest() {
+        CartAdapter adapter = new CartAdapter(this, cartItems, new CartAdapter.CartAdapterListener() {
             @Override
-            public void saveCartEdit(final CartItem item) {
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.copyToRealmOrUpdate(item);
-                        updateCartItems();
-                    }
-                });
-            }
-
-            @Override
-            public void deleteCartItem(final CartItem item) {
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        item.deleteFromRealm();
-                        updateCartItems();
-                    }
-                });
+            public void updateList() {
+                updateCartItems();
             }
         });
         recyclerView.setAdapter(adapter);

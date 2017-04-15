@@ -2,6 +2,7 @@ package com.marknkamau.justjava;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -11,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.models.DataProvider;
+import com.marknkamau.justjava.utils.RealmUtils;
 
 import java.util.List;
 
@@ -48,18 +51,22 @@ public class EditCartDialog extends DialogFragment {
 
     private CartItem item;
     private int quantity;
-    public static final int PADDING = 24;
-    private EditCartResponse cartResponse = null;
+    private static final int PADDING = 24;
+    private EditCartDialogListener cartResponse = null;
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
+    private Context context;
+    private RealmUtils realmUtils;
 
-    public interface EditCartResponse {
-        void saveChanges(CartItem cartItem);
-
-        void deleteItem(CartItem cartItem);
+    public interface EditCartDialogListener {
+        void updateList();
     }
 
-    public void setResponseListener(EditCartResponse response) {
+    public void setResponseListener(EditCartDialogListener response) {
         cartResponse = response;
+    }
+
+    public void setContext(Context context){
+        this.context = context;
     }
 
     @SuppressLint("SetTextI18n")
@@ -67,6 +74,7 @@ public class EditCartDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.edit_fragment, container, false);
         ButterKnife.bind(this, view);
+        realmUtils = new RealmUtils(context);
 
         Bundle args = getArguments();
 
@@ -124,29 +132,41 @@ public class EditCartDialog extends DialogFragment {
                 updateSubtotal();
                 break;
             case R.id.img_delete:
-                dismiss();
-                if (cartResponse != null) {
-                    cartResponse.deleteItem(item);
-                }
+                realmUtils.deleteSingleItem(item, new RealmUtils.RealmActionCompleted() {
+                    @Override
+                    public void actionCompleted() {
+                        Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
+                        dismiss();
+                        if (cartResponse != null) {
+                            cartResponse.updateList();
+                        }
+                    }
+                });
                 break;
             case R.id.img_save:
                 dismiss();
-
                 saveChanges();
                 break;
         }
     }
 
     private void saveChanges() {
-        if (cartResponse != null) {
-            cartResponse.saveChanges(new CartItem(item.getItemID(),
-                    item.getItemName(),
-                    String.valueOf(quantity),
-                    String.valueOf(withCinnamon),
-                    String.valueOf(withChocolate),
-                    String.valueOf(withMarshmallow),
-                    updateSubtotal()));
-        }
+        realmUtils.saveEdit(new CartItem(item.getItemID(),
+                item.getItemName(),
+                String.valueOf(quantity),
+                String.valueOf(withCinnamon),
+                String.valueOf(withChocolate),
+                String.valueOf(withMarshmallow),
+                updateSubtotal()), new RealmUtils.RealmActionCompleted() {
+            @Override
+            public void actionCompleted() {
+                Toast.makeText(context, "Item saved", Toast.LENGTH_SHORT).show();
+                if (cartResponse != null) {
+                    cartResponse.updateList();
+                }
+            }
+        });
+
     }
 
     private void setToppingOn(TextView textView) {

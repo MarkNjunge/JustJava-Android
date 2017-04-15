@@ -31,6 +31,7 @@ import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.FirebaseUtil;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
+import com.marknkamau.justjava.utils.RealmUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,6 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
 public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
@@ -64,16 +64,15 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
     private String name, phone, address, comments;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private Realm realm;
+    private RealmUtils realmUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         ButterKnife.bind(this);
-        Realm.init(this);
 
-        realm = Realm.getDefaultInstance();
+        realmUtils = new RealmUtils(this);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -126,11 +125,6 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
     }
 
     @Override
-    public void invalidateOptionsMenu() {
-        super.invalidateOptionsMenu();
-    }
-
-    @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -170,9 +164,9 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
             btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled);
             btnPlaceOrder.setEnabled(false);
 
-            final List<CartItem> cartItems = realm.where(CartItem.class).findAll();
+            final List<CartItem> cartItems = realmUtils.getAllCartItems();
             int items = cartItems.size();
-            int totalCost = realm.where(CartItem.class).sum("itemPrice").intValue();
+            int totalCost = realmUtils.getTotalCost();
 
             final DatabaseReference database = FirebaseUtil.getDatabase().getReference();
 
@@ -204,19 +198,17 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
                     if (task.isSuccessful()) {
                         Toast.makeText(CheckoutActivity.this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
 
-                        realm.executeTransaction(new Realm.Transaction() {
+                        realmUtils.deleteAllItems(new RealmUtils.RealmActionCompleted() {
                             @Override
-                            public void execute(Realm realm) {
-                                realm.deleteAll();
+                            public void actionCompleted() {
+                                Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(intent);
+                                finish();
                             }
                         });
-
-                        Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-                        finish();
                     } else {
                         pbProgress.setVisibility(View.INVISIBLE);
                         btnPlaceOrder.setBackgroundResource(R.drawable.large_button);
@@ -231,7 +223,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
 
     }
 
-    public boolean validateInput() {
+    private boolean validateInput() {
         name = etName.getText().toString().trim();
         phone = etPhoneNumber.getText().toString().trim();
         address = etDeliveryAddress.getText().toString().trim();

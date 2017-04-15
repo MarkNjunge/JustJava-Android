@@ -1,7 +1,6 @@
 package com.marknkamau.justjava;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     FloatingActionButton fabCart;
 
     private FirebaseAuth firebaseAuth;
-    FirebaseUser user;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,11 +130,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void invalidateOptionsMenu() {
-        super.invalidateOptionsMenu();
     }
 
     @Override

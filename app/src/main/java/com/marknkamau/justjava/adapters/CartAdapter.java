@@ -16,7 +16,6 @@ import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,17 +39,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     private final Context mContext;
     private final List<CartItem> cartItemList;
-    private updateCartRequest updateCartRequest;
+    private CartAdapterListener CartAdapterListener;
 
-    public CartAdapter(Context mContext, List<CartItem> cartItemList, CartAdapter.updateCartRequest updateCartRequest) {
+    public CartAdapter(Context mContext, List<CartItem> cartItemList, CartAdapterListener CartAdapterListener) {
         this.mContext = mContext;
         this.cartItemList = cartItemList;
-        this.updateCartRequest = updateCartRequest;
+        this.CartAdapterListener = CartAdapterListener;
     }
 
-    public interface updateCartRequest {
-        void saveCartEdit(CartItem item);
-        void deleteCartItem(CartItem item);
+    public interface CartAdapterListener {
+        void updateList();
     }
 
     @Override
@@ -96,16 +94,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         EditCartDialog editCartDialog = new EditCartDialog();
         editCartDialog.setArguments(args);
         editCartDialog.show(((Activity) mContext).getFragmentManager(), "IMAGE_FRAGMENT");
+        editCartDialog.setContext(mContext);
 
-        editCartDialog.setResponseListener(new EditCartDialog.EditCartResponse() {
+        editCartDialog.setResponseListener(new EditCartDialog.EditCartDialogListener() {
             @Override
-            public void saveChanges(CartItem cartItem) {
-                updateCartRequest.saveCartEdit(cartItem);
-            }
-
-            @Override
-            public void deleteItem(CartItem cartItem) {
-                updateCartRequest.deleteCartItem(cartItem);
+            public void updateList() {
+                CartAdapterListener.updateList();
             }
         });
     }
