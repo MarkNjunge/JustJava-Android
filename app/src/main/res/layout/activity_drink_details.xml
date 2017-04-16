@@ -60,7 +60,6 @@
             android:fillViewport="true"
             android:gravity="center|top">
 
-            <!--android:id="@+id/dragView"-->
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -282,7 +281,5 @@
 
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
-
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-
 </LinearLayout>

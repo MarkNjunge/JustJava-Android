@@ -67,20 +67,21 @@ public class OrderDetails extends AppCompatActivity {
     @BindView(R.id.btn_cancel_order)
     Button btnCancelOrder;
 
-    private CustomerOrder customerOrder;
+    private String orderID;
+    private String nextStatus;
     private String currentStatus;
     private String previousStatus;
-    private String nextStatus;
-    private String orderID;
+    private CustomerOrder customerOrder;
+    private List<OrderItem> orderItemList;
+    private DatabaseReference databaseReference;
+    private int colorPending, colorInProgress, colorCancelled, colorCompleted, colorDelivered;
+    private Drawable drawableInProgress, drawableCompleted, drawableDisabled, drawableDelivered;
+
     private static final String PENDING = "Pending";
-    private static final String IN_PROGRESS = "In progress";
     private static final String COMPLETED = "Completed";
     private static final String DELIVERED = "Delivered";
     private static final String CANCELLED = "Cancelled";
-    private int colorPending, colorInProgress, colorCancelled, colorCompleted, colorDelivered;
-    private Drawable drawableInProgress, drawableCompleted, drawableDisabled, drawableDelivered;
-    private DatabaseReference databaseReference;
-    private List<OrderItem> orderItemList;
+    private static final String IN_PROGRESS = "In progress";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

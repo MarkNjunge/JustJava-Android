@@ -33,30 +33,6 @@ public class CartItem extends RealmObject implements Parcelable {
         this.itemID = itemID;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public void setItemQty(String itemQty) {
-        this.itemQty = itemQty;
-    }
-
-    public void setItemPrice(int itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
-    public void setItemCinnamon(String itemCinnamon) {
-        this.itemCinnamon = itemCinnamon;
-    }
-
-    public void setItemChoc(String itemChoc) {
-        this.itemChoc = itemChoc;
-    }
-
-    public void setItemMarshmallow(String itemMarshmallow) {
-        this.itemMarshmallow = itemMarshmallow;
-    }
-
     public int getItemID() {
         return itemID;
     }

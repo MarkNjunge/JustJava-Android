@@ -64,8 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
     private String password;
     private FirebaseAuth firebaseAuth;
     private boolean passVisible = false;
-    private boolean passRptVisible = false;
     private ProgressDialog progressDialog;
+    private boolean passRptVisible = false;
 
     public static final String DEF_NAME = "defaultName";
     public static final String DEF_PHONE = "defaultPhoneNumber";

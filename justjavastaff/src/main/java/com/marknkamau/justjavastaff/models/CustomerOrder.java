@@ -77,7 +77,6 @@ public class CustomerOrder implements Parcelable {
                 '}';
     }
 
-
     @Override
     public int describeContents() {
         return 0;

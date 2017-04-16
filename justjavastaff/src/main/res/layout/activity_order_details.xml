@@ -201,7 +201,6 @@
                 app:layout_constraintLeft_toRightOf="@+id/btn_advance_order"
                 app:layout_constraintRight_toRightOf="parent" />
 
-
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </LinearLayout>

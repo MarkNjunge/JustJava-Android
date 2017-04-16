@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @BindView(R.id.fab_cart)
     FloatingActionButton fabCart;
 
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -49,13 +49,13 @@ public class EditCartDialog extends DialogFragment {
     @BindView(R.id.img_save)
     ImageView imgSave;
 
-    private CartItem item;
     private int quantity;
+    private CartItem item;
+    private Context context;
+    private RealmUtils realmUtils;
     private static final int PADDING = 24;
     private EditCartDialogListener cartResponse = null;
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
-    private Context context;
-    private RealmUtils realmUtils;
 
     public interface EditCartDialogListener {
         void updateList();
@@ -166,7 +166,6 @@ public class EditCartDialog extends DialogFragment {
                 }
             }
         });
-
     }
 
     private void setToppingOn(TextView textView) {

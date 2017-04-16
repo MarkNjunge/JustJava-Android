@@ -1,8 +1,6 @@
 package com.marknkamau.justjavastaff.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,7 +12,6 @@ import com.marknkamau.justjavastaff.R;
 import com.marknkamau.justjavastaff.models.OrderItem;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

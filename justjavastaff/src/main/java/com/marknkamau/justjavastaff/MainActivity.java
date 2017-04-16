@@ -46,13 +46,13 @@ public class MainActivity extends AppCompatActivity{
     @BindView(R.id.pb_loading)
     ProgressBar pbLoading;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
     private Query query;
+    private FirebaseUser user;
+    private FirebaseAuth firebaseAuth;
+    private SharedPreferences preferences;
+    private ValueEventListener eventListener;
     private List<CustomerOrder> customerOrders;
     private Boolean showPendingOrders, showInProgressOrders, showCompletedOrders, showDeliveredOrders, showCancelledOrders;
-    private ValueEventListener eventListener;
-    private SharedPreferences preferences;
 
     private static final String PENDING = "Pending";
     private static final String IN_PROGRESS = "In progress";
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity{
         firebaseAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
-//            startActivity(new Intent(MainActivity.this, LogInActivity.class));
+            startActivity(new Intent(MainActivity.this, LogInActivity.class));
         }
 
         getPreferences();

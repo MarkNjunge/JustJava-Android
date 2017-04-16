@@ -169,5 +169,4 @@
         app:layout_constraintTop_toTopOf="@+id/img_delete"
         app:srcCompat="@drawable/ic_tick"
         android:layout_marginRight="16dp" />
-
 </android.support.constraint.ConstraintLayout>

@@ -46,10 +46,10 @@ public class LogInActivity extends AppCompatActivity {
     @BindView(R.id.tv_sign_up)
     TextView tvSignUp;
 
-    private ProgressDialog progressDialog;
+    private String email;
     private FirebaseAuth firebaseAuth;
     private boolean passVisible = false;
-    private String email;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

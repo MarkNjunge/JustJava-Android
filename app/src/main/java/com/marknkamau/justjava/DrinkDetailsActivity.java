@@ -166,7 +166,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING);
         tvMarshmallows.setPadding(PADDING, PADDING, PADDING, PADDING);
 
-
         if (drink != null) {
             tvDrinkName.setText(drink.getDrinkName());
             tvDrinkContents.setText(drink.getDrinkContents());
@@ -240,7 +239,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
                 finish();
             }
         });
-
     }
 
     private void switchCinnamon(Boolean selected) {
