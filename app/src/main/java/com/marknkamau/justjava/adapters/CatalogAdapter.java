@@ -62,7 +62,7 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
         tvDrinkPrice.setText(mContext.getResources().getString(R.string.ksh) + drink.getDrinkPrice());
 
         String drinkImage = "file:///android_asset/" + drink.getDrinkImage();
-        Picasso.with(mContext).load(drinkImage).into(imgDrinkImage);
+        Picasso.with(mContext).load(drinkImage).placeholder(R.drawable.plain_brown).into(imgDrinkImage);
 
         catalogItem.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,60 +28,53 @@
             app:srcCompat="@drawable/ic_just_java_text" />
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <Button
+        android:id="@+id/btn_clear_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:focusableInTouchMode="true"
+        android:text="@string/clear_cart" />
+
+    <TextView
+        android:id="@+id/tv_no_items"
+        style="@style/main_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="@string/there_are_no_items_in_your_cart"
+        android:textAlignment="center"
+        android:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_cart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-            <Button
-                android:id="@+id/btn_clear_cart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:focusableInTouchMode="true"
-                android:text="@string/clear_cart" />
+    </android.support.v7.widget.RecyclerView>
 
-            <TextView
-                android:id="@+id/tv_no_items"
-                style="@style/main_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/there_are_no_items_in_your_cart"
-                android:textAlignment="center"
-                android:visibility="gone" />
+    <TextView
+        android:id="@+id/tv_cart_total"
+        style="@style/main_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/total"
+        android:textStyle="bold"
+        android:visibility="visible" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_cart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:id="@+id/tv_cart_total"
-                style="@style/main_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/total"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btn_checkout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:background="@drawable/large_button"
-                android:text="@string/proceed_to_checkout"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-    </ScrollView>
+    <Button
+        android:id="@+id/btn_checkout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/large_button"
+        android:text="@string/proceed_to_checkout"
+        android:textColor="@android:color/white" />
 </LinearLayout>

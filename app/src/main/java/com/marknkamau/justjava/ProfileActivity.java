@@ -104,17 +104,23 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 pbLoadingOrders.setVisibility(View.GONE);
                 previousOrders = new ArrayList<>();
+                if (dataSnapshot == null)
+                    return;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Query orderItem = databaseReference.child("allOrders/" + snapshot.getValue());
                     orderItem.addValueEventListener(new ValueEventListener() {
                         @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            previousOrders.add(new PreviousOrder(
-                                    dataSnapshot.child("deliveryAddress").getValue().toString()
-                                    , dataSnapshot.child("timestamp").getValue().toString()
-                                    , dataSnapshot.child("totalPrice").getValue().toString()
-                                    , dataSnapshot.child("orderStatus").getValue().toString())
-                            );
+                        public void onDataChange(DataSnapshot snapshot) {
+                            try {
+                                previousOrders.add(new PreviousOrder(
+                                        snapshot.child("deliveryAddress").getValue().toString()
+                                        , snapshot.child("timestamp").getValue().toString()
+                                        , snapshot.child("totalPrice").getValue().toString()
+                                        , snapshot.child("orderStatus").getValue().toString())
+                                );
+                            } catch (Exception e) {
+                                // null object reference if orders have been deleted
+                            }
                             setAdapter(previousOrders);
                         }
 

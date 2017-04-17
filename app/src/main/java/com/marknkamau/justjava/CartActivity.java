@@ -143,6 +143,9 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         btnCheckout.setEnabled(true);
         if (adapter.getItemCount() == 0) {
             tvNoItems.setVisibility(View.VISIBLE);
+            btnClearCart.setEnabled(false);
+            btnClearCart.setAlpha(.54f);
+            tvCartTotal.setAlpha(.54f);
             btnCheckout.setBackgroundResource(R.drawable.large_button_disabled);
             btnCheckout.setEnabled(false);
         }

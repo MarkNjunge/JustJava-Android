@@ -33,6 +33,8 @@ public class AboutActivity extends AppCompatActivity {
     ImageView imgSlidingPanel;
     @BindView(R.id.img_picasso)
     ImageView imgPicasso;
+    @BindView(R.id.img_realm)
+    ImageView imgRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick({R.id.img_back, R.id.img_mail, R.id.img_linkedin, R.id.img_github, R.id.img_butter_knife, R.id.img_sliding_panel, R.id.img_picasso})
+    @OnClick({R.id.img_back, R.id.img_mail, R.id.img_linkedin, R.id.img_github, R.id.img_butter_knife, R.id.img_sliding_panel, R.id.img_picasso, R.id.img_realm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
@@ -75,7 +77,15 @@ public class AboutActivity extends AppCompatActivity {
             case R.id.img_picasso:
                 openPicasso();
                 break;
+            case R.id.img_realm:
+                openRealm();
+                break;
         }
+    }
+
+    private void openRealm() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://realm.io/products/realm-mobile-database/"));
+        startActivity(intent);
     }
 
     private void openPicasso() {
@@ -110,5 +120,9 @@ public class AboutActivity extends AppCompatActivity {
     private void butterKnife() {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://jakewharton.github.io/butterknife/"));
         startActivity(intent);
+    }
+
+    @OnClick()
+    public void onViewClicked() {
     }
 }

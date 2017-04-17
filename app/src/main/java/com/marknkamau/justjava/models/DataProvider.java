@@ -36,7 +36,7 @@ public class DataProvider {
         addItem(new CoffeeDrink("6", "Iced Coffee", "Milk, espresso and ice.",
                 "Rich espresso, sweetened condensed milk, and cold milk poured over ice.",
                 "500", "iced-coffee.jpg"));
-        addItem(new CoffeeDrink("7", "Cafe frappe", "Ice cream, espresso topped with whipped cream.",
+        addItem(new CoffeeDrink("7", "Cafe frappe", "Ice cream, espresso and whipped cream.",
                 "Rich espresso and Dutch Cocoa are pulled, then poured over ice cream for true " +
                         "refreshment. Topped with whipped cream.",
                 "600", "cafe-frappe.jpg"));
