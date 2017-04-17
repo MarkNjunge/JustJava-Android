@@ -18,8 +18,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.adapters.CartAdapter;
 import com.marknkamau.justjava.models.CartItem;
+import com.marknkamau.justjava.presenters.CartActivityPresenter;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.marknkamau.justjava.utils.RealmUtils;
+import com.marknkamau.justjava.views.CartActivityView;
 
 import java.util.List;
 
@@ -27,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CartActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class CartActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, CartActivityView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btn_clear_cart)
@@ -43,7 +45,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private RealmUtils realmUtils;
+    private CartActivityPresenter cartActivityPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +53,19 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         setContentView(R.layout.activity_cart);
         ButterKnife.bind(this);
 
-        realmUtils = new RealmUtils(this);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        updateCartItems();
+        cartActivityPresenter = new CartActivityPresenter(this, this);
+        loadCart();
+    }
+
+    private void loadCart() {
+        cartActivityPresenter.loadCart();
     }
 
     @Override
@@ -115,12 +121,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_clear_cart:
-                realmUtils.deleteAllItems(new RealmUtils.RealmActionCompleted() {
-                    @Override
-                    public void actionCompleted() {
-                        updateCartItems();
-                    }
-                });
+                clearCart();
                 break;
             case R.id.btn_checkout:
                 startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
@@ -128,28 +129,44 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         }
     }
 
-    private void updateCartItems() {
-        List<CartItem> cartItems = realmUtils.getAllCartItems();
+    @Override
+    public void displayCart(List<CartItem> cartItems, int totalCost) {
+        showItemsOnScreen(cartItems, totalCost);
+    }
 
-        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + realmUtils.getTotalCost());
+    @Override
+    public void displayEmptyCart() {
+        tvNoItems.setVisibility(View.VISIBLE);
+        btnClearCart.setEnabled(false);
+        btnClearCart.setAlpha(.54f);
+        tvCartTotal.setAlpha(.54f);
+        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh));
+        btnCheckout.setBackgroundResource(R.drawable.large_button_disabled);
+        btnCheckout.setEnabled(false);
+    }
+
+    private void clearCart() {
+        cartActivityPresenter.clearCart(new RealmUtils.RealmActionCompleted() {
+            @Override
+            public void actionCompleted() {
+                loadCart();
+            }
+        });
+    }
+
+    private void showItemsOnScreen(List<CartItem> cartItems, int totalCost) {
+        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + totalCost);
 
         CartAdapter adapter = new CartAdapter(this, cartItems, new CartAdapter.CartAdapterListener() {
             @Override
             public void updateList() {
-                updateCartItems();
+                loadCart();
             }
         });
         recyclerView.setAdapter(adapter);
         btnCheckout.setEnabled(true);
         if (adapter.getItemCount() == 0) {
-            tvNoItems.setVisibility(View.VISIBLE);
-            btnClearCart.setEnabled(false);
-            btnClearCart.setAlpha(.54f);
-            tvCartTotal.setAlpha(.54f);
-            btnCheckout.setBackgroundResource(R.drawable.large_button_disabled);
-            btnCheckout.setEnabled(false);
+
         }
     }
-
-
 }
