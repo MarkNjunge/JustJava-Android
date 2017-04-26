@@ -72,7 +72,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
         setContentView(R.layout.activity_checkout);
         ButterKnife.bind(this);
 
-        realmUtils = new RealmUtils(this);
+        realmUtils = new RealmUtils();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -198,17 +198,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
                     if (task.isSuccessful()) {
                         Toast.makeText(CheckoutActivity.this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
 
-                        realmUtils.deleteAllItems(new RealmUtils.RealmActionCompleted() {
-                            @Override
-                            public void actionCompleted() {
-                                Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
+                        realmUtils.deleteAllItems();
                     } else {
                         pbProgress.setVisibility(View.INVISIBLE);
                         btnPlaceOrder.setBackgroundResource(R.drawable.large_button);

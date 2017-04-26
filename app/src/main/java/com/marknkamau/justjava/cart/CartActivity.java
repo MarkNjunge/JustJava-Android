@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.cart;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,12 +16,10 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.marknkamau.justjava.adapters.CartAdapter;
+import com.marknkamau.justjava.CheckoutActivity;
+import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
-import com.marknkamau.justjava.presenters.CartActivityPresenter;
 import com.marknkamau.justjava.utils.MenuActions;
-import com.marknkamau.justjava.utils.RealmUtils;
-import com.marknkamau.justjava.views.CartActivityView;
 
 import java.util.List;
 
@@ -45,7 +43,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private CartActivityPresenter cartActivityPresenter;
+    private CartActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,24 +58,8 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        cartActivityPresenter = new CartActivityPresenter(this, this);
-        loadCart();
-    }
-
-    private void loadCart() {
-        cartActivityPresenter.loadCart();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener(this);
+        presenter = new CartActivityPresenter(this);
+        presenter.loadItems();
     }
 
     @Override
@@ -121,7 +103,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_clear_cart:
-                clearCart();
+                presenter.clearCart();
                 break;
             case R.id.btn_checkout:
                 startActivity(new Intent(CartActivity.this, CheckoutActivity.class));
@@ -130,8 +112,21 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     }
 
     @Override
-    public void displayCart(List<CartItem> cartItems, int totalCost) {
-        showItemsOnScreen(cartItems, totalCost);
+    public void displayCart(List<CartItem> cartItems) {
+        CartAdapter adapter = new CartAdapter(this, cartItems, new CartAdapter.CartAdapterListener() {
+            @Override
+            public void updateList() {
+                presenter.loadItems();
+            }
+        });
+
+        recyclerView.setAdapter(adapter);
+        btnCheckout.setEnabled(true);
+    }
+
+    @Override
+    public void displayCartTotal(int totalCost) {
+        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + totalCost);
     }
 
     @Override
@@ -145,28 +140,6 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         btnCheckout.setEnabled(false);
     }
 
-    private void clearCart() {
-        cartActivityPresenter.clearCart(new RealmUtils.RealmActionCompleted() {
-            @Override
-            public void actionCompleted() {
-                loadCart();
-            }
-        });
-    }
 
-    private void showItemsOnScreen(List<CartItem> cartItems, int totalCost) {
-        tvCartTotal.setText(getString(R.string.total) + ": " + getString(R.string.ksh) + totalCost);
 
-        CartAdapter adapter = new CartAdapter(this, cartItems, new CartAdapter.CartAdapterListener() {
-            @Override
-            public void updateList() {
-                loadCart();
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        btnCheckout.setEnabled(true);
-        if (adapter.getItemCount() == 0) {
-
-        }
-    }
 }

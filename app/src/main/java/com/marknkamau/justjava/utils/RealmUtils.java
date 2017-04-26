@@ -1,18 +1,16 @@
 package com.marknkamau.justjava.utils;
 
-import android.content.Context;
-
 import com.marknkamau.justjava.models.CartItem;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import timber.log.Timber;
 
 public class RealmUtils {
     private Realm realm;
     private RealmResults<CartItem> allCartItems;
 
-    public RealmUtils(Context context) {
-        Realm.init(context);
+    public RealmUtils() {
         realm = Realm.getDefaultInstance();
     }
 
@@ -24,9 +22,10 @@ public class RealmUtils {
             }
         });
         return allCartItems;
+
     }
 
-    public void saveNewItem(final CartItem cartItem, final RealmActionCompleted actionCompleted) {
+    public void saveNewItem(final CartItem cartItem) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -42,44 +41,48 @@ public class RealmUtils {
                 realm.copyToRealm(cartItem);
             }
         });
-        actionCompleted.actionCompleted();
     }
 
-    public void deleteAllItems(final RealmActionCompleted actionCompleted) {
+    public void deleteAllItems() {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.deleteAll();
             }
         });
-        actionCompleted.actionCompleted();
     }
 
     public int getTotalCost() {
         return realm.where(CartItem.class).sum("itemPrice").intValue();
     }
 
-    public void deleteSingleItem(final CartItem item, final RealmActionCompleted actionCompleted) {
+    public void deleteSingleItem(final CartItem item) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 item.deleteFromRealm();
             }
         });
-        actionCompleted.actionCompleted();
     }
 
-    public void saveEdit(final CartItem item, final RealmActionCompleted actionCompleted) {
+    public void saveEdit(final CartItem item) {
+        Timber.i("Changing...");
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealmOrUpdate(item);
             }
         });
-        actionCompleted.actionCompleted();
     }
 
-    public interface RealmActionCompleted {
-        void actionCompleted();
+    public void closeRealm(){
+        if (!realm.isClosed()){
+            realm.close();
+        }
     }
+
+    public interface MyRealmChangeListener {
+        void onChange();
+    }
+
 }

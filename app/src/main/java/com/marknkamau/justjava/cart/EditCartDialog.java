@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.cart;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.models.DataProvider;
@@ -54,14 +55,14 @@ public class EditCartDialog extends DialogFragment {
     private Context context;
     private RealmUtils realmUtils;
     private static final int PADDING = 24;
-    private EditCartDialogListener cartResponse = null;
+    private CartAdapter.CartAdapterListener cartResponse = null;
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
 
     public interface EditCartDialogListener {
         void updateList();
     }
 
-    public void setResponseListener(EditCartDialogListener response) {
+    public void setResponseListener(CartAdapter.CartAdapterListener response) {
         cartResponse = response;
     }
 
@@ -74,7 +75,7 @@ public class EditCartDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.edit_fragment, container, false);
         ButterKnife.bind(this, view);
-        realmUtils = new RealmUtils(context);
+        realmUtils = new RealmUtils();
 
         Bundle args = getArguments();
 
@@ -132,16 +133,9 @@ public class EditCartDialog extends DialogFragment {
                 updateSubtotal();
                 break;
             case R.id.img_delete:
-                realmUtils.deleteSingleItem(item, new RealmUtils.RealmActionCompleted() {
-                    @Override
-                    public void actionCompleted() {
-                        Toast.makeText(context, "Item deleted", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                        if (cartResponse != null) {
-                            cartResponse.updateList();
-                        }
-                    }
-                });
+                realmUtils.deleteSingleItem(item);
+                cartResponse.updateList();
+                dismiss();
                 break;
             case R.id.img_save:
                 dismiss();
@@ -157,15 +151,8 @@ public class EditCartDialog extends DialogFragment {
                 String.valueOf(withCinnamon),
                 String.valueOf(withChocolate),
                 String.valueOf(withMarshmallow),
-                updateSubtotal()), new RealmUtils.RealmActionCompleted() {
-            @Override
-            public void actionCompleted() {
-                Toast.makeText(context, "Item saved", Toast.LENGTH_SHORT).show();
-                if (cartResponse != null) {
-                    cartResponse.updateList();
-                }
-            }
-        });
+                updateSubtotal()));
+        cartResponse.updateList();
     }
 
     private void setToppingOn(TextView textView) {

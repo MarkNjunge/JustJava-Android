@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.adapters;
+package com.marknkamau.justjava.cart;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.marknkamau.justjava.EditCartDialog;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 
@@ -96,7 +95,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         editCartDialog.show(((Activity) mContext).getFragmentManager(), "IMAGE_FRAGMENT");
         editCartDialog.setContext(mContext);
 
-        editCartDialog.setResponseListener(new EditCartDialog.EditCartDialogListener() {
+        editCartDialog.setResponseListener(new CartAdapterListener() {
             @Override
             public void updateList() {
                 CartAdapterListener.updateList();

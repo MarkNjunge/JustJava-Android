@@ -27,6 +27,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 
@@ -231,14 +232,10 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         CartItem item = new CartItem(
                 0, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, total
         );
-        RealmUtils realmUtils = new RealmUtils(this);
-        realmUtils.saveNewItem(item, new RealmUtils.RealmActionCompleted() {
-            @Override
-            public void actionCompleted() {
-                Toast.makeText(DrinkDetailsActivity.this, getString(R.string.added_to_cart), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+        RealmUtils realmUtils = new RealmUtils();
+        realmUtils.saveNewItem(item);
+        Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void switchCinnamon(Boolean selected) {

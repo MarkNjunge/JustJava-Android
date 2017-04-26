@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.adapters.CatalogAdapter;
+import com.marknkamau.justjava.cart.CartActivity;
 import com.marknkamau.justjava.models.DataProvider;
 import com.marknkamau.justjava.utils.MenuActions;
 
