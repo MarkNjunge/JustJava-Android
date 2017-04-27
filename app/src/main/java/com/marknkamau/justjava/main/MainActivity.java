@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,17 +16,22 @@ import android.view.MenuItem;
 import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.marknkamau.justjava.BuildConfig;
+import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.adapters.CatalogAdapter;
 import com.marknkamau.justjava.cart.CartActivity;
+import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.models.DataProvider;
 import com.marknkamau.justjava.utils.MenuActions;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, MainActivityView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
+    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +53,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             Fabric.with(this, new Crashlytics());
         }
 
-        this.deleteDatabase("orderCart.db"); //in case old database exists;
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -56,11 +60,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
-        recyclerView.addItemDecoration(itemDecoration);
-
-        recyclerView.setAdapter(new CatalogAdapter(this, DataProvider.drinksList));
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -80,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
         });
 
+        presenter = new MainActivityPresenter(this);
+        presenter.getCatalogItems();
     }
 
     @Override
@@ -142,5 +143,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @OnClick(R.id.fab_cart)
     public void onClick() {
         startActivity(new Intent(MainActivity.this, CartActivity.class));
+    }
+
+    @Override
+    public void displayCatalog(List<CoffeeDrink> drinkList) {
+        recyclerView.setAdapter(new CatalogAdapter(this, DataProvider.drinksList));
     }
 }

@@ -27,8 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.marknkamau.justjava.authentication.login.LogInActivity;
 import com.marknkamau.justjava.models.CartItem;
-import com.marknkamau.justjava.utils.FirebaseUtil;
+import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 import com.marknkamau.justjava.utils.RealmUtils;
@@ -168,7 +169,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
             int items = cartItems.size();
             int totalCost = realmUtils.getTotalCost();
 
-            final DatabaseReference database = FirebaseUtil.getDatabase().getReference();
+            final DatabaseReference database = FirebaseDBUtil.getDatabase().getReference();
 
             DatabaseReference orderRef = database.child("allOrders").push();
             final String key = orderRef.getKey();

@@ -24,7 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
-import com.marknkamau.justjava.utils.FirebaseUtil;
+import com.marknkamau.justjava.authentication.login.LogInActivity;
+import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import java.util.regex.Matcher;
@@ -173,7 +174,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    DatabaseReference databaseReference = FirebaseUtil.getDatabase().getReference().child("users").child(user.getUid());
+                    DatabaseReference databaseReference = FirebaseDBUtil.getDatabase().getReference().child("users").child(user.getUid());
                     databaseReference.child("name").setValue(name);
                     databaseReference.child("email").setValue(email);
                     databaseReference.child("phone").setValue(phone);

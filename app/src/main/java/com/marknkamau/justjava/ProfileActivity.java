@@ -29,8 +29,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.marknkamau.justjava.adapters.PreviousOrderAdapter;
+import com.marknkamau.justjava.main.MainActivity;
 import com.marknkamau.justjava.models.PreviousOrder;
-import com.marknkamau.justjava.utils.FirebaseUtil;
+import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
@@ -96,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
         rvPreviousOrders.addItemDecoration(itemDecoration);
 
-        databaseReference = FirebaseUtil.getDatabase().getReference();
+        databaseReference = FirebaseDBUtil.getDatabase().getReference();
         userOrders = databaseReference.child("userOrders/" + user.getUid());
 
         eventListener = new ValueEventListener() {
