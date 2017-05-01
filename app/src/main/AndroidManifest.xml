@@ -32,7 +32,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CheckoutActivity"
+            android:name=".activities.checkout.CheckoutActivity"
             android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".activities.cart.CartActivity"
             android:screenOrientation="portrait" />

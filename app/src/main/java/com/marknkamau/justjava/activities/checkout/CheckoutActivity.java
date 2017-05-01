@@ -1,11 +1,10 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.activities.checkout;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -20,28 +19,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.activities.login.LogInActivity;
-import com.marknkamau.justjava.models.CartItem;
+import com.marknkamau.justjava.activities.main.MainActivity;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.MenuActions;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
-import com.marknkamau.justjava.utils.RealmUtils;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class CheckoutActivity extends AppCompatActivity implements CheckoutActivityView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -63,9 +56,8 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
     TextView tvOr;
 
     private String name, phone, address, comments;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
-    private RealmUtils realmUtils;
+    private CheckoutActivityPresenter presenter;
+    private boolean userIsLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,37 +65,29 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
         setContentView(R.layout.activity_checkout);
         ButterKnife.bind(this);
 
-        realmUtils = new RealmUtils();
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-    }
+        presenter = new CheckoutActivityPresenter(this);
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener(this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        user = firebaseAuth.getCurrentUser();
         MenuInflater inflater = getMenuInflater();
-        if (user == null) {
-            inflater.inflate(R.menu.toolbar_menu, menu);
-        } else {
+        if (userIsLoggedIn) {
             inflater.inflate(R.menu.toolbar_menu_logged_in, menu);
+        } else {
+            inflater.inflate(R.menu.toolbar_menu, menu);
         }
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.updateLoggedInStatus();
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -112,7 +96,7 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
                 MenuActions.ActionLogIn(this);
                 return true;
             case R.id.menu_log_out:
-                MenuActions.ActionLogOut(this);
+                presenter.logOut();
                 return true;
             case R.id.menu_profile:
                 MenuActions.ActionProfile(this);
@@ -123,24 +107,6 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
-            btnLogIn.setVisibility(View.GONE);
-
-            Map<String, String> defaults = PreferencesInteraction.getDefaults(this);
-            etName.setText(defaults.get(PreferencesInteraction.DEF_NAME));
-            etPhoneNumber.setText(defaults.get(PreferencesInteraction.DEF_PHONE));
-            etDeliveryAddress.setText(defaults.get(PreferencesInteraction.DEF_ADDRESS));
-        } else {
-            tvOr.setText(getString(R.string.or));
-            btnLogIn.setVisibility(View.VISIBLE);
-        }
-        invalidateOptionsMenu();
     }
 
     @OnClick({R.id.btn_log_in, R.id.btn_place_order})
@@ -161,57 +127,70 @@ public class CheckoutActivity extends AppCompatActivity implements FirebaseAuth.
 
     private void placeOder() {
         if (validateInput()) {
-            pbProgress.setVisibility(View.VISIBLE);
-            btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled);
-            btnPlaceOrder.setEnabled(false);
+            Map<String, Object> orderDetails = new HashMap<>();
+            orderDetails.put(FirebaseDBUtil.CUSTOMER_NAME, name);
+            orderDetails.put(FirebaseDBUtil.CUSTOMER_PHONE, phone);
+            orderDetails.put(FirebaseDBUtil.COMMENTS, comments);
+            orderDetails.put(FirebaseDBUtil.ADDRESS, address);
 
-            final List<CartItem> cartItems = realmUtils.getAllCartItems();
-            int items = cartItems.size();
-            int totalCost = realmUtils.getTotalCost();
-
-            final DatabaseReference database = FirebaseDBUtil.getDatabase().getReference();
-
-            DatabaseReference orderRef = database.child("allOrders").push();
-            final String key = orderRef.getKey();
-
-            orderRef.child("orderID").setValue(key);
-            orderRef.child("customerName").setValue(name);
-            orderRef.child("customerPhone").setValue(phone);
-            orderRef.child("itemsCount").setValue(items);
-            orderRef.child("totalPrice").setValue(totalCost);
-            orderRef.child("orderStatus").setValue("Pending");
-            orderRef.child("deliveryAddress").setValue(address);
-            orderRef.child("additionalComments").setValue(comments);
-            orderRef.child("deviceToken").setValue(FirebaseInstanceId.getInstance().getToken());
-            orderRef.child("timestamp").setValue(ServerValue.TIMESTAMP);
-            if (user != null) {
-                orderRef.child("user").setValue(user.getUid());
-                DatabaseReference userOrdersRef = database.child("userOrders/" + user.getUid());
-                userOrdersRef.push().setValue(key);
-            } else {
-                orderRef.child("user").setValue("null");
-            }
-
-            DatabaseReference orderItemsRef = database.child("orderItems").child(key);
-            orderItemsRef.setValue(cartItems).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(CheckoutActivity.this, getString(R.string.order_placed), Toast.LENGTH_SHORT).show();
-
-                        realmUtils.deleteAllItems();
-                    } else {
-                        pbProgress.setVisibility(View.INVISIBLE);
-                        btnPlaceOrder.setBackgroundResource(R.drawable.large_button);
-                        btnPlaceOrder.setEnabled(true);
-
-                        Toast.makeText(CheckoutActivity.this, task.getException().toString(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
+            presenter.placeOrder(orderDetails);
         }
+    }
 
+    @Override
+    public void setLoggedInStatus(Boolean status) {
+        userIsLoggedIn  = status;
+    }
+
+    @Override
+    public void invalidateMenu() {
+        invalidateOptionsMenu();
+    }
+
+    @Override
+    public void setDisplayToLoggedIn(FirebaseUser user) {
+        tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
+        btnLogIn.setVisibility(View.GONE);
+
+        Map<String, String> defaults = PreferencesInteraction.getDefaults(this);
+        etName.setText(defaults.get(PreferencesInteraction.DEF_NAME));
+        etPhoneNumber.setText(defaults.get(PreferencesInteraction.DEF_PHONE));
+        etDeliveryAddress.setText(defaults.get(PreferencesInteraction.DEF_ADDRESS));
+    }
+
+    @Override
+    public void setDisplayToLoggedOut() {
+        tvOr.setText(getString(R.string.or));
+        btnLogIn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showUploadBar() {
+        pbProgress.setVisibility(View.VISIBLE);
+        btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled);
+        btnPlaceOrder.setEnabled(false);
+    }
+
+    @Override
+    public void hideUploadBar() {
+        pbProgress.setVisibility(View.INVISIBLE);
+        btnPlaceOrder.setBackgroundResource(R.drawable.large_button);
+        btnPlaceOrder.setEnabled(true);
+    }
+
+    @Override
+    public void finishActivity() {
+        Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateInput() {

@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.SignUpActivity;
-import com.marknkamau.justjava.activities.main.MainActivity;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import butterknife.BindView;
@@ -133,7 +132,6 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
 
     @Override
     public void finishSignUp() {
-        startActivity(new Intent(LogInActivity.this, MainActivity.class));
         finish();
     }
 

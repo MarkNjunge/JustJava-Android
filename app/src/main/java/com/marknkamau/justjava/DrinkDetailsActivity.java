@@ -27,7 +27,6 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
 

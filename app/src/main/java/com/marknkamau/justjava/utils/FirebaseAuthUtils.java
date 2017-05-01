@@ -20,6 +20,10 @@ public class FirebaseAuthUtils {
         return firebaseAuth.getCurrentUser();
     }
 
+    public static void logOut(){
+        firebaseAuth.signOut();
+    }
+
     public static void signIn(String email, String password, final AuthActionListener listener){
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override

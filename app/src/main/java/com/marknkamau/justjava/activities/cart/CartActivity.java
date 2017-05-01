@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.marknkamau.justjava.CheckoutActivity;
+import com.marknkamau.justjava.activities.checkout.CheckoutActivity;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.MenuActions;

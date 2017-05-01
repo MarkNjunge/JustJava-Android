@@ -22,7 +22,6 @@ public class RealmUtils {
             }
         });
         return allCartItems;
-
     }
 
     public void saveNewItem(final CartItem cartItem) {
