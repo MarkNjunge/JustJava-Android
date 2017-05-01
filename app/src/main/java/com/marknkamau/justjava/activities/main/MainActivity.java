@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
-    private MainActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
         });
 
-        presenter = new MainActivityPresenter(this);
+        MainActivityPresenter presenter = new MainActivityPresenter(this);
         presenter.getCatalogItems();
     }
 
@@ -146,6 +145,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     @Override
     public void displayCatalog(List<CoffeeDrink> drinkList) {
-        recyclerView.setAdapter(new CatalogAdapter(this, DataProvider.drinksList));
+        recyclerView.setAdapter(new CatalogAdapter(this, drinkList));
     }
 }

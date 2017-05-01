@@ -28,8 +28,8 @@
         <item name="android:alpha">0.54</item>
     </style>
 
-    <style name="accent_text">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
+    <!--<style name="accent_text">-->
+        <!--<item name="android:textSize">18sp</item>-->
+        <!--<item name="android:textColor">@color/colorAccent</item>-->
+    <!--</style>-->
 </resources>

@@ -122,7 +122,4 @@ public class AboutActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @OnClick()
-    public void onViewClicked() {
-    }
 }

@@ -51,7 +51,7 @@ public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdap
         final PreviousOrder order = previousOrders.get(position);
 
         tvTimestamp.setText(getFormattedDate(Long.valueOf(order.getTimestamp())));
-        tvTotalPrice.setText(mContext.getString(R.string.ksh) + order.getTotalPrice());
+        tvTotalPrice.setText(String.format("%s%S", mContext.getString(R.string.ksh), order.getTotalPrice()));
         tvOrderStatus.setText(order.getOrderStatus());
         tvDeliveryAddress.setText(order.getDeliveryAddress());
     }

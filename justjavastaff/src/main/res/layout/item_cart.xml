@@ -14,7 +14,7 @@
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Drink Name"
+        android:text="@string/placeholder"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,7 +23,7 @@
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ksh"
+        android:text="@string/placeholder"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_name" />
 
@@ -31,8 +31,8 @@
         android:id="@+id/tv_item_qty"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
+        android:text="@string/placeholder"
         android:layout_height="wrap_content"
-        android:text="Quantity"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_price" />
 
@@ -41,7 +41,7 @@
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cinnamon"
+        android:text="@string/placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:text="chocolate"
+        android:text="@string/placeholder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tv_cinnamon"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_qty" />
@@ -63,8 +63,8 @@
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/placeholder"
         android:layout_marginLeft="8dp"
-        android:text="Mini marshmallows"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tv_chocolate"
         app:layout_constraintTop_toBottomOf="@+id/tv_item_qty" />

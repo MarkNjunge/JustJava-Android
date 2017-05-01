@@ -2,7 +2,6 @@ package com.marknkamau.justjava.activities.cart;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -51,22 +50,13 @@ public class EditCartDialog extends DialogFragment {
 
     private int quantity;
     private CartItem item;
-    private Context context;
     private RealmUtils realmUtils;
     private static final int PADDING = 24;
     private CartAdapter.CartAdapterListener cartResponse = null;
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
 
-    public interface EditCartDialogListener {
-        void updateList();
-    }
-
     public void setResponseListener(CartAdapter.CartAdapterListener response) {
         cartResponse = response;
-    }
-
-    public void setContext(Context context){
-        this.context = context;
     }
 
     @SuppressLint("SetTextI18n")

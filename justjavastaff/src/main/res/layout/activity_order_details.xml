@@ -33,7 +33,6 @@
         android:background="@color/colorPending"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="order status"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@android:color/white"
@@ -60,7 +59,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="order id"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +69,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Timestamp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_order_id" />
 
@@ -82,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Total price: Ksh."
+                android:text="@string/total_price_ksh"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_timestamp" />
 
@@ -91,7 +88,6 @@
                 style="@style/main_text_alt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="250"
                 app:layout_constraintBottom_toBottomOf="@+id/textView10"
                 app:layout_constraintLeft_toRightOf="@+id/textView10"
                 app:layout_constraintTop_toTopOf="@+id/textView10"
@@ -105,7 +101,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Customer name"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -116,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Customer Phone"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_customer_name" />
 
@@ -127,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Delivery address"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_customer_phone" />
 
@@ -140,7 +133,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:text="Additional comments"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_delivery_address" />
@@ -181,7 +173,7 @@
                 android:background="@drawable/button_in_progress"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:text="Advance order"
+                android:text="@string/advance_order"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -195,7 +187,7 @@
                 android:background="@drawable/button_cancelled"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:text="Cancel Order"
+                android:text="@string/cancel_order"
                 android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/btn_advance_order"

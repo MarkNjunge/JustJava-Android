@@ -74,14 +74,4 @@ public class RealmUtils {
         });
     }
 
-    public void closeRealm(){
-        if (!realm.isClosed()){
-            realm.close();
-        }
-    }
-
-    public interface MyRealmChangeListener {
-        void onChange();
-    }
-
 }

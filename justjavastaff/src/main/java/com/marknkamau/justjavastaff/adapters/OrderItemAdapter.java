@@ -53,8 +53,8 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
         final OrderItem item = orderItemList.get(position);
 
         tvItemName.setText(item.getItemName());
-        tvQuantity.setText("Quantity: " + item.getItemQty());
-        tvPrice.setText("Price " + item.getItemPrice());
+        tvQuantity.setText(String.format("%s %s", mContext.getString(R.string.quantity), item.getItemQty()));
+        tvPrice.setText(String.format("%s %s", mContext.getString(R.string.price), item.getItemPrice()));
         if (TextUtils.equals(item.getItemCinnamon(), "false"))
             tvCinnamon.setVisibility(View.GONE);
         if (TextUtils.equals(item.getItemChoc(), "false"))

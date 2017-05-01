@@ -40,7 +40,6 @@ public class LogInActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     private boolean passVisible = false;
-    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +110,7 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     private boolean validateFields() {
-        email = etEmail.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {

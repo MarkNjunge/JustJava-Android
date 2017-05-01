@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/menu_help"
-        android:title="Help"
+        android:title="@string/help"
         android:icon="@drawable/ic_help"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
     <item
         android:id="@+id/menu_log_out"
-        android:title="Log out" />
+        android:title="@string/log_out" />
 </menu>

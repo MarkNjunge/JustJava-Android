@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity{
     ProgressBar pbLoading;
 
     private Query query;
-    private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
-    private SharedPreferences preferences;
     private ValueEventListener eventListener;
     private List<CustomerOrder> customerOrders;
     private Boolean showPendingOrders, showInProgressOrders, showCompletedOrders, showDeliveredOrders, showCancelledOrders;
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             startActivity(new Intent(MainActivity.this, LogInActivity.class));
         }
@@ -138,7 +136,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void getPreferences() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         showPendingOrders = preferences.getBoolean(getString(R.string.PENDING_ORDERS_KEY), true);
         showInProgressOrders = preferences.getBoolean(getString(R.string.IN_PROGRESS_ORDERS_KEY), false);
         showCompletedOrders = preferences.getBoolean(getString(R.string.COMPLETED_ORDERS_KEY), false);

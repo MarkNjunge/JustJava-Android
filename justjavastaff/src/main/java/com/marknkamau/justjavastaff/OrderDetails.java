@@ -71,11 +71,10 @@ public class OrderDetails extends AppCompatActivity {
     private String nextStatus;
     private String currentStatus;
     private String previousStatus;
-    private CustomerOrder customerOrder;
     private List<OrderItem> orderItemList;
     private DatabaseReference databaseReference;
     private int colorPending, colorInProgress, colorCancelled, colorCompleted, colorDelivered;
-    private Drawable drawableInProgress, drawableCompleted, drawableDisabled, drawableDelivered;
+    private Drawable drawableInProgress, drawableCompleted, drawableDelivered;
 
     private static final String PENDING = "Pending";
     private static final String COMPLETED = "Completed";
@@ -101,7 +100,6 @@ public class OrderDetails extends AppCompatActivity {
 
         drawableInProgress = ContextCompat.getDrawable(this, R.drawable.button_in_progress);
         drawableCompleted = ContextCompat.getDrawable(this, R.drawable.button_completed);
-        drawableDisabled = ContextCompat.getDrawable(this, R.drawable.button_disabled);
         drawableDelivered = ContextCompat.getDrawable(this, R.drawable.button_delivered);
 
         rvOrderItems.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -196,7 +194,7 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     private void setOrderDisplay() {
-        customerOrder = getIntent().getExtras().getParcelable(CustomerOrdersAdapter.ORDER_TAG);
+        CustomerOrder customerOrder = getIntent().getExtras().getParcelable(CustomerOrdersAdapter.ORDER_TAG);
 
         orderID = customerOrder.getOrderID();
         currentStatus = customerOrder.getOrderStatus();
@@ -221,19 +219,19 @@ public class OrderDetails extends AppCompatActivity {
         if (currentStatusIs(PENDING)) {
             tvOrderStatus.setBackgroundColor(colorPending);
             nextStatus = IN_PROGRESS;
-            btnAdvanceOrder.setText("Set order to " + nextStatus);
+            btnAdvanceOrder.setText(String.format("%s %s", getString(R.string.set_order_to), nextStatus));
             btnAdvanceOrder.setBackground(drawableInProgress);
 
         } else if (currentStatusIs(IN_PROGRESS)) {
             tvOrderStatus.setBackgroundColor(colorInProgress);
             nextStatus = COMPLETED;
-            btnAdvanceOrder.setText("Set order to " + nextStatus);
+            btnAdvanceOrder.setText(String.format("%s %s", getString(R.string.set_order_to), nextStatus));
             btnAdvanceOrder.setBackground(drawableCompleted);
 
         } else if (currentStatusIs(COMPLETED)) {
             tvOrderStatus.setBackgroundColor(colorCompleted);
             nextStatus = DELIVERED;
-            btnAdvanceOrder.setText("Set order to " + nextStatus);
+            btnAdvanceOrder.setText(String.format("%s %s", getString(R.string.set_order_to), nextStatus));
             btnAdvanceOrder.setBackground(drawableDelivered);
             btnCancelOrder.setVisibility(View.GONE);
 
