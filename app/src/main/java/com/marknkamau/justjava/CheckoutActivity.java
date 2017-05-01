@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.marknkamau.justjava.authentication.login.LogInActivity;
+import com.marknkamau.justjava.activities.login.LogInActivity;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.MenuActions;

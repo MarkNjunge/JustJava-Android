@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.cart;
+package com.marknkamau.justjava.activities.cart;
 
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.RealmUtils;

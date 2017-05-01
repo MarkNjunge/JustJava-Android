@@ -13,7 +13,7 @@
         android:name=".JustJavaApp"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.MainActivity"
+            android:name=".activities.main.MainActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -25,19 +25,19 @@
         <activity
             android:name=".DrinkDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".main.MainActivity"
+            android:parentActivityName=".activities.main.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".cart.CartActivity"
+            android:name=".activities.cart.CartActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CheckoutActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".cart.CartActivity"
+            android:parentActivityName=".activities.cart.CartActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".authentication.login.LogInActivity"
+            android:name=".activities.login.LogInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />

@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.authentication.login;
+package com.marknkamau.justjava.activities.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.SignUpActivity;
-import com.marknkamau.justjava.main.MainActivity;
+import com.marknkamau.justjava.activities.main.MainActivity;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import butterknife.BindView;

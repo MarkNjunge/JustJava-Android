@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.cart;
+package com.marknkamau.justjava.activities.cart;
 
 import android.content.Intent;
 import android.os.Bundle;

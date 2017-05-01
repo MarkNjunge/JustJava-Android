@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.cart;
+package com.marknkamau.justjava.activities.cart;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;

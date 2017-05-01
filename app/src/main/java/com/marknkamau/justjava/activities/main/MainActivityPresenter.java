@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.main;
+package com.marknkamau.justjava.activities.main;
 
 import com.marknkamau.justjava.models.DataProvider;
 

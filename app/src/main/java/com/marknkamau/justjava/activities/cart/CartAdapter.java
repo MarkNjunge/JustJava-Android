@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.cart;
+package com.marknkamau.justjava.activities.cart;
 
 import android.app.Activity;
 import android.content.Context;

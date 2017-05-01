@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.authentication.login;
+package com.marknkamau.justjava.activities.login;
 
 public interface LogInActivityView {
     void closeActivity();

@@ -1,8 +1,6 @@
-package com.marknkamau.justjava.cart;
+package com.marknkamau.justjava.activities.cart;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class CartActivityPresenterTest {
     @Test

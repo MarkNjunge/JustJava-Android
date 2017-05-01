@@ -1,11 +1,7 @@
-package com.marknkamau.justjava.authentication.login;
+package com.marknkamau.justjava.activities.login;
 
 import android.os.Handler;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 
