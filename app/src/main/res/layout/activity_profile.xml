@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.marknkamau.justjava.ProfileActivity">
+    tools:context="com.marknkamau.justjava.activities.profile.ProfileActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -144,14 +144,15 @@
                 android:id="@+id/pb_saving"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:indeterminate="true"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/btn_save"
                 app:layout_constraintRight_toLeftOf="@+id/btn_save"
-                app:layout_constraintTop_toBottomOf="@+id/til_phone_number" />
+                app:layout_constraintTop_toTopOf="@+id/btn_save"
+                android:layout_marginTop="0dp" />
 
             <TextView
                 android:id="@+id/textView11"

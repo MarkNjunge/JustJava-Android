@@ -42,6 +42,7 @@
         style="@style/main_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:text="@string/there_are_no_items_in_your_cart"
         android:textAlignment="center"
         android:visibility="gone" />

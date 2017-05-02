@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.marknkamau.justjava.AboutActivity;
+import com.marknkamau.justjava.activities.about.AboutActivity;
 import com.marknkamau.justjava.activities.login.LogInActivity;
-import com.marknkamau.justjava.ProfileActivity;
+import com.marknkamau.justjava.activities.profile.ProfileActivity;
 
 public class MenuActions {
     public static void ActionLogIn(Context context) {

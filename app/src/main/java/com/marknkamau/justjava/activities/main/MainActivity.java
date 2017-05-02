@@ -17,10 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.BuildConfig;
 import com.marknkamau.justjava.R;
-import com.marknkamau.justjava.adapters.CatalogAdapter;
+import com.marknkamau.justjava.activities.login.CatalogAdapter;
 import com.marknkamau.justjava.activities.cart.CartActivity;
 import com.marknkamau.justjava.models.CoffeeDrink;
-import com.marknkamau.justjava.models.DataProvider;
 import com.marknkamau.justjava.utils.MenuActions;
 
 import java.util.List;

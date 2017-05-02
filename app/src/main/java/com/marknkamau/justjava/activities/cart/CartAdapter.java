@@ -93,7 +93,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         EditCartDialog editCartDialog = new EditCartDialog();
         editCartDialog.setArguments(args);
         editCartDialog.show(((Activity) mContext).getFragmentManager(), "IMAGE_FRAGMENT");
-        editCartDialog.setContext(mContext);
+//        editCartDialog.setContext(mContext);
 
         editCartDialog.setResponseListener(new CartAdapterListener() {
             @Override

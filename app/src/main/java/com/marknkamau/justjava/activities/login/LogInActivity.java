@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.marknkamau.justjava.R;
-import com.marknkamau.justjava.SignUpActivity;
+import com.marknkamau.justjava.activities.signup.SignUpActivity;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import butterknife.BindView;
@@ -48,6 +48,12 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
         ButterKnife.bind(this);
 
         presenter = new LogInActivityPresenter(this);
+        presenter.checkSignInStatus();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         presenter.checkSignInStatus();
     }
 

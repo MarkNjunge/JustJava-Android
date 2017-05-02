@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:fillViewport="true"
-    tools:context="com.marknkamau.justjava.SignUpActivity">
+    tools:context="com.marknkamau.justjava.activities.signup.SignUpActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

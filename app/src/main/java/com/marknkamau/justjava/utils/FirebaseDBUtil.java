@@ -9,11 +9,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.marknkamau.justjava.models.CartItem;
+import com.marknkamau.justjava.models.PreviousOrder;
+import com.marknkamau.justjava.models.UserDefaults;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +106,65 @@ public class FirebaseDBUtil {
         });
     }
 
+    public static void getPreviousOrders(final PreviousOrdersListener listener) {
+        database.getReference().child("userOrders/" + FirebaseAuthUtils.getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getChildrenCount() == 0) {
+                            listener.noValuesPresent();
+                        } else {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Query orderItem = database.getReference().child("allOrders/" + snapshot.getValue());
+                                orderItem.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot snapshot) {
+                                        List<PreviousOrder> previousOrders = new ArrayList<>();
+                                        try {
+                                            previousOrders.add(new PreviousOrder(
+                                                    snapshot.child("deliveryAddress").getValue().toString()
+                                                    , snapshot.child("timestamp").getValue().toString()
+                                                    , snapshot.child("totalPrice").getValue().toString()
+                                                    , snapshot.child("orderStatus").getValue().toString())
+                                            );
+                                        } catch (Exception e) {
+                                            listener.actionFailed(e.getMessage());
+                                        }
+                                        listener.valuesRetrieved(previousOrders);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        listener.actionFailed(databaseError.getMessage());
+                                    }
+                                });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        listener.actionFailed(databaseError.getMessage());
+                    }
+                });
+    }
+
+    public static void setUserDefaults(UserDefaults userDefaults, final SetUserDefaultsListener listener) {
+        DatabaseReference databaseReference = FirebaseDBUtil.getDatabase().getReference().child("users/" + FirebaseAuthUtils.getCurrentUser().getUid());
+        databaseReference.setValue(userDefaults).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                listener.taskSuccessful();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.taskFailed(e.getMessage());
+            }
+        });
+
+    }
+
     public interface UserDetailsListener {
         void dataReceived(String name, String phone, String deliveryAddress);
 
@@ -112,6 +175,18 @@ public class FirebaseDBUtil {
         void orderSuccessful();
 
         void orderFailed(String response);
+    }
+    public interface SetUserDefaultsListener{
+        void taskSuccessful();
+        void taskFailed(String response);
+    }
+
+    public interface PreviousOrdersListener {
+        void valuesRetrieved(List<PreviousOrder> previousOrders);
+
+        void noValuesPresent();
+
+        void actionFailed(String response);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.activities.about;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.marknkamau.justjava.BuildConfig;
+import com.marknkamau.justjava.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.activities.signup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -24,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
+import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.activities.login.LogInActivity;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.PreferencesInteraction;
@@ -34,8 +35,9 @@ import java.util.regex.Pattern;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements SignUpActivityView {
 
     @BindView(R.id.et_email_address)
     EditText etEmailAddress;
@@ -63,7 +65,6 @@ public class SignUpActivity extends AppCompatActivity {
     private String email;
     private String address;
     private String password;
-    private FirebaseAuth firebaseAuth;
     private boolean passVisible = false;
     private ProgressDialog progressDialog;
     private boolean passRptVisible = false;
@@ -72,13 +73,16 @@ public class SignUpActivity extends AppCompatActivity {
     public static final String DEF_PHONE = "defaultPhoneNumber";
     public static final String DEF_ADDRESS = "defaultDeliveryAddress";
 
+    SignUpActivityPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        presenter = new SignUpActivityPresenter(this);
+
     }
 
     @OnClick({R.id.img_view_pass, R.id.img_view_pass_rpt, R.id.btn_sign_up, R.id.tv_log_in})
@@ -107,10 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_sign_up:
-                if (fieldsOk()) {
-                    disableButtons();
-                    createUser();
-                }
+                createUser();
                 break;
             case R.id.tv_log_in:
                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
@@ -120,81 +121,43 @@ public class SignUpActivity extends AppCompatActivity {
         }
     }
 
-    private void enableButtons() {
+    @Override
+    public void enableUserInteraction() {
+        btnSignUp.setBackgroundResource(R.drawable.large_button);
         btnSignUp.setEnabled(true);
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
-    private void disableButtons() {
-        btnSignUp.setEnabled(false);
-    }
-
-    private void createUser() {
+    @Override
+    public void disableUserInteraction() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setTitle(null);
         progressDialog.setMessage("Creating user");
         progressDialog.show();
-
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    signUserIn();
-                } else {
-                    enableButtons();
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        btnSignUp.setBackgroundResource(R.drawable.large_button_disabled);
+        btnSignUp.setEnabled(false);
     }
 
-    private void signUserIn() {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    addUserToDatabase();
-                } else {
-                    Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void addUserToDatabase() {
+    @Override
+    public void finishActivity() {
         PreferencesInteraction.setDefaults(this, name, phone, address);
+        finish();
+    }
 
-        final FirebaseUser user = firebaseAuth.getCurrentUser();
-        UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder().setDisplayName(name).build();
 
-        user.updateProfile(profileUpdate).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    DatabaseReference databaseReference = FirebaseDBUtil.getDatabase().getReference().child("users").child(user.getUid());
-                    databaseReference.child("name").setValue(name);
-                    databaseReference.child("email").setValue(email);
-                    databaseReference.child("phone").setValue(phone);
-                    databaseReference.child("defaultAddress").setValue(address);
-
-                    Toast.makeText(SignUpActivity.this, "User created successfully", Toast.LENGTH_SHORT).show();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            finish();
-                        }
-                    }, 100);
-                } else {
-                    enableButtons();
-                    if (progressDialog.isShowing())
-                        progressDialog.dismiss();
-                    Toast.makeText(SignUpActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    private void createUser() {
+        if (fieldsOk()) {
+            presenter.createUser(email, password, name, phone, address);
+        }
     }
 
     private boolean fieldsOk() {

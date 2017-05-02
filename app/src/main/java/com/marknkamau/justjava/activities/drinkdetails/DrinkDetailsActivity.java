@@ -1,4 +1,4 @@
-package com.marknkamau.justjava;
+package com.marknkamau.justjava.activities.drinkdetails;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -17,18 +17,18 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.marknkamau.justjava.adapters.CatalogAdapter;
+import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.activities.login.CatalogAdapter;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.utils.MenuActions;
-import com.marknkamau.justjava.utils.RealmUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrinkDetailsActivityView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -65,6 +65,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    DrinkDetailsActivityPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,8 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        presenter = new DrinkDetailsActivityPresenter(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -133,6 +136,16 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         invalidateOptionsMenu();
     }
 
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
     @OnClick({R.id.img_minus_qty, R.id.img_add_qty, R.id.tv_cinnamon, R.id.tv_marshmallows, R.id.tv_chocolate, R.id.btn_add_to_cart})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -160,7 +173,18 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    private void addToCart() {
+        final String cinnamon = (withCinnamon) ? "true" : "false";
+        final String choc = (withChocolate) ? "true" : "false";
+        final String marshmallow = (withMarshmallow) ? "true" : "false";
+        final int total = updateSubtotal();
+
+        CartItem item = new CartItem(
+                0, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, total
+        );
+        presenter.addToCart(item);
+    }
+
     private void initializeViews() {
         tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING);
         tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING);
@@ -170,8 +194,8 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
             tvDrinkName.setText(drink.getDrinkName());
             tvDrinkContents.setText(drink.getDrinkContents());
             tvDrinkDescription.setText(drink.getDrinkDescription());
-            tvDrinkPrice.setText(getResources().getString(R.string.ksh) + drink.getDrinkPrice());
-            tvSubtotal.setText(getResources().getString(R.string.ksh) + drink.getDrinkPrice());
+            tvDrinkPrice.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
+            tvSubtotal.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
 
             String drinkImage = "file:///android_asset/" + drink.getDrinkImage();
             Picasso picasso = Picasso.with(this);
@@ -222,21 +246,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         return base;
     }
 
-    private void addToCart() {
-        final String cinnamon = (withCinnamon) ? "true" : "false";
-        final String choc = (withChocolate) ? "true" : "false";
-        final String marshmallow = (withMarshmallow) ? "true" : "false";
-        final int total = updateSubtotal();
-
-        CartItem item = new CartItem(
-                0, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, total
-        );
-        RealmUtils realmUtils = new RealmUtils();
-        realmUtils.saveNewItem(item);
-        Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
     private void switchCinnamon(Boolean selected) {
         if (selected) {
             setToppingOff(tvCinnamon);
@@ -266,4 +275,5 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
             withMarshmallow = true;
         }
     }
+
 }

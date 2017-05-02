@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.adapters;
+package com.marknkamau.justjava.activities.profile;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +32,7 @@ public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdap
     private Context mContext;
     private List<PreviousOrder> previousOrders;
 
-    public PreviousOrderAdapter(Context mContext, List<PreviousOrder> previousOrders) {
+    PreviousOrderAdapter(Context mContext, List<PreviousOrder> previousOrders) {
         this.mContext = mContext;
         this.previousOrders = previousOrders;
     }

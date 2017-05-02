@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.adapters;
+package com.marknkamau.justjava.activities.login;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.marknkamau.justjava.DrinkDetailsActivity;
+import com.marknkamau.justjava.activities.drinkdetails.DrinkDetailsActivity;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.squareup.picasso.Picasso;

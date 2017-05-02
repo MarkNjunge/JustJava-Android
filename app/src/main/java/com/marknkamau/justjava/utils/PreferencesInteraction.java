@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.marknkamau.justjava.SignUpActivity;
+import com.marknkamau.justjava.activities.signup.SignUpActivity;
 
 import java.util.HashMap;
 import java.util.Map;
