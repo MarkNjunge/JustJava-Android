@@ -1,16 +1,20 @@
 package com.marknkamau.justjava.activities.signup;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 import com.marknkamau.justjava.models.UserDefaults;
+import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 
 class SignUpActivityPresenter {
     private SignUpActivityView activityView;
+    private SharedPreferences sharedPreferences;
 
-    SignUpActivityPresenter(SignUpActivityView activityView) {
+    SignUpActivityPresenter(SignUpActivityView activityView, SharedPreferences sharedPreferences) {
         this.activityView = activityView;
+        this.sharedPreferences = sharedPreferences;
     }
 
     void createUser(final String email, final String password, final String name, final String phone, final String address) {
@@ -53,13 +57,14 @@ class SignUpActivityPresenter {
                     @Override
                     public void taskSuccessful() {
                         activityView.enableUserInteraction();
+                        saveToSharedPreferences(name, phone, address);
                         activityView.displayMessage("Sign up successfully");
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 activityView.finishActivity();
                             }
-                        }, 100);
+                        }, 500);
 
                     }
 
@@ -78,5 +83,14 @@ class SignUpActivityPresenter {
                 activityView.displayMessage(response);
             }
         });
+    }
+
+    private void saveToSharedPreferences(String name, String phone, String address) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.DEF_NAME, name);
+        editor.putString(Constants.DEF_PHONE, phone);
+        editor.putString(Constants.DEF_ADDRESS, address);
+
+        editor.apply();
     }
 }

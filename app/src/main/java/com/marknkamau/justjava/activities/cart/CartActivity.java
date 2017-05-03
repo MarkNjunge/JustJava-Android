@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.activities.cart;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +17,17 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.marknkamau.justjava.JustJavaApp;
+import com.marknkamau.justjava.activities.about.AboutActivity;
 import com.marknkamau.justjava.activities.checkout.CheckoutActivity;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.activities.login.LogInActivity;
+import com.marknkamau.justjava.activities.profile.ProfileActivity;
 import com.marknkamau.justjava.models.CartItem;
-import com.marknkamau.justjava.utils.MenuActions;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +51,9 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private FirebaseUser user;
     private CartActivityPresenter presenter;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +67,15 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        presenter = new CartActivityPresenter(this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new CartActivityPresenter(this, sharedPreferences);
         presenter.loadItems();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -77,16 +93,17 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_log_in:
-                MenuActions.ActionLogIn(this);
+                startActivity(new Intent(this, LogInActivity.class));
                 return true;
             case R.id.menu_log_out:
-                MenuActions.ActionLogOut(this);
+                presenter.logUserOut();
+                invalidateOptionsMenu();
                 return true;
             case R.id.menu_profile:
-                MenuActions.ActionProfile(this);
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             case R.id.menu_about:
-                MenuActions.ActionAbout(this);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

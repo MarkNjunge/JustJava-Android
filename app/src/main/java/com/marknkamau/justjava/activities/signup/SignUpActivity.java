@@ -2,9 +2,8 @@ package com.marknkamau.justjava.activities.signup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -17,25 +16,18 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.activities.login.LogInActivity;
-import com.marknkamau.justjava.utils.FirebaseDBUtil;
-import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import timber.log.Timber;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpActivityView {
 
@@ -66,14 +58,17 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
     private String address;
     private String password;
     private boolean passVisible = false;
-    private ProgressDialog progressDialog;
     private boolean passRptVisible = false;
+    private ProgressDialog progressDialog;
 
     public static final String DEF_NAME = "defaultName";
     public static final String DEF_PHONE = "defaultPhoneNumber";
     public static final String DEF_ADDRESS = "defaultDeliveryAddress";
 
-    SignUpActivityPresenter presenter;
+    private SignUpActivityPresenter presenter;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +76,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        presenter = new SignUpActivityPresenter(this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new SignUpActivityPresenter(this, sharedPreferences);
 
     }
 
@@ -149,7 +145,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
 
     @Override
     public void finishActivity() {
-        PreferencesInteraction.setDefaults(this, name, phone, address);
+//        PreferencesInteraction.setDefaults(this, name, phone, address);
         finish();
     }
 

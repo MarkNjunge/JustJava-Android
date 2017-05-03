@@ -1,18 +1,25 @@
 package com.marknkamau.justjava.activities.checkout;
 
+import android.content.SharedPreferences;
+
+import com.marknkamau.justjava.activities.signup.SignUpActivity;
 import com.marknkamau.justjava.models.CartItem;
+import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 import com.marknkamau.justjava.utils.RealmUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 class CheckoutActivityPresenter {
     private CheckoutActivityView activityView;
+    private SharedPreferences sharedPreferences;
 
-    CheckoutActivityPresenter(CheckoutActivityView activityView) {
+    CheckoutActivityPresenter(CheckoutActivityView activityView, SharedPreferences sharedPreferences) {
         this.activityView = activityView;
+        this.sharedPreferences = sharedPreferences;
         updateLoggedInStatus();
     }
 
@@ -25,7 +32,11 @@ class CheckoutActivityPresenter {
 
     void updateLoggedInStatus(){
         if (FirebaseAuthUtils.getCurrentUser() != null){
-            activityView.setDisplayToLoggedIn(FirebaseAuthUtils.getCurrentUser());
+            Map<String, String> defaults = new HashMap<>();
+            defaults.put(Constants.DEF_NAME, sharedPreferences.getString(SignUpActivity.DEF_NAME, ""));
+            defaults.put(Constants.DEF_PHONE, sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""));
+            defaults.put(Constants.DEF_ADDRESS, sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""));
+            activityView.setDisplayToLoggedIn(FirebaseAuthUtils.getCurrentUser(), defaults);
             activityView.setLoggedInStatus(true);
         }else {
             activityView.setDisplayToLoggedOut();

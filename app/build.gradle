@@ -59,6 +59,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
+    testCompile 'junit:junit:4.12'
 
     //Android libraries
     compile 'com.android.support:appcompat-v7:25.3.1'
@@ -74,13 +75,15 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:10.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
 
+    //Dagger
+    compile 'com.google.dagger:dagger:2.11-rc1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc1'
+
     // Other libraries
     compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.sothree.slidinguppanel:library:3.3.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    testCompile 'junit:junit:4.12'
-
 }
 

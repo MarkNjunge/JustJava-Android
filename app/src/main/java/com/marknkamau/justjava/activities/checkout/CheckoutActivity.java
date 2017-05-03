@@ -2,6 +2,7 @@ package com.marknkamau.justjava.activities.checkout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -20,15 +21,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.activities.about.AboutActivity;
 import com.marknkamau.justjava.activities.login.LogInActivity;
 import com.marknkamau.justjava.activities.main.MainActivity;
+import com.marknkamau.justjava.activities.profile.ProfileActivity;
+import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
-import com.marknkamau.justjava.utils.MenuActions;
-import com.marknkamau.justjava.utils.PreferencesInteraction;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,6 +64,9 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
     private CheckoutActivityPresenter presenter;
     private boolean userIsLoggedIn;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +77,8 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        presenter = new CheckoutActivityPresenter(this);
-
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new CheckoutActivityPresenter(this,sharedPreferences);
     }
 
     @Override
@@ -93,16 +101,16 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_log_in:
-                MenuActions.ActionLogIn(this);
+                startActivity(new Intent(this, LogInActivity.class));
                 return true;
             case R.id.menu_log_out:
                 presenter.logOut();
                 return true;
             case R.id.menu_profile:
-                MenuActions.ActionProfile(this);
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             case R.id.menu_about:
-                MenuActions.ActionAbout(this);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -148,14 +156,13 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
     }
 
     @Override
-    public void setDisplayToLoggedIn(FirebaseUser user) {
+    public void setDisplayToLoggedIn(FirebaseUser user, Map<String, String> defaults) {
         tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
         btnLogIn.setVisibility(View.GONE);
 
-        Map<String, String> defaults = PreferencesInteraction.getDefaults(this);
-        etName.setText(defaults.get(PreferencesInteraction.DEF_NAME));
-        etPhoneNumber.setText(defaults.get(PreferencesInteraction.DEF_PHONE));
-        etDeliveryAddress.setText(defaults.get(PreferencesInteraction.DEF_ADDRESS));
+        etName.setText(defaults.get(Constants.DEF_NAME));
+        etPhoneNumber.setText(defaults.get(Constants.DEF_PHONE));
+        etDeliveryAddress.setText(defaults.get(Constants.DEF_ADDRESS));
     }
 
     @Override

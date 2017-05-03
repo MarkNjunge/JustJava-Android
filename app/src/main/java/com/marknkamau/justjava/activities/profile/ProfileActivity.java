@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.activities.profile;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,26 +18,19 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
-import com.marknkamau.justjava.activities.main.MainActivity;
+import com.marknkamau.justjava.activities.about.AboutActivity;
+import com.marknkamau.justjava.activities.login.LogInActivity;
 import com.marknkamau.justjava.models.PreviousOrder;
+import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
-import com.marknkamau.justjava.utils.FirebaseDBUtil;
-import com.marknkamau.justjava.utils.MenuActions;
-import com.marknkamau.justjava.utils.PreferencesInteraction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -66,6 +59,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
     private String name, phone, address;
     private ProfileActivityPresenter presenter;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +77,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
             finish();
         }
 
-        Map<String, String> defaults = PreferencesInteraction.getDefaults(this);
-        etName.setText(defaults.get(PreferencesInteraction.DEF_NAME));
-        etPhoneNumber.setText(defaults.get(PreferencesInteraction.DEF_PHONE));
-        etDeliveryAddress.setText(defaults.get(PreferencesInteraction.DEF_ADDRESS));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
         rvPreviousOrders.setLayoutManager(layoutManager);
@@ -92,7 +84,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
         rvPreviousOrders.addItemDecoration(itemDecoration);
 
-        presenter = new ProfileActivityPresenter(this, this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new ProfileActivityPresenter(this, sharedPreferences);
 
     }
 
@@ -111,17 +104,17 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_log_in:
-                MenuActions.ActionLogIn(this);
+                startActivity(new Intent(this, LogInActivity.class));
                 return true;
             case R.id.menu_log_out:
-                MenuActions.ActionLogOut(this);
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                presenter.logUserOut();
+                finish();
                 return true;
             case R.id.menu_profile:
                 // Do nothing
                 return true;
             case R.id.menu_about:
-                MenuActions.ActionAbout(this);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -139,6 +132,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
 
 
     @Override
+    public void displayUserDefaults(Map<String, String> defaults) {
+        etName.setText(defaults.get(Constants.DEF_NAME));
+        etPhoneNumber.setText(defaults.get(Constants.DEF_PHONE));
+        etDeliveryAddress.setText(defaults.get(Constants.DEF_ADDRESS));
+    }
+
+    @Override
     public void showProgressBar() {
         pbSaving.setVisibility(View.VISIBLE);
     }
@@ -150,6 +150,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
 
     @Override
     public void displayNoPreviousOrders() {
+        pbLoadingOrders.setVisibility(View.GONE);
         Toast.makeText(this, "No previous orders", Toast.LENGTH_SHORT).show();
     }
 
@@ -167,9 +168,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
     private void saveChanges() {
         if (fieldsOk()) {
             presenter.updateUserDefaults(name, phone, address);
-
-            //TODO implement dagger 2 in order to move this to presenter without needing context
-            PreferencesInteraction.setDefaults(getApplicationContext(), name, phone, address);
         }
     }
 

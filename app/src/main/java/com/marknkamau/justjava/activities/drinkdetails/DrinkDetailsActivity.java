@@ -1,6 +1,8 @@
 package com.marknkamau.justjava.activities.drinkdetails;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -17,12 +19,17 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.activities.about.AboutActivity;
 import com.marknkamau.justjava.activities.login.CatalogAdapter;
+import com.marknkamau.justjava.activities.login.LogInActivity;
+import com.marknkamau.justjava.activities.profile.ProfileActivity;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
-import com.marknkamau.justjava.utils.MenuActions;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,7 +72,10 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    DrinkDetailsActivityPresenter presenter;
+    private DrinkDetailsActivityPresenter presenter;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +87,8 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        presenter = new DrinkDetailsActivityPresenter(this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new DrinkDetailsActivityPresenter(this, sharedPreferences);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -114,16 +125,17 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_log_in:
-                MenuActions.ActionLogIn(this);
+                startActivity(new Intent(this, LogInActivity.class));
                 return true;
             case R.id.menu_log_out:
-                MenuActions.ActionLogOut(this);
+                presenter.logUserOut();
+                invalidateOptionsMenu();
                 return true;
             case R.id.menu_profile:
-                MenuActions.ActionProfile(this);
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             case R.id.menu_about:
-                MenuActions.ActionAbout(this);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

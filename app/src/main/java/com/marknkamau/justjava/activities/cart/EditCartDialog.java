@@ -2,7 +2,6 @@ package com.marknkamau.justjava.activities.cart;
 
 import android.annotation.SuppressLint;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;

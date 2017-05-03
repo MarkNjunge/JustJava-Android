@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.activities.main;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,13 +17,18 @@ import com.crashlytics.android.Crashlytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.BuildConfig;
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.activities.about.AboutActivity;
 import com.marknkamau.justjava.activities.login.CatalogAdapter;
 import com.marknkamau.justjava.activities.cart.CartActivity;
+import com.marknkamau.justjava.activities.login.LogInActivity;
+import com.marknkamau.justjava.activities.profile.ProfileActivity;
 import com.marknkamau.justjava.models.CoffeeDrink;
-import com.marknkamau.justjava.utils.MenuActions;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
+    private MainActivityPresenter presenter;
+
+    @Inject
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +86,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             }
         });
 
-        MainActivityPresenter presenter = new MainActivityPresenter(this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new MainActivityPresenter(this, sharedPreferences);
         presenter.getCatalogItems();
     }
 
@@ -115,16 +126,17 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_log_in:
-                MenuActions.ActionLogIn(this);
+                startActivity(new Intent(this, LogInActivity.class));
                 return true;
             case R.id.menu_log_out:
-                MenuActions.ActionLogOut(this);
+                presenter.logUserOut();
+                invalidateOptionsMenu();
                 return true;
             case R.id.menu_profile:
-                MenuActions.ActionProfile(this);
+                startActivity(new Intent(this, ProfileActivity.class));
                 return true;
             case R.id.menu_about:
-                MenuActions.ActionAbout(this);
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

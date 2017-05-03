@@ -1,15 +1,19 @@
 package com.marknkamau.justjava.activities.login;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
 
+import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 import com.marknkamau.justjava.utils.FirebaseDBUtil;
 
 class LogInActivityPresenter {
     private LogInActivityView activityView;
+    private SharedPreferences sharedPreferences;
 
-    LogInActivityPresenter(LogInActivityView activityView) {
+    LogInActivityPresenter(LogInActivityView activityView, SharedPreferences sharedPreferences) {
         this.activityView = activityView;
+        this.sharedPreferences = sharedPreferences;
     }
 
     void checkSignInStatus() {
@@ -37,8 +41,7 @@ class LogInActivityPresenter {
         FirebaseDBUtil.getUserDefaults(new FirebaseDBUtil.UserDetailsListener() {
             @Override
             public void dataReceived(String name, String phone, String deliveryAddress) {
-                activityView.saveUserDefaults(name, phone, deliveryAddress);
-
+                saveToSharedPreferences(name, phone, deliveryAddress);
                 activityView.dismissDialog();
                 activityView.displayMessage("Sign in successful");
                 new Handler().postDelayed(new Runnable() {
@@ -46,7 +49,7 @@ class LogInActivityPresenter {
                     public void run() {
                         activityView.finishSignUp();
                     }
-                }, 100);
+                }, 500);
             }
 
             @Override
@@ -68,5 +71,13 @@ class LogInActivityPresenter {
                 activityView.displayMessage(response);
             }
         });
+    }
+    private void saveToSharedPreferences(String name, String phone, String address) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.DEF_NAME, name);
+        editor.putString(Constants.DEF_PHONE, phone);
+        editor.putString(Constants.DEF_ADDRESS, address);
+
+        editor.apply();
     }
 }

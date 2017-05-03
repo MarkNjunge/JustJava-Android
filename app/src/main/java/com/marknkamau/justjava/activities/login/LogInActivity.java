@@ -2,6 +2,7 @@ package com.marknkamau.justjava.activities.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.activities.signup.SignUpActivity;
-import com.marknkamau.justjava.utils.PreferencesInteraction;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,13 +44,17 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
     private ProgressDialog progressDialog;
     private LogInActivityPresenter presenter;
 
+    @Inject
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
 
-        presenter = new LogInActivityPresenter(this);
+        ((JustJavaApp) getApplication()).getAppComponent().inject(this);
+        presenter = new LogInActivityPresenter(this, sharedPreferences);
         presenter.checkSignInStatus();
     }
 
@@ -94,11 +101,6 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
             disableButtons();
             presenter.signIn(etEmail.getText().toString().trim(), etPassword.getText().toString().trim());
         }
-    }
-
-    @Override
-    public void saveUserDefaults(String name, String phone, String deliveryAddress) {
-        PreferencesInteraction.setDefaults(getApplicationContext(), name, phone, deliveryAddress);
     }
 
     @Override
