@@ -36,6 +36,8 @@ public class FirebaseDBUtil {
     public static final String ADDRESS = "deliveryAddress";
     private static FirebaseDatabase database;
 
+    private static List<PreviousOrder> previousOrders;
+
     public static FirebaseDatabase getDatabase() {
         if (database == null) {
             database = FirebaseDatabase.getInstance();
@@ -107,8 +109,9 @@ public class FirebaseDBUtil {
     }
 
     public static void getPreviousOrders(final PreviousOrdersListener listener) {
+        previousOrders = new ArrayList<>();
         database.getReference().child("userOrders/" + FirebaseAuthUtils.getCurrentUser().getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.getChildrenCount() == 0) {
@@ -116,10 +119,10 @@ public class FirebaseDBUtil {
                         } else {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 Query orderItem = database.getReference().child("allOrders/" + snapshot.getValue());
-                                orderItem.addListenerForSingleValueEvent(new ValueEventListener() {
+                                orderItem.addValueEventListener(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
-                                        List<PreviousOrder> previousOrders = new ArrayList<>();
+
                                         try {
                                             previousOrders.add(new PreviousOrder(
                                                     snapshot.child("deliveryAddress").getValue().toString()
@@ -176,8 +179,10 @@ public class FirebaseDBUtil {
 
         void orderFailed(String response);
     }
-    public interface SetUserDefaultsListener{
+
+    public interface SetUserDefaultsListener {
         void taskSuccessful();
+
         void taskFailed(String response);
     }
 
