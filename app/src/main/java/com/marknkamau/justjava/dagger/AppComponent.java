@@ -1,12 +1,12 @@
 package com.marknkamau.justjava.dagger;
 
-import com.marknkamau.justjava.activities.cart.CartActivity;
-import com.marknkamau.justjava.activities.checkout.CheckoutActivity;
-import com.marknkamau.justjava.activities.drinkdetails.DrinkDetailsActivity;
-import com.marknkamau.justjava.activities.login.LogInActivity;
-import com.marknkamau.justjava.activities.main.MainActivity;
-import com.marknkamau.justjava.activities.profile.ProfileActivity;
-import com.marknkamau.justjava.activities.signup.SignUpActivity;
+import com.marknkamau.justjava.ui.cart.CartActivity;
+import com.marknkamau.justjava.ui.checkout.CheckoutActivity;
+import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity;
+import com.marknkamau.justjava.ui.login.LogInActivity;
+import com.marknkamau.justjava.ui.main.MainActivity;
+import com.marknkamau.justjava.ui.profile.ProfileActivity;
+import com.marknkamau.justjava.ui.signup.SignUpActivity;
 
 import dagger.Component;
 

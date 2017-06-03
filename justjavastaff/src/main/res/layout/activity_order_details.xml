@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context="com.marknkamau.justjavastaff.OrderDetails">
+        tools:context="com.marknkamau.justjavastaff.ui.orderdetails.OrderDetails">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

@@ -21,19 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * This class ensures that an instance to the database is not created multiple times.
  * It also prevents '.setPersistenceEnabled(true)' from crashing due to an IllegalStateException
  */
 
 public class FirebaseDBUtil {
-    public static final String CUSTOMER_NAME = "customerName";
-    public static final String CUSTOMER_PHONE = "customerPhone";
-    public static final String ITEMS_COUNT = "itemsCount";
-    public static final String TOTAL_PRICE = "totalPrice";
-    public static final String COMMENTS = "additionalComments";
-    public static final String ADDRESS = "deliveryAddress";
     private static FirebaseDatabase database;
 
     private static List<PreviousOrder> previousOrders;
@@ -75,13 +68,13 @@ public class FirebaseDBUtil {
         final String key = orderRef.getKey();
 
         orderRef.child("orderID").setValue(key);
-        orderRef.child("customerName").setValue(orderDetails.get(CUSTOMER_NAME));
-        orderRef.child("customerPhone").setValue(orderDetails.get(CUSTOMER_PHONE));
-        orderRef.child("itemsCount").setValue(orderDetails.get(ITEMS_COUNT));
-        orderRef.child("totalPrice").setValue(orderDetails.get(TOTAL_PRICE));
+        orderRef.child("customerName").setValue(orderDetails.get(Constants.DB_CUSTOMER_NAME));
+        orderRef.child("customerPhone").setValue(orderDetails.get(Constants.DB_CUSTOMER_PHONE));
+        orderRef.child("itemsCount").setValue(orderDetails.get(Constants.DB_ITEMS_COUNT));
+        orderRef.child("totalPrice").setValue(orderDetails.get(Constants.DB_TOTAL_PRICE));
         orderRef.child("orderStatus").setValue("Pending");
-        orderRef.child("deliveryAddress").setValue(orderDetails.get(ADDRESS));
-        orderRef.child("additionalComments").setValue(orderDetails.get(COMMENTS));
+        orderRef.child("deliveryAddress").setValue(orderDetails.get(Constants.DB_ADDRESS));
+        orderRef.child("additionalComments").setValue(orderDetails.get(Constants.DB_COMMENTS));
         orderRef.child("deviceToken").setValue(FirebaseInstanceId.getInstance().getToken());
         orderRef.child("timestamp").setValue(ServerValue.TIMESTAMP);
 

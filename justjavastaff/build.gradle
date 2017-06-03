@@ -61,6 +61,10 @@ dependencies {
     compile 'com.google.firebase:firebase-database:10.2.0'
     compile 'com.google.firebase:firebase-auth:10.2.0'
 
+    //Dagger
+    compile 'com.google.dagger:dagger:2.11-rc1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc1'
+
     //Other libraries
     compile 'com.sothree.slidinguppanel:library:3.3.1'
     compile 'com.jakewharton:butterknife:8.5.1'

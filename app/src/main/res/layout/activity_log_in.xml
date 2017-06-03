@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:fillViewport="true"
-    tools:context=".activities.login.LogInActivity">
+    tools:context=".ui.login.LogInActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

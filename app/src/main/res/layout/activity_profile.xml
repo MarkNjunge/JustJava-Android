@@ -7,7 +7,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.marknkamau.justjava.activities.profile.ProfileActivity">
+    tools:context="com.marknkamau.justjava.ui.profile.ProfileActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

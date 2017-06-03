@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context="com.marknkamau.justjava.activities.about.AboutActivity"
+    tools:context="com.marknkamau.justjava.ui.about.AboutActivity"
     tools:layout_editor_absoluteX="8dp"
     tools:layout_editor_absoluteY="8dp">
 
