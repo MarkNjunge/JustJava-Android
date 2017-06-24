@@ -20,7 +20,7 @@ class SignUpActivityPresenter {
     void createUser(final String email, final String password, final String name, final String phone, final String address) {
         activityView.disableUserInteraction();
 
-        FirebaseAuthUtils.createUser(email, password, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.createUser(email, password, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
                 signInUser(email, password, name, phone, address);
@@ -35,7 +35,7 @@ class SignUpActivityPresenter {
     }
 
     private void signInUser(String email, String password, final String name, final String phone, final String address) {
-        FirebaseAuthUtils.signIn(email, password, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.signIn(email, password, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
                 setUserDisplayName(name, phone, address);
@@ -50,10 +50,10 @@ class SignUpActivityPresenter {
     }
 
     private void setUserDisplayName(final String name, final String phone, final String address) {
-        FirebaseAuthUtils.setUserDisplayName(name, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.setUserDisplayName(name, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
-                FirebaseDBUtil.setUserDefaults(new UserDefaults(name, phone, address), new FirebaseDBUtil.SetUserDefaultsListener() {
+                FirebaseDBUtil.INSTANCE.setUserDefaults(new UserDefaults(name, phone, address), new FirebaseDBUtil.UploadListener() {
                     @Override
                     public void taskSuccessful() {
                         activityView.enableUserInteraction();
@@ -87,9 +87,9 @@ class SignUpActivityPresenter {
 
     private void saveToSharedPreferences(String name, String phone, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.DEF_NAME, name);
-        editor.putString(Constants.DEF_PHONE, phone);
-        editor.putString(Constants.DEF_ADDRESS, address);
+        editor.putString(Constants.INSTANCE.getDEF_NAME(), name);
+        editor.putString(Constants.INSTANCE.getDEF_PHONE(), phone);
+        editor.putString(Constants.INSTANCE.getDEF_ADDRESS(), address);
 
         editor.apply();
     }

@@ -23,11 +23,11 @@ class DrinkDetailsActivityPresenter {
     }
 
     void logUserOut(){
-        FirebaseAuthUtils.logOut();
+        FirebaseAuthUtils.INSTANCE.logOut();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constants.DEF_NAME);
-        editor.remove(Constants.DEF_PHONE);
-        editor.remove(Constants.DEF_ADDRESS);
+        editor.remove(Constants.INSTANCE.getDEF_NAME());
+        editor.remove(Constants.INSTANCE.getDEF_PHONE());
+        editor.remove(Constants.INSTANCE.getDEF_ADDRESS());
         editor.apply();
     }
 }

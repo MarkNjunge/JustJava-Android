@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        user = FirebaseAuthUtils.getCurrentUser();
+        user = FirebaseAuthUtils.INSTANCE.getCurrentUser();
 
         if (user == null) {
             finish();
@@ -91,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        user = FirebaseAuthUtils.getCurrentUser();
+        user = FirebaseAuthUtils.INSTANCE.getCurrentUser();
         MenuInflater inflater = getMenuInflater();
         if (user == null) {
             inflater.inflate(R.menu.toolbar_menu, menu);
@@ -133,9 +133,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
 
     @Override
     public void displayUserDefaults(Map<String, String> defaults) {
-        etName.setText(defaults.get(Constants.DEF_NAME));
-        etPhoneNumber.setText(defaults.get(Constants.DEF_PHONE));
-        etDeliveryAddress.setText(defaults.get(Constants.DEF_ADDRESS));
+        etName.setText(defaults.get(Constants.INSTANCE.getDEF_NAME()));
+        etPhoneNumber.setText(defaults.get(Constants.INSTANCE.getDEF_PHONE()));
+        etDeliveryAddress.setText(defaults.get(Constants.INSTANCE.getDEF_ADDRESS()));
     }
 
     @Override

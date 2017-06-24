@@ -17,14 +17,14 @@ class LogInActivityPresenter {
     }
 
     void checkSignInStatus() {
-        if (FirebaseAuthUtils.getCurrentUser() != null) {
+        if (FirebaseAuthUtils.INSTANCE.getCurrentUser() != null) {
             activityView.closeActivity();
         }
     }
 
     void signIn(String email, String password) {
         activityView.showDialog();
-        FirebaseAuthUtils.signIn(email, password, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.signIn(email, password, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
                 getUserDefaults();
@@ -38,9 +38,9 @@ class LogInActivityPresenter {
     }
 
     private void getUserDefaults() {
-        FirebaseDBUtil.getUserDefaults(new FirebaseDBUtil.UserDetailsListener() {
+        FirebaseDBUtil.INSTANCE.getUserDefaults(new FirebaseDBUtil.UserDetailsListener() {
             @Override
-            public void dataReceived(String name, String phone, String deliveryAddress) {
+            public void taskSuccessful(String name, String phone, String deliveryAddress) {
                 saveToSharedPreferences(name, phone, deliveryAddress);
                 activityView.dismissDialog();
                 activityView.displayMessage("Sign in successful");
@@ -53,14 +53,14 @@ class LogInActivityPresenter {
             }
 
             @Override
-            public void actionFailed(String response) {
+            public void taskFailed(String response) {
                 activityView.displayMessage(response);
             }
         });
     }
 
     void resetUserPassword(String email) {
-        FirebaseAuthUtils.sendPasswordResetEmail(email, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.sendPasswordResetEmail(email, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
                 activityView.displayMessage(response);
@@ -74,9 +74,9 @@ class LogInActivityPresenter {
     }
     private void saveToSharedPreferences(String name, String phone, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.DEF_NAME, name);
-        editor.putString(Constants.DEF_PHONE, phone);
-        editor.putString(Constants.DEF_ADDRESS, address);
+        editor.putString(Constants.INSTANCE.getDEF_NAME(), name);
+        editor.putString(Constants.INSTANCE.getDEF_PHONE(), phone);
+        editor.putString(Constants.INSTANCE.getDEF_ADDRESS(), address);
 
         editor.apply();
     }

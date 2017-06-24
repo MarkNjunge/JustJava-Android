@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.checkout;
 
 import android.content.SharedPreferences;
 
+import com.marknkamau.justjava.models.Order;
 import com.marknkamau.justjava.ui.signup.SignUpActivity;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.utils.Constants;
@@ -24,19 +25,19 @@ class CheckoutActivityPresenter {
     }
 
     void logOut(){
-        FirebaseAuthUtils.logOut();
+        FirebaseAuthUtils.INSTANCE.logOut();
         activityView.setDisplayToLoggedOut();
         activityView.setLoggedInStatus(false);
         activityView.invalidateMenu();
     }
 
     void updateLoggedInStatus(){
-        if (FirebaseAuthUtils.getCurrentUser() != null){
+        if (FirebaseAuthUtils.INSTANCE.getCurrentUser() != null){
             Map<String, String> defaults = new HashMap<>();
-            defaults.put(Constants.DEF_NAME, sharedPreferences.getString(SignUpActivity.DEF_NAME, ""));
-            defaults.put(Constants.DEF_PHONE, sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""));
-            defaults.put(Constants.DEF_ADDRESS, sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""));
-            activityView.setDisplayToLoggedIn(FirebaseAuthUtils.getCurrentUser(), defaults);
+            defaults.put(Constants.INSTANCE.getDEF_NAME(), sharedPreferences.getString(SignUpActivity.DEF_NAME, ""));
+            defaults.put(Constants.INSTANCE.getDEF_PHONE(), sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""));
+            defaults.put(Constants.INSTANCE.getDEF_ADDRESS(), sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""));
+            activityView.setDisplayToLoggedIn(FirebaseAuthUtils.INSTANCE.getCurrentUser(), defaults);
             activityView.setLoggedInStatus(true);
         }else {
             activityView.setDisplayToLoggedOut();
@@ -45,20 +46,21 @@ class CheckoutActivityPresenter {
         activityView.invalidateMenu();
     }
 
-    void placeOrder(Map<String, Object> orderDetails) {
+    void placeOrder(Order order) {
         activityView.showUploadBar();
         final RealmUtils realmUtils = new RealmUtils();
 
         final List<CartItem> cartItems = realmUtils.getAllCartItems();
         int itemsCount = cartItems.size();
-        int totalCost = realmUtils.getTotalCost();
+        int totalPrice = realmUtils.getTotalPrice();
 
-        orderDetails.put(Constants.DB_ITEMS_COUNT, itemsCount);
-        orderDetails.put(Constants.DB_TOTAL_PRICE, totalCost);
 
-        FirebaseDBUtil.placeNewOrder(orderDetails, realmUtils.getAllCartItems(), new FirebaseDBUtil.PlaceOrderListener() {
+        order.setItemsCount(itemsCount);
+        order.setTotalPrice(totalPrice);
+
+        FirebaseDBUtil.INSTANCE.placeNewOrder(order, realmUtils.getAllCartItems(), new FirebaseDBUtil.UploadListener() {
             @Override
-            public void orderSuccessful() {
+            public void taskSuccessful() {
                 activityView.hideUploadBar();
                 activityView.showMessage("Order placed");
                 activityView.finishActivity();
@@ -66,9 +68,9 @@ class CheckoutActivityPresenter {
             }
 
             @Override
-            public void orderFailed(String response) {
+            public void taskFailed(String reason) {
                 activityView.hideUploadBar();
-                activityView.showMessage(response);
+                activityView.showMessage(reason);
             }
         });
 

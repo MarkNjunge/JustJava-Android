@@ -27,17 +27,17 @@ class ProfileActivityPresenter {
 
     private void getUserDefaults(){
         Map<String, String> defaults = new HashMap<>();
-        defaults.put(Constants.DEF_NAME, sharedPreferences.getString(SignUpActivity.DEF_NAME, ""));
-        defaults.put(Constants.DEF_PHONE, sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""));
-        defaults.put(Constants.DEF_ADDRESS, sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""));
+        defaults.put(Constants.INSTANCE.getDEF_NAME(), sharedPreferences.getString(SignUpActivity.DEF_NAME, ""));
+        defaults.put(Constants.INSTANCE.getDEF_PHONE(), sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""));
+        defaults.put(Constants.INSTANCE.getDEF_ADDRESS(), sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""));
 
         activityView.displayUserDefaults(defaults);
     }
 
     private void getPreviousOrders() {
-        FirebaseDBUtil.getPreviousOrders(new FirebaseDBUtil.PreviousOrdersListener() {
+        FirebaseDBUtil.INSTANCE.getPreviousOrders(new FirebaseDBUtil.PreviousOrdersListener() {
             @Override
-            public void valuesRetrieved(List<PreviousOrder> previousOrders) {
+            public void taskSuccessful(List<PreviousOrder> previousOrders) {
                 activityView.displayPreviousOrders(previousOrders);
             }
 
@@ -47,7 +47,7 @@ class ProfileActivityPresenter {
             }
 
             @Override
-            public void actionFailed(String response) {
+            public void taskFailed(String response) {
                 activityView.displayMessage(response);
             }
         });
@@ -55,10 +55,10 @@ class ProfileActivityPresenter {
 
     void updateUserDefaults(final String name, final String phone, final String address) {
         activityView.showProgressBar();
-        FirebaseAuthUtils.setUserDisplayName(name, new FirebaseAuthUtils.AuthActionListener() {
+        FirebaseAuthUtils.INSTANCE.setUserDisplayName(name, new FirebaseAuthUtils.AuthActionListener() {
             @Override
             public void actionSuccessful(String response) {
-                FirebaseDBUtil.setUserDefaults(new UserDefaults(name, phone, address), new FirebaseDBUtil.SetUserDefaultsListener() {
+                FirebaseDBUtil.INSTANCE.setUserDefaults(new UserDefaults(name, phone, address), new FirebaseDBUtil.UploadListener() {
                     @Override
                     public void taskSuccessful() {
                         saveToSharedPreferences(name, phone, address);
@@ -83,19 +83,19 @@ class ProfileActivityPresenter {
 
     private void saveToSharedPreferences(String name, String phone, String address) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(Constants.DEF_NAME, name);
-        editor.putString(Constants.DEF_PHONE, phone);
-        editor.putString(Constants.DEF_ADDRESS, address);
+        editor.putString(Constants.INSTANCE.getDEF_NAME(), name);
+        editor.putString(Constants.INSTANCE.getDEF_PHONE(), phone);
+        editor.putString(Constants.INSTANCE.getDEF_ADDRESS(), address);
 
         editor.apply();
     }
 
     void logUserOut(){
-        FirebaseAuthUtils.logOut();
+        FirebaseAuthUtils.INSTANCE.logOut();
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(Constants.DEF_NAME);
-        editor.remove(Constants.DEF_PHONE);
-        editor.remove(Constants.DEF_ADDRESS);
+        editor.remove(Constants.INSTANCE.getDEF_NAME());
+        editor.remove(Constants.INSTANCE.getDEF_PHONE());
+        editor.remove(Constants.INSTANCE.getDEF_ADDRESS());
         editor.apply();
     }
 }

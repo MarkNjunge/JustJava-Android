@@ -23,13 +23,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.models.Order;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.ui.main.MainActivity;
 import com.marknkamau.justjava.ui.profile.ProfileActivity;
 import com.marknkamau.justjava.utils.Constants;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -134,13 +134,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
 
     private void placeOder() {
         if (validateInput()) {
-            Map<String, Object> orderDetails = new HashMap<>();
-            orderDetails.put(Constants.DB_CUSTOMER_NAME, name);
-            orderDetails.put(Constants.DB_CUSTOMER_PHONE, phone);
-            orderDetails.put(Constants.DB_COMMENTS, comments);
-            orderDetails.put(Constants.DB_ADDRESS, address);
-
-            presenter.placeOrder(orderDetails);
+            presenter.placeOrder(new Order(name, phone, 0, 0, address, comments));
         }
     }
 
@@ -159,9 +153,9 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
         tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
         btnLogIn.setVisibility(View.GONE);
 
-        etName.setText(defaults.get(Constants.DEF_NAME));
-        etPhoneNumber.setText(defaults.get(Constants.DEF_PHONE));
-        etDeliveryAddress.setText(defaults.get(Constants.DEF_ADDRESS));
+        etName.setText(defaults.get(Constants.INSTANCE.getDEF_NAME()));
+        etPhoneNumber.setText(defaults.get(Constants.INSTANCE.getDEF_PHONE()));
+        etDeliveryAddress.setText(defaults.get(Constants.INSTANCE.getDEF_ADDRESS()));
     }
 
     @Override
