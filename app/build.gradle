@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'realm-android'
 apply plugin: 'com.jakewharton.butterknife'
@@ -16,6 +18,7 @@ buildscript {
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
 }
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -60,26 +63,33 @@ dependencies {
         transitive = true;
     }
     testCompile 'junit:junit:4.12'
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
     //Android libraries
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:cardview-v7:25.3.1'
+
     //Firebase libraries
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-crash:10.2.0'
     compile 'com.google.firebase:firebase-database:10.2.0'
     compile 'com.google.firebase:firebase-auth:10.2.0'
     compile 'com.google.firebase:firebase-messaging:10.2.0'
+
     //Dagger
     compile 'com.google.dagger:dagger:2.11-rc1'
+    kapt 'com.google.dagger:dagger-compiler:2.11-rc1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11-rc1'
+
     // Other libraries
-    compile 'com.jakewharton:butterknife:8.5.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.timber:timber:4.5.1'
     compile 'com.sothree.slidinguppanel:library:3.3.1'
+    compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }
 
