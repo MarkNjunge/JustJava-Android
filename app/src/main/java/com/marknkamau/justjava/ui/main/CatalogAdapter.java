@@ -1,9 +1,12 @@
 package com.marknkamau.justjava.ui.main;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,8 +71,12 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(mContext, DrinkDetailsActivity.class);
+                ActivityOptionsCompat options = ActivityOptionsCompat.
+                        makeSceneTransitionAnimation((Activity) mContext,
+                                imgDrinkImage,
+                                ViewCompat.getTransitionName(imgDrinkImage));
                 i.putExtra(DRINK_KEY, drink);
-                mContext.startActivity(i);
+                mContext.startActivity(i, options.toBundle());
             }
         });
     }
