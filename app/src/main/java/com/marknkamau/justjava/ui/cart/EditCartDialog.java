@@ -16,7 +16,7 @@ import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.data.DrinksProvider;
-import com.marknkamau.justjava.utils.RealmUtils;
+import com.marknkamau.justjava.data.CartRepositoryImpl;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class EditCartDialog extends DialogFragment {
 
     private int quantity;
     private CartItem item;
-    private RealmUtils realmUtils;
+    private CartRepositoryImpl cartRepositoryImpl;
     private static final int PADDING = 24;
     private CartAdapter.CartAdapterListener cartResponse = null;
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
@@ -64,7 +64,7 @@ public class EditCartDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.edit_fragment, container, false);
         ButterKnife.bind(this, view);
-        realmUtils = new RealmUtils();
+        cartRepositoryImpl = new CartRepositoryImpl();
 
         Bundle args = getArguments();
 
@@ -122,7 +122,7 @@ public class EditCartDialog extends DialogFragment {
                 updateSubtotal();
                 break;
             case R.id.img_delete:
-                realmUtils.deleteSingleItem(item);
+                cartRepositoryImpl.deleteSingleItem(item);
                 cartResponse.updateList();
                 dismiss();
                 break;
@@ -134,7 +134,7 @@ public class EditCartDialog extends DialogFragment {
     }
 
     private void saveChanges() {
-        realmUtils.saveEdit(new CartItem(item.getItemID(),
+        cartRepositoryImpl.saveEdit(new CartItem(item.getItemID(),
                 item.getItemName(),
                 String.valueOf(quantity),
                 String.valueOf(withCinnamon),

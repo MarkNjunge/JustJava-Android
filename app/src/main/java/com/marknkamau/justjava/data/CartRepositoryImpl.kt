@@ -1,21 +1,24 @@
-package com.marknkamau.justjava.utils
+package com.marknkamau.justjava.data
 
 import com.marknkamau.justjava.models.CartItem
 
 import io.realm.Realm
 import io.realm.RealmResults
-import timber.log.Timber
 
-class RealmUtils {
+class CartRepositoryImpl : CartRepository {
     private val realm: Realm = Realm.getDefaultInstance()
     private lateinit var allCartItems: RealmResults<CartItem>
 
-    fun getAllCartItems(): RealmResults<CartItem> {
+    override fun getAllCartItems(): RealmResults<CartItem> {
         realm.executeTransaction { realm -> allCartItems = realm.where(CartItem::class.java).findAll() }
         return allCartItems
     }
 
-    fun saveNewItem(cartItem: CartItem) {
+    override fun getTotalPrice(): Int {
+        return realm.where(CartItem::class.java).sum("itemPrice").toInt()
+    }
+
+    override fun saveNewItem(cartItem: CartItem) {
         realm.executeTransaction { realm ->
             val current = realm.where(CartItem::class.java).max("itemID")
             val nextID: Int
@@ -30,18 +33,15 @@ class RealmUtils {
         }
     }
 
-    fun deleteAllItems() {
+    override fun deleteAllItems() {
         realm.executeTransaction { realm -> realm.deleteAll() }
     }
 
-    val totalPrice: Int
-        get() = realm.where(CartItem::class.java).sum("itemPrice").toInt()
-
-    fun deleteSingleItem(item: CartItem) {
+    override fun deleteSingleItem(item: CartItem) {
         realm.executeTransaction { item.deleteFromRealm() }
     }
 
-    fun saveEdit(item: CartItem) {
+    override fun saveEdit(item: CartItem) {
         realm.executeTransaction { realm -> realm.copyToRealmOrUpdate(item) }
     }
 

@@ -5,7 +5,7 @@ import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
-import com.marknkamau.justjava.utils.RealmUtils
+import com.marknkamau.justjava.data.CartRepositoryImpl
 
 internal class CheckoutPresenter(private val activityView: CheckoutView, private val preferences: PreferencesRepository) {
 
@@ -34,11 +34,11 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, private
 
     fun placeOrder(order: Order) {
         activityView.showUploadBar()
-        val realmUtils = RealmUtils()
+        val realmUtils = CartRepositoryImpl()
 
         val cartItems = realmUtils.getAllCartItems()
         val itemsCount = cartItems.size
-        val totalPrice = realmUtils.totalPrice
+        val totalPrice = realmUtils.getTotalPrice()
 
         order.itemsCount = itemsCount
         order.totalPrice = totalPrice

@@ -4,12 +4,12 @@ import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.utils.RealmUtils
+import com.marknkamau.justjava.data.CartRepositoryImpl
 
 internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView, private val preferences: PreferencesRepository) {
 
     fun addToCart(cartItem: CartItem) {
-        RealmUtils().saveNewItem(cartItem)
+        CartRepositoryImpl().saveNewItem(cartItem)
         activityView.displayMessage("Item added to cart")
         activityView.finishActivity()
     }

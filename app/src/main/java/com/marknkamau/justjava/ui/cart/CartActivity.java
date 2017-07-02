@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
+import com.marknkamau.justjava.data.CartRepositoryImpl;
 import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity;
@@ -68,7 +69,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new CartPresenter(this, preferencesRepository);
+        presenter = new CartPresenter(this, preferencesRepository, new CartRepositoryImpl());
         presenter.loadItems();
     }
 
