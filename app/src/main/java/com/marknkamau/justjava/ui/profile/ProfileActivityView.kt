@@ -1,9 +1,10 @@
 package com.marknkamau.justjava.ui.profile
 
 import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.UserDefaults
 
 internal interface ProfileActivityView {
-    fun displayUserDefaults(defaults: Map<String, String>)
+    fun displayUserDefaults(userDefaults: UserDefaults)
     fun showProgressBar()
     fun hideProgressBar()
     fun displayNoPreviousOrders()

@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.main.CatalogAdapter;
 import com.marknkamau.justjava.ui.login.LogInActivity;
@@ -75,7 +76,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     private DrinkDetailsActivityPresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PreferencesRepository preferencesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new DrinkDetailsActivityPresenter(this, sharedPreferences);
+        presenter = new DrinkDetailsActivityPresenter(this, preferencesRepository);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

@@ -1,18 +1,13 @@
 package com.marknkamau.justjava.ui.checkout
 
-import android.content.SharedPreferences
+import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.ui.signup.SignUpActivity
-import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.utils.Constants
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 import com.marknkamau.justjava.utils.RealmUtils
 
-import java.util.HashMap
-
-internal class CheckoutActivityPresenter(private val activityView: CheckoutActivityView, private val sharedPreferences: SharedPreferences) {
+internal class CheckoutActivityPresenter(private val activityView: CheckoutActivityView, private val preferences: PreferencesRepository) {
 
     init {
         updateLoggedInStatus()
@@ -27,10 +22,7 @@ internal class CheckoutActivityPresenter(private val activityView: CheckoutActiv
 
     fun updateLoggedInStatus() {
         if (FirebaseAuthUtils.currentUser != null) {
-            val defaults = HashMap<String, String>()
-            defaults.put(Constants.DEF_NAME, sharedPreferences.getString(SignUpActivity.DEF_NAME, ""))
-            defaults.put(Constants.DEF_PHONE, sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""))
-            defaults.put(Constants.DEF_ADDRESS, sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""))
+            val defaults = preferences.getDefaults()
             activityView.setDisplayToLoggedIn(FirebaseAuthUtils.currentUser!!, defaults)
             activityView.setLoggedInStatus(true)
         } else {

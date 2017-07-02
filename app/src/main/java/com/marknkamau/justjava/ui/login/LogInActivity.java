@@ -2,7 +2,6 @@ package com.marknkamau.justjava.ui.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -16,6 +15,7 @@ import android.widget.Toast;
 
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.signup.SignUpActivity;
 
 import javax.inject.Inject;
@@ -45,7 +45,7 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
     private LogInActivityPresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PreferencesRepository preferencesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
         ButterKnife.bind(this);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new LogInActivityPresenter(this, sharedPreferences);
+        presenter = new LogInActivityPresenter(this, preferencesRepository);
         presenter.checkSignInStatus();
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 
 import com.marknkamau.justjava.dagger.AppComponent
 import com.marknkamau.justjava.dagger.DaggerAppComponent
+import com.marknkamau.justjava.dagger.PreferencesRepositoryModule
 import com.marknkamau.justjava.dagger.SharedPreferencesModule
 
 import io.realm.Realm
@@ -19,11 +20,11 @@ class JustJavaApp : Application() {
 
         Timber.plant(object : Timber.DebugTree() {
             override fun createStackElementTag(element: StackTraceElement): String {
-                return "Timber " + super.createStackElementTag(element) + "." + element.methodName
+                return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
             }
         })
 
-        appComponent = DaggerAppComponent.builder().sharedPreferencesModule(SharedPreferencesModule(this)).build()
+        appComponent = DaggerAppComponent.builder().preferencesRepositoryModule(PreferencesRepositoryModule(this)).sharedPreferencesModule(SharedPreferencesModule(this)).build()
     }
 
 }

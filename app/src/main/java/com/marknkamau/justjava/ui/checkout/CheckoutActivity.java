@@ -2,7 +2,6 @@ package com.marknkamau.justjava.ui.checkout;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -23,7 +22,9 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.models.Order;
+import com.marknkamau.justjava.models.UserDefaults;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.ui.main.MainActivity;
@@ -64,7 +65,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
     private boolean userIsLoggedIn;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PreferencesRepository preferencesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new CheckoutActivityPresenter(this,sharedPreferences);
+        presenter = new CheckoutActivityPresenter(this, preferencesRepository);
     }
 
     @Override
@@ -140,22 +141,22 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
 
     @Override
     public void setLoggedInStatus(Boolean status) {
-        userIsLoggedIn  = status;
+        userIsLoggedIn = status;
+    }
+
+    @Override
+    public void setDisplayToLoggedIn(FirebaseUser user, UserDefaults userDefaults) {
+        tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
+        btnLogIn.setVisibility(View.GONE);
+
+        etName.setText(userDefaults.getName());
+        etPhoneNumber.setText(userDefaults.getPhone());
+        etDeliveryAddress.setText(userDefaults.getDefaultAddress());
     }
 
     @Override
     public void invalidateMenu() {
         invalidateOptionsMenu();
-    }
-
-    @Override
-    public void setDisplayToLoggedIn(FirebaseUser user, Map<String, String> defaults) {
-        tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
-        btnLogIn.setVisibility(View.GONE);
-
-        etName.setText(defaults.get(Constants.INSTANCE.getDEF_NAME()));
-        etPhoneNumber.setText(defaults.get(Constants.INSTANCE.getDEF_PHONE()));
-        etDeliveryAddress.setText(defaults.get(Constants.INSTANCE.getDEF_ADDRESS()));
     }
 
     @Override

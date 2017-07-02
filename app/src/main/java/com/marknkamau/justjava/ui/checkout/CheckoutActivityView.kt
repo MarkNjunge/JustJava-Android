@@ -1,11 +1,12 @@
 package com.marknkamau.justjava.ui.checkout
 
 import com.google.firebase.auth.FirebaseUser
+import com.marknkamau.justjava.models.UserDefaults
 
 interface CheckoutActivityView {
     fun setLoggedInStatus(status: Boolean?)
     fun invalidateMenu()
-    fun setDisplayToLoggedIn(user: FirebaseUser, defaults: Map<String, String>)
+    fun setDisplayToLoggedIn(user: FirebaseUser, userDefaults: UserDefaults)
     fun setDisplayToLoggedOut()
     fun showUploadBar()
     fun hideUploadBar()

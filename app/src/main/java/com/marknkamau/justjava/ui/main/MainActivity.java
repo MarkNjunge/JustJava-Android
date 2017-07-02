@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.BuildConfig;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private MainActivityPresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PreferencesRepository preferencesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new MainActivityPresenter(this, sharedPreferences);
+        presenter = new MainActivityPresenter(this, preferencesRepository);
         presenter.getCatalogItems();
     }
 

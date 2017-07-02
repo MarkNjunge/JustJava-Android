@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
-import com.marknkamau.justjava.models.DataProvider;
+import com.marknkamau.justjava.data.DrinksProvider;
 import com.marknkamau.justjava.utils.RealmUtils;
 
 import java.util.List;
@@ -173,7 +173,7 @@ public class EditCartDialog extends DialogFragment {
 
     @SuppressLint("SetTextI18n")
     private int updateSubtotal() {
-        List<CoffeeDrink> drinks = DataProvider.INSTANCE.getDrinksList();
+        List<CoffeeDrink> drinks = DrinksProvider.INSTANCE.getDrinksList();
 
         int base = 0;
         for (CoffeeDrink drink : drinks) {

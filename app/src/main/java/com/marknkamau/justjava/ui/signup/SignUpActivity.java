@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 
 import java.util.regex.Matcher;
@@ -60,15 +61,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
     private boolean passVisible = false;
     private boolean passRptVisible = false;
     private ProgressDialog progressDialog;
-
-    public static final String DEF_NAME = "defaultName";
-    public static final String DEF_PHONE = "defaultPhoneNumber";
-    public static final String DEF_ADDRESS = "defaultDeliveryAddress";
-
     private SignUpActivityPresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
+    PreferencesRepository preferencesRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
         ButterKnife.bind(this);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new SignUpActivityPresenter(this, sharedPreferences);
+        presenter = new SignUpActivityPresenter(this, preferencesRepository);
 
     }
 

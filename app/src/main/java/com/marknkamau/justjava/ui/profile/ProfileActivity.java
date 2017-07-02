@@ -21,14 +21,14 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.PreferencesRepository;
+import com.marknkamau.justjava.models.UserDefaults;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.models.PreviousOrder;
-import com.marknkamau.justjava.utils.Constants;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -62,6 +62,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
     @Inject
     SharedPreferences sharedPreferences;
 
+    @Inject
+    PreferencesRepository preferencesRepository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
         rvPreviousOrders.addItemDecoration(itemDecoration);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new ProfileActivityPresenter(this, sharedPreferences);
+        presenter = new ProfileActivityPresenter(this, preferencesRepository);
 
     }
 
@@ -128,14 +131,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
                 saveChanges();
                 break;
         }
-    }
-
-
-    @Override
-    public void displayUserDefaults(Map<String, String> defaults) {
-        etName.setText(defaults.get(Constants.INSTANCE.getDEF_NAME()));
-        etPhoneNumber.setText(defaults.get(Constants.INSTANCE.getDEF_PHONE()));
-        etDeliveryAddress.setText(defaults.get(Constants.INSTANCE.getDEF_ADDRESS()));
     }
 
     @Override
@@ -183,4 +178,10 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
         return true;
     }
 
+    @Override
+    public void displayUserDefaults(UserDefaults userDefaults) {
+        etName.setText(userDefaults.getName());
+        etPhoneNumber.setText(userDefaults.getPhone());
+        etDeliveryAddress.setText(userDefaults.getDefaultAddress());
+    }
 }

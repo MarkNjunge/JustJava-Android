@@ -10,7 +10,7 @@ import com.marknkamau.justjava.ui.signup.SignUpActivity
 
 import dagger.Component
 
-@Component(modules = arrayOf(SharedPreferencesModule::class))
+@Component(modules = arrayOf(SharedPreferencesModule::class, PreferencesRepositoryModule::class))
 interface AppComponent {
     fun inject(logInActivity: LogInActivity)
     fun inject(profileActivity: ProfileActivity)
@@ -18,5 +18,5 @@ interface AppComponent {
     fun inject(cartActivity: CartActivity)
     fun inject(drinkDetailsActivity: DrinkDetailsActivity)
     fun inject(mainActivity: MainActivity)
-    fun inject(signUpActivity: CheckoutActivity)
+    fun inject(checkoutActivity: CheckoutActivity)
 }

@@ -1,12 +1,11 @@
 package com.marknkamau.justjava.ui.cart
 
-import android.content.SharedPreferences
+import com.marknkamau.justjava.data.PreferencesRepository
 
-import com.marknkamau.justjava.utils.Constants
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.RealmUtils
 
-internal class CartActivityPresenter(private val activityView: CartActivityView, private val sharedPreferences: SharedPreferences) {
+internal class CartActivityPresenter(private val activityView: CartActivityView, private val preferences: PreferencesRepository) {
     private val realmUtils: RealmUtils = RealmUtils()
 
     fun loadItems() {
@@ -28,11 +27,7 @@ internal class CartActivityPresenter(private val activityView: CartActivityView,
 
     fun logUserOut() {
         FirebaseAuthUtils.logOut()
-        val editor = sharedPreferences.edit()
-        editor.remove(Constants.DEF_NAME)
-        editor.remove(Constants.DEF_PHONE)
-        editor.remove(Constants.DEF_ADDRESS)
-        editor.apply()
+        preferences.clearDefaults()
     }
 }
 

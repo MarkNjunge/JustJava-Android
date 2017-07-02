@@ -1,14 +1,13 @@
 package com.marknkamau.justjava.ui.signup
 
-import android.content.SharedPreferences
 import android.os.Handler
+import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.utils.Constants
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-internal class SignUpActivityPresenter(private val activityView: SignUpActivityView, private val sharedPreferences: SharedPreferences) {
+internal class SignUpActivityPresenter(private val activityView: SignUpActivityView, private val preferences: PreferencesRepository) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
         activityView.disableUserInteraction()
@@ -44,7 +43,7 @@ internal class SignUpActivityPresenter(private val activityView: SignUpActivityV
                 FirebaseDBUtil.setUserDefaults(UserDefaults(name, phone, address), object : FirebaseDBUtil.UploadListener {
                     override fun taskSuccessful() {
                         activityView.enableUserInteraction()
-                        saveToSharedPreferences(name, phone, address)
+                        preferences.saveDefaults(UserDefaults(name, phone, address))
                         activityView.displayMessage("Sign up successfully")
                         Handler().postDelayed({ activityView.finishActivity() }, 500)
 
@@ -63,14 +62,5 @@ internal class SignUpActivityPresenter(private val activityView: SignUpActivityV
                 activityView.displayMessage(response)
             }
         })
-    }
-
-    private fun saveToSharedPreferences(name: String, phone: String, address: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(Constants.DEF_NAME, name)
-        editor.putString(Constants.DEF_PHONE, phone)
-        editor.putString(Constants.DEF_ADDRESS, address)
-
-        editor.apply()
     }
 }

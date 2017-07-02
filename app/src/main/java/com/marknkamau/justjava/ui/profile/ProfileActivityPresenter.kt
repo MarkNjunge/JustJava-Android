@@ -1,17 +1,13 @@
 package com.marknkamau.justjava.ui.profile
 
-import android.content.SharedPreferences
+import com.marknkamau.justjava.data.PreferencesRepository
 
-import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.utils.Constants
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-import java.util.HashMap
-
-internal class ProfileActivityPresenter(private val activityView: ProfileActivityView, private val sharedPreferences: SharedPreferences) {
+internal class ProfileActivityPresenter(private val activityView: ProfileActivityView, private val preferencesRepository: PreferencesRepository) {
 
     init {
         getUserDefaults()
@@ -19,12 +15,7 @@ internal class ProfileActivityPresenter(private val activityView: ProfileActivit
     }
 
     private fun getUserDefaults() {
-        val defaults = HashMap<String, String>()
-        defaults.put(Constants.DEF_NAME, sharedPreferences.getString(SignUpActivity.DEF_NAME, ""))
-        defaults.put(Constants.DEF_PHONE, sharedPreferences.getString(SignUpActivity.DEF_PHONE, ""))
-        defaults.put(Constants.DEF_ADDRESS, sharedPreferences.getString(SignUpActivity.DEF_ADDRESS, ""))
-
-        activityView.displayUserDefaults(defaults)
+        activityView.displayUserDefaults(preferencesRepository.getDefaults())
     }
 
     private fun getPreviousOrders() {
@@ -49,7 +40,7 @@ internal class ProfileActivityPresenter(private val activityView: ProfileActivit
             override fun actionSuccessful(response: String) {
                 FirebaseDBUtil.setUserDefaults(UserDefaults(name, phone, address), object : FirebaseDBUtil.UploadListener {
                     override fun taskSuccessful() {
-                        saveToSharedPreferences(name, phone, address)
+                        preferencesRepository.saveDefaults(UserDefaults(name, phone, address))
                         activityView.hideProgressBar()
                         activityView.displayMessage("Default values updated")
                     }
@@ -67,21 +58,8 @@ internal class ProfileActivityPresenter(private val activityView: ProfileActivit
         })
     }
 
-    private fun saveToSharedPreferences(name: String, phone: String, address: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(Constants.DEF_NAME, name)
-        editor.putString(Constants.DEF_PHONE, phone)
-        editor.putString(Constants.DEF_ADDRESS, address)
-
-        editor.apply()
-    }
-
     fun logUserOut() {
         FirebaseAuthUtils.logOut()
-        val editor = sharedPreferences.edit()
-        editor.remove(Constants.DEF_NAME)
-        editor.remove(Constants.DEF_PHONE)
-        editor.remove(Constants.DEF_ADDRESS)
-        editor.apply()
+        preferencesRepository.clearDefaults()
     }
 }

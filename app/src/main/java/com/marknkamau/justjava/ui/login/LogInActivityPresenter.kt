@@ -1,13 +1,13 @@
 package com.marknkamau.justjava.ui.login
 
-import android.content.SharedPreferences
 import android.os.Handler
+import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.models.UserDefaults
 
-import com.marknkamau.justjava.utils.Constants
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-internal class LogInActivityPresenter(private val activityView: LogInActivityView, private val sharedPreferences: SharedPreferences) {
+internal class LogInActivityPresenter(private val activityView: LogInActivityView, private val preferences: PreferencesRepository) {
 
     fun checkSignInStatus() {
         if (FirebaseAuthUtils.currentUser != null) {
@@ -31,7 +31,7 @@ internal class LogInActivityPresenter(private val activityView: LogInActivityVie
     private fun getUserDefaults() {
         FirebaseDBUtil.getUserDefaults(object : FirebaseDBUtil.UserDetailsListener {
             override fun taskSuccessful(name: String, phone: String, deliveryAddress: String) {
-                saveToSharedPreferences(name, phone, deliveryAddress)
+                preferences.saveDefaults(UserDefaults(name, phone, deliveryAddress))
                 activityView.dismissDialog()
                 activityView.displayMessage("Sign in successful")
                 Handler().postDelayed({ activityView.finishSignUp() }, 500)
@@ -53,14 +53,5 @@ internal class LogInActivityPresenter(private val activityView: LogInActivityVie
                 activityView.displayMessage(response)
             }
         })
-    }
-
-    private fun saveToSharedPreferences(name: String, phone: String, address: String) {
-        val editor = sharedPreferences.edit()
-        editor.putString(Constants.DEF_NAME, name)
-        editor.putString(Constants.DEF_PHONE, phone)
-        editor.putString(Constants.DEF_ADDRESS, address)
-
-        editor.apply()
     }
 }
