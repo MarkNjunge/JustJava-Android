@@ -173,7 +173,7 @@ public class EditCartDialog extends DialogFragment {
 
     @SuppressLint("SetTextI18n")
     private int updateSubtotal() {
-        List<CoffeeDrink> drinks = DataProvider.drinksList;
+        List<CoffeeDrink> drinks = DataProvider.INSTANCE.getDrinksList();
 
         int base = 0;
         for (CoffeeDrink drink : drinks) {
