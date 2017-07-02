@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.checkout
 import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.models.UserDefaults
 
-interface CheckoutActivityView {
+interface CheckoutView {
     fun setLoggedInStatus(status: Boolean?)
     fun invalidateMenu()
     fun setDisplayToLoggedIn(user: FirebaseUser, userDefaults: UserDefaults)

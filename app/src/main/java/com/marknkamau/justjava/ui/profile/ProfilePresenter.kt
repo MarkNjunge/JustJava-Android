@@ -7,7 +7,7 @@ import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-internal class ProfileActivityPresenter(private val activityView: ProfileActivityView, private val preferencesRepository: PreferencesRepository) {
+internal class ProfilePresenter(private val activityView: ProfileView, private val preferencesRepository: PreferencesRepository) {
 
     init {
         getUserDefaults()

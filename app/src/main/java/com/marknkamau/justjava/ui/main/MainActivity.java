@@ -1,7 +1,6 @@
 package com.marknkamau.justjava.ui.main;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, MainActivityView {
+public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, MainView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
-    private MainActivityPresenter presenter;
+    private MainPresenter presenter;
 
     @Inject
     PreferencesRepository preferencesRepository;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new MainActivityPresenter(this, preferencesRepository);
+        presenter = new MainPresenter(this, preferencesRepository);
         presenter.getCatalogItems();
     }
 

@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ProfileActivity extends AppCompatActivity implements ProfileActivityView {
+public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
 
     private FirebaseUser user;
     private String name, phone, address;
-    private ProfileActivityPresenter presenter;
+    private ProfilePresenter presenter;
 
     @Inject
     SharedPreferences sharedPreferences;
@@ -88,7 +88,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileActivit
         rvPreviousOrders.addItemDecoration(itemDecoration);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new ProfileActivityPresenter(this, preferencesRepository);
+        presenter = new ProfilePresenter(this, preferencesRepository);
 
     }
 

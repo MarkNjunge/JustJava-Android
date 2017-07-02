@@ -6,7 +6,7 @@ import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.RealmUtils
 
-internal class DrinkDetailsActivityPresenter(private val activityView: DrinkDetailsActivityView, private val preferences: PreferencesRepository) {
+internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView, private val preferences: PreferencesRepository) {
 
     fun addToCart(cartItem: CartItem) {
         RealmUtils().saveNewItem(cartItem)

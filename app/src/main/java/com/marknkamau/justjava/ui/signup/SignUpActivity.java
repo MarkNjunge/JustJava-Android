@@ -2,7 +2,6 @@ package com.marknkamau.justjava.ui.signup;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -30,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpActivityView {
+public class SignUpActivity extends AppCompatActivity implements SignUpView {
 
     @BindView(R.id.et_email_address)
     EditText etEmailAddress;
@@ -61,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
     private boolean passVisible = false;
     private boolean passRptVisible = false;
     private ProgressDialog progressDialog;
-    private SignUpActivityPresenter presenter;
+    private SignUpPresenter presenter;
 
     @Inject
     PreferencesRepository preferencesRepository;
@@ -73,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpActivityV
         ButterKnife.bind(this);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new SignUpActivityPresenter(this, preferencesRepository);
+        presenter = new SignUpPresenter(this, preferencesRepository);
 
     }
 

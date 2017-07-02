@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.login
 
-interface LogInActivityView {
+interface LogInView {
     fun closeActivity()
     fun signIn()
     fun resetUserPassword()

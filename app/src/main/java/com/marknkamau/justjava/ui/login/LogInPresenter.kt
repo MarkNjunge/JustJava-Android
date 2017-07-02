@@ -7,7 +7,7 @@ import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-internal class LogInActivityPresenter(private val activityView: LogInActivityView, private val preferences: PreferencesRepository) {
+internal class LogInPresenter(private val activityView: LogInView, private val preferences: PreferencesRepository) {
 
     fun checkSignInStatus() {
         if (FirebaseAuthUtils.currentUser != null) {

@@ -29,9 +29,6 @@ import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.ui.main.MainActivity;
 import com.marknkamau.justjava.ui.profile.ProfileActivity;
-import com.marknkamau.justjava.utils.Constants;
-
-import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -39,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CheckoutActivity extends AppCompatActivity implements CheckoutActivityView {
+public class CheckoutActivity extends AppCompatActivity implements CheckoutView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -61,7 +58,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
     TextView tvOr;
 
     private String name, phone, address, comments;
-    private CheckoutActivityPresenter presenter;
+    private CheckoutPresenter presenter;
     private boolean userIsLoggedIn;
 
     @Inject
@@ -78,7 +75,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutActiv
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new CheckoutActivityPresenter(this, preferencesRepository);
+        presenter = new CheckoutPresenter(this, preferencesRepository);
     }
 
     @Override

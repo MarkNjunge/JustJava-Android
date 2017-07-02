@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LogInActivity extends AppCompatActivity implements LogInActivityView {
+public class LogInActivity extends AppCompatActivity implements LogInView {
 
     @BindView(R.id.et_email)
     EditText etEmail;
@@ -42,7 +42,7 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
     private String email;
     private boolean passVisible = false;
     private ProgressDialog progressDialog;
-    private LogInActivityPresenter presenter;
+    private LogInPresenter presenter;
 
     @Inject
     PreferencesRepository preferencesRepository;
@@ -54,7 +54,7 @@ public class LogInActivity extends AppCompatActivity implements LogInActivityVie
         ButterKnife.bind(this);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new LogInActivityPresenter(this, preferencesRepository);
+        presenter = new LogInPresenter(this, preferencesRepository);
         presenter.checkSignInStatus();
     }
 

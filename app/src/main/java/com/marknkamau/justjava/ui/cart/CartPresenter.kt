@@ -5,7 +5,7 @@ import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.RealmUtils
 
-internal class CartActivityPresenter(private val activityView: CartActivityView, private val preferences: PreferencesRepository) {
+internal class CartPresenter(private val activityView: CartView, private val preferences: PreferencesRepository) {
     private val realmUtils: RealmUtils = RealmUtils()
 
     fun loadItems() {

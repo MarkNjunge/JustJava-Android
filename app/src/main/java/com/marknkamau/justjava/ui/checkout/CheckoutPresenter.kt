@@ -7,7 +7,7 @@ import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 import com.marknkamau.justjava.utils.RealmUtils
 
-internal class CheckoutActivityPresenter(private val activityView: CheckoutActivityView, private val preferences: PreferencesRepository) {
+internal class CheckoutPresenter(private val activityView: CheckoutView, private val preferences: PreferencesRepository) {
 
     init {
         updateLoggedInStatus()

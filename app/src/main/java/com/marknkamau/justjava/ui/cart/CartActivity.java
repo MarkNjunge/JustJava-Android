@@ -1,7 +1,6 @@
 package com.marknkamau.justjava.ui.cart;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CartActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, CartActivityView {
+public class CartActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, CartView {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.btn_clear_cart)
@@ -50,7 +49,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private CartActivityPresenter presenter;
+    private CartPresenter presenter;
 
     @Inject
     PreferencesRepository preferencesRepository;
@@ -69,7 +68,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new CartActivityPresenter(this, preferencesRepository);
+        presenter = new CartPresenter(this, preferencesRepository);
         presenter.loadItems();
     }
 

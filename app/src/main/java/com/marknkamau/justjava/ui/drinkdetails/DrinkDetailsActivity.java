@@ -2,7 +2,6 @@ package com.marknkamau.justjava.ui.drinkdetails;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -23,8 +22,8 @@ import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.ui.about.AboutActivity;
-import com.marknkamau.justjava.ui.main.CatalogAdapter;
 import com.marknkamau.justjava.ui.login.LogInActivity;
+import com.marknkamau.justjava.ui.main.CatalogAdapter;
 import com.marknkamau.justjava.ui.profile.ProfileActivity;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
@@ -36,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrinkDetailsActivityView {
+public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrinkDetailsView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -73,7 +72,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-    private DrinkDetailsActivityPresenter presenter;
+    private DrinkDetailsPresenter presenter;
 
     @Inject
     PreferencesRepository preferencesRepository;
@@ -89,7 +88,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new DrinkDetailsActivityPresenter(this, preferencesRepository);
+        presenter = new DrinkDetailsPresenter(this, preferencesRepository);
 
         firebaseAuth = FirebaseAuth.getInstance();
 

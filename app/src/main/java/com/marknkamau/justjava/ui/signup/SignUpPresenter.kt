@@ -7,7 +7,7 @@ import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.utils.FirebaseAuthUtils
 import com.marknkamau.justjava.utils.FirebaseDBUtil
 
-internal class SignUpActivityPresenter(private val activityView: SignUpActivityView, private val preferences: PreferencesRepository) {
+internal class SignUpPresenter(private val activityView: SignUpView, private val preferences: PreferencesRepository) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
         activityView.disableUserInteraction()
