@@ -64,9 +64,6 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     private ProfilePresenter presenter;
 
     @Inject
-    SharedPreferences sharedPreferences;
-
-    @Inject
     PreferencesRepository preferencesRepository;
 
     @Override
