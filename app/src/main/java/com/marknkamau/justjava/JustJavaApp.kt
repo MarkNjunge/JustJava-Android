@@ -5,7 +5,6 @@ import android.app.Application
 import com.marknkamau.justjava.dagger.AppComponent
 import com.marknkamau.justjava.dagger.DaggerAppComponent
 import com.marknkamau.justjava.dagger.PreferencesRepositoryModule
-import com.marknkamau.justjava.dagger.SharedPreferencesModule
 
 import io.realm.Realm
 import timber.log.Timber
@@ -24,7 +23,7 @@ class JustJavaApp : Application() {
             }
         })
 
-        appComponent = DaggerAppComponent.builder().preferencesRepositoryModule(PreferencesRepositoryModule(this)).sharedPreferencesModule(SharedPreferencesModule(this)).build()
+        appComponent = DaggerAppComponent.builder().preferencesRepositoryModule(PreferencesRepositoryModule(this)).build()
     }
 
 }

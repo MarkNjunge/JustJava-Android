@@ -10,7 +10,7 @@ import com.marknkamau.justjava.ui.signup.SignUpActivity
 
 import dagger.Component
 
-@Component(modules = arrayOf(SharedPreferencesModule::class, PreferencesRepositoryModule::class))
+@Component(modules = arrayOf(PreferencesRepositoryModule::class))
 interface AppComponent {
     fun inject(logInActivity: LogInActivity)
     fun inject(profileActivity: ProfileActivity)
