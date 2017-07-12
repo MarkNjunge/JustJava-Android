@@ -1,7 +1,8 @@
 package com.marknkamau.justjava.network
 
-interface AuthenticationService{
+interface AuthenticationService {
     fun logOut()
+
     fun signIn(email: String, password: String, listener: AuthActionListener)
 
     fun sendPasswordResetEmail(email: String, listener: AuthActionListener)
@@ -10,8 +11,12 @@ interface AuthenticationService{
 
     fun setUserDisplayName(name: String, listener: AuthActionListener)
 
+    fun getUserId() : String
+
+    fun isSignedIn() : Boolean
+
     interface AuthActionListener {
-        fun actionSuccessful(response: String)
+        fun actionSuccessful(response: String?)
 
         fun actionFailed(response: String?)
     }

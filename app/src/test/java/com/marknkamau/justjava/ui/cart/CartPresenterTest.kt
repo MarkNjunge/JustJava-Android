@@ -18,7 +18,7 @@ class CartPresenterTest {
 
         mockCart = Mockito.mock(CartRepository::class.java)
 
-        val cartPresenter: CartPresenter = CartPresenter(mockView, MockPreferencesRepository(), mockCart)
+        val cartPresenter: CartPresenter = CartPresenter(mockView, MockPreferencesRepository, mockCart)
         cartPresenter.loadItems()
     }
 

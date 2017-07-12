@@ -15,7 +15,7 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
         activityView.disableUserInteraction()
 
         AuthenticationServiceImpl.createUser(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 signInUser(email, password, name, phone, address)
             }
 
@@ -28,7 +28,7 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
 
     private fun signInUser(email: String, password: String, name: String, phone: String, address: String) {
         AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 setUserDisplayName(name, phone, address)
             }
 
@@ -41,7 +41,7 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
 
     private fun setUserDisplayName(name: String, phone: String, address: String) {
         AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
                     override fun taskSuccessful() {
                         activityView.enableUserInteraction()

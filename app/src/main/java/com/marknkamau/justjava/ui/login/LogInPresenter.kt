@@ -20,7 +20,7 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
     fun signIn(email: String, password: String) {
         activityView.showDialog()
         AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 getUserDefaults()
             }
 
@@ -47,7 +47,7 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
 
     fun resetUserPassword(email: String) {
         AuthenticationServiceImpl.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 activityView.displayMessage(response)
             }
 

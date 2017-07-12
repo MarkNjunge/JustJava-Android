@@ -5,13 +5,16 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 
 object AuthenticationServiceImpl : AuthenticationService {
-    private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
+    private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private var user: FirebaseUser? = firebaseAuth.currentUser
 
     val currentUser: FirebaseUser?
         get() = firebaseAuth.currentUser
 
     override fun logOut() {
         firebaseAuth.signOut()
+        user = firebaseAuth.currentUser
     }
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
@@ -34,9 +37,17 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-        currentUser!!.updateProfile(profileUpdate)
+        user!!.updateProfile(profileUpdate)
                 .addOnSuccessListener { listener.actionSuccessful("User display name set") }
                 .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+    }
+
+    override fun getUserId(): String {
+        return user!!.uid
+    }
+
+    override fun isSignedIn(): Boolean {
+        return user != null
     }
 
 }

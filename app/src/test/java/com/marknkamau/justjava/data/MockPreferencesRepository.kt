@@ -2,7 +2,7 @@ package com.marknkamau.justjava.data
 
 import com.marknkamau.justjava.models.UserDefaults
 
-class MockPreferencesRepository : PreferencesRepository {
+object MockPreferencesRepository : PreferencesRepository {
     override fun saveDefaults(userDefaults: UserDefaults) {
 
     }

@@ -39,7 +39,7 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
     fun updateUserDefaults(name: String, phone: String, address: String) {
         activityView.showProgressBar()
         AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+            override fun actionSuccessful(response: String?) {
                 DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
                     override fun taskSuccessful() {
                         preferencesRepository.saveDefaults(UserDefaults(name, phone, address))

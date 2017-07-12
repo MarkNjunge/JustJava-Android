@@ -1,37 +1,33 @@
 package com.marknkamau.justjava.ui.main
 
-import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.models.CoffeeDrink
-import org.junit.Assert
+import com.marknkamau.justjava.data.MockPreferencesRepository
+import com.marknkamau.justjava.network.MockAuthenticationServiceImpl
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
 class MainActivityPresenterTest {
-    lateinit var mockView: MockView
+    private lateinit var mockView: MainView
 
     @Before
     fun setup() {
-        mockView = MockView()
+        mockView = Mockito.mock(MainView::class.java)
 
-        val mockPreferencesRepo = Mockito.mock(PreferencesRepository::class.java)
+        val presenter = MainPresenter(mockView, MockPreferencesRepository, MockAuthenticationServiceImpl)
 
-        val mockPresenter = MainPresenter(mockView, mockPreferencesRepo)
-
-        mockPresenter.getCatalogItems()
+        presenter.getSignInStatus()
+        presenter.getCatalogItems()
+        presenter.signOut()
     }
 
     @Test
     fun shouldDisplayCatalogItems() {
-        Assert.assertEquals(true, mockView.displayedCatalog)
+        Mockito.verify(mockView).displayCatalog(Mockito.anyList())
     }
 
-    class MockView : MainView {
-        var displayedCatalog = false
-
-        override fun displayCatalog(drinkList: MutableList<CoffeeDrink>) {
-            displayedCatalog = true
-        }
+    @Test
+    fun shouldSetSignInStatus(){
+        Mockito.verify(mockView, Mockito.atLeast(2)).setSignInStatus(Mockito.anyBoolean())
     }
 
 }
