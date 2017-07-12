@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     Toolbar toolbar;
     @BindView(R.id.rv_catalog)
     RecyclerView recyclerView;
-    @BindView(R.id.fab_cart)
-    FloatingActionButton fabCart;
 
     private FirebaseUser user;
     private FirebaseAuth firebaseAuth;
@@ -67,24 +65,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) {
-                    // Scroll Down
-                    if (fabCart.isShown()) {
-                        fabCart.hide();
-                    }
-                } else if (dy < 0) {
-                    // Scroll Up
-                    if (!fabCart.isShown()) {
-                        fabCart.show();
-                    }
-                }
-            }
-        });
-
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
         presenter = new MainPresenter(this, preferencesRepository);
         presenter.getCatalogItems();
@@ -99,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     @Override
     protected void onResume() {
         super.onResume();
-        if (!fabCart.isShown()) {
-            fabCart.show();
-        }
     }
 
     @Override
@@ -124,6 +101,9 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_cart:
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+                return true;
             case R.id.menu_log_in:
                 startActivity(new Intent(this, LogInActivity.class));
                 return true;
@@ -146,11 +126,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         user = FirebaseAuth.getInstance().getCurrentUser();
         invalidateOptionsMenu();
-    }
-
-    @OnClick(R.id.fab_cart)
-    public void onClick() {
-        startActivity(new Intent(MainActivity.this, CartActivity.class));
     }
 
     @Override

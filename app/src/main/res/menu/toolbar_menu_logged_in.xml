@@ -2,12 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_person"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_cart"
+        android:icon="@drawable/ic_cart"
+        android:title="@string/cart"
+        app:showAsAction="ifRoom" />
+
     <group android:id="@+id/group">
         <item
             android:id="@+id/menu_log_out"

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +21,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.data.PreferencesRepository;
+import com.marknkamau.justjava.models.CartItem;
+import com.marknkamau.justjava.models.CoffeeDrink;
 import com.marknkamau.justjava.ui.about.AboutActivity;
+import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.ui.main.CatalogAdapter;
 import com.marknkamau.justjava.ui.profile.ProfileActivity;
-import com.marknkamau.justjava.models.CartItem;
-import com.marknkamau.justjava.models.CoffeeDrink;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -34,6 +35,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import timber.log.Timber;
 
 public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrinkDetailsView {
 
@@ -57,19 +59,17 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     ImageView imgMinusQty;
     @BindView(R.id.img_add_qty)
     ImageView imgAddQty;
-    @BindView(R.id.tv_cinnamon)
-    TextView tvCinnamon;
-    @BindView(R.id.tv_marshmallows)
-    TextView tvMarshmallows;
-    @BindView(R.id.tv_chocolate)
-    TextView tvChocolate;
     @BindView(R.id.btn_add_to_cart)
     Button btnAddToCart;
+    @BindView(R.id.cb_cinnamon)
+    CheckBox cbCinnamon;
+    @BindView(R.id.cb_chocolate)
+    CheckBox cbChocolate;
+    @BindView(R.id.cb_marshmallow)
+    CheckBox cbMarshmallow;
 
     private CoffeeDrink drink;
     private int quantity;
-    private static final int PADDING = 24;
-    private boolean withCinnamon = false, withChocolate = false, withMarshmallow = false;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private DrinkDetailsPresenter presenter;
@@ -124,6 +124,9 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_cart:
+                startActivity(new Intent(DrinkDetailsActivity.this, CartActivity.class));
+                return true;
             case R.id.menu_log_in:
                 startActivity(new Intent(this, LogInActivity.class));
                 return true;
@@ -158,7 +161,7 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         finish();
     }
 
-    @OnClick({R.id.img_minus_qty, R.id.img_add_qty, R.id.tv_cinnamon, R.id.tv_marshmallows, R.id.tv_chocolate, R.id.btn_add_to_cart})
+    @OnClick({R.id.img_minus_qty, R.id.img_add_qty, R.id.btn_add_to_cart, R.id.cb_cinnamon, R.id.cb_chocolate, R.id.cb_marshmallow})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_minus_qty:
@@ -167,28 +170,25 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
             case R.id.img_add_qty:
                 addQty();
                 break;
-            case R.id.tv_cinnamon:
-                switchCinnamon(withCinnamon);
-                updateSubtotal();
-                break;
-            case R.id.tv_chocolate:
-                switchChocolate(withChocolate);
-                updateSubtotal();
-                break;
-            case R.id.tv_marshmallows:
-                switchMarshmallow(withMarshmallow);
-                updateSubtotal();
-                break;
             case R.id.btn_add_to_cart:
                 addToCart();
+                break;
+            case R.id.cb_cinnamon:
+                updateSubtotal();
+                break;
+            case R.id.cb_chocolate:
+                updateSubtotal();
+                break;
+            case R.id.cb_marshmallow:
+                updateSubtotal();
                 break;
         }
     }
 
     private void addToCart() {
-        final String cinnamon = (withCinnamon) ? "true" : "false";
-        final String choc = (withChocolate) ? "true" : "false";
-        final String marshmallow = (withMarshmallow) ? "true" : "false";
+        final String cinnamon = cbCinnamon.isChecked() ? "true" : "false";
+        final String choc = cbChocolate.isChecked() ? "true" : "false";
+        final String marshmallow = cbMarshmallow.isChecked() ? "true" : "false";
         final int total = updateSubtotal();
 
         CartItem item = new CartItem(
@@ -198,10 +198,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
     }
 
     private void initializeViews() {
-        tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING);
-        tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING);
-        tvMarshmallows.setPadding(PADDING, PADDING, PADDING, PADDING);
-
         if (drink != null) {
             tvDrinkName.setText(drink.getDrinkName());
             tvDrinkContents.setText(drink.getDrinkContents());
@@ -229,63 +225,20 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         updateSubtotal();
     }
 
-    private void setToppingOn(TextView textView) {
-        textView.setBackgroundResource(R.drawable.topping_on);
-        textView.setPadding(PADDING, PADDING, PADDING, PADDING);
-        textView.setTextColor(ContextCompat.getColor(this, R.color.colorToppingOnText));
-    }
-
-    private void setToppingOff(TextView textView) {
-        textView.setBackgroundResource(R.drawable.topping_off);
-        textView.setPadding(PADDING, PADDING, PADDING, PADDING);
-        textView.setTextColor(ContextCompat.getColor(this, R.color.colorToppingOffText));
-    }
-
     @SuppressLint("SetTextI18n")
     private int updateSubtotal() {
         int base = Integer.parseInt(drink.getDrinkPrice());
         base = base * quantity;
-        if (withCinnamon) {
+        if (cbCinnamon.isChecked()) {
             base = base + (quantity * 100);
         }
-        if (withChocolate) {
+        if (cbChocolate.isChecked()) {
             base = base + (quantity * 100);
         }
-        if (withMarshmallow) {
+        if (cbMarshmallow.isChecked()) {
             base = base + (quantity * 100);
         }
         tvSubtotal.setText(getResources().getString(R.string.ksh) + base);
         return base;
     }
-
-    private void switchCinnamon(Boolean selected) {
-        if (selected) {
-            setToppingOff(tvCinnamon);
-            withCinnamon = false;
-        } else {
-            setToppingOn(tvCinnamon);
-            withCinnamon = true;
-        }
-    }
-
-    private void switchChocolate(Boolean selected) {
-        if (selected) {
-            setToppingOff(tvChocolate);
-            withChocolate = false;
-        } else {
-            setToppingOn(tvChocolate);
-            withChocolate = true;
-        }
-    }
-
-    private void switchMarshmallow(Boolean selected) {
-        if (selected) {
-            setToppingOff(tvMarshmallows);
-            withMarshmallow = false;
-        } else {
-            setToppingOn(tvMarshmallows);
-            withMarshmallow = true;
-        }
-    }
-
 }

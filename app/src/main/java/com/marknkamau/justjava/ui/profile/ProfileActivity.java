@@ -16,16 +16,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
 import com.marknkamau.justjava.data.PreferencesRepository;
+import com.marknkamau.justjava.models.PreviousOrder;
 import com.marknkamau.justjava.models.UserDefaults;
 import com.marknkamau.justjava.ui.about.AboutActivity;
+import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
-import com.marknkamau.justjava.models.PreviousOrder;
 import com.marknkamau.justjava.utils.FirebaseAuthUtils;
 
 import java.util.List;
@@ -54,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     Button btnSave;
     @BindView(R.id.pb_loading_orders)
     ProgressBar pbLoadingOrders;
+    @BindView(R.id.tv_no_orders)
+    TextView tvNoOrders;
 
     private FirebaseUser user;
     private String name, phone, address;
@@ -106,6 +110,9 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_cart:
+                startActivity(new Intent(ProfileActivity.this, CartActivity.class));
+                return true;
             case R.id.menu_log_in:
                 startActivity(new Intent(this, LogInActivity.class));
                 return true;
@@ -146,6 +153,8 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
     @Override
     public void displayNoPreviousOrders() {
         pbLoadingOrders.setVisibility(View.GONE);
+        tvNoOrders.setVisibility(View.VISIBLE);
+        rvPreviousOrders.setVisibility(View.GONE);
         Toast.makeText(this, "No previous orders", Toast.LENGTH_SHORT).show();
     }
 
@@ -157,11 +166,13 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     @Override
     public void displayMessage(String message) {
+        pbSaving.setVisibility(View.GONE);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void saveChanges() {
         if (fieldsOk()) {
+            pbSaving.setVisibility(View.VISIBLE);
             presenter.updateUserDefaults(name, phone, address);
         }
     }

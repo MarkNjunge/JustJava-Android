@@ -71,12 +71,8 @@ public class CatalogAdapter extends RecyclerView.Adapter<CatalogAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(mContext, DrinkDetailsActivity.class);
-                ActivityOptionsCompat options = ActivityOptionsCompat.
-                        makeSceneTransitionAnimation((Activity) mContext,
-                                imgDrinkImage,
-                                ViewCompat.getTransitionName(imgDrinkImage));
                 i.putExtra(DRINK_KEY, drink);
-                mContext.startActivity(i, options.toBundle());
+                mContext.startActivity(i);
             }
         });
     }

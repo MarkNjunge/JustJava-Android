@@ -9,8 +9,8 @@
     <string name="butter_knife">Butter Knife</string>
     <string name="contains">Contains</string>
     <string name="contents_of_the_drink">Contents of the drink</string>
-    <string name="cinnamon_sprinkles_ksh_xx">+ Cinnamon Sprinkles (Ksh. 100)</string>
-    <string name="chocolate_curls_ksh_xx">+ Chocolate Curls (Ksh. 100)</string>
+    <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 100)</string>
+    <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 100)</string>
     <string name="clear_cart">Clear cart</string>
     <string name="cinnamon">Cinnamon</string>
     <string name="create_an_account">Create an account</string>
@@ -31,7 +31,7 @@
     <string name="log_in">Log in</string>
     <string name="logged_in_as">Logged in as</string>
     <string name="log_out">Log out</string>
-    <string name="mini_marshmallows_ksh_xx">+ Mini marshmallows (Ksh. 100)</string>
+    <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 100)</string>
     <string name="mini_marshmallows">Mini Marshmallows</string>
     <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
     <string name="mark_njung_e_kamau">Mark Njung\'e Kamau</string>
@@ -63,6 +63,7 @@
     <string name="by_jake_wharton">by Jake Wharton</string>
     <string name="by_square">by Square</string>
     <string name="by_umano">by Umano</string>
+    <string name="cart">Cart</string>
 
     <!--Because "Render problem caused by TextInputLayout-->
     <item name="visible" type="id" />

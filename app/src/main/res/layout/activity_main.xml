@@ -42,18 +42,4 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintVertical_bias="1.0" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_cart"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginRight="8dp"
-        android:clickable="true"
-        app:elevation="2dp"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:rippleColor="@color/colorPrimaryDark"
-        app:srcCompat="@drawable/ic_cart" />
 </android.support.constraint.ConstraintLayout>

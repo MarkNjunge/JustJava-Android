@@ -26,6 +26,7 @@ import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.models.Order;
 import com.marknkamau.justjava.models.UserDefaults;
 import com.marknkamau.justjava.ui.about.AboutActivity;
+import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
 import com.marknkamau.justjava.ui.main.MainActivity;
 import com.marknkamau.justjava.ui.profile.ProfileActivity;
@@ -97,6 +98,10 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutView 
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_cart:
+                startActivity(new Intent(CheckoutActivity.this, CartActivity.class));
+                finish();
+                return true;
             case R.id.menu_log_in:
                 startActivity(new Intent(this, LogInActivity.class));
                 return true;
@@ -143,7 +148,7 @@ public class CheckoutActivity extends AppCompatActivity implements CheckoutView 
 
     @Override
     public void setDisplayToLoggedIn(FirebaseUser user, UserDefaults userDefaults) {
-        tvOr.setText(getString(R.string.logged_in_as) + " " + user.getDisplayName());
+        tvOr.setVisibility(View.GONE);
         btnLogIn.setVisibility(View.GONE);
 
         etName.setText(userDefaults.getName());
