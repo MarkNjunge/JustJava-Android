@@ -4,15 +4,17 @@ import android.os.Handler
 import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.utils.FirebaseDBUtil
+import com.marknkamau.justjava.network.AuthenticationService
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.network.DatabaseServiceImpl
 
 internal class SignUpPresenter(private val activityView: SignUpView, private val preferences: PreferencesRepository) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
         activityView.disableUserInteraction()
 
-        FirebaseAuthUtils.createUser(email, password, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.createUser(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 signInUser(email, password, name, phone, address)
             }
@@ -25,7 +27,7 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
     }
 
     private fun signInUser(email: String, password: String, name: String, phone: String, address: String) {
-        FirebaseAuthUtils.signIn(email, password, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 setUserDisplayName(name, phone, address)
             }
@@ -38,9 +40,9 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
     }
 
     private fun setUserDisplayName(name: String, phone: String, address: String) {
-        FirebaseAuthUtils.setUserDisplayName(name, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
-                FirebaseDBUtil.setUserDefaults(UserDefaults(name, phone, address), object : FirebaseDBUtil.UploadListener {
+                DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
                     override fun taskSuccessful() {
                         activityView.enableUserInteraction()
                         preferences.saveDefaults(UserDefaults(name, phone, address))

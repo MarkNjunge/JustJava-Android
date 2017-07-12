@@ -28,7 +28,7 @@ import com.marknkamau.justjava.models.UserDefaults;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
-import com.marknkamau.justjava.utils.FirebaseAuthUtils;
+import com.marknkamau.justjava.network.AuthenticationServiceImpl;
 
 import java.util.List;
 
@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        user = FirebaseAuthUtils.INSTANCE.getCurrentUser();
+        user = AuthenticationServiceImpl.INSTANCE.getCurrentUser();
 
         if (user == null) {
             finish();
@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity implements ProfileView {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        user = FirebaseAuthUtils.INSTANCE.getCurrentUser();
+        user = AuthenticationServiceImpl.INSTANCE.getCurrentUser();
         MenuInflater inflater = getMenuInflater();
         if (user == null) {
             inflater.inflate(R.menu.toolbar_menu, menu);

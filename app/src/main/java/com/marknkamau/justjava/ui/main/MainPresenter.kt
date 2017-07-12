@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.main
 
 import com.marknkamau.justjava.data.DrinksProvider
 import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
 
 internal class MainPresenter(private val activityView: MainView, private val preferences: PreferencesRepository) {
 
@@ -11,7 +11,7 @@ internal class MainPresenter(private val activityView: MainView, private val pre
     }
 
     fun logUserOut() {
-        FirebaseAuthUtils.logOut()
+        AuthenticationServiceImpl.logOut()
         preferences.clearDefaults()
     }
 }

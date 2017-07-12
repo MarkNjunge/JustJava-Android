@@ -4,8 +4,10 @@ import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.utils.FirebaseDBUtil
+import com.marknkamau.justjava.network.AuthenticationService
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.network.DatabaseServiceImpl
 
 internal class ProfilePresenter(private val activityView: ProfileView, private val preferencesRepository: PreferencesRepository) {
 
@@ -19,7 +21,7 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
     }
 
     private fun getPreviousOrders() {
-        FirebaseDBUtil.getPreviousOrders(object : FirebaseDBUtil.PreviousOrdersListener {
+        DatabaseServiceImpl.getPreviousOrders(object : DatabaseService.PreviousOrdersListener {
             override fun taskSuccessful(previousOrders: MutableList<PreviousOrder>) {
                 activityView.displayPreviousOrders(previousOrders)
             }
@@ -36,9 +38,9 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
 
     fun updateUserDefaults(name: String, phone: String, address: String) {
         activityView.showProgressBar()
-        FirebaseAuthUtils.setUserDisplayName(name, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
-                FirebaseDBUtil.setUserDefaults(UserDefaults(name, phone, address), object : FirebaseDBUtil.UploadListener {
+                DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
                     override fun taskSuccessful() {
                         preferencesRepository.saveDefaults(UserDefaults(name, phone, address))
                         activityView.hideProgressBar()
@@ -59,7 +61,7 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
     }
 
     fun logUserOut() {
-        FirebaseAuthUtils.logOut()
+        AuthenticationServiceImpl.logOut()
         preferencesRepository.clearDefaults()
     }
 }

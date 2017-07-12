@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.utils
+package com.marknkamau.justjava.network
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -12,7 +12,7 @@ import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
 import timber.log.Timber
 
-object FirebaseDBUtil {
+object DatabaseServiceImpl : DatabaseService{
     private var database: FirebaseDatabase? = null
 
     private lateinit var previousOrders: MutableList<PreviousOrder>
@@ -24,8 +24,8 @@ object FirebaseDBUtil {
         }
     }
 
-    fun getUserDefaults(listener: UserDetailsListener) {
-        val database = database!!.reference.child("users/${FirebaseAuthUtils.currentUser!!.uid}")
+    override fun getUserDefaults(listener: DatabaseService.UserDetailsListener) {
+        val database = database!!.reference.child("users/${AuthenticationServiceImpl.currentUser!!.uid}")
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listener.taskSuccessful(
@@ -41,7 +41,7 @@ object FirebaseDBUtil {
         })
     }
 
-    fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: UploadListener) {
+    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.UploadListener) {
         val orderRef = database!!.reference.child("allOrders").push()
         val key = orderRef.key
 
@@ -56,7 +56,7 @@ object FirebaseDBUtil {
         orderRef.child("deviceToken").setValue(FirebaseInstanceId.getInstance().token)
         orderRef.child("timestamp").setValue(ServerValue.TIMESTAMP)
 
-        val currentUser = FirebaseAuthUtils.currentUser
+        val currentUser = AuthenticationServiceImpl.currentUser
         if (currentUser != null) {
             orderRef.child("user").setValue(currentUser.uid)
             val userOrdersRef = database!!.reference.child("userOrders/${currentUser.uid}")
@@ -71,9 +71,9 @@ object FirebaseDBUtil {
                 .addOnFailureListener { exception -> listener.taskFailed(exception.message) }
     }
 
-    fun getPreviousOrders(listener: PreviousOrdersListener) {
+    override fun getPreviousOrders(listener: DatabaseService.PreviousOrdersListener) {
         previousOrders = mutableListOf()
-        database!!.reference.child("userOrders/" + FirebaseAuthUtils.currentUser!!.uid)
+        database!!.reference.child("userOrders/" + AuthenticationServiceImpl.currentUser!!.uid)
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.childrenCount.toInt() == 0) {
@@ -81,7 +81,7 @@ object FirebaseDBUtil {
                         } else {
                             for (snapshot in dataSnapshot.children) {
                                 Timber.d(snapshot.value as String)
-                                getOrder(snapshot.value as String, object : OrderListener {
+                                getOrder(snapshot.value as String, object : DatabaseService.OrderListener {
                                     override fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String) {
                                         previousOrders.add(PreviousOrder(deliveryAddress, timestamp, totalPrice, orderStatus))
                                         listener.taskSuccessful(previousOrders)
@@ -102,7 +102,7 @@ object FirebaseDBUtil {
                 })
     }
 
-    fun getOrder(orderId: String, listener: OrderListener) {
+    override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
         val order = database!!.reference.child("allOrders/$orderId")
         order.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -120,34 +120,12 @@ object FirebaseDBUtil {
         })
     }
 
-    fun setUserDefaults(userDefaults: UserDefaults, listener: UploadListener) {
-        val databaseReference = database!!.reference.child("users/${FirebaseAuthUtils.currentUser!!.uid}")
+    override fun setUserDefaults(userDefaults: UserDefaults, listener: DatabaseService.UploadListener) {
+        val databaseReference = database!!.reference.child("users/${AuthenticationServiceImpl.currentUser!!.uid}")
         databaseReference.setValue(userDefaults)
                 .addOnSuccessListener { listener.taskSuccessful() }
                 .addOnFailureListener { exception -> listener.taskFailed(exception.message) }
 
-    }
-
-    interface DatabaseListener {
-        fun taskFailed(reason: String?)
-    }
-
-    interface UserDetailsListener : DatabaseListener {
-        fun taskSuccessful(name: String, phone: String, deliveryAddress: String)
-    }
-
-    interface UploadListener : DatabaseListener {
-        fun taskSuccessful()
-    }
-
-    interface PreviousOrdersListener : DatabaseListener {
-        fun taskSuccessful(previousOrders: MutableList<PreviousOrder>)
-
-        fun noValuesPresent()
-    }
-
-    interface OrderListener : DatabaseListener {
-        fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String)
     }
 
 }

@@ -3,21 +3,23 @@ package com.marknkamau.justjava.ui.login
 import android.os.Handler
 import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.network.AuthenticationService
 
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.utils.FirebaseDBUtil
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.network.DatabaseServiceImpl
 
 internal class LogInPresenter(private val activityView: LogInView, private val preferences: PreferencesRepository) {
 
     fun checkSignInStatus() {
-        if (FirebaseAuthUtils.currentUser != null) {
+        if (AuthenticationServiceImpl.currentUser != null) {
             activityView.closeActivity()
         }
     }
 
     fun signIn(email: String, password: String) {
         activityView.showDialog()
-        FirebaseAuthUtils.signIn(email, password, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 getUserDefaults()
             }
@@ -29,7 +31,7 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
     }
 
     private fun getUserDefaults() {
-        FirebaseDBUtil.getUserDefaults(object : FirebaseDBUtil.UserDetailsListener {
+        DatabaseServiceImpl.getUserDefaults(object : DatabaseService.UserDetailsListener {
             override fun taskSuccessful(name: String, phone: String, deliveryAddress: String) {
                 preferences.saveDefaults(UserDefaults(name, phone, deliveryAddress))
                 activityView.dismissDialog()
@@ -44,7 +46,7 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
     }
 
     fun resetUserPassword(email: String) {
-        FirebaseAuthUtils.sendPasswordResetEmail(email, object : FirebaseAuthUtils.AuthActionListener {
+        AuthenticationServiceImpl.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 activityView.displayMessage(response)
             }

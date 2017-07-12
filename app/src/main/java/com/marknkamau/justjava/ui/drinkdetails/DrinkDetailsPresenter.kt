@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.drinkdetails
 import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
 import com.marknkamau.justjava.data.CartRepositoryImpl
 
 internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView, private val preferences: PreferencesRepository) {
@@ -15,7 +15,7 @@ internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView,
     }
 
     fun logUserOut() {
-        FirebaseAuthUtils.logOut()
+        AuthenticationServiceImpl.logOut()
         preferences.clearDefaults()
     }
 }

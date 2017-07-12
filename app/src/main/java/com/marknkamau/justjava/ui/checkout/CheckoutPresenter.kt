@@ -3,9 +3,10 @@ package com.marknkamau.justjava.ui.checkout
 import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.utils.FirebaseDBUtil
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.network.DatabaseServiceImpl
 import com.marknkamau.justjava.data.CartRepositoryImpl
+import com.marknkamau.justjava.network.DatabaseService
 
 internal class CheckoutPresenter(private val activityView: CheckoutView, private val preferences: PreferencesRepository) {
 
@@ -14,16 +15,16 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, private
     }
 
     fun logOut() {
-        FirebaseAuthUtils.logOut()
+        AuthenticationServiceImpl.logOut()
         activityView.setDisplayToLoggedOut()
         activityView.setLoggedInStatus(false)
         activityView.invalidateMenu()
     }
 
     fun updateLoggedInStatus() {
-        if (FirebaseAuthUtils.currentUser != null) {
+        if (AuthenticationServiceImpl.currentUser != null) {
             val defaults = preferences.getDefaults()
-            activityView.setDisplayToLoggedIn(FirebaseAuthUtils.currentUser!!, defaults)
+            activityView.setDisplayToLoggedIn(AuthenticationServiceImpl.currentUser!!, defaults)
             activityView.setLoggedInStatus(true)
         } else {
             activityView.setDisplayToLoggedOut()
@@ -43,7 +44,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, private
         order.itemsCount = itemsCount
         order.totalPrice = totalPrice
 
-        FirebaseDBUtil.placeNewOrder(order, realmUtils.getAllCartItems(), object : FirebaseDBUtil.UploadListener {
+        DatabaseServiceImpl.placeNewOrder(order, realmUtils.getAllCartItems(), object : DatabaseService.UploadListener {
             override fun taskSuccessful() {
                 activityView.hideUploadBar()
                 activityView.showMessage("Order placed")

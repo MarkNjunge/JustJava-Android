@@ -1,48 +1,42 @@
-package com.marknkamau.justjava.utils
+package com.marknkamau.justjava.network
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 
-object FirebaseAuthUtils {
+object AuthenticationServiceImpl : AuthenticationService {
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     val currentUser: FirebaseUser?
         get() = firebaseAuth.currentUser
 
-    fun logOut() {
+    override fun logOut() {
         firebaseAuth.signOut()
     }
 
-    fun signIn(email: String, password: String, listener: AuthActionListener) {
+    override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { listener.actionSuccessful("Sign in successful") }
                 .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    fun sendPasswordResetEmail(email: String, listener: AuthActionListener) {
+    override fun sendPasswordResetEmail(email: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener { listener.actionSuccessful("Password reset email sent") }.
-                addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+                .addOnSuccessListener { listener.actionSuccessful("Password reset email sent") }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    fun createUser(email: String, password: String, listener: AuthActionListener) {
+    override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { listener.actionSuccessful("User created successfully") }
                 .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    fun setUserDisplayName(name: String, listener: AuthActionListener) {
+    override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
         currentUser!!.updateProfile(profileUpdate)
                 .addOnSuccessListener { listener.actionSuccessful("User display name set") }
                 .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
-    }
-
-    interface AuthActionListener {
-        fun actionSuccessful(response: String)
-
-        fun actionFailed(response: String?)
     }
 
 }

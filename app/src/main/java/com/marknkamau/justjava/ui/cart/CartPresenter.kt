@@ -3,8 +3,7 @@ package com.marknkamau.justjava.ui.cart
 import com.marknkamau.justjava.data.CartRepository
 import com.marknkamau.justjava.data.PreferencesRepository
 
-import com.marknkamau.justjava.utils.FirebaseAuthUtils
-import com.marknkamau.justjava.data.CartRepositoryImpl
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
 
 internal class CartPresenter(private val activityView: CartView, private val preferences: PreferencesRepository, private val cartRepository: CartRepository) {
 
@@ -26,7 +25,7 @@ internal class CartPresenter(private val activityView: CartView, private val pre
     }
 
     fun logUserOut() {
-        FirebaseAuthUtils.logOut()
+        AuthenticationServiceImpl.logOut()
         preferences.clearDefaults()
     }
 }
