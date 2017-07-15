@@ -20,9 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.marknkamau.justjava.JustJavaApp;
 import com.marknkamau.justjava.R;
+import com.marknkamau.justjava.data.CartRepositoryImpl;
 import com.marknkamau.justjava.data.PreferencesRepository;
 import com.marknkamau.justjava.models.CartItem;
 import com.marknkamau.justjava.models.CoffeeDrink;
+import com.marknkamau.justjava.network.AuthenticationService;
 import com.marknkamau.justjava.ui.about.AboutActivity;
 import com.marknkamau.justjava.ui.cart.CartActivity;
 import com.marknkamau.justjava.ui.login.LogInActivity;
@@ -37,7 +39,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import timber.log.Timber;
 
-public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener, DrinkDetailsView {
+public class DrinkDetailsActivity extends AppCompatActivity implements DrinkDetailsView {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -70,12 +72,13 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
 
     private CoffeeDrink drink;
     private int quantity;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser user;
     private DrinkDetailsPresenter presenter;
+    private boolean isSignedIn;
 
     @Inject
     PreferencesRepository preferencesRepository;
+    @Inject
+    AuthenticationService authenticationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,36 +91,37 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new DrinkDetailsPresenter(this, preferencesRepository);
-
-        firebaseAuth = FirebaseAuth.getInstance();
+        presenter = new DrinkDetailsPresenter(this, preferencesRepository, authenticationService, CartRepositoryImpl.INSTANCE);
 
         drink = getIntent().getExtras().getParcelable(CatalogAdapter.DRINK_KEY);
+        if (drink != null) {
+            tvDrinkName.setText(drink.getDrinkName());
+            tvDrinkContents.setText(drink.getDrinkContents());
+            tvDrinkDescription.setText(drink.getDrinkDescription());
+            tvDrinkPrice.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
+            tvSubtotal.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
 
-        initializeViews();
+            String drinkImage = "file:///android_asset/" + drink.getDrinkImage();
+            Picasso picasso = Picasso.with(this);
+            picasso.load(drinkImage).noFade().into(imgDrinkImage);
+        }
+
         quantity = 1;
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        firebaseAuth.removeAuthStateListener(this);
+    protected void onResume() {
+        super.onResume();
+        presenter.getSignInStatus();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        user = firebaseAuth.getCurrentUser();
         MenuInflater inflater = getMenuInflater();
-        if (user == null) {
-            inflater.inflate(R.menu.toolbar_menu, menu);
-        } else {
+        if (isSignedIn) {
             inflater.inflate(R.menu.toolbar_menu_logged_in, menu);
+        } else {
+            inflater.inflate(R.menu.toolbar_menu, menu);
         }
         return true;
     }
@@ -132,7 +136,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
                 return true;
             case R.id.menu_log_out:
                 presenter.logUserOut();
-                invalidateOptionsMenu();
                 return true;
             case R.id.menu_profile:
                 startActivity(new Intent(this, ProfileActivity.class));
@@ -143,22 +146,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        invalidateOptionsMenu();
-    }
-
-    @Override
-    public void displayMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void finishActivity() {
-        finish();
     }
 
     @OnClick({R.id.img_minus_qty, R.id.img_add_qty, R.id.btn_add_to_cart, R.id.cb_cinnamon, R.id.cb_chocolate, R.id.cb_marshmallow})
@@ -185,6 +172,22 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
         }
     }
 
+    @Override
+    public void displayMessage(@NonNull String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
+    }
+
+    @Override
+    public void setSignInStatus(boolean status) {
+        isSignedIn = status;
+        invalidateOptionsMenu();
+    }
+
     private void addToCart() {
         final String cinnamon = cbCinnamon.isChecked() ? "true" : "false";
         final String choc = cbChocolate.isChecked() ? "true" : "false";
@@ -195,20 +198,6 @@ public class DrinkDetailsActivity extends AppCompatActivity implements FirebaseA
                 0, drink.getDrinkName(), String.valueOf(quantity), cinnamon, choc, marshmallow, total
         );
         presenter.addToCart(item);
-    }
-
-    private void initializeViews() {
-        if (drink != null) {
-            tvDrinkName.setText(drink.getDrinkName());
-            tvDrinkContents.setText(drink.getDrinkContents());
-            tvDrinkDescription.setText(drink.getDrinkDescription());
-            tvDrinkPrice.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
-            tvSubtotal.setText(String.format("%s%s", getResources().getString(R.string.ksh), drink.getDrinkPrice()));
-
-            String drinkImage = "file:///android_asset/" + drink.getDrinkImage();
-            Picasso picasso = Picasso.with(this);
-            picasso.load(drinkImage).noFade().into(imgDrinkImage);
-        }
     }
 
     private void minusQty() {

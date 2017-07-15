@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
                 return true;
             case R.id.menu_log_out:
                 presenter.signOut();
-                invalidateOptionsMenu();
                 return true;
             case R.id.menu_profile:
                 startActivity(new Intent(this, ProfileActivity.class));

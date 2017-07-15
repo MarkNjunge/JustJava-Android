@@ -69,7 +69,7 @@ public class CartActivity extends AppCompatActivity implements FirebaseAuth.Auth
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         ((JustJavaApp) getApplication()).getAppComponent().inject(this);
-        presenter = new CartPresenter(this, preferencesRepository, new CartRepositoryImpl());
+        presenter = new CartPresenter(this, preferencesRepository, CartRepositoryImpl.INSTANCE);
         presenter.loadItems();
     }
 

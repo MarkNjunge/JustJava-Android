@@ -1,15 +1,24 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
+import com.marknkamau.justjava.data.CartRepository
 import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.network.AuthenticationServiceImpl
 import com.marknkamau.justjava.data.CartRepositoryImpl
+import com.marknkamau.justjava.network.AuthenticationService
 
-internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView, private val preferences: PreferencesRepository) {
+internal class DrinkDetailsPresenter(val activityView: DrinkDetailsView,
+                                     val preferences: PreferencesRepository,
+                                     val auth: AuthenticationService,
+                                     val cartRepository: CartRepository) {
+
+    fun getSignInStatus() {
+        activityView.setSignInStatus(auth.isSignedIn())
+    }
 
     fun addToCart(cartItem: CartItem) {
-        CartRepositoryImpl().saveNewItem(cartItem)
+        cartRepository.saveNewItem(cartItem)
         activityView.displayMessage("Item added to cart")
         activityView.finishActivity()
     }
@@ -17,5 +26,6 @@ internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView,
     fun logUserOut() {
         AuthenticationServiceImpl.logOut()
         preferences.clearDefaults()
+        activityView.setSignInStatus(auth.isSignedIn())
     }
 }

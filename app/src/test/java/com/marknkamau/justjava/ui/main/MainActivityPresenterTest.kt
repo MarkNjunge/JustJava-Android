@@ -8,26 +8,31 @@ import org.mockito.Mockito
 
 class MainActivityPresenterTest {
     private lateinit var mockView: MainView
+        private lateinit var presenter: MainPresenter
 
     @Before
     fun setup() {
         mockView = Mockito.mock(MainView::class.java)
 
-        val presenter = MainPresenter(mockView, MockPreferencesRepository, MockAuthenticationServiceImpl)
-
-        presenter.getSignInStatus()
-        presenter.getCatalogItems()
-        presenter.signOut()
+        presenter = MainPresenter(mockView, MockPreferencesRepository, MockAuthenticationServiceImpl)
     }
 
     @Test
     fun shouldDisplayCatalogItems() {
+        presenter.getCatalogItems()
         Mockito.verify(mockView).displayCatalog(Mockito.anyList())
     }
 
     @Test
     fun shouldSetSignInStatus(){
-        Mockito.verify(mockView, Mockito.atLeast(2)).setSignInStatus(Mockito.anyBoolean())
+        presenter.getSignInStatus()
+        Mockito.verify(mockView).setSignInStatus(Mockito.anyBoolean())
+    }
+
+    @Test
+    fun shouldSetSignInStatusOnSignOut(){
+        presenter.signOut()
+        Mockito.verify(mockView).setSignInStatus(Mockito.anyBoolean())
     }
 
 }

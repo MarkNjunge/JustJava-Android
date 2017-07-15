@@ -35,21 +35,20 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, private
 
     fun placeOrder(order: Order) {
         activityView.showUploadBar()
-        val realmUtils = CartRepositoryImpl()
 
-        val cartItems = realmUtils.getAllCartItems()
+        val cartItems = CartRepositoryImpl.getAllCartItems()
         val itemsCount = cartItems.size
-        val totalPrice = realmUtils.getTotalPrice()
+        val totalPrice = CartRepositoryImpl.getTotalPrice()
 
         order.itemsCount = itemsCount
         order.totalPrice = totalPrice
 
-        DatabaseServiceImpl.placeNewOrder(order, realmUtils.getAllCartItems(), object : DatabaseService.UploadListener {
+        DatabaseServiceImpl.placeNewOrder(order, CartRepositoryImpl.getAllCartItems(), object : DatabaseService.UploadListener {
             override fun taskSuccessful() {
                 activityView.hideUploadBar()
                 activityView.showMessage("Order placed")
                 activityView.finishActivity()
-                realmUtils.deleteAllItems()
+                CartRepositoryImpl.deleteAllItems()
             }
 
             override fun taskFailed(reason: String?) {

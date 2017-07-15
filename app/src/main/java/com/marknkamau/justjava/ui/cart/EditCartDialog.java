@@ -64,7 +64,7 @@ public class EditCartDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.edit_fragment, container, false);
         ButterKnife.bind(this, view);
-        cartRepositoryImpl = new CartRepositoryImpl();
+        cartRepositoryImpl = CartRepositoryImpl.INSTANCE;
 
         Bundle args = getArguments();
 

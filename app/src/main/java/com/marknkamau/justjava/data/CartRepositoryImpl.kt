@@ -5,7 +5,7 @@ import com.marknkamau.justjava.models.CartItem
 import io.realm.Realm
 import io.realm.RealmResults
 
-class CartRepositoryImpl : CartRepository {
+object CartRepositoryImpl : CartRepository {
     private val realm: Realm = Realm.getDefaultInstance()
     private lateinit var allCartItems: RealmResults<CartItem>
 
