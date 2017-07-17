@@ -5,6 +5,7 @@ import com.crashlytics.android.Crashlytics
 
 import com.marknkamau.justjava.dagger.AppComponent
 import com.marknkamau.justjava.dagger.DaggerAppComponent
+import com.marknkamau.justjava.dagger.FirebaseModule
 import com.marknkamau.justjava.dagger.PreferencesRepositoryModule
 import io.fabric.sdk.android.Fabric
 
@@ -32,6 +33,7 @@ class JustJavaApp : Application() {
         appComponent = DaggerAppComponent
                 .builder()
                 .preferencesRepositoryModule(PreferencesRepositoryModule(this))
+                .firebaseModule(FirebaseModule())
                 .build()
     }
 

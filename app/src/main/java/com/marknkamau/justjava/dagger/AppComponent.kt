@@ -10,7 +10,7 @@ import com.marknkamau.justjava.ui.signup.SignUpActivity
 
 import dagger.Component
 
-@Component(modules = arrayOf(PreferencesRepositoryModule::class, AuthenticationModule::class, DatabaseModule::class))
+@Component(modules = arrayOf(PreferencesRepositoryModule::class, FirebaseModule::class))
 interface AppComponent {
     fun inject(logInActivity: LogInActivity)
     fun inject(profileActivity: ProfileActivity)
