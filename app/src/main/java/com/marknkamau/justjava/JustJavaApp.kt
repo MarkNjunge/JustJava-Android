@@ -20,7 +20,7 @@ class JustJavaApp : Application() {
 
         Realm.init(this)
 
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String {
                     return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
