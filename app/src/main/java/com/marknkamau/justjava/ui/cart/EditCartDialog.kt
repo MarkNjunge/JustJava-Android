@@ -56,7 +56,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
             item = args.getParcelable<CartItem>(CART_ITEM)
         }
 
-        tvCinnamon = view?.findViewById(R.id.tv_cinnamon) as TextView
+        tvCinnamon = view?.findViewById<TextView>(R.id.tv_cinnamon) as TextView
 
         tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING)
         tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING)
