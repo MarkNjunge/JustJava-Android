@@ -19,8 +19,6 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.CoffeeDrink
 import com.squareup.picasso.Picasso
 
-import butterknife.BindView
-import butterknife.ButterKnife
 import com.marknkamau.justjava.utils.bindView
 
 class CatalogAdapter(private val mContext: Context, private val drinkList: List<CoffeeDrink>) : RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {

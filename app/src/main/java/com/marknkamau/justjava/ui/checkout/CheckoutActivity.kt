@@ -29,10 +29,6 @@ import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 
-import javax.inject.Inject
-
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.marknkamau.justjava.utils.bindView
 
 class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener {

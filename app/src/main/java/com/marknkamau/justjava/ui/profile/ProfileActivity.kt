@@ -22,7 +22,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.ui.about.AboutActivity
@@ -30,11 +29,6 @@ import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.network.AuthenticationServiceImpl
 
-import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.marknkamau.justjava.utils.bindView
 
 class ProfileActivity : AppCompatActivity(), ProfileView {

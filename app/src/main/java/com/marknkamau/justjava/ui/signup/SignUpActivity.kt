@@ -17,17 +17,9 @@ import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.ui.login.LogInActivity
 
-import java.util.regex.Matcher
 import java.util.regex.Pattern
-
-import javax.inject.Inject
-
-import butterknife.BindView
-import butterknife.ButterKnife
-import butterknife.OnClick
 import com.marknkamau.justjava.utils.bindView
 import com.marknkamau.justjava.utils.trimmedText
 
