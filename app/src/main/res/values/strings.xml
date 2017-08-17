@@ -64,6 +64,8 @@
     <string name="by_square">by Square</string>
     <string name="by_umano">by Umano</string>
     <string name="cart">Cart</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="you_do_not_have_any_previous_orders">You do not have any previous orders</string>
 
     <!--Because "Render problem caused by TextInputLayout-->
     <item name="visible" type="id" />

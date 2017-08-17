@@ -1,19 +1,24 @@
 package com.marknkamau.justjava
 
 import android.app.Application
+import android.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 
-import com.marknkamau.justjava.dagger.AppComponent
-import com.marknkamau.justjava.dagger.DaggerAppComponent
-import com.marknkamau.justjava.dagger.FirebaseModule
-import com.marknkamau.justjava.dagger.PreferencesRepositoryModule
+import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.data.PreferencesRepositoryImpl
+import com.marknkamau.justjava.network.AuthenticationService
+import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.network.DatabaseServiceImpl
 import io.fabric.sdk.android.Fabric
 
 import io.realm.Realm
 import timber.log.Timber
 
 class JustJavaApp : Application() {
-    lateinit var appComponent: AppComponent
+    lateinit var preferencesRepo: PreferencesRepository
+    lateinit var authService: AuthenticationService
+    lateinit var databaseService: DatabaseService
 
     override fun onCreate() {
         super.onCreate()
@@ -30,11 +35,9 @@ class JustJavaApp : Application() {
             Fabric.with(this, Crashlytics())
         }
 
-        appComponent = DaggerAppComponent
-                .builder()
-                .preferencesRepositoryModule(PreferencesRepositoryModule(this))
-                .firebaseModule(FirebaseModule())
-                .build()
+        preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
+        authService = AuthenticationServiceImpl
+        databaseService = DatabaseServiceImpl
     }
 
 }
