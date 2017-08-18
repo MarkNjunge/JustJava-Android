@@ -56,8 +56,9 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
         val authService = (application as JustJavaApp).authService
         val preferencesRepo = (application as JustJavaApp).preferencesRepo
+        val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
-        presenter = CheckoutPresenter(this, authService, preferencesRepo)
+        presenter = CheckoutPresenter(this, authService, preferencesRepo, cart)
 
         btnLogIn.setOnClickListener(this)
         btnPlaceOrder.setOnClickListener(this)

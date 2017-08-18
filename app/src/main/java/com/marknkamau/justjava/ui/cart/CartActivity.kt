@@ -2,27 +2,18 @@ package com.marknkamau.justjava.ui.cart
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.JustJavaApp
-import com.marknkamau.justjava.data.CartRepositoryImpl
-import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.login.LogInActivity
-import com.marknkamau.justjava.ui.profile.ProfileActivity
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.data.CartDao
+import com.marknkamau.justjava.models.CartItemRoom
 import com.marknkamau.justjava.ui.BaseActivity
 
 import com.marknkamau.justjava.utils.bindView
@@ -35,6 +26,7 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
     val tvCartTotal: TextView by bindView(R.id.tv_cart_total)
     val btnCheckout: Button by bindView(R.id.btn_checkout)
 
+    lateinit var cartDao: CartDao
     private lateinit var presenter: CartPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +38,8 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
 
         rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        presenter = CartPresenter(this, CartRepositoryImpl)
+        cartDao = (application as JustJavaApp).cartDatabase.cartDao()
+        presenter = CartPresenter(this, cartDao)
         presenter.loadItems()
 
         btnClearCart.setOnClickListener(this)
@@ -60,12 +53,12 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
         }
     }
 
-    override fun displayCart(cartItems: MutableList<CartItem>) {
+    override fun displayCart(cartItems: MutableList<CartItemRoom>?) {
         val adapter = CartAdapter(this, cartItems, object : CartAdapter.CartAdapterListener {
             override fun updateList() {
                 presenter.loadItems()
             }
-        })
+        }, cartDao)
 
         rvCart.adapter = adapter
         btnCheckout.isEnabled = true
@@ -76,6 +69,7 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
     }
 
     override fun displayEmptyCart() {
+        rvCart.visibility = View.INVISIBLE
         tvNoItems.visibility = View.VISIBLE
         btnClearCart.isEnabled = false
         btnClearCart.alpha = .54f

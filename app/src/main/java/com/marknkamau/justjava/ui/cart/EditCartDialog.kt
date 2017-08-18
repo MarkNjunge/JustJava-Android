@@ -12,28 +12,29 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.data.DrinksProvider
-import com.marknkamau.justjava.data.CartRepositoryImpl
+import com.marknkamau.justjava.models.CartItemRoom
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
-import com.marknkamau.justjava.utils.bindView
-
-class EditCartDialog : DialogFragment(), View.OnClickListener {
-    val tvDrinkName: TextView by bindView(R.id.tv_drink_name)
-    val imgMinusQty: ImageView by bindView(R.id.img_minus_qty)
-    val tvQuantity: TextView by bindView(R.id.tv_quantity)
-    val imgAddQty: ImageView by bindView(R.id.img_add_qty)
-//    var tvCinnamon: TextView by bindView(R.id.tv_cinnamon)
+class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListener {
+    lateinit var tvDrinkName: TextView
+    lateinit var tvQuantity: TextView
+    lateinit var tvChocolate: TextView
+    lateinit var tvMarshmallows: TextView
+    lateinit var tvTotal: TextView
     lateinit var tvCinnamon: TextView
-    val tvChocolate: TextView by bindView(R.id.tv_chocolate)
-    val tvMarshmallows: TextView by bindView(R.id.tv_marshmallows)
-    val imgDelete: ImageView by bindView(R.id.img_delete)
-    val tvTotal: TextView by bindView(R.id.tv_total)
-    val imgSave: ImageView by bindView(R.id.img_save)
+    lateinit var imgMinusQty: ImageView
+    lateinit var imgDelete: ImageView
+    lateinit var imgAddQty: ImageView
+    lateinit var imgSave: ImageView
+
 
     private var quantity: Int = 0
-    private var item: CartItem? = null
-    private lateinit var cartRepositoryImpl: CartRepositoryImpl
+    private var item: CartItemRoom? = null
     private var cartResponse: CartAdapter.CartAdapterListener? = null
     private var withCinnamon = false
     private var withChocolate = false
@@ -46,17 +47,24 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
             = inflater.inflate(R.layout.edit_fragment, container, false)
 
-
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments
-        cartRepositoryImpl = CartRepositoryImpl
 
         if (args != null) {
-            item = args.getParcelable<CartItem>(CART_ITEM)
+            item = args.getParcelable<CartItemRoom>(CART_ITEM)
         }
 
-        tvCinnamon = view?.findViewById<TextView>(R.id.tv_cinnamon) as TextView
+        tvDrinkName = view?.findViewById<TextView>(R.id.tv_drink_name) as TextView
+        tvQuantity = view.findViewById<TextView>(R.id.tv_quantity) as TextView
+        tvChocolate = view.findViewById<TextView>(R.id.tv_chocolate) as TextView
+        tvMarshmallows = view.findViewById<TextView>(R.id.tv_marshmallows) as TextView
+        tvTotal = view.findViewById<TextView>(R.id.tv_total) as TextView
+        tvCinnamon = view.findViewById<TextView>(R.id.tv_cinnamon) as TextView
+        imgMinusQty = view.findViewById<ImageView>(R.id.img_minus_qty) as ImageView
+        imgDelete = view.findViewById<ImageView>(R.id.img_delete) as ImageView
+        imgAddQty = view.findViewById<ImageView>(R.id.img_add_qty) as ImageView
+        imgSave = view.findViewById<ImageView>(R.id.img_save) as ImageView
 
         tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING)
         tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING)
@@ -64,17 +72,17 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
 
         if (item != null) {
             tvDrinkName.text = item?.itemName
-            quantity = Integer.parseInt(item?.itemQty)
+            quantity = item?.itemQty!!
             tvQuantity.text = quantity.toString()
-            if (TextUtils.equals(item?.itemCinnamon, "true")) {
+            if (item?.itemCinnamon ?: false) {
                 setToppingOn(tvCinnamon)
                 withCinnamon = true
             }
-            if (TextUtils.equals(item?.itemChoc, "true")) {
+            if (item?.itemChoc ?: false) {
                 setToppingOn(tvChocolate)
                 withChocolate = true
             }
-            if (TextUtils.equals(item?.itemMarshmallow, "true")) {
+            if (item?.itemMarshmallow ?: false) {
                 setToppingOn(tvMarshmallows)
                 withMarshmallow = true
             }
@@ -109,26 +117,53 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
                 updateSubtotal()
             }
             imgDelete -> {
-                cartRepositoryImpl.deleteSingleItem(item!!)
-                cartResponse!!.updateList()
-                dismiss()
+                Single.fromCallable { cartDao.deleteItem(item!!) }
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                {
+                                    cartResponse?.updateList()
+                                    dismiss()
+                                },
+                                {
+                                    t: Throwable? ->
+                                    Timber.e(t)
+                                }
+                        )
+
             }
             imgSave -> {
-                dismiss()
                 saveChanges()
             }
         }
     }
 
     private fun saveChanges() {
-        cartRepositoryImpl.saveEdit(CartItem(item!!.itemID,
+        Timber.d("save")
+        val item1 = CartItemRoom(
+                item!!.id,
                 item!!.itemName,
-                quantity.toString(),
-                withCinnamon.toString(),
-                withChocolate.toString(),
-                withMarshmallow.toString(),
-                updateSubtotal()))
-        cartResponse!!.updateList()
+                quantity,
+                withCinnamon,
+                withChocolate,
+                withMarshmallow,
+                updateSubtotal()
+        )
+        val callable = Single.fromCallable {
+            cartDao.updateItem(item1)
+        }
+        callable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { _ ->
+                            dismiss()
+                            cartResponse?.updateList()
+                        },
+                        { t ->
+                            Timber.e(t)
+                        }
+                )
+
     }
 
     private fun setToppingOn(textView: TextView) {

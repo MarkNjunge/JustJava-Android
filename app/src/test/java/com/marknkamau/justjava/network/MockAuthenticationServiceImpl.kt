@@ -1,15 +1,19 @@
 package com.marknkamau.justjava.network
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.authentication.AuthenticationService
+import org.mockito.Mockito
 
 object MockAuthenticationServiceImpl : AuthenticationService {
-    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener) {
+    override fun getCurrentUser(): FirebaseUser? {
+        val mockFirebaseUser = Mockito.mock(FirebaseUser::class.java)
 
+        return mockFirebaseUser
     }
 
-    override fun getUserId(): String {
-        return ""
+    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener) {
+
     }
 
     override fun isSignedIn(): Boolean {

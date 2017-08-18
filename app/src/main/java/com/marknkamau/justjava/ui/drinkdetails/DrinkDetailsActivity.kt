@@ -8,10 +8,10 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.CartRepositoryImpl
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.CartItemRoom
 import com.marknkamau.justjava.models.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.main.CatalogAdapter
@@ -47,7 +47,9 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        presenter = DrinkDetailsPresenter(this, CartRepositoryImpl)
+        val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
+
+        presenter = DrinkDetailsPresenter(this, cartDao)
 
         drink = intent.extras.getParcelable<CoffeeDrink>(CatalogAdapter.DRINK_KEY)
 
@@ -91,15 +93,16 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     }
 
     private fun addToCart() {
-        val cinnamon = if (cbCinnamon.isChecked) "true" else "false"
-        val choc = if (cbChocolate.isChecked) "true" else "false"
-        val marshmallow = if (cbMarshmallow.isChecked) "true" else "false"
-        val total = updateSubtotal()
+        val itemRm = CartItemRoom(0,
+                drink.drinkName,
+                quantity,
+                cbCinnamon.isChecked,
+                cbChocolate.isChecked,
+                cbMarshmallow.isChecked,
+                updateSubtotal()
+                )
 
-        val item = CartItem(
-                0, drink.drinkName, quantity.toString(), cinnamon, choc, marshmallow, total
-        )
-        presenter.addToCart(item)
+        presenter.addToCart(itemRm)
     }
 
     private fun minusQty() {

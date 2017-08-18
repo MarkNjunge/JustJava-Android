@@ -7,17 +7,15 @@ import com.google.firebase.auth.UserProfileChangeRequest
 object AuthenticationServiceImpl : AuthenticationService {
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
-    private var user: FirebaseUser? = firebaseAuth.currentUser
 
     override fun addAuthListener(listener: FirebaseAuth.AuthStateListener){
         firebaseAuth.addAuthStateListener(listener)
     }
 
-    override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
-
-    override fun logOut() {
-        firebaseAuth.signOut()
-        user = AuthenticationServiceImpl.firebaseAuth.currentUser
+    override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener { listener.actionSuccessful("User created successfully") }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
@@ -32,26 +30,22 @@ object AuthenticationServiceImpl : AuthenticationService {
                 .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener.actionSuccessful("User created successfully") }
-                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
-    }
-
     override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
 
-        user?.updateProfile(profileUpdate)
+        firebaseAuth.currentUser?.updateProfile(profileUpdate)
                 ?.addOnSuccessListener { listener.actionSuccessful("User display name set") }
                 ?.addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun getUserId(): String? {
-        return user?.uid
-    }
+    override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
     override fun isSignedIn(): Boolean {
-        return user != null
+        return firebaseAuth.currentUser != null
+    }
+
+    override fun logOut() {
+        firebaseAuth.signOut()
     }
 
 }

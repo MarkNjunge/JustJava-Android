@@ -1,34 +1,26 @@
 package com.marknkamau.justjava.network
 
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ServerValue
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
-import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.models.UserDefaults
-import timber.log.Timber
+import com.marknkamau.justjava.models.*
 
-// TODO improve structure
-object DatabaseServiceImpl : DatabaseService{
-    private var database: FirebaseDatabase? = null
+object DatabaseServiceImpl : DatabaseService {
+    private val database: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
+    private var dbRootRef: DatabaseReference
 
     private lateinit var previousOrders: MutableList<PreviousOrder>
 
     init {
-        if (database == null) {
-            database = FirebaseDatabase.getInstance()
-            database!!.setPersistenceEnabled(true)
-        }
+        database.setPersistenceEnabled(true)
+        dbRootRef = database.reference
     }
 
     override fun getUserDefaults(listener: DatabaseService.UserDetailsListener) {
-        val database = database!!.reference.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
-        database.addListenerForSingleValueEvent(object : ValueEventListener {
+        if (AuthenticationServiceImpl.isSignedIn()){
+
+        val ref = dbRootRef.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listener.taskSuccessful(
                         dataSnapshot.child("name").value.toString(),
@@ -41,10 +33,13 @@ object DatabaseServiceImpl : DatabaseService{
                 listener.taskFailed(databaseError.message)
             }
         })
+        }else{
+            listener.taskFailed("No user is signed in")
+        }
     }
 
-    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.UploadListener) {
-        val orderRef = database!!.reference.child("allOrders").push()
+    override fun placeNewOrder(order: Order, cartItems: List<CartItemRoom>, listener: DatabaseService.UploadListener) {
+        val orderRef = dbRootRef.child("allOrders").push()
         val key = orderRef.key
 
         orderRef.child("orderID").setValue(key)
@@ -61,13 +56,13 @@ object DatabaseServiceImpl : DatabaseService{
         val currentUser = AuthenticationServiceImpl.getCurrentUser()
         if (currentUser != null) {
             orderRef.child("user").setValue(currentUser.uid)
-            val userOrdersRef = database!!.reference.child("userOrders/${currentUser.uid}")
+            val userOrdersRef = dbRootRef.child("userOrders/${currentUser.uid}")
             userOrdersRef.push().setValue(key)
         } else {
             orderRef.child("user").setValue("null")
         }
 
-        val orderItemsRef = database!!.reference.child("orderItems").child(key)
+        val orderItemsRef = dbRootRef.child("orderItems").child(key)
         orderItemsRef.setValue(cartItems)
                 .addOnSuccessListener { listener.taskSuccessful() }
                 .addOnFailureListener { exception -> listener.taskFailed(exception.message) }
@@ -75,14 +70,13 @@ object DatabaseServiceImpl : DatabaseService{
 
     override fun getPreviousOrders(listener: DatabaseService.PreviousOrdersListener) {
         previousOrders = mutableListOf()
-        database?.reference?.child("userOrders/" + AuthenticationServiceImpl.getCurrentUser()?.uid)
-                ?.addListenerForSingleValueEvent(object : ValueEventListener {
+        dbRootRef.child("userOrders/" + AuthenticationServiceImpl.getCurrentUser()?.uid)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
                         if (dataSnapshot.childrenCount.toInt() == 0) {
                             listener.noValuesPresent()
                         } else {
                             for (snapshot in dataSnapshot.children) {
-                                Timber.d(snapshot.value as String)
                                 getOrder(snapshot.value as String, object : DatabaseService.OrderListener {
                                     override fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String) {
                                         previousOrders.add(PreviousOrder(deliveryAddress, timestamp, totalPrice, orderStatus))
@@ -105,7 +99,7 @@ object DatabaseServiceImpl : DatabaseService{
     }
 
     override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
-        val order = database!!.reference.child("allOrders/$orderId")
+        val order = dbRootRef.child("allOrders/$orderId")
         order.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listener.taskSuccessful(
@@ -123,7 +117,7 @@ object DatabaseServiceImpl : DatabaseService{
     }
 
     override fun setUserDefaults(userDefaults: UserDefaults, listener: DatabaseService.UploadListener) {
-        val databaseReference = database!!.reference.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
+        val databaseReference = dbRootRef.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
         databaseReference.setValue(userDefaults)
                 .addOnSuccessListener { listener.taskSuccessful() }
                 .addOnFailureListener { exception -> listener.taskFailed(exception.message) }

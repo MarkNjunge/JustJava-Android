@@ -29,3 +29,5 @@
     *;
 }
 -dontwarn com.squareup.okhttp.**
+-dontwarn android.arch.util.paging.CountedDataSource
+-dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource

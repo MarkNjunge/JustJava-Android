@@ -6,7 +6,7 @@ import org.mockito.Mockito
 
 class MainActivityPresenterTest {
     private lateinit var mockView: MainView
-        private lateinit var presenter: MainPresenter
+    private lateinit var presenter: MainPresenter
 
     @Before
     fun setup() {

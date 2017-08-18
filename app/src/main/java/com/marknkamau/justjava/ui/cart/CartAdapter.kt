@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.cart
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -13,13 +12,16 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.CartItemRoom
 
 import com.marknkamau.justjava.utils.bindView
 
 class CartAdapter(private val context: Context,
-                  private val cartItemList: List<CartItem>,
-                  private val listener: CartAdapterListener)
+                  private val cartItemList: List<CartItemRoom>?,
+                  private val listener: CartAdapterListener,
+                  private val cartDao: CartDao)
     : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     interface CartAdapterListener {
@@ -34,28 +36,31 @@ class CartAdapter(private val context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = cartItemList[position]
+        val item = cartItemList?.get(position)
 
-        holder.tvItemName.text = item.itemName
-        holder.tvItemQty.text = context.getString(R.string.quantity) + ": " + item.itemQty
-        holder.tvItemPrice.text = context.getString(R.string.price) + " " + item.itemPrice
-        if (TextUtils.equals(item.itemCinnamon, "false"))
+        holder.tvItemName.text = item?.itemName
+        holder.tvItemQty.text = context.getString(R.string.quantity) + ": " + item?.itemQty
+        holder.tvItemPrice.text = context.getString(R.string.price) + " " + item?.itemPrice
+
+        if (!(item?.itemCinnamon as Boolean))
             holder.tvCinnamon.visibility = View.GONE
-        if (TextUtils.equals(item.itemChoc, "false"))
+
+        if (!item.itemChoc)
             holder.tvChocolate.visibility = View.GONE
-        if (TextUtils.equals(item.itemMarshmallow, "false"))
+
+        if (!item.itemMarshmallow)
             holder.tvMarshmallows.visibility = View.GONE
 
         holder.imgEdit.setOnClickListener { showEditDialog(item) }
     }
 
-    override fun getItemCount(): Int = cartItemList.size
+    override fun getItemCount(): Int = cartItemList?.size ?: 0
 
-    private fun showEditDialog(item: CartItem) {
+    private fun showEditDialog(item: CartItemRoom) {
         val args = Bundle()
         args.putParcelable(EditCartDialog.CART_ITEM, item)
 
-        val editCartDialog = EditCartDialog()
+        val editCartDialog = EditCartDialog(cartDao)
         editCartDialog.arguments = args
         editCartDialog.show((context as AppCompatActivity).supportFragmentManager, "IMAGE_FRAGMENT")
 

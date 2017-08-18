@@ -1,15 +1,12 @@
 package com.marknkamau.justjava.network
 
-import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.*
 
 interface DatabaseService{
 
     fun getUserDefaults(listener: UserDetailsListener)
 
-    fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: UploadListener)
+    fun placeNewOrder(order: Order, cartItems: List<CartItemRoom>, listener: UploadListener)
 
     fun getPreviousOrders(listener: PreviousOrdersListener)
 

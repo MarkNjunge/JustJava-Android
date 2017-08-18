@@ -15,19 +15,13 @@ class DrinkDetailsPresenterTest {
     @Before
     fun setup() {
         mockView = Mockito.mock(DrinkDetailsView::class.java)
-        presenter = DrinkDetailsPresenter(mockView, MockPreferencesRepository, MockAuthenticationServiceImpl, MockCartRepoImpl)
+        presenter = DrinkDetailsPresenter(mockView, MockCartRepoImpl)
     }
 
     @Test
     fun shouldAddItemToCart() {
         presenter.addToCart(CartItem())
         Mockito.verify(mockView).finishActivity()
-    }
-
-    @Test
-    fun shouldSetSignInStatus() {
-        presenter.getSignInStatus()
-        Mockito.verify(mockView).setSignInStatus(Mockito.anyBoolean())
     }
 
 }
