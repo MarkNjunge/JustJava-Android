@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.network
+package com.marknkamau.justjava.authentication
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -9,12 +9,15 @@ object AuthenticationServiceImpl : AuthenticationService {
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private var user: FirebaseUser? = firebaseAuth.currentUser
 
-    val currentUser: FirebaseUser?
-        get() = firebaseAuth.currentUser
+    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener){
+        firebaseAuth.addAuthStateListener(listener)
+    }
+
+    override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
     override fun logOut() {
         firebaseAuth.signOut()
-        user = firebaseAuth.currentUser
+        user = AuthenticationServiceImpl.firebaseAuth.currentUser
     }
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
@@ -37,13 +40,14 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-        user!!.updateProfile(profileUpdate)
-                .addOnSuccessListener { listener.actionSuccessful("User display name set") }
-                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+
+        user?.updateProfile(profileUpdate)
+                ?.addOnSuccessListener { listener.actionSuccessful("User display name set") }
+                ?.addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun getUserId(): String {
-        return user!!.uid
+    override fun getUserId(): String? {
+        return user?.uid
     }
 
     override fun isSignedIn(): Boolean {

@@ -23,10 +23,11 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.ui.BaseActivity
 
 import com.marknkamau.justjava.utils.bindView
 
-class CartActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener, CartView, View.OnClickListener {
+class CartActivity : BaseActivity(), CartView, View.OnClickListener {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val btnClearCart: Button by bindView(R.id.btn_clear_cart)
     val tvNoItems: TextView by bindView(R.id.tv_no_items)
@@ -34,8 +35,6 @@ class CartActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener, CartVi
     val tvCartTotal: TextView by bindView(R.id.tv_cart_total)
     val btnCheckout: Button by bindView(R.id.btn_checkout)
 
-    lateinit var firebaseAuth: FirebaseAuth
-    private var user: FirebaseUser? = null
     private lateinit var presenter: CartPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,60 +44,13 @@ class CartActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener, CartVi
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-
         rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        val preferencesRepository: PreferencesRepository = (application as JustJavaApp).preferencesRepo
-        presenter = CartPresenter(this, preferencesRepository, CartRepositoryImpl)
+        presenter = CartPresenter(this, CartRepositoryImpl)
         presenter.loadItems()
 
         btnClearCart.setOnClickListener(this)
         btnCheckout.setOnClickListener(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        invalidateOptionsMenu()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        user = firebaseAuth.currentUser
-        val inflater = menuInflater
-        if (user != null) {
-            inflater.inflate(R.menu.toolbar_menu_logged_in, menu)
-        } else {
-            inflater.inflate(R.menu.toolbar_menu, menu)
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_log_in -> {
-                startActivity(Intent(this, LogInActivity::class.java))
-                return true
-            }
-            R.id.menu_log_out -> {
-                presenter.logUserOut()
-                invalidateOptionsMenu()
-                return true
-            }
-            R.id.menu_profile -> {
-                startActivity(Intent(this, ProfileActivity::class.java))
-                return true
-            }
-            R.id.menu_about -> {
-                startActivity(Intent(this, AboutActivity::class.java))
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
-        user = FirebaseAuth.getInstance().currentUser
-        invalidateOptionsMenu()
     }
 
     override fun onClick(view: View) {
@@ -132,6 +84,4 @@ class CartActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener, CartVi
         btnCheckout.setBackgroundResource(R.drawable.large_button_disabled)
         btnCheckout.isEnabled = false
     }
-
-
 }

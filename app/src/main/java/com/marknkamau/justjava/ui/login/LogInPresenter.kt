@@ -3,23 +3,22 @@ package com.marknkamau.justjava.ui.login
 import android.os.Handler
 import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.network.AuthenticationService
+import com.marknkamau.justjava.authentication.AuthenticationService
 
-import com.marknkamau.justjava.network.AuthenticationServiceImpl
 import com.marknkamau.justjava.network.DatabaseService
 import com.marknkamau.justjava.network.DatabaseServiceImpl
 
-internal class LogInPresenter(private val activityView: LogInView, private val preferences: PreferencesRepository) {
+internal class LogInPresenter(private val activityView: LogInView, private val preferences: PreferencesRepository, private val auth: AuthenticationService) {
 
     fun checkSignInStatus() {
-        if (AuthenticationServiceImpl.currentUser != null) {
+        if (auth.getCurrentUser() != null) {
             activityView.closeActivity()
         }
     }
 
     fun signIn(email: String, password: String) {
         activityView.showDialog()
-        AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
+        auth.signIn(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String?) {
                 getUserDefaults()
             }
@@ -46,7 +45,7 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
     }
 
     fun resetUserPassword(email: String) {
-        AuthenticationServiceImpl.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
+        auth.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String?) {
                 activityView.displayMessage(response)
             }

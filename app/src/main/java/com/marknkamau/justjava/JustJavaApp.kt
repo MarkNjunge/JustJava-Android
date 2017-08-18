@@ -6,8 +6,8 @@ import com.crashlytics.android.Crashlytics
 
 import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.data.PreferencesRepositoryImpl
-import com.marknkamau.justjava.network.AuthenticationService
-import com.marknkamau.justjava.network.AuthenticationServiceImpl
+import com.marknkamau.justjava.authentication.AuthenticationService
+import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.network.DatabaseService
 import com.marknkamau.justjava.network.DatabaseServiceImpl
 import io.fabric.sdk.android.Fabric

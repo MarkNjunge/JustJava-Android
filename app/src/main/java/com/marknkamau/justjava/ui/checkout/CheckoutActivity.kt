@@ -20,18 +20,16 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.ui.about.AboutActivity
-import com.marknkamau.justjava.ui.cart.CartActivity
+import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
-import com.marknkamau.justjava.ui.profile.ProfileActivity
 
 import com.marknkamau.justjava.utils.bindView
+import com.marknkamau.justjava.utils.trimmedText
 
-class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener {
+class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val btnLogIn: Button by bindView(R.id.btn_log_in)
     val tvOr: TextView by bindView(R.id.tv_or)
@@ -42,12 +40,11 @@ class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener
     val pbProgress: ProgressBar by bindView(R.id.pb_progress)
     val btnPlaceOrder: Button by bindView(R.id.btn_place_order)
 
-    private var name: String? = null
-    private var phone: String? = null
-    private var address: String? = null
-    private var comments: String? = null
+    private lateinit var name: String
+    private lateinit var phone: String
+    private lateinit var address: String
+    private lateinit var comments: String
     private lateinit var presenter: CheckoutPresenter
-    private var userIsLoggedIn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,53 +54,13 @@ class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val preferencesRepository: PreferencesRepository = (application as JustJavaApp).preferencesRepo
-        presenter = CheckoutPresenter(this, preferencesRepository)
+        val authService = (application as JustJavaApp).authService
+        val preferencesRepo = (application as JustJavaApp).preferencesRepo
+
+        presenter = CheckoutPresenter(this, authService, preferencesRepo)
 
         btnLogIn.setOnClickListener(this)
         btnPlaceOrder.setOnClickListener(this)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        val inflater = menuInflater
-        if (userIsLoggedIn) {
-            inflater.inflate(R.menu.toolbar_menu_logged_in, menu)
-        } else {
-            inflater.inflate(R.menu.toolbar_menu, menu)
-        }
-        return true
-    }
-
-    override fun onResume() {
-        super.onResume()
-        presenter.updateLoggedInStatus()
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_cart -> {
-                startActivity(Intent(this@CheckoutActivity, CartActivity::class.java))
-                finish()
-                return true
-            }
-            R.id.menu_log_in -> {
-                startActivity(Intent(this, LogInActivity::class.java))
-                return true
-            }
-            R.id.menu_log_out -> {
-                presenter.logOut()
-                return true
-            }
-            R.id.menu_profile -> {
-                startActivity(Intent(this, ProfileActivity::class.java))
-                return true
-            }
-            R.id.menu_about -> {
-                startActivity(Intent(this, AboutActivity::class.java))
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onClick(view: View) {
@@ -119,12 +76,8 @@ class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener
 
     private fun placeOder() {
         if (validateInput()) {
-            presenter.placeOrder(Order(name!!, phone!!, 0, 0, address!!, comments!!))
+            presenter.placeOrder(Order(name, phone, 0, 0, address, comments))
         }
-    }
-
-    override fun setLoggedInStatus(status: Boolean) {
-        userIsLoggedIn = status
     }
 
     override fun setDisplayToLoggedIn(user: FirebaseUser, userDefaults: UserDefaults) {
@@ -171,10 +124,10 @@ class CheckoutActivity : AppCompatActivity(), CheckoutView, View.OnClickListener
     }
 
     private fun validateInput(): Boolean {
-        name = etName.text.toString().trim()
-        phone = etPhoneNumber.text.toString().trim()
-        address = etDeliveryAddress.text.toString().trim()
-        comments = etComments.text.toString().trim()
+        name = etName.trimmedText()
+        phone = etPhoneNumber.trimmedText()
+        address = etDeliveryAddress.trimmedText()
+        comments = etComments.trimmedText()
 
         var returnValue: Boolean = true
         if (TextUtils.isEmpty(name)) {

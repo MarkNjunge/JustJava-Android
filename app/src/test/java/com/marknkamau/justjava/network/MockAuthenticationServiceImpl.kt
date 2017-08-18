@@ -1,6 +1,13 @@
 package com.marknkamau.justjava.network
 
+import com.google.firebase.auth.FirebaseAuth
+import com.marknkamau.justjava.authentication.AuthenticationService
+
 object MockAuthenticationServiceImpl : AuthenticationService {
+    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener) {
+
+    }
+
     override fun getUserId(): String {
         return ""
     }

@@ -38,7 +38,8 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         setContentView(R.layout.activity_log_in)
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo
-        presenter = LogInPresenter(this, preferencesRepository)
+        val authService = (application as JustJavaApp).authService
+        presenter = LogInPresenter(this, preferencesRepository, authService)
         presenter.checkSignInStatus()
 
         imgVisibility.setOnClickListener(this)
@@ -103,6 +104,7 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     }
 
     override fun showDialog() {
+        // TODO remove progress dialog
         progressDialog = ProgressDialog(this)
         progressDialog.isIndeterminate = true
         progressDialog.setCancelable(false)
