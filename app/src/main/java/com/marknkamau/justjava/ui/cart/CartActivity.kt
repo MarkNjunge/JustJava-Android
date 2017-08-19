@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
@@ -17,6 +18,7 @@ import com.marknkamau.justjava.models.CartItemRoom
 import com.marknkamau.justjava.ui.BaseActivity
 
 import com.marknkamau.justjava.utils.bindView
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class CartActivity : BaseActivity(), CartView, View.OnClickListener {
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -26,7 +28,7 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
     val tvCartTotal: TextView by bindView(R.id.tv_cart_total)
     val btnCheckout: Button by bindView(R.id.btn_checkout)
 
-    lateinit var cartDao: CartDao
+    private lateinit var cartDao: CartDao
     private lateinit var presenter: CartPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +46,11 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
 
         btnClearCart.setOnClickListener(this)
         btnCheckout.setOnClickListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unSubscribe()
     }
 
     override fun onClick(view: View) {
@@ -78,4 +85,6 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
         btnCheckout.setBackgroundResource(R.drawable.large_button_disabled)
         btnCheckout.isEnabled = false
     }
+
+    override fun displayMessage(message: String?) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

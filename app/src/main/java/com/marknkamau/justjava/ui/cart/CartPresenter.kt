@@ -2,24 +2,22 @@ package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.models.CartItemRoom
-import io.reactivex.Single
+import com.marknkamau.justjava.ui.BasePresenter
+import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-internal class CartPresenter(private val activityView: CartView, private val cart: CartDao) {
-    private var getAllDisposable: Disposable? = null
-    private var clearCartDisposable: Disposable? = null
+internal class CartPresenter(private val activityView: CartView, private val cart: CartDao)
+    : BasePresenter() {
 
     fun loadItems() {
-        getAllDisposable = cart.getAll()
+        disposables.add(cart.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { items: MutableList<CartItemRoom>? ->
-                            getAllDisposable?.dispose()
-                            Timber.d(items?.toString())
+                .subscribeBy(
+                        onNext = { items: MutableList<CartItemRoom>? ->
                             val size: Int = items?.size ?: 0
                             if (size > 0) {
                                 activityView.displayCart(items)
@@ -30,28 +28,27 @@ internal class CartPresenter(private val activityView: CartView, private val car
                                 activityView.displayEmptyCart()
                             }
                         },
-                        { t: Throwable? ->
+                        onError = { t: Throwable? ->
                             Timber.e(t)
+                            activityView.displayMessage(t?.message)
                         }
-                )
+                ))
     }
 
     fun clearCart() {
-        clearCartDisposable = Single.fromCallable { cart.deleteAll() }
+        disposables.add(Completable.fromCallable { cart.deleteAll() }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { _ ->
-                            clearCartDisposable?.dispose()
+                .subscribeBy(
+                        onComplete = {
                             activityView.displayEmptyCart()
                         },
-                        { t ->
+                        onError = { t: Throwable? ->
                             Timber.e(t)
+                            activityView.displayMessage(t?.message)
                         }
-                )
-        activityView.displayEmptyCart()
+                ))
     }
-
 }
 
 
