@@ -73,6 +73,11 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         cbMarshmallow.setOnClickListener(this)
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.unSubscribe()
+    }
+
     override fun onClick(view: View) {
         when (view) {
             imgMinusQty -> minusQty()
@@ -84,7 +89,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         }
     }
 
-    override fun displayMessage(message: String) {
+    override fun displayMessage(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 

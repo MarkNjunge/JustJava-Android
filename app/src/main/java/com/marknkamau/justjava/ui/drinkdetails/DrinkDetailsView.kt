@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
-interface DrinkDetailsView {
-    fun displayMessage(message: String)
+import com.marknkamau.justjava.ui.BaseView
+
+interface DrinkDetailsView : BaseView{
     fun finishActivity()
 }

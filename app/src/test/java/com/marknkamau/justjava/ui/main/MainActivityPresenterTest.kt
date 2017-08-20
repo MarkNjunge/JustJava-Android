@@ -2,22 +2,26 @@ package com.marknkamau.justjava.ui.main
 
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class MainActivityPresenterTest {
-    private lateinit var mockView: MainView
+    @Mock
+    private lateinit var view: MainView
+
     private lateinit var presenter: MainPresenter
 
     @Before
     fun setup() {
-        mockView = Mockito.mock(MainView::class.java)
-
-        presenter = MainPresenter(mockView)
+        presenter = MainPresenter(view)
     }
 
     @Test
     fun shouldDisplayCatalogItems() {
         presenter.getCatalogItems()
-        Mockito.verify(mockView).displayCatalog(Mockito.anyList())
+        Mockito.verify(view).displayCatalog(Mockito.anyList())
     }
 }
