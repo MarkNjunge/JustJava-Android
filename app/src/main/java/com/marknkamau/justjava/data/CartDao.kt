@@ -2,7 +2,6 @@ package com.marknkamau.justjava.data
 
 import android.arch.persistence.room.*
 import com.marknkamau.justjava.models.CartItemRoom
-import io.reactivex.Flowable
 import io.reactivex.Single
 
 @Dao
@@ -11,7 +10,7 @@ interface CartDao{
     fun addItem(cartItem: CartItemRoom)
 
     @Query("SELECT * FROM cart")
-    fun getAll() : Flowable<MutableList<CartItemRoom>>
+    fun getAll() : Single<MutableList<CartItemRoom>>
 
     @Query("SELECT SUM(itemPrice) from cart")
     fun getTotal() : Single<String>

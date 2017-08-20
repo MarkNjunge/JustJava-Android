@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.models.CartItemRoom
-import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -41,28 +41,28 @@ class CartPresenterTest {
 
     @Test
     fun shouldDisplayCartItems() {
-        Mockito.`when`(cart.getAll()).thenReturn(Flowable.just(cartItems))
+        Mockito.`when`(cart.getAll()).thenReturn(Single.just(cartItems))
         cartPresenter.loadItems()
         Mockito.verify(mockView).displayCart(cartItems)
     }
 
     @Test
     fun shouldDisplayEmptyCart() {
-        Mockito.`when`(cart.getAll()).thenReturn(Flowable.just(Collections.emptyList()))
+        Mockito.`when`(cart.getAll()).thenReturn(Single.just(Collections.emptyList()))
         cartPresenter.loadItems()
         Mockito.verify(mockView).displayEmptyCart()
     }
 
     @Test
     fun shouldDisplayCartTotal() {
-        Mockito.`when`(cart.getAll()).thenReturn(Flowable.just(cartItems))
+        Mockito.`when`(cart.getAll()).thenReturn(Single.just(cartItems))
         cartPresenter.loadItems()
         Mockito.verify(mockView).displayCartTotal(Mockito.anyInt())
     }
 
     @Test
     fun shouldHandleError_whenGettingItems() {
-        Mockito.`when`(cart.getAll()).thenReturn(Flowable.error(Throwable("Whoosh!")))
+        Mockito.`when`(cart.getAll()).thenReturn(Single.error(Throwable("Whoosh!")))
         cartPresenter.loadItems()
         Mockito.verify(mockView).displayMessage(Mockito.anyString())
     }

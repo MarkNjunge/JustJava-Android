@@ -17,7 +17,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onNext = { items: MutableList<CartItemRoom>? ->
+                        onSuccess = { items: MutableList<CartItemRoom>? ->
                             val size: Int = items?.size ?: 0
                             if (size > 0) {
                                 activityView.displayCart(items)
