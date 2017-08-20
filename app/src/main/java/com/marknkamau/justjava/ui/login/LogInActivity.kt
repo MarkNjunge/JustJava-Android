@@ -39,7 +39,9 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo
         val authService = (application as JustJavaApp).authService
-        presenter = LogInPresenter(this, preferencesRepository, authService)
+        val database = (application as JustJavaApp).databaseService
+
+        presenter = LogInPresenter(this, preferencesRepository, authService, database)
         presenter.checkSignInStatus()
 
         imgVisibility.setOnClickListener(this)

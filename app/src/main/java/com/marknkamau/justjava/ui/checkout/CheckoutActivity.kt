@@ -4,11 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -17,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 
-import com.google.firebase.auth.FirebaseUser
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.Order
@@ -56,12 +52,19 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
         val authService = (application as JustJavaApp).authService
         val preferencesRepo = (application as JustJavaApp).preferencesRepo
+        val database = (application as JustJavaApp).databaseService
         val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
-        presenter = CheckoutPresenter(this, authService, preferencesRepo, cart)
+        presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
+        presenter.getSignInStatus()
 
         btnLogIn.setOnClickListener(this)
         btnPlaceOrder.setOnClickListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unSubscribe()
     }
 
     override fun onClick(view: View) {
@@ -81,7 +84,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         }
     }
 
-    override fun setDisplayToLoggedIn(user: FirebaseUser, userDefaults: UserDefaults) {
+    override fun setDisplayToLoggedIn(userDefaults: UserDefaults) {
         tvOr.visibility = View.GONE
         btnLogIn.visibility = View.GONE
 
@@ -120,7 +123,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         finish()
     }
 
-    override fun showMessage(message: String?) {
+    override fun displayMessage(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 

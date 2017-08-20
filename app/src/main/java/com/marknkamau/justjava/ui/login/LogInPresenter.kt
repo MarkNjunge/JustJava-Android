@@ -1,17 +1,18 @@
 package com.marknkamau.justjava.ui.login
 
-import android.os.Handler
 import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.authentication.AuthenticationService
 
 import com.marknkamau.justjava.network.DatabaseService
-import com.marknkamau.justjava.network.DatabaseServiceImpl
 
-internal class LogInPresenter(private val activityView: LogInView, private val preferences: PreferencesRepository, private val auth: AuthenticationService) {
+internal class LogInPresenter(private val activityView: LogInView,
+                              private val preferences: PreferencesRepository,
+                              private val auth: AuthenticationService,
+                              private val database: DatabaseService) {
 
     fun checkSignInStatus() {
-        if (auth.getCurrentUser() != null) {
+        if (auth.isSignedIn()) {
             activityView.closeActivity()
         }
     }
@@ -30,12 +31,12 @@ internal class LogInPresenter(private val activityView: LogInView, private val p
     }
 
     private fun getUserDefaults() {
-        DatabaseServiceImpl.getUserDefaults(object : DatabaseService.UserDetailsListener {
+        database.getUserDefaults(object : DatabaseService.UserDetailsListener {
             override fun taskSuccessful(name: String, phone: String, deliveryAddress: String) {
                 preferences.saveDefaults(UserDefaults(name, phone, deliveryAddress))
                 activityView.dismissDialog()
                 activityView.displayMessage("Sign in successful")
-                Handler().postDelayed({ activityView.finishSignUp() }, 500)
+                activityView.finishSignUp()
             }
 
             override fun taskFailed(reason: String?) {

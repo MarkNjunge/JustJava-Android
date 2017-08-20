@@ -3,24 +3,24 @@ package com.marknkamau.justjava.ui.checkout
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.network.DatabaseServiceImpl
 import com.marknkamau.justjava.data.PreferencesRepository
 import com.marknkamau.justjava.models.CartItemRoom
 import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-internal class CheckoutPresenter(private val activityView: CheckoutView, auth: AuthenticationService, preferences: PreferencesRepository, private val cart: CartDao) {
-    private var getAllDisposable: Disposable? = null
-    private var deleteAllDisposable: Disposable? = null
-    private var resetIndexDisposable: Disposable? = null
-
-    init {
+internal class CheckoutPresenter(private val activityView: CheckoutView,
+                                 val auth: AuthenticationService,
+                                 val preferences: PreferencesRepository,
+                                 val database: DatabaseService,
+                                 private val cart: CartDao) : BasePresenter() {
+    fun getSignInStatus() {
         if (auth.isSignedIn()) {
-            activityView.setDisplayToLoggedIn(auth.getCurrentUser()!!, preferences.getDefaults())
+            activityView.setDisplayToLoggedIn(preferences.getDefaults())
         } else {
             activityView.setDisplayToLoggedOut()
         }
@@ -29,18 +29,17 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, auth: A
     fun placeOrder(order: Order) {
         activityView.showUploadBar()
 
-        getAllDisposable = cart.getAll()
+        disposables.add(cart.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { items: MutableList<CartItemRoom>? ->
-                            getAllDisposable?.dispose()
-                            placeOrderInternal(items!!, order)
+                .subscribeBy(
+                        onSuccess = { items: MutableList<CartItemRoom> ->
+                            placeOrderInternal(items, order)
                         },
-                        { t: Throwable? ->
+                        onError = { t: Throwable? ->
                             Timber.e(t)
                         }
-                )
+                ))
 
     }
 
@@ -52,33 +51,35 @@ internal class CheckoutPresenter(private val activityView: CheckoutView, auth: A
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        DatabaseServiceImpl.placeNewOrder(order, items, object : DatabaseService.UploadListener {
+        database.placeNewOrder(order, items, object : DatabaseService.UploadListener {
             override fun taskSuccessful() {
-
                 val deleteAll = Completable.fromCallable { cart.deleteAll() }
                 val resetIndex = Completable.fromCallable { cart.resetIndex() }
 
-                deleteAllDisposable = deleteAll.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                {
-                                    resetIndexDisposable = resetIndex.subscribeOn(Schedulers.io())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe({
-                                                deleteAllDisposable?.dispose()
-                                                activityView.hideUploadBar()
-                                                activityView.showMessage("Order placed")
-                                                activityView.finishActivity()
-                                            })
-                                }
-                        )
+                val merged = deleteAll.mergeWith(resetIndex)
 
+                disposables.add(merged
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeBy(
+                                onComplete = {
+                                    activityView.hideUploadBar()
+                                    activityView.displayMessage("Order placed")
+                                    activityView.finishActivity()
+                                },
+                                onError = {
+                                    t: Throwable? ->
+                                    Timber.e(t)
+                                    activityView.hideUploadBar()
+                                    activityView.displayMessage(t?.message)
+                                }
+                        ))
 
             }
 
             override fun taskFailed(reason: String?) {
                 activityView.hideUploadBar()
-                activityView.showMessage(reason)
+                activityView.displayMessage(reason)
             }
         })
 

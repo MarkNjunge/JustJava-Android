@@ -1,20 +1,20 @@
 package com.marknkamau.justjava.ui.signup
 
-import android.os.Handler
 import com.marknkamau.justjava.data.PreferencesRepository
 
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.network.DatabaseService
-import com.marknkamau.justjava.network.DatabaseServiceImpl
 
-internal class SignUpPresenter(private val activityView: SignUpView, private val preferences: PreferencesRepository) {
+internal class SignUpPresenter(private val activityView: SignUpView,
+                               private val preferences: PreferencesRepository,
+                               private val auth: AuthenticationService,
+                               private val database: DatabaseService) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
         activityView.disableUserInteraction()
 
-        AuthenticationServiceImpl.createUser(email, password, object : AuthenticationService.AuthActionListener {
+        auth.createUser(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String?) {
                 signInUser(email, password, name, phone, address)
             }
@@ -27,7 +27,7 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
     }
 
     private fun signInUser(email: String, password: String, name: String, phone: String, address: String) {
-        AuthenticationServiceImpl.signIn(email, password, object : AuthenticationService.AuthActionListener {
+        auth.signIn(email, password, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String?) {
                 setUserDisplayName(name, phone, address)
             }
@@ -40,15 +40,14 @@ internal class SignUpPresenter(private val activityView: SignUpView, private val
     }
 
     private fun setUserDisplayName(name: String, phone: String, address: String) {
-        AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
+        auth.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String?) {
-                DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
+                database.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
                     override fun taskSuccessful() {
                         activityView.enableUserInteraction()
                         preferences.saveDefaults(UserDefaults(name, phone, address))
                         activityView.displayMessage("Sign up successfully")
-                        Handler().postDelayed({ activityView.finishActivity() }, 500)
-
+                        activityView.finishActivity()
                     }
 
                     override fun taskFailed(reason: String?) {

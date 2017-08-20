@@ -4,7 +4,6 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
@@ -50,7 +49,10 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         setContentView(R.layout.activity_sign_up)
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo
-        presenter = SignUpPresenter(this, preferencesRepository)
+        val auth = (application as JustJavaApp).authService
+        val database = (application as JustJavaApp).databaseService
+
+        presenter = SignUpPresenter(this, preferencesRepository, auth, database)
 
         imgViewPass.setOnClickListener(this)
         imgViewPassRpt.setOnClickListener(this)
