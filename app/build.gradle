@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.23.0'
+        classpath 'io.fabric.tools:gradle:1.24.2'
     }
 }
 
@@ -33,7 +33,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.marknkamau.justjava"
         minSdkVersion 19
@@ -53,52 +53,48 @@ android {
 }
 
 dependencies {
-    def support_version = '26.0.1'
-    def firebase_version = '11.2.0'
-    def room_version = '1.0.0-alpha5'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    // Test libraries
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.8.47'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
+    // Crashlytics
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
         transitive = true;
     }
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
     //Android libraries
-    compile "com.android.support:design:$support_version"
-    compile "com.android.support:cardview-v7:$support_version"
-    compile "com.android.support:appcompat-v7:$support_version"
-    compile "com.android.support:recyclerview-v7:$support_version"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support:design:$support_version"
+    implementation "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //Firebase libraries
-    compile "com.google.firebase:firebase-auth:$firebase_version"
-    compile "com.google.firebase:firebase-core:$firebase_version"
-    compile "com.google.firebase:firebase-crash:$firebase_version"
-    compile "com.google.firebase:firebase-database:$firebase_version"
-    compile "com.google.firebase:firebase-messaging:$firebase_version"
+    implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-core:$firebase_version"
+    implementation "com.google.firebase:firebase-crash:$firebase_version"
+    implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-messaging:$firebase_version"
 
     // Room
-    compile "android.arch.persistence.room:runtime:$room_version"
-    compile "android.arch.persistence.room:rxjava2:$room_version"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"
 
     // Rx
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'io.reactivex.rxjava2:rxjava:2.1.3'
-    compile 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
 
     // Other libraries
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jakewharton.timber:timber:4.5.1'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.timber:timber:4.6.0'
+
+    // Test libraries
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.12.0'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }
 
 apply plugin: 'com.google.gms.google-services'
