@@ -15,7 +15,7 @@ import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 import timber.log.Timber
 
-open class BaseActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
+abstract class BaseActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     private var isSignedIn = false
 
