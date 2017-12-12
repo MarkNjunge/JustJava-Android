@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.network
+package com.marknkamau.justjava.data.network
 
 import com.google.firebase.database.*
 import com.google.firebase.iid.FirebaseInstanceId

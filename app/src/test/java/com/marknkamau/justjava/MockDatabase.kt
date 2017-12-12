@@ -3,7 +3,7 @@ package com.marknkamau.justjava
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDefaults
-import com.marknkamau.justjava.network.DatabaseService
+import com.marknkamau.justjava.data.network.DatabaseService
 
 object MockDatabase : DatabaseService{
     override fun getUserDefaults(listener: DatabaseService.UserDetailsListener) {

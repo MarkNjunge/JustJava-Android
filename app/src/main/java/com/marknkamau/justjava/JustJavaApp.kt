@@ -5,13 +5,13 @@ import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
 import com.crashlytics.android.Crashlytics
 
-import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.data.PreferencesRepositoryImpl
+import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
-import com.marknkamau.justjava.data.CartDatabase
-import com.marknkamau.justjava.network.DatabaseService
-import com.marknkamau.justjava.network.DatabaseServiceImpl
+import com.marknkamau.justjava.data.local.CartDatabase
+import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.data.network.DatabaseServiceImpl
 import io.fabric.sdk.android.Fabric
 
 import timber.log.Timber

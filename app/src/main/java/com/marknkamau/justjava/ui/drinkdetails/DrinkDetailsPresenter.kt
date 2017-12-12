@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
-import com.marknkamau.justjava.data.CartDao
+import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable

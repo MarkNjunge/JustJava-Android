@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.MockDatabase
 import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.anyAuthActionListener
 import org.junit.Before
 import org.junit.Test

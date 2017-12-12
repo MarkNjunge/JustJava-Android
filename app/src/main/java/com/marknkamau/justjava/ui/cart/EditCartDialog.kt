@@ -12,13 +12,9 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.data.DrinksProvider
+import com.marknkamau.justjava.data.local.CartDao
+import com.marknkamau.justjava.data.local.DrinksProvider
 import com.marknkamau.justjava.models.CartItem
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
 
 class EditCartDialog() : DialogFragment(), View.OnClickListener {
     lateinit var tvDrinkName: TextView

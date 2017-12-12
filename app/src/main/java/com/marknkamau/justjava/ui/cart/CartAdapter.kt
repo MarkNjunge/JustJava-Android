@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.CartDao
+import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.models.CartItem
 
 import kotlinx.android.synthetic.main.item_cart.view.*

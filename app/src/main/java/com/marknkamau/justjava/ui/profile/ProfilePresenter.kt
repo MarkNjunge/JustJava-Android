@@ -1,13 +1,13 @@
 package com.marknkamau.justjava.ui.profile
 
-import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.data.local.PreferencesRepository
 
 import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
-import com.marknkamau.justjava.network.DatabaseService
-import com.marknkamau.justjava.network.DatabaseServiceImpl
+import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.data.network.DatabaseServiceImpl
 
 internal class ProfilePresenter(private val activityView: ProfileView, private val preferencesRepository: PreferencesRepository) {
 

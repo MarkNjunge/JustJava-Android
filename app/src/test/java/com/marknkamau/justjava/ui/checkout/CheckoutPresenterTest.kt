@@ -2,8 +2,8 @@ package com.marknkamau.justjava.ui.checkout
 
 import com.marknkamau.justjava.MockDatabase
 import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.data.local.CartDao
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDefaults

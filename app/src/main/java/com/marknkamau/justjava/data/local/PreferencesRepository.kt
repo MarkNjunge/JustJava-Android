@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data
+package com.marknkamau.justjava.data.local
 
 import com.marknkamau.justjava.models.UserDefaults
 

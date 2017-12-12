@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
-import com.marknkamau.justjava.data.CartDao
+import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.models.CartItem
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins

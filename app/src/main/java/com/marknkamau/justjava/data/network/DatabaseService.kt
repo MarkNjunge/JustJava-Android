@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.network
+package com.marknkamau.justjava.data.network
 
 import com.marknkamau.justjava.models.*
 

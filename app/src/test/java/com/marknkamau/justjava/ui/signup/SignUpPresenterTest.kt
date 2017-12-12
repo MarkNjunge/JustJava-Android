@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.signup
 import com.marknkamau.justjava.MockDatabase
 import com.marknkamau.justjava.anyAuthActionListener
 import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.data.PreferencesRepository
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data
+package com.marknkamau.justjava.data.local
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
