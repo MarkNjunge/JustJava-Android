@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/img_back"
+            android:id="@+id/imgBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="16dp"
@@ -65,7 +65,7 @@
             tools:layout_editor_absoluteY="81dp" />
 
         <TextView
-            android:id="@+id/tv_version_number"
+            android:id="@+id/tvVersionNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -93,7 +93,7 @@
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_version_number" />
+            app:layout_constraintTop_toBottomOf="@+id/tvVersionNumber" />
 
         <TextView
             android:id="@+id/textView9"
@@ -123,37 +123,37 @@
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <ImageView
-            android:id="@+id/img_mail"
+            android:id="@+id/imgMail"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
             app:layout_constraintLeft_toLeftOf="@+id/textView10"
-            app:layout_constraintRight_toLeftOf="@+id/img_linkedin"
+            app:layout_constraintRight_toLeftOf="@+id/imgLinkedin"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_mail"
             app:layout_constraintHorizontal_chainStyle="spread_inside" />
 
         <ImageView
-            android:id="@+id/img_linkedin"
+            android:id="@+id/imgLinkedin"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            app:layout_constraintLeft_toRightOf="@+id/img_mail"
-            app:layout_constraintRight_toLeftOf="@+id/img_github"
+            app:layout_constraintLeft_toRightOf="@+id/imgMail"
+            app:layout_constraintRight_toLeftOf="@+id/imgGithub"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_linkedin_tm" />
 
         <ImageView
-            android:id="@+id/img_github"
+            android:id="@+id/imgGithub"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            app:layout_constraintLeft_toRightOf="@+id/img_linkedin"
+            app:layout_constraintLeft_toRightOf="@+id/imgLinkedin"
             app:layout_constraintRight_toRightOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_github_mark" />

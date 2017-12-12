@@ -4,14 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.MultiAutoCompleteTextView
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
@@ -22,20 +16,10 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 
-import com.marknkamau.justjava.utils.bindView
 import com.marknkamau.justjava.utils.trimmedText
+import kotlinx.android.synthetic.main.activity_checkout.*
 
 class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val btnLogIn: Button by bindView(R.id.btn_log_in)
-    val tvOr: TextView by bindView(R.id.tv_or)
-    val etName: EditText by bindView(R.id.et_name)
-    val etPhoneNumber: EditText by bindView(R.id.et_phone_number)
-    val etDeliveryAddress: EditText by bindView(R.id.et_delivery_address)
-    val etComments: MultiAutoCompleteTextView by bindView(R.id.et_comments)
-    val pbProgress: ProgressBar by bindView(R.id.pb_progress)
-    val btnPlaceOrder: Button by bindView(R.id.btn_place_order)
-
     private lateinit var name: String
     private lateinit var phone: String
     private lateinit var address: String
@@ -58,7 +42,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
         presenter.getSignInStatus()
 
-        btnLogIn.setOnClickListener(this)
+        btnLogin.setOnClickListener(this)
         btnPlaceOrder.setOnClickListener(this)
     }
 
@@ -69,7 +53,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view) {
-            btnLogIn -> startActivity(Intent(this@CheckoutActivity, LogInActivity::class.java))
+            btnLogin -> startActivity(Intent(this@CheckoutActivity, LogInActivity::class.java))
             btnPlaceOrder -> if (canConnectToInternet()) {
                 placeOder()
             } else {
@@ -86,10 +70,10 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
     override fun setDisplayToLoggedIn(userDefaults: UserDefaults) {
         tvOr.visibility = View.GONE
-        btnLogIn.visibility = View.GONE
+        btnLogin.visibility = View.GONE
 
         etName.setText(userDefaults.name)
-        etPhoneNumber.setText(userDefaults.phone)
+        etPhone.setText(userDefaults.phone)
         etDeliveryAddress.setText(userDefaults.defaultAddress)
     }
 
@@ -99,17 +83,17 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
     override fun setDisplayToLoggedOut() {
         tvOr.text = getString(R.string.or)
-        btnLogIn.visibility = View.VISIBLE
+        btnLogin.visibility = View.VISIBLE
     }
 
     override fun showUploadBar() {
-        pbProgress.visibility = View.VISIBLE
+        pbSavingProfile.visibility = View.VISIBLE
         btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled)
         btnPlaceOrder.isEnabled = false
     }
 
     override fun hideUploadBar() {
-        pbProgress.visibility = View.INVISIBLE
+        pbSavingProfile.visibility = View.INVISIBLE
         btnPlaceOrder.setBackgroundResource(R.drawable.large_button)
         btnPlaceOrder.isEnabled = true
     }
@@ -129,7 +113,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
 
     private fun validateInput(): Boolean {
         name = etName.trimmedText()
-        phone = etPhoneNumber.trimmedText()
+        phone = etPhone.trimmedText()
         address = etDeliveryAddress.trimmedText()
         comments = etComments.trimmedText()
 
@@ -139,7 +123,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
             returnValue = false
         }
         if (TextUtils.isEmpty(phone)) {
-            etPhoneNumber.error = getString(R.string.required)
+            etPhone.error = getString(R.string.required)
             returnValue = false
         }
         if (TextUtils.isEmpty(address)) {

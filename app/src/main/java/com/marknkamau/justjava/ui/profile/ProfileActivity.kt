@@ -3,14 +3,8 @@ package com.marknkamau.justjava.ui.profile
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
@@ -19,21 +13,10 @@ import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.ui.BaseActivity
 
-import com.marknkamau.justjava.utils.bindView
 import com.marknkamau.justjava.utils.trimmedText
+import kotlinx.android.synthetic.main.activity_profile.*
 
 class ProfileActivity : BaseActivity(), ProfileView {
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val etName: EditText by bindView(R.id.et_name)
-    val etPhoneNumber: EditText by bindView(R.id.et_phone_number)
-    val etDeliveryAddress: EditText by bindView(R.id.et_delivery_address)
-    val pbSaving: ProgressBar by bindView(R.id.pb_saving)
-    val btnSave: Button by bindView(R.id.btn_save)
-    val rvPreviousOrders: RecyclerView by bindView(R.id.rv_previous_orders)
-    val tvNoOrders: TextView by bindView(R.id.tv_no_orders)
-    val pbLoadingOrders: ProgressBar by bindView(R.id.pb_loading_orders)
-    val btnLogout: Button by bindView(R.id.btn_logout)
-
     private var name: String? = null
     private var phone: String? = null
     private var address: String? = null
@@ -64,11 +47,11 @@ class ProfileActivity : BaseActivity(), ProfileView {
     }
 
     override fun showProgressBar() {
-        pbSaving.visibility = View.VISIBLE
+        pbLoadingOrders.visibility = View.VISIBLE
     }
 
     override fun hideProgressBar() {
-        pbSaving.visibility = View.INVISIBLE
+        pbLoadingOrders.visibility = View.INVISIBLE
     }
 
     override fun displayNoPreviousOrders() {
@@ -84,20 +67,20 @@ class ProfileActivity : BaseActivity(), ProfileView {
     }
 
     override fun displayMessage(message: String?) {
-        pbSaving.visibility = View.GONE
+        pbLoadingOrders.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveChanges() {
         if (fieldsOk()) {
-            pbSaving.visibility = View.VISIBLE
+            pbLoadingOrders.visibility = View.VISIBLE
             presenter.updateUserDefaults(name!!, phone!!, address!!)
         }
     }
 
     private fun fieldsOk(): Boolean {
         name = etName.trimmedText()
-        phone = etPhoneNumber.trimmedText()
+        phone = etPhone.trimmedText()
         address = etDeliveryAddress.trimmedText()
 
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
@@ -109,7 +92,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
 
     override fun displayUserDefaults(userDefaults: UserDefaults) {
         etName.setText(userDefaults.name)
-        etPhoneNumber.setText(userDefaults.phone)
+        etPhone.setText(userDefaults.phone)
         etDeliveryAddress.setText(userDefaults.defaultAddress)
     }
 }

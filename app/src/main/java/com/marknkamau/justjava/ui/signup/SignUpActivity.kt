@@ -21,19 +21,9 @@ import com.marknkamau.justjava.ui.login.LogInActivity
 import java.util.regex.Pattern
 import com.marknkamau.justjava.utils.bindView
 import com.marknkamau.justjava.utils.trimmedText
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
 class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
-    val etEmailAddress: EditText by bindView(R.id.et_email_address)
-    val etPassword: EditText by bindView(R.id.et_password)
-    val imgViewPass: ImageView by bindView(R.id.img_view_pass)
-    val etPasswordRepeat: EditText by bindView(R.id.et_password_repeat)
-    val imgViewPassRpt: ImageView by bindView(R.id.img_view_pass_rpt)
-    val etName: EditText by bindView(R.id.et_name)
-    val etPhoneNumber: EditText by bindView(R.id.et_phone_number)
-    val etDeliveryAddress: MultiAutoCompleteTextView by bindView(R.id.et_delivery_address)
-    val btnSignUp: Button by bindView(R.id.btn_sign_up)
-    val tvLogIn: TextView by bindView(R.id.tv_log_in)
-
     private lateinit var name: String
     private lateinit var phone: String
     private lateinit var email: String
@@ -56,8 +46,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
 
         imgViewPass.setOnClickListener(this)
         imgViewPassRpt.setOnClickListener(this)
-        btnSignUp.setOnClickListener(this)
-        tvLogIn.setOnClickListener(this)
+        btnSignup.setOnClickListener(this)
+        tvLogin.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
@@ -82,8 +72,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
                     imgViewPassRpt.setImageResource(R.drawable.ic_visibility)
                     passRptVisible = true
                 }
-            btnSignUp -> createUser()
-            tvLogIn -> {
+            btnSignup -> createUser()
+            tvLogin -> {
                 startActivity(Intent(this@SignUpActivity, LogInActivity::class.java))
                 finish()
             }
@@ -91,8 +81,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     }
 
     override fun enableUserInteraction() {
-        btnSignUp.setBackgroundResource(R.drawable.large_button)
-        btnSignUp.isEnabled = true
+        btnSignup.setBackgroundResource(R.drawable.large_button)
+        btnSignup.isEnabled = true
         if (progressDialog.isShowing) {
             progressDialog.dismiss()
         }
@@ -105,8 +95,8 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         progressDialog.setTitle(null)
         progressDialog.setMessage("Creating user")
         progressDialog.show()
-        btnSignUp.setBackgroundResource(R.drawable.large_button_disabled)
-        btnSignUp.isEnabled = false
+        btnSignup.setBackgroundResource(R.drawable.large_button_disabled)
+        btnSignup.isEnabled = false
     }
 
     override fun displayMessage(message: String?) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -125,7 +115,7 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         val passwordRpt = etPasswordRepeat.trimmedText()
 
         name = etName.trimmedText()
-        phone = etPhoneNumber.trimmedText()
+        phone = etPhone.trimmedText()
         address = etDeliveryAddress.trimmedText()
 
         val pattern1 = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")

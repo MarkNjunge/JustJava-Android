@@ -55,15 +55,15 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
             item = args.getParcelable<CartItemRoom>(CART_ITEM)
         }
 
-        tvDrinkName = view?.findViewById<TextView>(R.id.tv_drink_name) as TextView
-        tvQuantity = view.findViewById<TextView>(R.id.tv_quantity) as TextView
-        tvChocolate = view.findViewById<TextView>(R.id.tv_chocolate) as TextView
-        tvMarshmallows = view.findViewById<TextView>(R.id.tv_marshmallows) as TextView
+        tvDrinkName = view?.findViewById<TextView>(R.id.tvDrinkName) as TextView
+        tvQuantity = view.findViewById<TextView>(R.id.tvQuantity) as TextView
+        tvChocolate = view.findViewById<TextView>(R.id.tvChocolate) as TextView
+        tvMarshmallows = view.findViewById<TextView>(R.id.tvMarshmallows) as TextView
         tvTotal = view.findViewById<TextView>(R.id.tv_total) as TextView
-        tvCinnamon = view.findViewById<TextView>(R.id.tv_cinnamon) as TextView
-        imgMinusQty = view.findViewById<ImageView>(R.id.img_minus_qty) as ImageView
+        tvCinnamon = view.findViewById<TextView>(R.id.tvCinnamon) as TextView
+        imgMinusQty = view.findViewById<ImageView>(R.id.imgMinusQty) as ImageView
         imgDelete = view.findViewById<ImageView>(R.id.img_delete) as ImageView
-        imgAddQty = view.findViewById<ImageView>(R.id.img_add_qty) as ImageView
+        imgAddQty = view.findViewById<ImageView>(R.id.imgAddQty) as ImageView
         imgSave = view.findViewById<ImageView>(R.id.img_save) as ImageView
 
         tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING)

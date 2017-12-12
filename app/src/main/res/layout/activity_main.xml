@@ -31,11 +31,9 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_catalog"
+        android:id="@+id/rvCatalog"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"

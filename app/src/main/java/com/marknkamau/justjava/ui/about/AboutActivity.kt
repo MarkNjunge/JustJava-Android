@@ -14,14 +14,9 @@ import android.widget.Toast
 import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.R
 
-import com.marknkamau.justjava.utils.bindView
+import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : AppCompatActivity(), View.OnClickListener {
-    val imgBack: ImageView by bindView(R.id.img_back)
-    val tvVersionNumber: TextView by bindView(R.id.tv_version_number)
-    val imgMail: ImageView by bindView(R.id.img_mail)
-    val imgLinkedin: ImageView by bindView(R.id.img_linkedin)
-    val imgGithub: ImageView by bindView(R.id.img_github)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

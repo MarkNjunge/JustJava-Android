@@ -1,12 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 
@@ -17,24 +12,9 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.main.CatalogAdapter
 import com.squareup.picasso.Picasso
 
-import com.marknkamau.justjava.utils.bindView
+import kotlinx.android.synthetic.main.activity_drink_details.*
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val imgDrinkImage: ImageView by bindView(R.id.img_drink_image)
-    val tvDrinkName: TextView by bindView(R.id.tv_drink_name)
-    val tvDrinkDescription: TextView by bindView(R.id.tv_drink_description)
-    val tvDrinkContents: TextView by bindView(R.id.tv_drink_contents)
-    val tvDrinkPrice: TextView by bindView(R.id.tv_drink_price)
-    val imgMinusQty: ImageView by bindView(R.id.img_minus_qty)
-    val tvQuantity: TextView by bindView(R.id.tv_quantity)
-    val imgAddQty: ImageView by bindView(R.id.img_add_qty)
-    val tvSubtotal: TextView by bindView(R.id.tv_subtotal)
-    val btnAddToCart: Button by bindView(R.id.btn_add_to_cart)
-    val cbCinnamon: CheckBox by bindView(R.id.cb_cinnamon)
-    val cbChocolate: CheckBox by bindView(R.id.cb_chocolate)
-    val cbMarshmallow: CheckBox by bindView(R.id.cb_marshmallow)
-
     private lateinit var drink: CoffeeDrink
     private var quantity: Int = 0
     private lateinit var presenter: DrinkDetailsPresenter

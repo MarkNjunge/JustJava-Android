@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_drink_name"
+        android:id="@+id/tvDrinkName"
         style="@style/main_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/img_minus_qty"
+        android:id="@+id/imgMinusQty"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
@@ -31,37 +31,37 @@
         android:clickable="true"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tv_quantity"
-        app:layout_constraintTop_toBottomOf="@+id/tv_drink_name"
+        app:layout_constraintRight_toLeftOf="@+id/tvQuantity"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkName"
         app:srcCompat="@drawable/ic_minus_circle" />
 
     <TextView
-        android:id="@+id/tv_quantity"
+        android:id="@+id/tvQuantity"
         style="@style/main_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1"
-        app:layout_constraintBottom_toBottomOf="@+id/img_minus_qty"
-        app:layout_constraintLeft_toRightOf="@+id/img_minus_qty"
-        app:layout_constraintRight_toLeftOf="@+id/img_add_qty"
-        app:layout_constraintTop_toTopOf="@+id/img_minus_qty" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
+        app:layout_constraintLeft_toRightOf="@+id/imgMinusQty"
+        app:layout_constraintRight_toLeftOf="@+id/imgAddQty"
+        app:layout_constraintTop_toTopOf="@+id/imgMinusQty" />
 
     <ImageView
-        android:id="@+id/img_add_qty"
+        android:id="@+id/imgAddQty"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:alpha=".87"
         android:clickable="true"
-        app:layout_constraintBottom_toBottomOf="@+id/img_minus_qty"
-        app:layout_constraintLeft_toRightOf="@+id/tv_quantity"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
+        app:layout_constraintLeft_toRightOf="@+id/tvQuantity"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/img_minus_qty"
+        app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
         app:srcCompat="@drawable/ic_add_circle" />
 
     <TextView
-        android:id="@+id/tv_cinnamon"
+        android:id="@+id/tvCinnamon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -76,10 +76,10 @@
         android:textColor="@color/colorToppingOffText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_minus_qty" />
+        app:layout_constraintTop_toBottomOf="@+id/imgMinusQty" />
 
     <TextView
-        android:id="@+id/tv_chocolate"
+        android:id="@+id/tvChocolate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -94,10 +94,10 @@
         android:textColor="@color/colorToppingOffText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cinnamon" />
+        app:layout_constraintTop_toBottomOf="@+id/tvCinnamon" />
 
     <TextView
-        android:id="@+id/tv_marshmallows"
+        android:id="@+id/tvMarshmallows"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
@@ -110,7 +110,7 @@
         android:textColor="@color/colorToppingOffText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_chocolate" />
+        app:layout_constraintTop_toBottomOf="@+id/tvChocolate" />
 
     <View
         android:id="@+id/view"
@@ -123,7 +123,7 @@
         android:background="#000000"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_marshmallows" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMarshmallows" />
 
     <ImageView
         android:id="@+id/img_delete"

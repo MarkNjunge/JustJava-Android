@@ -43,7 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_name"
+                android:id="@+id/tilName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -55,7 +55,7 @@
                 android:layout_marginTop="8dp">
 
                 <EditText
-                    android:id="@+id/et_name"
+                    android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -69,7 +69,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_phone_number"
+                android:id="@+id/tilPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -77,10 +77,10 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_name">
+                app:layout_constraintTop_toBottomOf="@+id/tilName">
 
                 <EditText
-                    android:id="@+id/et_phone_number"
+                    android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
@@ -89,19 +89,19 @@
                     android:textSize="14sp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/til_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/tilName" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/til_address"
+                android:id="@+id/tilAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_phone_number">
+                app:layout_constraintTop_toBottomOf="@+id/tilPhone">
 
                 <EditText
-                    android:id="@+id/et_delivery_address"
+                    android:id="@+id/etDeliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="8dp"
@@ -114,7 +114,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <ProgressBar
-                android:id="@+id/pb_saving"
+                android:id="@+id/pbSavingProfile"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -126,10 +126,10 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_address" />
+                app:layout_constraintTop_toBottomOf="@+id/tilAddress" />
 
             <Button
-                android:id="@+id/btn_save"
+                android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -143,7 +143,7 @@
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pb_saving" />
+                app:layout_constraintTop_toBottomOf="@+id/pbSavingProfile" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -156,10 +156,10 @@
                 android:text="@string/previous_orders"
                 android:textAllCaps="false"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_save" />
+                app:layout_constraintTop_toBottomOf="@+id/btnSave" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_previous_orders"
+                android:id="@+id/rvPreviousOrders"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -173,7 +173,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
             <TextView
-                android:id="@+id/tv_no_orders"
+                android:id="@+id/tvNoOrders"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -185,18 +185,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_previous_orders"
+                app:layout_constraintTop_toBottomOf="@+id/rvPreviousOrders"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ProgressBar
-                android:id="@+id/pb_loading_orders"
+                android:id="@+id/pbLoadingOrders"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:indeterminate="true"
                 android:visibility="visible"
@@ -205,7 +203,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
             <Button
-                android:id="@+id/btn_logout"
+                android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -213,8 +211,8 @@
                 android:layout_marginTop="8dp"
                 android:text="Logout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_save"
-                app:layout_constraintTop_toTopOf="@+id/btn_save" />
+                app:layout_constraintStart_toEndOf="@+id/btnSave"
+                app:layout_constraintTop_toTopOf="@+id/btnSave" />
 
         </android.support.constraint.ConstraintLayout>
 

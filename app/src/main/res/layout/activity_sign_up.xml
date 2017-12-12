@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/ic_just_java_text" />
 
         <EditText
-            android:id="@+id/et_email_address"
+            android:id="@+id/etEmailAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/etPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -65,25 +65,25 @@
             android:textColorHint="@color/colorPrimaryLight"
             android:textSize="17sp"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintLeft_toLeftOf="@+id/et_email_address"
-            app:layout_constraintRight_toLeftOf="@+id/img_view_pass"
-            app:layout_constraintTop_toBottomOf="@+id/et_email_address" />
+            app:layout_constraintLeft_toLeftOf="@+id/etEmailAddress"
+            app:layout_constraintRight_toLeftOf="@+id/imgViewPass"
+            app:layout_constraintTop_toBottomOf="@+id/etEmailAddress" />
 
         <ImageView
-            android:id="@+id/img_view_pass"
+            android:id="@+id/imgViewPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".87"
-            app:layout_constraintBottom_toBottomOf="@+id/et_password"
-            app:layout_constraintRight_toRightOf="@+id/et_email_address"
-            app:layout_constraintTop_toTopOf="@+id/et_password"
+            app:layout_constraintBottom_toBottomOf="@+id/etPassword"
+            app:layout_constraintRight_toRightOf="@+id/etEmailAddress"
+            app:layout_constraintTop_toTopOf="@+id/etPassword"
             app:layout_constraintVertical_bias="0.333"
             app:srcCompat="@drawable/ic_visibility_off" />
 
         <EditText
-            android:id="@+id/et_password_repeat"
+            android:id="@+id/etPasswordRepeat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -97,24 +97,24 @@
             android:textColorHint="@color/colorPrimaryLight"
             android:textSize="17sp"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/et_password"
-            app:layout_constraintRight_toLeftOf="@+id/img_view_pass_rpt"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+            app:layout_constraintLeft_toLeftOf="@+id/etPassword"
+            app:layout_constraintRight_toLeftOf="@+id/imgViewPassRpt"
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
         <ImageView
-            android:id="@+id/img_view_pass_rpt"
+            android:id="@+id/imgViewPassRpt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".87"
-            app:layout_constraintBottom_toBottomOf="@+id/et_password_repeat"
-            app:layout_constraintRight_toRightOf="@+id/img_view_pass"
-            app:layout_constraintTop_toTopOf="@+id/et_password_repeat"
+            app:layout_constraintBottom_toBottomOf="@+id/etPasswordRepeat"
+            app:layout_constraintRight_toRightOf="@+id/imgViewPass"
+            app:layout_constraintTop_toTopOf="@+id/etPasswordRepeat"
             app:srcCompat="@drawable/ic_visibility_off" />
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/etName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -125,12 +125,12 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/colorPrimaryLight"
             android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="@+id/et_password_repeat"
-            app:layout_constraintRight_toRightOf="@+id/img_view_pass_rpt"
-            app:layout_constraintTop_toBottomOf="@+id/et_password_repeat" />
+            app:layout_constraintLeft_toLeftOf="@+id/etPasswordRepeat"
+            app:layout_constraintRight_toRightOf="@+id/imgViewPassRpt"
+            app:layout_constraintTop_toBottomOf="@+id/etPasswordRepeat" />
 
         <EditText
-            android:id="@+id/et_phone_number"
+            android:id="@+id/etPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -143,12 +143,12 @@
             android:textColorHint="@color/colorPrimaryLight"
             android:textSize="17sp"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/et_name"
-            app:layout_constraintRight_toRightOf="@+id/et_name"
-            app:layout_constraintTop_toBottomOf="@+id/et_name" />
+            app:layout_constraintLeft_toLeftOf="@+id/etName"
+            app:layout_constraintRight_toRightOf="@+id/etName"
+            app:layout_constraintTop_toBottomOf="@+id/etName" />
 
         <MultiAutoCompleteTextView
-            android:id="@+id/et_delivery_address"
+            android:id="@+id/etDeliveryAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -158,12 +158,12 @@
             android:textColor="@android:color/white"
             android:textColorHint="@color/colorPrimaryLight"
             android:textSize="17sp"
-            app:layout_constraintLeft_toLeftOf="@+id/et_phone_number"
-            app:layout_constraintRight_toRightOf="@+id/et_phone_number"
-            app:layout_constraintTop_toBottomOf="@+id/et_phone_number" />
+            app:layout_constraintLeft_toLeftOf="@+id/etPhone"
+            app:layout_constraintRight_toRightOf="@+id/etPhone"
+            app:layout_constraintTop_toBottomOf="@+id/etPhone" />
 
         <Button
-            android:id="@+id/btn_sign_up"
+            android:id="@+id/btnSignup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -174,12 +174,12 @@
             android:background="@color/colorAccent"
             android:text="@string/sign_up"
             android:textColor="@android:color/white"
-            app:layout_constraintLeft_toLeftOf="@+id/et_delivery_address"
-            app:layout_constraintRight_toRightOf="@+id/et_delivery_address"
-            app:layout_constraintTop_toBottomOf="@+id/et_delivery_address" />
+            app:layout_constraintLeft_toLeftOf="@+id/etDeliveryAddress"
+            app:layout_constraintRight_toRightOf="@+id/etDeliveryAddress"
+            app:layout_constraintTop_toBottomOf="@+id/etDeliveryAddress" />
 
         <TextView
-            android:id="@+id/tv_log_in"
+            android:id="@+id/tvLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -191,7 +191,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_sign_up"
+            app:layout_constraintTop_toBottomOf="@+id/btnSignup"
             app:layout_constraintVertical_bias="1.0" />
 
     </android.support.constraint.ConstraintLayout>

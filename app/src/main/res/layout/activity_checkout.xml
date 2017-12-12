@@ -30,7 +30,7 @@
     </android.support.v7.widget.Toolbar>
 
     <Button
-        android:id="@+id/btn_log_in"
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -45,7 +45,7 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/tv_or"
+        android:id="@+id/tvOr"
         style="@style/main_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,12 +55,12 @@
         android:layout_marginTop="8dp"
         android:text="@string/or"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_log_in"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent" />
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_name"
+        android:id="@+id/tilName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -69,12 +69,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_or"
+        app:layout_constraintTop_toBottomOf="@+id/tvOr"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">
 
         <EditText
-            android:id="@+id/et_name"
+            android:id="@+id/etName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -84,7 +84,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_phone_number"
+        android:id="@+id/tilPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -92,12 +92,12 @@
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_name"
+        app:layout_constraintTop_toBottomOf="@+id/tilName"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">
 
         <EditText
-            android:id="@+id/et_phone_number"
+            android:id="@+id/etPhone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -107,7 +107,7 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_address"
+        android:id="@+id/tilAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -115,12 +115,12 @@
         android:layout_marginTop="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_phone_number"
+        app:layout_constraintTop_toBottomOf="@+id/tilPhone"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">
 
         <EditText
-            android:id="@+id/et_delivery_address"
+            android:id="@+id/etDeliveryAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:ems="10"
@@ -130,23 +130,19 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_comments"
+        android:id="@+id/tilComments"
         android:layout_width="0dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_height="wrap_content"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/til_address"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp">
+        app:layout_constraintTop_toBottomOf="@+id/tilAddress">
 
         <MultiAutoCompleteTextView
-            android:id="@+id/et_comments"
+            android:id="@+id/etComments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
@@ -155,18 +151,18 @@
     </android.support.design.widget.TextInputLayout>
 
     <ProgressBar
-        android:id="@+id/pb_progress"
+        android:id="@+id/pbSavingProfile"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:indeterminate="true"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/btn_place_order"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlaceOrder"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/btn_place_order"
+        android:id="@+id/btnPlaceOrder"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="9dp"
