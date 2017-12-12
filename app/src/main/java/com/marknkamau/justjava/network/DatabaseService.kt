@@ -6,7 +6,7 @@ interface DatabaseService{
 
     fun getUserDefaults(listener: UserDetailsListener)
 
-    fun placeNewOrder(order: Order, cartItems: List<CartItemRoom>, listener: UploadListener)
+    fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: UploadListener)
 
     fun getPreviousOrders(listener: PreviousOrdersListener)
 

@@ -8,6 +8,6 @@ internal interface ProfileView {
     fun showProgressBar()
     fun hideProgressBar()
     fun displayNoPreviousOrders()
-    fun displayPreviousOrders(orderList: List<PreviousOrder>)
+    fun displayPreviousOrders(orderList: MutableList<PreviousOrder>)
     fun displayMessage(message: String?)
 }

@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,7 +11,7 @@ import timber.log.Timber
 
 internal class DrinkDetailsPresenter(val activityView: DrinkDetailsView, val cart: CartDao) : BasePresenter() {
 
-    fun addToCart(item: CartItemRoom) {
+    fun addToCart(item: CartItem) {
         disposables.add(Completable.fromCallable { cart.addItem(item) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

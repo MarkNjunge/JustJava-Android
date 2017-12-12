@@ -6,15 +6,19 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
-import com.marknkamau.justjava.ui.main.CatalogAdapter
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_drink_details.*
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
+
+    companion object {
+        val DRINK_KEY = "drink_key"
+    }
+
     private lateinit var drink: CoffeeDrink
     private var quantity: Int = 0
     private lateinit var presenter: DrinkDetailsPresenter
@@ -31,7 +35,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
 
         presenter = DrinkDetailsPresenter(this, cartDao)
 
-        drink = intent.extras.getParcelable<CoffeeDrink>(CatalogAdapter.DRINK_KEY)
+        drink = intent.extras.getParcelable<CoffeeDrink>(DRINK_KEY)
 
         tvDrinkName.text = drink.drinkName
         tvDrinkContents.text = drink.drinkContents
@@ -78,7 +82,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     }
 
     private fun addToCart() {
-        val itemRm = CartItemRoom(0,
+        val itemRm = CartItem(0,
                 drink.drinkName,
                 quantity,
                 cbCinnamon.isChecked,

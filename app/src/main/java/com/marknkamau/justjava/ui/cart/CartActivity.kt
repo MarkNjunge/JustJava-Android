@@ -5,19 +5,16 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.Toast
-
 import com.marknkamau.justjava.JustJavaApp
-import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
-
+import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
 
-class CartActivity : BaseActivity(), CartView, View.OnClickListener {
-    private lateinit var cartDao: CartDao
+class CartActivity : BaseActivity(), CartView {
     private lateinit var presenter: CartPresenter
+    private lateinit var adapter: CartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +23,38 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
 
-        cartDao = (application as JustJavaApp).cartDatabase.cartDao()
         presenter = CartPresenter(this, cartDao)
         presenter.loadItems()
 
-        btnClearCart.setOnClickListener(this)
-        btnCheckout.setOnClickListener(this)
+        val editCartDialog = EditCartDialog()
+        editCartDialog.cartDao = cartDao
+        editCartDialog.onComplete = { editType, cartItem ->
+            editCartDialog.dismiss()
+            if (editType == EditCartDialog.EditType.DELETE) {
+                presenter.deleteItem(cartItem)
+            } else {
+                presenter.updateItem(cartItem)
+            }
+        }
+
+        adapter = CartAdapter(this, cartDao, { cartItem ->
+            val args = Bundle()
+            args.putParcelable(EditCartDialog.CART_ITEM, cartItem)
+            editCartDialog.arguments = args
+            editCartDialog.show(supportFragmentManager, "edit_cart_dialog")
+        })
+        rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvCart.adapter = adapter
+
+        btnClearCart.setOnClickListener{
+            presenter.clearCart()
+        }
+
+        btnCheckout.setOnClickListener{
+            startActivity(Intent(this@CartActivity, CheckoutActivity::class.java))
+        }
     }
 
     override fun onStop() {
@@ -41,21 +62,8 @@ class CartActivity : BaseActivity(), CartView, View.OnClickListener {
         presenter.unSubscribe()
     }
 
-    override fun onClick(view: View) {
-        when (view) {
-            btnClearCart -> presenter.clearCart()
-            btnCheckout -> startActivity(Intent(this@CartActivity, CheckoutActivity::class.java))
-        }
-    }
-
-    override fun displayCart(cartItems: MutableList<CartItemRoom>?) {
-        val adapter = CartAdapter(this, cartItems, object : CartAdapter.CartAdapterListener {
-            override fun updateList() {
-                presenter.loadItems()
-            }
-        }, cartDao)
-
-        rvCart.adapter = adapter
+    override fun displayCart(cartItems: MutableList<CartItem>) {
+        adapter.setItems(cartItems)
         btnCheckout.isEnabled = true
     }
 

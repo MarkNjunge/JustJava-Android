@@ -4,7 +4,7 @@ import com.marknkamau.justjava.MockDatabase
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDefaults
 import io.reactivex.Single
@@ -32,7 +32,7 @@ class CheckoutPresenterTest {
     private lateinit var preferences: PreferencesRepository
 
     private lateinit var presenter: CheckoutPresenter
-    private val cartItems = mutableListOf(CartItemRoom(0, "", 0, true, true, true, 0))
+    private val cartItems = mutableListOf(CartItem(0, "", 0, true, true, true, 0))
 
     @Before
     fun setUp() {

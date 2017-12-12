@@ -5,6 +5,7 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
@@ -21,6 +22,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
     private var phone: String? = null
     private var address: String? = null
     private lateinit var presenter: ProfilePresenter
+    private lateinit var adapter: PreviousOrderAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,11 +31,11 @@ class ProfileActivity : BaseActivity(), ProfileView {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
-        rvPreviousOrders.layoutManager = layoutManager
+        adapter = PreviousOrderAdapter(this)
 
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
-        rvPreviousOrders.addItemDecoration(itemDecoration)
+        rvPreviousOrders.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvPreviousOrders.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        rvPreviousOrders.adapter = adapter
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo
         presenter = ProfilePresenter(this, preferencesRepository)
@@ -61,9 +63,9 @@ class ProfileActivity : BaseActivity(), ProfileView {
 //        Toast.makeText(this, "No previous orders", Toast.LENGTH_SHORT).show()
     }
 
-    override fun displayPreviousOrders(orderList: List<PreviousOrder>) {
+    override fun displayPreviousOrders(orderList: MutableList<PreviousOrder>) {
         pbLoadingOrders.visibility = View.GONE
-        rvPreviousOrders.adapter = PreviousOrderAdapter(this, orderList)
+        adapter.setItems(orderList)
     }
 
     override fun displayMessage(message: String?) {

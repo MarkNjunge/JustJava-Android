@@ -1,6 +1,6 @@
 package com.marknkamau.justjava
 
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.network.DatabaseService
@@ -11,7 +11,7 @@ object MockDatabase : DatabaseService{
         listener.taskFailed("")
     }
 
-    override fun placeNewOrder(order: Order, cartItems: List<CartItemRoom>, listener: DatabaseService.UploadListener) {
+    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.UploadListener) {
         listener.taskSuccessful()
         listener.taskFailed("")
     }

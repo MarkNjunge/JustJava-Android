@@ -38,7 +38,7 @@ object DatabaseServiceImpl : DatabaseService {
         }
     }
 
-    override fun placeNewOrder(order: Order, cartItems: List<CartItemRoom>, listener: DatabaseService.UploadListener) {
+    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.UploadListener) {
         val orderRef = dbRootRef.child("allOrders").push()
         val key = orderRef.key
 

@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -39,7 +39,7 @@ class DrinkDetailsPresenterTest {
 
     @Test
     fun shouldAddItemToCart() {
-        presenter.addToCart(CartItemRoom(0, "", 0, true, true, true, 0))
+        presenter.addToCart(CartItem(0, "", 0, true, true, true, 0))
         Mockito.verify(view).finishActivity()
     }
 

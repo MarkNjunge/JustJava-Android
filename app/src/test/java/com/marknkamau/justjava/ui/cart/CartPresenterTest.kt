@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -24,7 +24,7 @@ class CartPresenterTest {
     private lateinit var cart: CartDao
 
     private lateinit var cartPresenter: CartPresenter
-    private val cartItems = mutableListOf(CartItemRoom(0, "", 0, true, true, true, 0))
+    private val cartItems = mutableListOf(CartItem(0, "", 0, true, true, true, 0))
 
     @Before
     fun setup() {

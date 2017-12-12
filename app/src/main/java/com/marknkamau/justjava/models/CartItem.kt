@@ -6,15 +6,15 @@ import android.os.Parcel
 import android.os.Parcelable
 
 @Entity(tableName = "cart")
-class CartItemRoom(@PrimaryKey(autoGenerate = true) val id: Int,
-                   var itemName: String,
-                   var itemQty: Int,
-                   var itemCinnamon: Boolean,
-                   var itemChoc: Boolean,
-                   var itemMarshmallow: Boolean,
-                   var itemPrice: Int) : Parcelable {
+class CartItem(@PrimaryKey(autoGenerate = true) val id: Int,
+               var itemName: String,
+               var itemQty: Int,
+               var itemCinnamon: Boolean,
+               var itemChoc: Boolean,
+               var itemMarshmallow: Boolean,
+               var itemPrice: Int) : Parcelable {
     override fun toString(): String {
-        return "CartItemRoom(id=$id, itemName='$itemName', itemQty='$itemQty', itemCinnamon='$itemCinnamon', itemChoc='$itemChoc', itemMarshmallow='$itemMarshmallow', itemPrice=$itemPrice)"
+        return "CartItem(id=$id, itemName='$itemName', itemQty='$itemQty', itemCinnamon='$itemCinnamon', itemChoc='$itemChoc', itemMarshmallow='$itemMarshmallow', itemPrice=$itemPrice)"
     }
 
     constructor(source: Parcel) : this(
@@ -40,9 +40,9 @@ class CartItemRoom(@PrimaryKey(autoGenerate = true) val id: Int,
     }
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<CartItemRoom> = object : Parcelable.Creator<CartItemRoom> {
-            override fun createFromParcel(source: Parcel): CartItemRoom = CartItemRoom(source)
-            override fun newArray(size: Int): Array<CartItemRoom?> = arrayOfNulls(size)
+        @JvmField val CREATOR: Parcelable.Creator<CartItem> = object : Parcelable.Creator<CartItem> {
+            override fun createFromParcel(source: Parcel): CartItem = CartItem(source)
+            override fun newArray(size: Int): Array<CartItem?> = arrayOfNulls(size)
         }
     }
 }

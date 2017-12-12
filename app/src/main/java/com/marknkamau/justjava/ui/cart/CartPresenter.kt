@@ -1,9 +1,10 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.CartDao
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
@@ -17,12 +18,11 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onSuccess = { items: MutableList<CartItemRoom>? ->
-                            val size: Int = items?.size ?: 0
-                            if (size > 0) {
+                        onSuccess = { items: MutableList<CartItem>? ->
+                            if (items != null && items.size > 0) {
                                 activityView.displayCart(items)
                                 var total = 0
-                                items?.forEach { item -> total += item.itemPrice }
+                                items.forEach { item -> total += item.itemPrice }
                                 activityView.displayCartTotal(total)
                             } else {
                                 activityView.displayEmptyCart()
@@ -48,6 +48,38 @@ internal class CartPresenter(private val activityView: CartView, private val car
                             activityView.displayMessage(t?.message)
                         }
                 ))
+    }
+
+    fun deleteItem(item:CartItem){
+        Completable.fromCallable { cart.deleteItem(item) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy (
+                        onComplete = {
+                            activityView.displayMessage("Item deleted")
+                            loadItems()
+                        },
+                        onError = {throwable ->
+                            Timber.e(throwable.message)
+                            activityView.displayMessage(throwable.message)
+                        }
+                )
+    }
+
+    fun updateItem(item: CartItem){
+        Completable.fromCallable { cart.updateItem(item) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeBy (
+                        onComplete = {
+                            activityView.displayMessage("Cart updated")
+                            loadItems()
+                        },
+                        onError = {throwable ->
+                            Timber.e(throwable.message)
+                            activityView.displayMessage(throwable.message)
+                        }
+                )
     }
 }
 

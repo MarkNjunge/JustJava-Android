@@ -4,7 +4,7 @@ import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.data.PreferencesRepository
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.network.DatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
@@ -33,7 +33,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onSuccess = { items: MutableList<CartItemRoom> ->
+                        onSuccess = { items: MutableList<CartItem> ->
                             placeOrderInternal(items, order)
                         },
                         onError = { t: Throwable? ->
@@ -43,7 +43,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     }
 
-    private fun placeOrderInternal(items: MutableList<CartItemRoom>, order: Order) {
+    private fun placeOrderInternal(items: MutableList<CartItem>, order: Order) {
         val itemsCount = items.size
         var total = 0
         items.forEach { item -> total += item.itemPrice }

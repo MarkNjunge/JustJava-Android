@@ -14,13 +14,13 @@ import android.widget.TextView
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.CartDao
 import com.marknkamau.justjava.data.DrinksProvider
-import com.marknkamau.justjava.models.CartItemRoom
+import com.marknkamau.justjava.models.CartItem
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListener {
+class EditCartDialog() : DialogFragment(), View.OnClickListener {
     lateinit var tvDrinkName: TextView
     lateinit var tvQuantity: TextView
     lateinit var tvChocolate: TextView
@@ -34,28 +34,30 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
 
 
     private var quantity: Int = 0
-    private var item: CartItemRoom? = null
-    private var cartResponse: CartAdapter.CartAdapterListener? = null
+    private lateinit var item: CartItem
     private var withCinnamon = false
     private var withChocolate = false
     private var withMarshmallow = false
 
-    fun setResponseListener(response: CartAdapter.CartAdapterListener) {
-        cartResponse = response
-    }
+    lateinit var cartDao: CartDao
+
+    lateinit var onComplete: (EditType, CartItem) -> Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
             = inflater.inflate(R.layout.edit_fragment, container, false)
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val args = arguments
 
-        if (args != null) {
-            item = args.getParcelable<CartItemRoom>(CART_ITEM)
+        if (args == null) {
+            dismiss()
+            return
         }
 
-        tvDrinkName = view?.findViewById<TextView>(R.id.tvDrinkName) as TextView
+        item = args.getParcelable(CART_ITEM)
+
+        tvDrinkName = view.findViewById<TextView>(R.id.tvDrinkName) as TextView
         tvQuantity = view.findViewById<TextView>(R.id.tvQuantity) as TextView
         tvChocolate = view.findViewById<TextView>(R.id.tvChocolate) as TextView
         tvMarshmallows = view.findViewById<TextView>(R.id.tvMarshmallows) as TextView
@@ -70,26 +72,22 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
         tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING)
         tvMarshmallows.setPadding(PADDING, PADDING, PADDING, PADDING)
 
-        if (item != null) {
-            tvDrinkName.text = item?.itemName
-            quantity = item?.itemQty!!
-            tvQuantity.text = quantity.toString()
-            if (item?.itemCinnamon ?: false) {
-                setToppingOn(tvCinnamon)
-                withCinnamon = true
-            }
-            if (item?.itemChoc ?: false) {
-                setToppingOn(tvChocolate)
-                withChocolate = true
-            }
-            if (item?.itemMarshmallow ?: false) {
-                setToppingOn(tvMarshmallows)
-                withMarshmallow = true
-            }
-            tvTotal.text = getString(R.string.ksh) + item!!.itemPrice
-        } else {
-            dismiss()
+        tvDrinkName.text = item.itemName
+        quantity = item.itemQty
+        tvQuantity.text = quantity.toString()
+        if (item.itemCinnamon) {
+            setToppingOn(tvCinnamon)
+            withCinnamon = true
         }
+        if (item.itemChoc) {
+            setToppingOn(tvChocolate)
+            withChocolate = true
+        }
+        if (item.itemMarshmallow) {
+            setToppingOn(tvMarshmallows)
+            withMarshmallow = true
+        }
+        tvTotal.text = getString(R.string.ksh) + item!!.itemPrice
 
         imgMinusQty.setOnClickListener(this)
         imgAddQty.setOnClickListener(this)
@@ -117,20 +115,7 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
                 updateSubtotal()
             }
             imgDelete -> {
-                Single.fromCallable { cartDao.deleteItem(item!!) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                {
-                                    cartResponse?.updateList()
-                                    dismiss()
-                                },
-                                {
-                                    t: Throwable? ->
-                                    Timber.e(t)
-                                }
-                        )
-
+                onComplete(EditType.DELETE, item)
             }
             imgSave -> {
                 saveChanges()
@@ -139,31 +124,17 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
     }
 
     private fun saveChanges() {
-        Timber.d("save")
-        val item1 = CartItemRoom(
-                item!!.id,
-                item!!.itemName,
+        val newItem = CartItem(
+                item.id,
+                item.itemName,
                 quantity,
                 withCinnamon,
                 withChocolate,
                 withMarshmallow,
                 updateSubtotal()
         )
-        val callable = Single.fromCallable {
-            cartDao.updateItem(item1)
-        }
-        callable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { _ ->
-                            dismiss()
-                            cartResponse?.updateList()
-                        },
-                        { t ->
-                            Timber.e(t)
-                        }
-                )
 
+        onComplete(EditType.SAVE, newItem)
     }
 
     private fun setToppingOn(textView: TextView) {
@@ -246,6 +217,11 @@ class EditCartDialog(val cartDao: CartDao) : DialogFragment(), View.OnClickListe
             setToppingOn(tvMarshmallows)
             withMarshmallow = true
         }
+    }
+
+    enum class EditType {
+        SAVE,
+        DELETE
     }
 
     companion object {
