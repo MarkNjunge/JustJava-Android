@@ -7,11 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.MultiAutoCompleteTextView
-import android.widget.TextView
 import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
@@ -19,7 +14,6 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.login.LogInActivity
 
 import java.util.regex.Pattern
-import com.marknkamau.justjava.utils.bindView
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_sign_up.*
 

@@ -5,11 +5,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.utils.bindView
 import kotlinx.android.synthetic.main.item_previous_order.view.*
 
 import java.text.DateFormat

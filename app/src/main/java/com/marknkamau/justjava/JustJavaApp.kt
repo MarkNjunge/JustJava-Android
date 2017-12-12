@@ -14,7 +14,6 @@ import com.marknkamau.justjava.network.DatabaseService
 import com.marknkamau.justjava.network.DatabaseServiceImpl
 import io.fabric.sdk.android.Fabric
 
-import io.realm.Realm
 import timber.log.Timber
 
 class JustJavaApp : Application() {
@@ -25,8 +24,6 @@ class JustJavaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        Realm.init(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
