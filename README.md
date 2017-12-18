@@ -3,5 +3,7 @@ A mock application for a coffee shop.
 
 ## Screenshots
 
-![JustJava](/images/just-java.png)
-![JustJava-Staff](/images/just-java-staff.png)
+![Home](/images/home.png)
+![Item](/images/item.png)
+![Cart](/images/cart.png)
+![Checkout](/images/checkout.png)
