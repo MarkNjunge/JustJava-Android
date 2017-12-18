@@ -3,32 +3,34 @@ package com.marknkamau.justjava.data.local
 import android.content.SharedPreferences
 import com.marknkamau.justjava.models.UserDefaults
 
-import com.marknkamau.justjava.utils.Constants
-
 class PreferencesRepositoryImpl(private val sharedPreferences: SharedPreferences) : PreferencesRepository {
+
+    private val name = "defaultName"
+    private val phone = "defaultPhoneNumber"
+    private val address = "defaultDeliveryAddress"
 
     override fun saveDefaults(userDefaults: UserDefaults) {
         val editor = sharedPreferences.edit()
-        editor.putString(Constants.DEF_NAME, userDefaults.name)
-        editor.putString(Constants.DEF_PHONE, userDefaults.phone)
-        editor.putString(Constants.DEF_ADDRESS, userDefaults.defaultAddress)
+        editor.putString(name, userDefaults.name)
+        editor.putString(phone, userDefaults.phone)
+        editor.putString(address, userDefaults.defaultAddress)
 
         editor.apply()
     }
 
     override fun getDefaults(): UserDefaults {
         return UserDefaults(
-                sharedPreferences.getString(Constants.DEF_NAME, ""),
-                sharedPreferences.getString(Constants.DEF_NAME, ""),
-                sharedPreferences.getString(Constants.DEF_ADDRESS, "")
+                sharedPreferences.getString(name, ""),
+                sharedPreferences.getString(name, ""),
+                sharedPreferences.getString(address, "")
         )
     }
 
     override fun clearDefaults() {
         val editor = sharedPreferences.edit()
-        editor.remove(Constants.DEF_NAME)
-        editor.remove(Constants.DEF_PHONE)
-        editor.remove(Constants.DEF_ADDRESS)
+        editor.remove(name)
+        editor.remove(phone)
+        editor.remove(address)
         editor.apply()
     }
 }

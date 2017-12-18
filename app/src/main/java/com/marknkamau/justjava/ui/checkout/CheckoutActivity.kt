@@ -112,10 +112,10 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
     }
 
     private fun validateInput(): Boolean {
-        name = etName.trimmedText()
-        phone = etPhone.trimmedText()
-        address = etDeliveryAddress.trimmedText()
-        comments = etComments.trimmedText()
+        name = etName.trimmedText
+        phone = etPhone.trimmedText
+        address = etDeliveryAddress.trimmedText
+        comments = etComments.trimmedText
 
         var returnValue: Boolean = true
         if (TextUtils.isEmpty(name)) {

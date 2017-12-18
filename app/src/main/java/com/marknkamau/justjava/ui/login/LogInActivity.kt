@@ -78,7 +78,7 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
 
     override fun resetUserPassword() {
         disableButtons()
-        email = etEmail.trimmedText()
+        email = etEmail.trimmedText
 
         if (TextUtils.isEmpty(email)) {
             etEmail.error = "Enter your email address"
@@ -126,8 +126,8 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     }
 
     private fun validateFields(): Boolean {
-        email = etEmail.trimmedText()
-        val password = etPassword.trimmedText()
+        email = etEmail.trimmedText
+        val password = etPassword.trimmedText
 
         if (TextUtils.isEmpty(email)) {
             etEmail.error = "Required"

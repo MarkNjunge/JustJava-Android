@@ -104,13 +104,13 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     }
 
     private fun fieldsOk(): Boolean {
-        email = etEmailAddress.trimmedText()
-        password = etPassword.trimmedText()
-        val passwordRpt = etPasswordRepeat.trimmedText()
+        email = etEmailAddress.trimmedText
+        password = etPassword.trimmedText
+        val passwordRpt = etPasswordRepeat.trimmedText
 
-        name = etName.trimmedText()
-        phone = etPhone.trimmedText()
-        address = etDeliveryAddress.trimmedText()
+        name = etName.trimmedText
+        phone = etPhone.trimmedText
+        address = etDeliveryAddress.trimmedText
 
         val pattern1 = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
         val matcher1 = pattern1.matcher(email)

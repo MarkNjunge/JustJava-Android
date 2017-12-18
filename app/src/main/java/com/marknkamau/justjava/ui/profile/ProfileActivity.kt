@@ -81,9 +81,9 @@ class ProfileActivity : BaseActivity(), ProfileView {
     }
 
     private fun fieldsOk(): Boolean {
-        name = etName.trimmedText()
-        phone = etPhone.trimmedText()
-        address = etDeliveryAddress.trimmedText()
+        name = etName.trimmedText
+        phone = etPhone.trimmedText
+        address = etDeliveryAddress.trimmedText
 
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
