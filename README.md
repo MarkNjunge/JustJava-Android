@@ -1,5 +1,13 @@
 # Just Java
-A mock application for a coffee shop. 
+A mock Android application for a coffee shop. 
+
+* 100% Kotlin (Excluding staff app; to be converted).
+* MVP architecture.
+* Room (with RxJava) for local data storage.
+* Firebase Authentication for Authentication.
+* Firebase Realtime Database and Firebase Cloud Firestore for cloud storage. (To be moved to only Firestore).
+* Firebase Cloud Messaging for notifications. 
+* Crashlytics by Fabric for crash reporting
 
 ## Screenshots
 
