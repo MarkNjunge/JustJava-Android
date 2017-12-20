@@ -6,7 +6,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.UserDetails
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -50,8 +50,8 @@ class CheckoutPresenterTest {
 
     @Test
     fun shouldDisplayLoggedIn() {
-        val userDefaults = UserDefaults("", "", "")
-        Mockito.`when`(preferences.getDefaults()).thenReturn(userDefaults)
+        val userDefaults = UserDetails("", "", "")
+        Mockito.`when`(preferences.getUserDetails()).thenReturn(userDefaults)
         Mockito.`when`(auth.isSignedIn()).thenReturn(true)
 
         presenter.getSignInStatus()

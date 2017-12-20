@@ -1,27 +1,31 @@
 package com.marknkamau.justjava.ui.profile
 
-import com.marknkamau.justjava.data.local.PreferencesRepository
-
-import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
-import com.marknkamau.justjava.data.network.DatabaseServiceImpl
+import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.UserDetails
 
-internal class ProfilePresenter(private val activityView: ProfileView, private val preferencesRepository: PreferencesRepository) {
+internal class ProfilePresenter(private val activityView: ProfileView,
+                                private val preferencesRepository: PreferencesRepository,
+                                private val authenticationService: AuthenticationService,
+                                private val databaseService: DatabaseService) {
 
     init {
-        getUserDefaults()
+        getUserDetails()
         getPreviousOrders()
     }
 
-    private fun getUserDefaults() {
-        activityView.displayUserDefaults(preferencesRepository.getDefaults())
+    lateinit var userDetails: UserDetails
+
+    private fun getUserDetails() {
+        userDetails = preferencesRepository.getUserDetails()
+        activityView.displayUserDetails(userDetails)
     }
 
     private fun getPreviousOrders() {
-        DatabaseServiceImpl.getPreviousOrders(object : DatabaseService.PreviousOrdersListener {
+        databaseService.getPreviousOrders(object : DatabaseService.PreviousOrdersListener {
             override fun taskSuccessful(previousOrders: MutableList<PreviousOrder>) {
                 activityView.displayPreviousOrders(previousOrders)
             }
@@ -30,26 +34,28 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
                 activityView.displayNoPreviousOrders()
             }
 
-            override fun taskFailed(reason: String?) {
+            override fun onError(reason: String) {
                 activityView.displayMessage(reason)
             }
         })
     }
 
-    fun updateUserDefaults(name: String, phone: String, address: String) {
+    fun updateUserDetails(name: String, phone: String, address: String) {
         activityView.showProgressBar()
-        AuthenticationServiceImpl.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
-                DatabaseServiceImpl.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
-                    override fun taskSuccessful() {
-                        preferencesRepository.saveDefaults(UserDefaults(name, phone, address))
+
+        authenticationService.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
+            override fun actionSuccessful(response: String) {
+                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : DatabaseService.WriteListener {
+                    override fun onSuccess() {
+                        val newUserDetails = UserDetails(userDetails.id, userDetails.email,name, phone, address)
+
+                        preferencesRepository.saveUserDetails(newUserDetails)
                         activityView.hideProgressBar()
                         activityView.displayMessage("Default values updated")
                     }
 
-                    override fun taskFailed(reason: String?) {
-                        activityView.hideProgressBar()
-                        activityView.displayMessage(reason)
+                    override fun onError(reason: String) {
+
                     }
                 })
             }
@@ -62,6 +68,6 @@ internal class ProfilePresenter(private val activityView: ProfileView, private v
 
     fun logUserOut() {
         AuthenticationServiceImpl.logOut()
-        preferencesRepository.clearDefaults()
+        preferencesRepository.clearUserDetails()
     }
 }

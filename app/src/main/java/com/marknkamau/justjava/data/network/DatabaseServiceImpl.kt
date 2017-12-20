@@ -1,44 +1,75 @@
 package com.marknkamau.justjava.data.network
 
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
-import com.marknkamau.justjava.models.*
+import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.Order
+import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.UserDetails
 
-object DatabaseServiceImpl : DatabaseService {
-    private val database: FirebaseDatabase by lazy { FirebaseDatabase.getInstance() }
+class DatabaseServiceImpl : DatabaseService {
+    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val fireStore = FirebaseFirestore.getInstance()
     private var dbRootRef: DatabaseReference
 
     private lateinit var previousOrders: MutableList<PreviousOrder>
 
     init {
+        fireStore.firestoreSettings = FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build()
         database.setPersistenceEnabled(true)
         dbRootRef = database.reference
     }
 
-    override fun getUserDefaults(listener: DatabaseService.UserDetailsListener) {
-        if (AuthenticationServiceImpl.isSignedIn()){
+    override fun saveUserDetails(userDetails: UserDetails, listener: DatabaseService.WriteListener) {
+        fireStore.collection("users")
+                .document(userDetails.id)
+                .set(userDetails)
+                .addOnSuccessListener {
+                    listener.onSuccess()
+                }
+                .addOnFailureListener { exception ->
+                    listener.onError(exception.message ?: "Error saving user details")
+                }
 
-        val ref = dbRootRef.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                listener.taskSuccessful(
-                        dataSnapshot.child("name").value.toString(),
-                        dataSnapshot.child("phone").value.toString(),
-                        dataSnapshot.child("defaultAddress").value.toString()
-                )
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                listener.taskFailed(databaseError.message)
-            }
-        })
-        }else{
-            listener.taskFailed("No user is signed in")
-        }
     }
 
-    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.UploadListener) {
+    override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener) {
+        fireStore.collection("users")
+                .document(id)
+                .update(
+                        "name", name,
+                        "phone", phone,
+                        "address", address
+                )
+                .addOnSuccessListener { listener.onSuccess() }
+                .addOnFailureListener { listener.onError(it.message ?: "Error updating user details") }
+    }
+
+    override fun getUserDefaults(id:String, listener: DatabaseService.UserDetailsListener) {
+        fireStore.collection("users")
+                .document(id)
+                .get()
+                .addOnSuccessListener {
+                    val userDetails = UserDetails(
+                            it["id"] as String,
+                            it["email"] as String,
+                            it["name"] as String,
+                            it["phone"] as String,
+                            it["address"] as String
+                    )
+                    listener.onSuccess(userDetails)
+                }
+                .addOnFailureListener { exception ->
+                    listener.onError(exception.message ?: "Error getting user details")
+                }
+    }
+
+    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
         val orderRef = dbRootRef.child("allOrders").push()
         val key = orderRef.key
 
@@ -64,8 +95,8 @@ object DatabaseServiceImpl : DatabaseService {
 
         val orderItemsRef = dbRootRef.child("orderItems").child(key)
         orderItemsRef.setValue(cartItems)
-                .addOnSuccessListener { listener.taskSuccessful() }
-                .addOnFailureListener { exception -> listener.taskFailed(exception.message) }
+                .addOnSuccessListener { listener.onSuccess() }
+                .addOnFailureListener { exception -> listener.onError(exception.message ?: "Error placing order") }
     }
 
     override fun getPreviousOrders(listener: DatabaseService.PreviousOrdersListener) {
@@ -83,8 +114,8 @@ object DatabaseServiceImpl : DatabaseService {
                                         listener.taskSuccessful(previousOrders)
                                     }
 
-                                    override fun taskFailed(reason: String?) {
-                                        listener.taskFailed(reason)
+                                    override fun onError(reason: String) {
+                                        listener.onError(reason)
                                     }
 
                                 })
@@ -93,7 +124,7 @@ object DatabaseServiceImpl : DatabaseService {
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
-                        listener.taskFailed(databaseError.message)
+                        listener.onError(databaseError.message)
                     }
                 })
     }
@@ -110,18 +141,10 @@ object DatabaseServiceImpl : DatabaseService {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                listener.taskFailed(databaseError.message)
+                listener.onError(databaseError.message)
             }
 
         })
-    }
-
-    override fun setUserDefaults(userDefaults: UserDefaults, listener: DatabaseService.UploadListener) {
-        val databaseReference = dbRootRef.child("users/${AuthenticationServiceImpl.getCurrentUser()?.uid}")
-        databaseReference.setValue(userDefaults)
-                .addOnSuccessListener { listener.taskSuccessful() }
-                .addOnFailureListener { exception -> listener.taskFailed(exception.message) }
-
     }
 
 }

@@ -73,6 +73,7 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebase_version"
     implementation "com.google.firebase:firebase-crash:$firebase_version"
     implementation "com.google.firebase:firebase-database:$firebase_version"
+    implementation "com.google.firebase:firebase-firestore:$firebase_version"
     implementation "com.google.firebase:firebase-messaging:$firebase_version"
 
     // Room

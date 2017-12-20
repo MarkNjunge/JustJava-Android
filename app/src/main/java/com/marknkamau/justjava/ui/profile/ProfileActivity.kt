@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
 
 import com.marknkamau.justjava.utils.trimmedText
@@ -38,11 +38,13 @@ class ProfileActivity : BaseActivity(), ProfileView {
         rvPreviousOrders.adapter = adapter
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo
-        presenter = ProfilePresenter(this, preferencesRepository)
+        val auth = (application as JustJavaApp).authService
+        val database = (application as JustJavaApp).databaseService
+        presenter = ProfilePresenter(this, preferencesRepository, auth, database)
 
         btnSave.setOnClickListener { saveChanges() }
         btnLogout.setOnClickListener {
-            preferencesRepository.clearDefaults()
+            preferencesRepository.clearUserDetails()
             presenter.logUserOut()
             finish()
         }
@@ -76,7 +78,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
     private fun saveChanges() {
         if (fieldsOk()) {
             pbLoadingOrders.visibility = View.VISIBLE
-            presenter.updateUserDefaults(name!!, phone!!, address!!)
+            presenter.updateUserDetails(name!!, phone!!, address!!)
         }
     }
 
@@ -92,9 +94,9 @@ class ProfileActivity : BaseActivity(), ProfileView {
         return true
     }
 
-    override fun displayUserDefaults(userDefaults: UserDefaults) {
-        etName.setText(userDefaults.name)
-        etPhone.setText(userDefaults.phone)
-        etDeliveryAddress.setText(userDefaults.defaultAddress)
+    override fun displayUserDetails(userDetails: UserDetails) {
+        etName.setText(userDetails.name)
+        etPhone.setText(userDetails.phone)
+        etDeliveryAddress.setText(userDetails.address)
     }
 }

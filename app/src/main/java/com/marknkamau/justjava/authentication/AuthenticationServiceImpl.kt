@@ -8,7 +8,7 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
-    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener){
+    override fun addAuthListener(listener: FirebaseAuth.AuthStateListener) {
         firebaseAuth.addAuthStateListener(listener)
     }
 
@@ -20,7 +20,7 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener?) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener?.actionSuccessful("Sign in successful") }
+                .addOnSuccessListener { listener?.actionSuccessful(getCurrentUser()!!.uid) }
                 .addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
     }
 

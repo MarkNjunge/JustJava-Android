@@ -1,10 +1,9 @@
 package com.marknkamau.justjava.ui.signup
 
-import com.marknkamau.justjava.data.local.PreferencesRepository
-
-import com.marknkamau.justjava.models.UserDefaults
 import com.marknkamau.justjava.authentication.AuthenticationService
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.models.UserDetails
 
 internal class SignUpPresenter(private val activityView: SignUpView,
                                private val preferences: PreferencesRepository,
@@ -15,7 +14,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
         activityView.disableUserInteraction()
 
         auth.createUser(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
+            override fun actionSuccessful(response: String) {
                 signInUser(email, password, name, phone, address)
             }
 
@@ -28,8 +27,8 @@ internal class SignUpPresenter(private val activityView: SignUpView,
 
     private fun signInUser(email: String, password: String, name: String, phone: String, address: String) {
         auth.signIn(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
-                setUserDisplayName(name, phone, address)
+            override fun actionSuccessful(response: String) {
+                setUserDisplayName(response, email, name, phone, address)
             }
 
             override fun actionFailed(response: String?) {
@@ -39,18 +38,20 @@ internal class SignUpPresenter(private val activityView: SignUpView,
         })
     }
 
-    private fun setUserDisplayName(name: String, phone: String, address: String) {
+    private fun setUserDisplayName(id:String, email: String, name: String, phone: String, address: String) {
         auth.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
-                database.setUserDefaults(UserDefaults(name, phone, address), object : DatabaseService.UploadListener {
-                    override fun taskSuccessful() {
+            override fun actionSuccessful(response: String) {
+                val userDetails = UserDetails(id, email, name, phone, address)
+
+                database.saveUserDetails(userDetails, object : DatabaseService.WriteListener {
+                    override fun onSuccess() {
                         activityView.enableUserInteraction()
-                        preferences.saveDefaults(UserDefaults(name, phone, address))
+                        preferences.saveUserDetails(userDetails)
                         activityView.displayMessage("Sign up successfully")
                         activityView.finishActivity()
                     }
 
-                    override fun taskFailed(reason: String?) {
+                    override fun onError(reason: String) {
                         activityView.enableUserInteraction()
                         activityView.displayMessage(reason)
                     }

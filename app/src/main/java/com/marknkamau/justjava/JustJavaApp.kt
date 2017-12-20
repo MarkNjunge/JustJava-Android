@@ -37,7 +37,7 @@ class JustJavaApp : Application() {
 
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
         authService = AuthenticationServiceImpl
-        databaseService = DatabaseServiceImpl
+        databaseService = DatabaseServiceImpl()
 
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
     }

@@ -11,7 +11,7 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
@@ -68,13 +68,13 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         }
     }
 
-    override fun setDisplayToLoggedIn(userDefaults: UserDefaults) {
+    override fun setDisplayToLoggedIn(userDetails: UserDetails) {
         tvOr.visibility = View.GONE
         btnLogin.visibility = View.GONE
 
-        etName.setText(userDefaults.name)
-        etPhone.setText(userDefaults.phone)
-        etDeliveryAddress.setText(userDefaults.defaultAddress)
+        etName.setText(userDetails.name)
+        etPhone.setText(userDetails.phone)
+        etDeliveryAddress.setText(userDetails.address)
     }
 
     override fun invalidateMenu() {

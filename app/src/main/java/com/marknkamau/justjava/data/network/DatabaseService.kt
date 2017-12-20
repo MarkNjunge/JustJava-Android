@@ -1,29 +1,34 @@
 package com.marknkamau.justjava.data.network
 
-import com.marknkamau.justjava.models.*
+import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.Order
+import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.UserDetails
 
-interface DatabaseService{
+interface DatabaseService {
 
-    fun getUserDefaults(listener: UserDetailsListener)
+    fun saveUserDetails(userDetails: UserDetails, listener: WriteListener)
 
-    fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: UploadListener)
+    fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener)
+
+    fun getUserDefaults(id:String, listener: UserDetailsListener)
+
+    fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: WriteListener)
 
     fun getPreviousOrders(listener: PreviousOrdersListener)
 
     fun getOrder(orderId: String, listener: OrderListener)
 
-    fun setUserDefaults(userDefaults: UserDefaults, listener: UploadListener)
-
     interface DatabaseListener {
-        fun taskFailed(reason: String?)
+        fun onError(reason: String)
     }
 
     interface UserDetailsListener : DatabaseListener {
-        fun taskSuccessful(name: String, phone: String, deliveryAddress: String)
+        fun onSuccess(userDetails: UserDetails)
     }
 
-    interface UploadListener : DatabaseListener {
-        fun taskSuccessful()
+    interface WriteListener : DatabaseListener {
+        fun onSuccess()
     }
 
     interface PreviousOrdersListener : DatabaseListener {

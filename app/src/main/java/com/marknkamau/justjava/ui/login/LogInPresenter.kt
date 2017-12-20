@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.UserDetails
 import com.marknkamau.justjava.authentication.AuthenticationService
 
 import com.marknkamau.justjava.data.network.DatabaseService
@@ -20,8 +20,8 @@ internal class LogInPresenter(private val activityView: LogInView,
     fun signIn(email: String, password: String) {
         activityView.showDialog()
         auth.signIn(email, password, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
-                getUserDefaults()
+            override fun actionSuccessful(response: String) {
+                getUserDefaults(response)
             }
 
             override fun actionFailed(response: String?) {
@@ -30,16 +30,16 @@ internal class LogInPresenter(private val activityView: LogInView,
         })
     }
 
-    private fun getUserDefaults() {
-        database.getUserDefaults(object : DatabaseService.UserDetailsListener {
-            override fun taskSuccessful(name: String, phone: String, deliveryAddress: String) {
-                preferences.saveDefaults(UserDefaults(name, phone, deliveryAddress))
+    private fun getUserDefaults(id: String) {
+        database.getUserDefaults(id, object : DatabaseService.UserDetailsListener {
+            override fun onSuccess(userDetails: UserDetails) {
+                preferences.saveUserDetails(userDetails)
                 activityView.dismissDialog()
                 activityView.displayMessage("Sign in successful")
                 activityView.finishSignUp()
             }
 
-            override fun taskFailed(reason: String?) {
+            override fun onError(reason: String) {
                 activityView.displayMessage(reason)
             }
         })
@@ -47,7 +47,7 @@ internal class LogInPresenter(private val activityView: LogInView,
 
     fun resetUserPassword(email: String) {
         auth.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
-            override fun actionSuccessful(response: String?) {
+            override fun actionSuccessful(response: String) {
                 activityView.displayMessage(response)
             }
 

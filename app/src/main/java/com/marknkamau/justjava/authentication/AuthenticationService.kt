@@ -21,7 +21,7 @@ interface AuthenticationService {
     fun logOut()
 
     interface AuthActionListener {
-        fun actionSuccessful(response: String?)
+        fun actionSuccessful(response: String)
 
         fun actionFailed(response: String?)
     }

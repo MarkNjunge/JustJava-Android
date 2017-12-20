@@ -1,9 +1,9 @@
 package com.marknkamau.justjava.data.local
 
-import com.marknkamau.justjava.models.UserDefaults
+import com.marknkamau.justjava.models.UserDetails
 
 interface PreferencesRepository {
-    fun saveDefaults(userDefaults: UserDefaults)
-    fun getDefaults(): UserDefaults
-    fun clearDefaults()
+    fun saveUserDetails(userDetails: UserDetails)
+    fun getUserDetails(): UserDetails
+    fun clearUserDetails()
 }

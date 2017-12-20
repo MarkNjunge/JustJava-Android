@@ -20,7 +20,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                                  private val cart: CartDao) : BasePresenter() {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
-            activityView.setDisplayToLoggedIn(preferences.getDefaults())
+            activityView.setDisplayToLoggedIn(preferences.getUserDetails())
         } else {
             activityView.setDisplayToLoggedOut()
         }
@@ -51,8 +51,8 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        database.placeNewOrder(order, items, object : DatabaseService.UploadListener {
-            override fun taskSuccessful() {
+        database.placeNewOrder(order, items, object : DatabaseService.WriteListener {
+            override fun onSuccess() {
                 val deleteAll = Completable.fromCallable { cart.deleteAll() }
                 val resetIndex = Completable.fromCallable { cart.resetIndex() }
 
@@ -77,7 +77,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
             }
 
-            override fun taskFailed(reason: String?) {
+            override fun onError(reason: String) {
                 activityView.hideUploadBar()
                 activityView.displayMessage(reason)
             }
