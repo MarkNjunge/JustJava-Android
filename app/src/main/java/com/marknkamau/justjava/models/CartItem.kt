@@ -40,7 +40,8 @@ class CartItem(@PrimaryKey(autoGenerate = true) val id: Int,
     }
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<CartItem> = object : Parcelable.Creator<CartItem> {
+        @JvmField
+        val CREATOR: Parcelable.Creator<CartItem> = object : Parcelable.Creator<CartItem> {
             override fun createFromParcel(source: Parcel): CartItem = CartItem(source)
             override fun newArray(size: Int): Array<CartItem?> = arrayOfNulls(size)
         }

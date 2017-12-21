@@ -2,10 +2,10 @@ package com.marknkamau.justjava.ui.checkout
 
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -51,7 +51,9 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        database.placeNewOrder(order, items, object : DatabaseService.WriteListener {
+        val userId = auth.getCurrentUser()?.uid
+
+        database.placeNewOrder(userId, order, items, object : DatabaseService.WriteListener {
             override fun onSuccess() {
                 val deleteAll = Completable.fromCallable { cart.deleteAll() }
                 val resetIndex = Completable.fromCallable { cart.resetIndex() }
@@ -67,8 +69,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                                     activityView.displayMessage("Order placed")
                                     activityView.finishActivity()
                                 },
-                                onError = {
-                                    t: Throwable? ->
+                                onError = { t: Throwable? ->
                                     Timber.e(t)
                                     activityView.hideUploadBar()
                                     activityView.displayMessage(t?.message)

@@ -1,14 +1,12 @@
 package com.marknkamau.justjava.data.network
 
 import com.google.firebase.database.*
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
-import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.PreviousOrder
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.models.*
+import timber.log.Timber
 
 class DatabaseServiceImpl : DatabaseService {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -50,7 +48,7 @@ class DatabaseServiceImpl : DatabaseService {
                 .addOnFailureListener { listener.onError(it.message ?: "Error updating user details") }
     }
 
-    override fun getUserDefaults(id:String, listener: DatabaseService.UserDetailsListener) {
+    override fun getUserDefaults(id: String, listener: DatabaseService.UserDetailsListener) {
         fireStore.collection("users")
                 .document(id)
                 .get()
@@ -69,34 +67,48 @@ class DatabaseServiceImpl : DatabaseService {
                 }
     }
 
-    override fun placeNewOrder(order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
-        val orderRef = dbRootRef.child("allOrders").push()
-        val key = orderRef.key
+    override fun placeNewOrder(userId: String?, order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
+        val orderRef = fireStore.collection("orders").document()
+        val id = orderRef.id
+        val itemsRef = fireStore.collection("orderItems")
 
-        orderRef.child("orderID").setValue(key)
-        orderRef.child("customerName").setValue(order.customerName)
-        orderRef.child("customerPhone").setValue(order.customerPhone)
-        orderRef.child("itemsCount").setValue(order.itemsCount)
-        orderRef.child("totalPrice").setValue(order.totalPrice)
-        orderRef.child("orderStatus").setValue("Pending")
-        orderRef.child("deliveryAddress").setValue(order.deliveryAddress)
-        orderRef.child("additionalComments").setValue(order.additionalComments)
-        orderRef.child("deviceToken").setValue(FirebaseInstanceId.getInstance().token)
-        orderRef.child("timestamp").setValue(ServerValue.TIMESTAMP)
+        val orderMap = mutableMapOf<String, Any>()
+        orderMap.put("orderId", id)
+        orderMap.put("customerName", order.customerName)
+        orderMap.put("customerPhone", order.customerPhone)
+        orderMap.put("deliveryAddress", order.deliveryAddress)
+        orderMap.put("itemsCount", order.itemsCount)
+        orderMap.put("totalPrice", order.totalPrice)
+        orderMap.put("status", OrderStatus.PENDING.toString())
+        orderMap.put("additionalComments", order.additionalComments)
+        orderMap.put("timestamp", FieldValue.serverTimestamp())
 
-        val currentUser = AuthenticationServiceImpl.getCurrentUser()
-        if (currentUser != null) {
-            orderRef.child("user").setValue(currentUser.uid)
-            val userOrdersRef = dbRootRef.child("userOrders/${currentUser.uid}")
-            userOrdersRef.push().setValue(key)
-        } else {
-            orderRef.child("user").setValue("null")
-        }
+        userId?.let { orderMap.put("user", it) }
 
-        val orderItemsRef = dbRootRef.child("orderItems").child(key)
-        orderItemsRef.setValue(cartItems)
-                .addOnSuccessListener { listener.onSuccess() }
-                .addOnFailureListener { exception -> listener.onError(exception.message ?: "Error placing order") }
+        fireStore
+                .runTransaction {
+                    it.set(orderRef, orderMap)
+                    for (i in cartItems.indices){
+                        val item = cartItems[i]
+                        val itemsMap = mutableMapOf<String, Any>()
+
+                        itemsMap.put("orderId", id)
+                        itemsMap.put("itemName", item.itemName)
+                        itemsMap.put("itemQty", item.itemQty)
+                        itemsMap.put("itemCinnamon", item.itemCinnamon)
+                        itemsMap.put("itemChoc", item.itemChoc)
+                        itemsMap.put("itemMarshmallow", item.itemMarshmallow)
+                        itemsMap.put("itemPrice", item.itemPrice)
+
+                        val reference = itemsRef.document()
+                        it.set(reference, itemsMap)
+                    }
+                }
+                .addOnSuccessListener { listener.onSuccess()}
+                .addOnFailureListener {
+                    Timber.e(it)
+                    listener.onError(it.message ?: "Error placing order")
+                }
     }
 
     override fun getPreviousOrders(listener: DatabaseService.PreviousOrdersListener) {
