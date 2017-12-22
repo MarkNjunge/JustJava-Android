@@ -25,13 +25,13 @@ internal class ProfilePresenter(private val activityView: ProfileView,
     }
 
     private fun getPreviousOrders() {
-        databaseService.getPreviousOrders(object : DatabaseService.PreviousOrdersListener {
-            override fun taskSuccessful(previousOrders: MutableList<PreviousOrder>) {
-                activityView.displayPreviousOrders(previousOrders)
-            }
-
-            override fun noValuesPresent() {
-                activityView.displayNoPreviousOrders()
+        databaseService.getPreviousOrders(authenticationService.getCurrentUser()!!.uid, object : DatabaseService.PreviousOrdersListener {
+            override fun onSuccess(previousOrders: MutableList<PreviousOrder>) {
+                if (previousOrders.isEmpty()) {
+                    activityView.displayNoPreviousOrders()
+                } else {
+                    activityView.displayPreviousOrders(previousOrders)
+                }
             }
 
             override fun onError(reason: String) {
@@ -47,7 +47,7 @@ internal class ProfilePresenter(private val activityView: ProfileView,
             override fun actionSuccessful(response: String) {
                 databaseService.updateUserDetails(userDetails.id, name, phone, address, object : DatabaseService.WriteListener {
                     override fun onSuccess() {
-                        val newUserDetails = UserDetails(userDetails.id, userDetails.email,name, phone, address)
+                        val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
 
                         preferencesRepository.saveUserDetails(newUserDetails)
                         activityView.hideProgressBar()

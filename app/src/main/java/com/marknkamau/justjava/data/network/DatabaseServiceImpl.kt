@@ -4,9 +4,9 @@ import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
-import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.models.*
 import timber.log.Timber
+import java.util.*
 
 class DatabaseServiceImpl : DatabaseService {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
@@ -88,7 +88,7 @@ class DatabaseServiceImpl : DatabaseService {
         fireStore
                 .runTransaction {
                     it.set(orderRef, orderMap)
-                    for (i in cartItems.indices){
+                    for (i in cartItems.indices) {
                         val item = cartItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
 
@@ -104,41 +104,64 @@ class DatabaseServiceImpl : DatabaseService {
                         it.set(reference, itemsMap)
                     }
                 }
-                .addOnSuccessListener { listener.onSuccess()}
+                .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener {
                     Timber.e(it)
                     listener.onError(it.message ?: "Error placing order")
                 }
     }
 
-    override fun getPreviousOrders(listener: DatabaseService.PreviousOrdersListener) {
-        previousOrders = mutableListOf()
-        dbRootRef.child("userOrders/" + AuthenticationServiceImpl.getCurrentUser()?.uid)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.childrenCount.toInt() == 0) {
-                            listener.noValuesPresent()
-                        } else {
-                            for (snapshot in dataSnapshot.children) {
-                                getOrder(snapshot.value as String, object : DatabaseService.OrderListener {
-                                    override fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String) {
-                                        previousOrders.add(PreviousOrder(deliveryAddress, timestamp, totalPrice, orderStatus))
-                                        listener.taskSuccessful(previousOrders)
-                                    }
-
-                                    override fun onError(reason: String) {
-                                        listener.onError(reason)
-                                    }
-
-                                })
-                            }
-                        }
+    override fun getPreviousOrders(userId: String, listener: DatabaseService.PreviousOrdersListener) {
+        fireStore.collection("orders")
+                .whereEqualTo("user", userId)
+                .get()
+                .addOnSuccessListener {
+                    val orders = mutableListOf<PreviousOrder>()
+                    it.forEach { snapshot ->
+                        val previousOrder = PreviousOrder(
+                                snapshot.data["orderId"] as String,
+                                (snapshot.data["itemsCount"] as Long).toInt(),
+                                snapshot.data["deliveryAddress"] as String,
+                                snapshot.data["timestamp"] as Date,
+                                (snapshot.data["totalPrice"] as Long).toInt(),
+                                snapshot.data["status"] as String
+                        )
+                        orders.add(previousOrder)
                     }
+                    listener.onSuccess(orders)
+                }
+                .addOnFailureListener {
+                    Timber.e(it)
+                    listener.onError(it.message ?: "Error getting previous orders")
+                }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        listener.onError(databaseError.message)
-                    }
-                })
+//        previousOrders = mutableListOf()
+//        dbRootRef.child("userOrders/" + AuthenticationServiceImpl.getCurrentUser()?.uid)
+//                .addListenerForSingleValueEvent(object : ValueEventListener {
+//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                        if (dataSnapshot.childrenCount.toInt() == 0) {
+//                            listener.noValuesPresent()
+//                        } else {
+//                            for (snapshot in dataSnapshot.children) {
+//                                getOrder(snapshot.value as String, object : DatabaseService.OrderListener {
+//                                    override fun onSuccess(deliveryAddress: String, timestamp: String, totalPrice: String, status: String) {
+//                                        previousOrders.add(PreviousOrder(deliveryAddress, timestamp, totalPrice, status))
+//                                        listener.onSuccess(previousOrders)
+//                                    }
+//
+//                                    override fun onError(reason: String) {
+//                                        listener.onError(reason)
+//                                    }
+//
+//                                })
+//                            }
+//                        }
+//                    }
+//
+//                    override fun onCancelled(databaseError: DatabaseError) {
+//                        listener.onError(databaseError.message)
+//                    }
+//                })
     }
 
     override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
@@ -149,7 +172,7 @@ class DatabaseServiceImpl : DatabaseService {
                         dataSnapshot.child("deliveryAddress").value.toString(),
                         dataSnapshot.child("timestamp").value.toString(),
                         dataSnapshot.child("totalPrice").value.toString(),
-                        dataSnapshot.child("orderStatus").value.toString())
+                        dataSnapshot.child("status").value.toString())
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

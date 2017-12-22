@@ -9,7 +9,8 @@ import android.view.ViewGroup
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.models.PreviousOrder
 import kotlinx.android.synthetic.main.item_previous_order.view.*
-import java.text.DateFormat
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<PreviousOrderAdapter.ViewHolder>() {
@@ -31,23 +32,26 @@ class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<
 
         @SuppressLint("SetTextI18n")
         fun bind(order: PreviousOrder, context: Context) {
-            itemView.tvTimestamp.text = getFormattedDate(order.timestamp.toLong())
-            itemView.tvTotalPrice.text = "${context.getString(R.string.ksh)}${order.totalPrice}"
-            itemView.tvOrderStatus.text = order.orderStatus
-            itemView.tvDeliveryAddress.text = order.deliveryAddress
+            itemView.tvTimestamp.text = order.timestamp.formatForApp()
+            itemView.tvPrice.text = "${context.getString(R.string.ksh)}${order.totalPrice}"
+            itemView.tvStatus.text = order.status.toLowerCase().capitalize()
+            itemView.tvAddress.text = order.deliveryAddress
+            itemView.tvItems.text = order.itemsCount.toString()
         }
 
-        private fun getFormattedDate(timestamp: Long): String {
+        private fun Date.formatForApp(): String {
             try {
-                val calendar = Calendar.getInstance()
-                calendar.timeInMillis = timestamp
-                val currentTime = calendar.time
-                return DateFormat.getDateTimeInstance().format(currentTime)
+                val simpleDateFormat = SimpleDateFormat("hh:mm a, d MMM")
+                return simpleDateFormat.format(this)
+//                val calendar = Calendar.getInstance()
+//                calendar.timeInMillis = timestamp
+//                val currentTime = calendar.time
+//                return DateFormat.getDateTimeInstance().format(currentTime)
             } catch (e: Exception) {
-                e.printStackTrace()
+               Timber.e(e)
             }
 
-            return timestamp.toString()
+            return this.toString()
         }
     }
 

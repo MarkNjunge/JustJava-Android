@@ -1,3 +1,10 @@
 package com.marknkamau.justjava.models
 
-class PreviousOrder(val deliveryAddress: String, val timestamp: String, val totalPrice: String, val orderStatus: String)
+import java.util.*
+
+class PreviousOrder(val orderId: String,
+                    val itemsCount: Int,
+                    val deliveryAddress: String,
+                    val timestamp: Date,
+                    val totalPrice: Int,
+                    val status: String)

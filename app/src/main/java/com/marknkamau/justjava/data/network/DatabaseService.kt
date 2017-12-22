@@ -11,11 +11,11 @@ interface DatabaseService {
 
     fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener)
 
-    fun getUserDefaults(id:String, listener: UserDetailsListener)
+    fun getUserDefaults(id: String, listener: UserDetailsListener)
 
-    fun placeNewOrder(userId:String?, order: Order, cartItems: List<CartItem>, listener: WriteListener)
+    fun placeNewOrder(userId: String?, order: Order, cartItems: List<CartItem>, listener: WriteListener)
 
-    fun getPreviousOrders(listener: PreviousOrdersListener)
+    fun getPreviousOrders(userId: String, listener: PreviousOrdersListener)
 
     fun getOrder(orderId: String, listener: OrderListener)
 
@@ -32,9 +32,7 @@ interface DatabaseService {
     }
 
     interface PreviousOrdersListener : DatabaseListener {
-        fun taskSuccessful(previousOrders: MutableList<PreviousOrder>)
-
-        fun noValuesPresent()
+        fun onSuccess(previousOrders: MutableList<PreviousOrder>)
     }
 
     interface OrderListener : DatabaseListener {
