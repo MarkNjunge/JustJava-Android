@@ -8,6 +8,14 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
+    private var isSignedIn = false
+
+    init {
+        firebaseAuth.addAuthStateListener {
+            isSignedIn = it.currentUser != null
+        }
+    }
+
     override fun addAuthListener(listener: FirebaseAuth.AuthStateListener) {
         firebaseAuth.addAuthStateListener(listener)
     }
@@ -40,9 +48,7 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
 
-    override fun isSignedIn(): Boolean {
-        return firebaseAuth.currentUser != null
-    }
+    override fun isSignedIn() = isSignedIn
 
     override fun logOut() {
         firebaseAuth.signOut()

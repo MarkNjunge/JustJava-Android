@@ -8,6 +8,9 @@
         android:title="Cart"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_login"
+        android:title="Login" />
+    <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_profile"
         android:title="Profile"
