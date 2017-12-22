@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_log_in.*
 class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     private lateinit var email: String
     private var passVisible = false
-    private lateinit var progressDialog: ProgressDialog
+//    private lateinit var progressDialog: ProgressDialog
     private lateinit var presenter: LogInPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,18 +95,11 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     }
 
     override fun showDialog() {
-        // TODO remove progress dialog
-        progressDialog = ProgressDialog(this)
-        progressDialog.isIndeterminate = true
-        progressDialog.setCancelable(false)
-        progressDialog.setTitle(null)
-        progressDialog.setMessage("Authenticating")
-        progressDialog.show()
+        pbLoading.visibility = View.VISIBLE
     }
 
     override fun dismissDialog() {
-        if (progressDialog.isShowing)
-            progressDialog.dismiss()
+        pbLoading.visibility = View.GONE
     }
 
     override fun finishSignUp() {

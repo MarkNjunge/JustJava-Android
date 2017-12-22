@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.signup
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -25,7 +24,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private lateinit var password: String
     private var passVisible = false
     private var passRptVisible = false
-    private lateinit var progressDialog: ProgressDialog
     private lateinit var presenter: SignUpPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,18 +75,11 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     override fun enableUserInteraction() {
         btnSignup.setBackgroundResource(R.drawable.large_button)
         btnSignup.isEnabled = true
-        if (progressDialog.isShowing) {
-            progressDialog.dismiss()
-        }
+        pbLoading.visibility = View.GONE
     }
 
     override fun disableUserInteraction() {
-        progressDialog = ProgressDialog(this)
-        progressDialog.isIndeterminate = true
-        progressDialog.setCancelable(false)
-        progressDialog.setTitle(null)
-        progressDialog.setMessage("Creating user")
-        progressDialog.show()
+        pbLoading.visibility = View.VISIBLE
         btnSignup.setBackgroundResource(R.drawable.large_button_disabled)
         btnSignup.isEnabled = false
     }
