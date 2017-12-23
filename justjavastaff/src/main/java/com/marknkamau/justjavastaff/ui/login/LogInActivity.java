@@ -1,9 +1,7 @@
 package com.marknkamau.justjavastaff.ui.login;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -11,25 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.marknkamau.justjavastaff.JustJavaStaffApp;
 import com.marknkamau.justjavastaff.R;
+import com.marknkamau.justjavastaff.authentication.AuthenticationService;
 import com.marknkamau.justjavastaff.ui.main.MainActivity;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LogInActivity extends AppCompatActivity {
-
+public class LogInActivity extends AppCompatActivity implements LoginView {
     @BindView(R.id.et_email)
     EditText etEmail;
     @BindView(R.id.et_password)
@@ -38,10 +30,11 @@ public class LogInActivity extends AppCompatActivity {
     Button btnLogIn;
     @BindView(R.id.img_visibility)
     ImageView imgVisibility;
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
 
-    private ProgressDialog progressDialog;
-    private FirebaseAuth firebaseAuth;
     private boolean passVisible = false;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +42,10 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         ButterKnife.bind(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
+        AuthenticationService auth = ((JustJavaStaffApp) getApplication()).getAuth();
+        presenter = new LoginPresenter(auth, this);
+
+        if (auth.currentEmployee() != null) {
             startActivity(new Intent(LogInActivity.this, MainActivity.class));
             finish();
         }
@@ -80,27 +74,12 @@ public class LogInActivity extends AppCompatActivity {
 
     private void signUserIn() {
         disableButtons();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-        progressDialog.setTitle(null);
-        progressDialog.setMessage("Authenticating");
-        progressDialog.show();
+        pbLoading.setVisibility(View.VISIBLE);
 
-        firebaseAuth.signInWithEmailAndPassword(etEmail.getText().toString(), etPassword.getText().toString())
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        enableButtons();
-                        if (task.isSuccessful()) {
-                            startActivity(new Intent(LogInActivity.this, MainActivity.class));
-                            finish();
-                        } else {
-                            progressDialog.dismiss();
-                            Toast.makeText(LogInActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        presenter.signIn(email, password);
     }
 
     private void disableButtons() {
@@ -124,14 +103,18 @@ public class LogInActivity extends AppCompatActivity {
             return false;
         }
 
-        Pattern pattern1 = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+");
-        Matcher matcher1 = pattern1.matcher(email);
-
-        if (!matcher1.matches()) {
-            Toast.makeText(this, "Must be a JustJava employee", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
         return true;
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        enableButtons();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSignedIn() {
+        startActivity(new Intent(LogInActivity.this, MainActivity.class));
+        finish();
     }
 }
