@@ -1,24 +1,21 @@
 package com.marknkamau.justjavastaff;
 
 import android.app.Application;
-
-import com.marknkamau.justjavastaff.dagger.AppComponent;
-//import com.marknkamau.justjavastaff.dagger.DaggerAppComponent;
-import com.marknkamau.justjavastaff.dagger.SharedPreferencesModule;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class JustJavaStaffApp extends Application {
-    private AppComponent appComponent;
+
+    private SharedPreferences preferences;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-//        appComponent = DaggerAppComponent.builder()
-//                .sharedPreferencesModule(new SharedPreferencesModule(this))
-//                .build();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
-    public AppComponent getAppComponent(){
-        return appComponent;
+    public SharedPreferences getPreferences() {
+        return preferences;
     }
 }

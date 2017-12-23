@@ -27,8 +27,6 @@ import com.marknkamau.justjavastaff.models.CustomerOrder;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.fabric.sdk.android.Fabric;
@@ -54,9 +52,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
     private static final String DELIVERED = "Delivered";
     private static final String CANCELLED = "Cancelled";
 
-    @Inject
-    SharedPreferences sharedPreferences;
-
     private MainActivityPresenter presenter;
 
     @Override
@@ -71,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        ((JustJavaStaffApp) getApplication()).getAppComponent().inject(this);
 
         firebaseAuth = FirebaseAuth.getInstance();
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -79,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 //            startActivity(new Intent(MainActivity.this, LogInActivity.class));
 //        }
 
+        SharedPreferences sharedPreferences = ((JustJavaStaffApp) getApplication()).getPreferences();
         presenter = new MainActivityPresenter(this, sharedPreferences);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
