@@ -58,9 +58,11 @@ dependencies {
     // Firebase libraries
     implementation "com.google.firebase:firebase-database:$firebase_version"
     implementation "com.google.firebase:firebase-auth:$firebase_version"
+    implementation "com.google.firebase:firebase-firestore:$firebase_version"
 
     //Other libraries
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.timber:timber:4.6.0'
     implementation 'com.jakewharton:butterknife:9.0.0-SNAPSHOT'
     kapt 'com.jakewharton:butterknife-compiler:9.0.0-SNAPSHOT'
 

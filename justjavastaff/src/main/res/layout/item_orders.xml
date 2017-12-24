@@ -13,7 +13,7 @@
         android:layout_width="8dp"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginTop="0dp"
         android:background="@color/colorPending"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,70 +23,82 @@
 
     <TextView
         android:id="@+id/tv_timestamp"
-        style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/placeholder"
+        android:alpha=".87"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/view_status"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10:30 AM 24 Dec" />
 
     <TextView
         android:id="@+id/textView6"
-        style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/placeholder"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:alpha=".87"
+        android:text="Items"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/view_status"
         app:layout_constraintTop_toBottomOf="@+id/tv_timestamp" />
 
     <TextView
         android:id="@+id/tv_items_count"
-        style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/placeholder"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:alpha=".87"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        tools:text="1" />
 
     <TextView
         android:id="@+id/textView7"
-        style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/total_ksh"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:alpha=".87"
+        android:text="Total:"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/view_status"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
         android:id="@+id/tv_total_price"
-        style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/placeholder"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:alpha=".87"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView7" />
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        tools:text="Ksh. 200" />
 
     <TextView
         android:id="@+id/tv_order_id"
-        style="@style/secondary_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="0dp"
-        android:text="@string/placeholder"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:alpha=".87"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/view_status"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7"
+        tools:text="ozpxirmhmIadaCJ6b7neRXS78cp1" />
 
 </android.support.constraint.ConstraintLayout>

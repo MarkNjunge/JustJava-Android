@@ -25,8 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.marknkamau.justjavastaff.R;
-import com.marknkamau.justjavastaff.ui.main.CustomerOrdersAdapter;
-import com.marknkamau.justjavastaff.models.CustomerOrder;
+import com.marknkamau.justjavastaff.models.Order;
 import com.marknkamau.justjavastaff.models.OrderItem;
 import com.marknkamau.justjavastaff.util.FirebaseUtil;
 
@@ -194,25 +193,25 @@ public class OrderDetails extends AppCompatActivity {
     }
 
     private void setOrderDisplay() {
-        CustomerOrder customerOrder = getIntent().getExtras().getParcelable(CustomerOrdersAdapter.ORDER_TAG);
-
-        orderID = customerOrder.getOrderID();
-        currentStatus = customerOrder.getOrderStatus();
-        String additionalComments = customerOrder.getAdditionalComments();
-
-        tvOrderId.setText(orderID);
-        tvTimestamp.setText(getFormattedDate(Long.valueOf(customerOrder.getTimestamp())));
-        tvCustomerName.setText(customerOrder.getCustomerName());
-        tvCustomerPhone.setText(customerOrder.getCustomerPhone());
-        tvDeliveryAddress.setText(customerOrder.getDeliveryAddress());
-        tvTotalPrice.setText(customerOrder.getTotalPrice());
-        tvOrderStatus.setText(currentStatus);
-        if (TextUtils.isEmpty(additionalComments))
-            tvAdditionalComments.setVisibility(View.GONE);
-        else
-            tvAdditionalComments.setText(additionalComments);
-
-        refreshOrderStatus();
+//        Order order = getIntent().getExtras().getParcelable(CustomerOrdersAdapter.ORDER_TAG);
+//
+//        orderID = order.getOrderId();
+//        currentStatus = order.getStatus();
+//        String additionalComments = order.getAdditionalComments();
+//
+//        tvOrderId.setText(orderID);
+//        tvTimestamp.setText(getFormattedDate(Long.valueOf(order.getTimestamp())));
+//        tvCustomerName.setText(order.getCustomerName());
+//        tvCustomerPhone.setText(order.getCustomerPhone());
+//        tvDeliveryAddress.setText(order.getDeliveryAddress());
+//        tvTotalPrice.setText(order.getTotalPrice());
+//        tvOrderStatus.setText(currentStatus);
+//        if (TextUtils.isEmpty(additionalComments))
+//            tvAdditionalComments.setVisibility(View.GONE);
+//        else
+//            tvAdditionalComments.setText(additionalComments);
+//
+//        refreshOrderStatus();
     }
 
     private void refreshOrderStatus() {
