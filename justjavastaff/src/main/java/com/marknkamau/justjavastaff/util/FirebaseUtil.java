@@ -47,7 +47,7 @@ public class FirebaseUtil {
                             , String.valueOf(snapshot.child("customerPhone").getValue())
                             , String.valueOf(snapshot.child("deliveryAddress").getValue())
                             , String.valueOf(snapshot.child("additionalComments").getValue())
-                            , String.valueOf(snapshot.child("orderStatus").getValue())
+                            , String.valueOf(snapshot.child("currentStatus").getValue())
                             , String.valueOf(snapshot.child("timestamp").getValue())
                             , String.valueOf(snapshot.child("totalPrice").getValue())
                             , String.valueOf(snapshot.child("itemsCount").getValue())));

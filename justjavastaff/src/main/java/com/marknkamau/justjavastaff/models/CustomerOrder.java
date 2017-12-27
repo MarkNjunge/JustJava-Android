@@ -76,7 +76,7 @@ public class CustomerOrder implements Parcelable {
                 ", customerPhone='" + customerPhone + '\'' +
                 ", deliveryAddress='" + deliveryAddress + '\'' +
                 ", additionalComments='" + additionalComments + '\'' +
-                ", orderStatus='" + orderStatus + '\'' +
+                ", currentStatus='" + orderStatus + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 ", totalPrice='" + totalPrice + '\'' +
                 ", itemsCount='" + itemsCount + '\'' +

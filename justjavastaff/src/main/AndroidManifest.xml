@@ -27,7 +27,7 @@
             android:name=".ui.preferences.PreferencesActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.orderdetails.OrderDetails"
+            android:name=".ui.orderdetails.OrderDetailsActivity"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme" />
         <activity

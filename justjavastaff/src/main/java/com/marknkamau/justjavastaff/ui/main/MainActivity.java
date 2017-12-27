@@ -1,5 +1,6 @@
 package com.marknkamau.justjavastaff.ui.main;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -14,12 +15,12 @@ import com.marknkamau.justjavastaff.R;
 import com.marknkamau.justjavastaff.data.network.OrdersRepository;
 import com.marknkamau.justjavastaff.models.Order;
 import com.marknkamau.justjavastaff.ui.MenuBarActivity;
+import com.marknkamau.justjavastaff.ui.orderdetails.OrderDetailsActivity;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class MainActivity extends MenuBarActivity implements MainView {
     @BindView(R.id.rv_orders)
@@ -47,9 +48,10 @@ public class MainActivity extends MenuBarActivity implements MainView {
         adapter.setOnClickListener(new OrdersAdapter.OnClickListener() {
             @Override
             public void onClick(Order element) {
-                Toast.makeText(MainActivity.this, element.getOrderId(), Toast.LENGTH_SHORT).show();
+                goToDetails(element);
             }
         });
+
 
         rvOrders.setAdapter(adapter);
 
@@ -71,5 +73,11 @@ public class MainActivity extends MenuBarActivity implements MainView {
     public void displayNoOrders() {
         Toast.makeText(this, "There are no orders", Toast.LENGTH_SHORT).show();
         pbLoading.setVisibility(View.GONE);
+    }
+
+    private void goToDetails(Order order) {
+        Intent intent = new Intent(this, OrderDetailsActivity.class);
+        intent.putExtra(OrderDetailsActivity.Companion.getORDER(), order);
+        startActivity(intent);
     }
 }

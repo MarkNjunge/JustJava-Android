@@ -6,7 +6,7 @@ package com.marknkamau.justjavastaff.models;
  * https://github.com/MarkNjunge
  */
 
-enum OrderStatus {
+public enum OrderStatus {
     PENDING,
     INPROGRESS,
     COMPLETED,
