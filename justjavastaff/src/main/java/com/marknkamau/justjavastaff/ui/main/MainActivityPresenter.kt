@@ -1,11 +1,12 @@
 package com.marknkamau.justjavastaff.ui.main
 
-import android.content.SharedPreferences
+import com.marknkamau.justjavastaff.data.local.SettingsRespository
 
 import com.marknkamau.justjavastaff.data.network.OrdersRepository
 import com.marknkamau.justjavastaff.models.Order
+import com.marknkamau.justjavastaff.models.OrderStatus
 
-internal class MainActivityPresenter(private val view: MainView, private val preferences: SharedPreferences, private val ordersRepository: OrdersRepository) {
+internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val ordersRepository: OrdersRepository) {
 
     fun getOrders() {
         ordersRepository.getOrders(object : OrdersRepository.OrdersListener {
@@ -13,7 +14,21 @@ internal class MainActivityPresenter(private val view: MainView, private val pre
                 if (orders.isEmpty()) {
                     view.displayNoOrders()
                 } else {
-                    view.displayAvailableOrders(orders.toMutableList())
+                    val statusSettings = settings.getStatusSettings()
+                    val filteredOrders = mutableListOf<Order>()
+                    orders.forEach {
+                        if (it.status == OrderStatus.PENDING.name && statusSettings.pending)
+                            filteredOrders.add(it)
+                        if (it.status == OrderStatus.INPROGRESS.name && statusSettings.inProgress)
+                            filteredOrders.add(it)
+                        if (it.status == OrderStatus.COMPLETED.name && statusSettings.completed)
+                            filteredOrders.add(it)
+                        if (it.status == OrderStatus.DELIVERED.name && statusSettings.delivered)
+                            filteredOrders.add(it)
+                        if (it.status == OrderStatus.CANCELLED.name && statusSettings.cancelled)
+                            filteredOrders.add(it)
+                    }
+                    view.displayAvailableOrders(filteredOrders)
                 }
             }
 

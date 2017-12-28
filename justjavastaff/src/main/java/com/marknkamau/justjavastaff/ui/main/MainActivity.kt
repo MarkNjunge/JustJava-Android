@@ -25,9 +25,9 @@ class MainActivity : MenuBarActivity(), MainView {
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
 
-        val sharedPreferences = (application as JustJavaStaffApp).preferences
+        val settings = (application as JustJavaStaffApp).settingsRepository
         val ordersRepository = (application as JustJavaStaffApp).ordersRepository
-        presenter = MainActivityPresenter(this, sharedPreferences, ordersRepository)
+        presenter = MainActivityPresenter(this, settings, ordersRepository)
 
         rvOrders.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvOrders.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -37,7 +37,10 @@ class MainActivity : MenuBarActivity(), MainView {
         }
 
         rvOrders.adapter = adapter
+    }
 
+    override fun onResume() {
+        super.onResume()
         presenter.getOrders()
     }
 
