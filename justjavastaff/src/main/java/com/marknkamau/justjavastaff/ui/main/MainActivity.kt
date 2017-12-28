@@ -32,7 +32,7 @@ class MainActivity : MenuBarActivity(), MainView {
         rvOrders.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvOrders.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
-        adapter = OrdersAdapter{order ->
+        adapter = OrdersAdapter(this){order ->
             goToDetails(order)
         }
 
