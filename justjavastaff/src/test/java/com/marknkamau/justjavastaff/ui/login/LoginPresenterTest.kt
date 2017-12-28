@@ -2,6 +2,7 @@ package com.marknkamau.justjavastaff.ui.login
 
 import com.marknkamau.justjavastaff.authentication.AuthenticationService
 import com.marknkamau.justjavastaff.models.Employee
+import com.nhaarman.mockito_kotlin.any
 
 import org.junit.Before
 import org.junit.Test
@@ -37,7 +38,7 @@ class LoginPresenterTest {
             val authListener = it.arguments[2] as AuthenticationService.AuthListener
             authListener.onSuccess(Employee("", "", ""))
         }
-        ).`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), Mockito.any(AuthenticationService.AuthListener::class.java))
+        ).`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         presenter!!.signIn("mark@justjava.com", "")
 
@@ -49,7 +50,7 @@ class LoginPresenterTest {
         Mockito.doAnswer {
             val authListener = it.arguments[2] as AuthenticationService.AuthListener
             authListener.onError("")
-        }.`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), Mockito.any(AuthenticationService.AuthListener::class.java))
+        }.`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         presenter!!.signIn("mark@justjava.com", "")
 
