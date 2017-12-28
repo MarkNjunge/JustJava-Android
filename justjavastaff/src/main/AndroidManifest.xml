@@ -24,7 +24,7 @@
             android:name=".ui.main.MainActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.preferences.PreferencesActivity"
+            android:name=".ui.preferences.SettingsActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.orderdetails.OrderDetailsActivity"
@@ -33,6 +33,7 @@
         <activity
             android:name=".ui.help.HelpActivity"
             android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

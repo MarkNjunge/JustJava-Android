@@ -19,6 +19,10 @@ class AuthServiceImpl : AuthenticationService {
                 .addOnFailureListener { e -> listener.onError(e.message ?: "Error signing in") }
     }
 
+    override fun signOut() {
+        auth.signOut()
+    }
+
     override fun currentEmployee(): Employee? {
         val currentUser = auth.currentUser
         return if (currentUser == null) {

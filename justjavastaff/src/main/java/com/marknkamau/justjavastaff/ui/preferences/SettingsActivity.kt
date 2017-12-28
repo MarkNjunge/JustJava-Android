@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 
 import com.marknkamau.justjavastaff.R
 
-class PreferencesActivity : AppCompatActivity() {
+class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

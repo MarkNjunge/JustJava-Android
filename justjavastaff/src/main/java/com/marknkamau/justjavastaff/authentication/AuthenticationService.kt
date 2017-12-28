@@ -11,6 +11,8 @@ import com.marknkamau.justjavastaff.models.Employee
 interface AuthenticationService {
     fun signIn(email: String, password: String, listener: AuthListener)
 
+    fun signOut()
+
     fun currentEmployee(): Employee?
 
     interface AuthListener {
