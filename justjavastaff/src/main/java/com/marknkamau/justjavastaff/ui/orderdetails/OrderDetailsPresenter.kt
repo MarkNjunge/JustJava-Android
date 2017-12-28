@@ -14,8 +14,8 @@ class OrderDetailsPresenter(private val view: OrderDetailsView, private val orde
 
     fun getOrderItems(orderId: String) {
         ordersRepository.getOrderItems(orderId, object : OrdersRepository.OrderItemsListener {
-            override fun onSuccess(items: MutableList<OrderItem>) {
-                view.displayOrderItems(items)
+            override fun onSuccess(items: List<OrderItem>) {
+                view.displayOrderItems(items.toMutableList())
             }
 
             override fun onError(reason: String) {
