@@ -67,7 +67,7 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
         tvPhone.text = order.customerPhone
         tvAddress.text = order.deliveryAddress
         tvTotalPrice.text = order.totalPrice.toString()
-        currentStatus = order.status
+        currentStatus = OrderStatus.valueOf(order.status)
         if (order.additionalComments.isEmpty()) {
             tvComments.visibility = View.GONE
         } else {
@@ -157,26 +157,5 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
                 .setNegativeButton("No") { _, _ -> }
         builder.show()
     }
-
-//    private fun updateDatabaseStatus(status: String?) {
-//        val orderStatusRef = databaseReference!!.child("allOrders/$orderID/currentStatus")
-//        orderStatusRef.setValue(status).addOnCompleteListener { task ->
-//            if (!task.isSuccessful) {
-//                Toast.makeText(this@OrderDetailsActivity, "Error: " + task.exception!!.message, Toast.LENGTH_SHORT).show()
-//                currentStatus = previousStatus
-//                refreshOrderStatus()
-//            }
-//        }
-//
-//        if (TextUtils.equals(status, COMPLETED)) {
-//            val completedOrders = databaseReference!!.child("completedOrders")
-//            completedOrders.push().setValue(orderID)
-//        }
-//        if (TextUtils.equals(status, CANCELLED)) {
-//            val cancelledOrders = databaseReference!!.child("cancelledOrders")
-//            cancelledOrders.push().setValue(orderID)
-//        }
-//    }
-
 
 }

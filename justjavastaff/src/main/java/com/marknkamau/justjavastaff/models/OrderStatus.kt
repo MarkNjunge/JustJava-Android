@@ -1,4 +1,4 @@
-package com.marknkamau.justjavastaff.models;
+package com.marknkamau.justjavastaff.models
 
 /**
  * Created by Mark Njung'e.
@@ -6,7 +6,7 @@ package com.marknkamau.justjavastaff.models;
  * https://github.com/MarkNjunge
  */
 
-public enum OrderStatus {
+enum class OrderStatus {
     PENDING,
     INPROGRESS,
     COMPLETED,

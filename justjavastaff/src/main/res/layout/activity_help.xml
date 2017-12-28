@@ -4,42 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.marknkamau.justjavastaff.ui.help.HelpActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="25dp">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:minHeight="?attr/actionBarSize"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="56dp"
-            app:srcCompat="@drawable/ic_just_java_text" />
-    </android.support.v7.widget.Toolbar>
+    tools:context="com.marknkamau.justjavastaff.ui.help.HelpActivity">
 
     <View
         android:id="@+id/view_pending"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_pending"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/tv_pending"
@@ -47,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/pending"
         app:layout_constraintBottom_toBottomOf="@+id/view_pending"
@@ -59,7 +34,7 @@
         android:id="@+id/view_in_progress"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_in_progress"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -71,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/in_progress"
         app:layout_constraintBottom_toBottomOf="@+id/view_in_progress"
@@ -83,7 +58,7 @@
         android:id="@+id/view_completed"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_completed"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -95,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/completed"
         app:layout_constraintBottom_toBottomOf="@+id/view_completed"
@@ -107,7 +82,7 @@
         android:id="@+id/view_delivered"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_delivered"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -119,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/delivered"
         app:layout_constraintBottom_toBottomOf="@+id/view_delivered"
@@ -131,7 +106,7 @@
         android:id="@+id/view_cancelled"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_cancelled"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -143,12 +118,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         android:text="@string/cancelled"
         app:layout_constraintBottom_toBottomOf="@+id/view_cancelled"
         app:layout_constraintLeft_toRightOf="@+id/view_cancelled"
         app:layout_constraintTop_toTopOf="@+id/view_cancelled"
         app:layout_constraintVertical_bias="0.571" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:alpha=".87"
+        android:text="Order color codes"
+        android:textColor="@android:color/black"
+        android:textSize="17sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

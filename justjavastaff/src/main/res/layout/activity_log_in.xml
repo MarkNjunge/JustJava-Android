@@ -33,7 +33,7 @@
             app:srcCompat="@drawable/ic_just_java_text" />
 
         <EditText
-            android:id="@+id/et_email"
+            android:id="@+id/etEmail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -52,7 +52,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
         <EditText
-            android:id="@+id/et_password"
+            android:id="@+id/etPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -66,10 +66,10 @@
             android:textColorHint="@color/colorPrimaryLight"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_email" />
+            app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
         <Button
-            android:id="@+id/btn_log_in"
+            android:id="@+id/btnLogIn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -83,14 +83,14 @@
             app:layout_constraintTop_toBottomOf="@+id/pbLoading" />
 
         <ImageView
-            android:id="@+id/img_visibility"
+            android:id="@+id/imgVisibility"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:alpha=".87"
-            app:layout_constraintBottom_toBottomOf="@+id/et_password"
-            app:layout_constraintRight_toRightOf="@+id/et_password"
-            app:layout_constraintTop_toTopOf="@+id/et_password"
+            app:layout_constraintBottom_toBottomOf="@+id/etPassword"
+            app:layout_constraintRight_toRightOf="@+id/etPassword"
+            app:layout_constraintTop_toTopOf="@+id/etPassword"
             app:srcCompat="@drawable/ic_visibility_off" />
 
         <android.support.constraint.Guideline
@@ -127,7 +127,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+            app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
