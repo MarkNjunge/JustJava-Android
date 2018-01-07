@@ -17,8 +17,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         remoteMessage.notification?.let {
             val notification = notificationHelper.createNotification(
-                    "Just java",
-                    it.body ?: "Your order has been completed!",
+                    it.title ?: "JustJava",
+                    it.body ?: "Your order has been updated!",
                     getString(R.string.default_notification_channel)
             )
 
