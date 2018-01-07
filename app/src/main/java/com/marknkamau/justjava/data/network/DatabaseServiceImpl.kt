@@ -4,6 +4,7 @@ import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.models.*
 import timber.log.Timber
 import java.util.*
@@ -82,6 +83,10 @@ class DatabaseServiceImpl : DatabaseService {
         orderMap.put("status", OrderStatus.PENDING.toString())
         orderMap.put("additionalComments", order.additionalComments)
         orderMap.put("timestamp", FieldValue.serverTimestamp())
+
+        FirebaseInstanceId.getInstance().token?.let {
+            orderMap.put("fcmToken", it)
+        }
 
         userId?.let { orderMap.put("user", it) }
 

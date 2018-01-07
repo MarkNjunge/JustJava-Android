@@ -70,4 +70,7 @@
     <!--Because "Render problem caused by TextInputLayout-->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+
+    <!--Notifications-->
+    <string name="default_notification_channel">defaultNotificationChannel</string>
 </resources>
