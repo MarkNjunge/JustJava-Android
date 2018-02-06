@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.utils
 
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
@@ -21,63 +22,34 @@ class NotificationHelper(private val context: Context) {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun createChannel(id: String,
-                      name: String,
-                      description: String,
-                      importance: Int = NotificationManager.IMPORTANCE_DEFAULT,
-                      groupId: String? = null
-    ): NotificationChannel {
-        val channel = NotificationChannel(id, name, importance)
+    init {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createDefaultChannel()
+        }
+    }
 
-        channel.description = description
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createDefaultChannel() {
+        val id = context.getString(R.string.default_notification_channel)
+        val channel = NotificationChannel(id, "Default notification channel", NotificationManager.IMPORTANCE_DEFAULT)
+
+        channel.description = "Default notifications"
         channel.enableLights(true)
         channel.lightColor = Color.RED
         channel.enableVibration(true)
 
-        if (groupId != null) {
-            channel.group = groupId
-        }
-
         notificationManager.createNotificationChannel(channel)
-
-        return channel
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun deleteChannel(channel: NotificationChannel) {
-        notificationManager.deleteNotificationChannel(channel.id)
-    }
-
-    fun createNotification(title: String,
-                           text: String,
-                           channelId: String,
-                           iconId: Int = R.drawable.ic_just_java_logo_black,
-                           intent: PendingIntent? = null,
-                           style: NotificationCompat.Style? = null)
-            : Notification {
-
-        val builder = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(iconId)
-                .setContentTitle(title)
+    fun showCompletedOrderNotification(text: String) {
+        val channelId = context.getString(R.string.default_notification_channel)
+        val notification = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_just_java_logo_black)
+                .setContentTitle("Completed order")
                 .setContentText(text)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .build()
 
-        intent?.let {
-            builder.setContentIntent(intent)
-        }
-        style?.let {
-            builder.setStyle(style)
-        }
-        builder.color = ContextCompat.getColor(context, R.color.colorAccent)
-
-        return builder.build()
-    }
-
-    fun showNotification(notificationId: Int, notification: Notification) {
-        notificationManager.notify(notificationId, notification)
-    }
-
-    fun clearNotification(notificationId: Int) {
-        notificationManager.cancel(notificationId)
+        notificationManager.notify(1, notification)
     }
 }

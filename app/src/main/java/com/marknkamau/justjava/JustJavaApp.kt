@@ -43,10 +43,6 @@ class JustJavaApp : Application() {
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
 
         notificationHelper = NotificationHelper(this)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notificationHelper.createChannel(getString(R.string.default_notification_channel), "Default notification channel", "Default notifications" )
-        }
     }
 
 }

@@ -3,7 +3,6 @@ package com.marknkamau.justjava.data.network
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.marknkamau.justjava.JustJavaApp
-import com.marknkamau.justjava.R
 
 /**
  * Created by Mark Njung'e.
@@ -15,14 +14,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val notificationHelper by lazy { (application as JustJavaApp).notificationHelper }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        remoteMessage.notification?.let {
-            val notification = notificationHelper.createNotification(
-                    it.title ?: "JustJava",
-                    it.body ?: "Your order has been updated!",
-                    getString(R.string.default_notification_channel)
-            )
-
-        notificationHelper.showNotification(1, notification)
+        remoteMessage.data?.let {
+            if(it["reason"] == "completed-order"){
+                notificationHelper.showCompletedOrderNotification("Your order has been completed.")
+            }
         }
     }
 }
