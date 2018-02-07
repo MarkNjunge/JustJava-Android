@@ -51,16 +51,12 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
+        // TODO change getCurrentUser to not return FirebaseUser
         val userId = auth.getCurrentUser()?.uid
 
         database.placeNewOrder(userId, order, items, object : DatabaseService.WriteListener {
             override fun onSuccess() {
-                val deleteAll = Completable.fromCallable { cart.deleteAll() }
-                val resetIndex = Completable.fromCallable { cart.resetIndex() }
-
-                val merged = deleteAll.mergeWith(resetIndex)
-
-                disposables.add(merged
+                disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeBy(

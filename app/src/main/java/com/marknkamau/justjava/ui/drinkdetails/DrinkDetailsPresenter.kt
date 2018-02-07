@@ -9,7 +9,9 @@ import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-internal class DrinkDetailsPresenter(val activityView: DrinkDetailsView, val cart: CartDao) : BasePresenter() {
+internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView,
+                                     private val cart: CartDao)
+    : BasePresenter() {
 
     fun addToCart(item: CartItem) {
         disposables.add(Completable.fromCallable { cart.addItem(item) }
