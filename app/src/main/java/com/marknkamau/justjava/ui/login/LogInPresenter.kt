@@ -36,7 +36,7 @@ internal class LogInPresenter(private val activityView: LogInView,
                 preferences.saveUserDetails(userDetails)
                 activityView.dismissDialog()
                 activityView.displayMessage("Sign in successful")
-                activityView.finishSignUp()
+                activityView.finishSignIn()
             }
 
             override fun onError(reason: String) {

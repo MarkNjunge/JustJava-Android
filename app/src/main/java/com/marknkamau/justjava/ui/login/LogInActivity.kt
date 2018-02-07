@@ -102,7 +102,7 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         pbLoading.visibility = View.GONE
     }
 
-    override fun finishSignUp() {
+    override fun finishSignIn() {
         finish()
     }
 
