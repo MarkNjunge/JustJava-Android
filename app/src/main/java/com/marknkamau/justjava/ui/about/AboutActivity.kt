@@ -7,8 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 
 import com.marknkamau.justjava.BuildConfig
@@ -22,16 +20,7 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        val pInfo: PackageInfo
-        try {
-            pInfo = packageManager.getPackageInfo(packageName, 0)
-            tvVersionNumber.text = "v " + pInfo.versionName
-            if (BuildConfig.DEBUG)
-                tvVersionNumber.append(" (debug)")
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
-
+        tvSource.setOnClickListener(this)
         imgBack.setOnClickListener(this)
         imgMail.setOnClickListener(this)
         imgLinkedin.setOnClickListener(this)
@@ -40,10 +29,11 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view) {
+            tvSource -> openUrl("https://github.com/MarkNjunge/JustJava-Android")
             imgBack -> finish()
             imgMail -> sendEmail()
             imgLinkedin -> openLinkedInProfile()
-            imgGithub -> openGitHubProfile()
+            imgGithub -> openUrl("https://github.com/MarkNjunge")
         }
     }
 
@@ -53,7 +43,7 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
         startActivity(intent)
     }
 
-    private fun openGitHubProfile() = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/MarkNjunge")))
+    private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
 
     private fun sendEmail() {

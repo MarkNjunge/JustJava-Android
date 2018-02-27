@@ -65,35 +65,16 @@
             tools:layout_editor_absoluteY="81dp" />
 
         <TextView
-            android:id="@+id/tvVersionNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:alpha=".54"
-            android:text="V"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
-
-        <TextView
             android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/developer"
-            android:textAllCaps="true"
             android:textColor="@color/colorAccent"
-            android:textSize="18sp"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvVersionNumber" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSource" />
 
         <TextView
             android:id="@+id/textView9"
@@ -157,6 +138,21 @@
             app:layout_constraintRight_toRightOf="@+id/textView10"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_github_mark" />
+
+        <TextView
+            android:id="@+id/tvSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".54"
+            android:text="Source Code"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
