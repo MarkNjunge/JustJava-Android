@@ -15,12 +15,12 @@ import com.marknkamau.justjavastaff.models.OrderItem
 import kotlinx.android.synthetic.main.item_order_item.view.*
 import timber.log.Timber
 
-class OrderItemsAdapter(private val onClick: (OrderItem) -> Unit) : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
+class OrderItemsAdapter() : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<OrderItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_order_item))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position], onClick)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(items[position])
 
     override fun getItemCount() = items.size
 
@@ -30,18 +30,8 @@ class OrderItemsAdapter(private val onClick: (OrderItem) -> Unit) : RecyclerView
         notifyDataSetChanged()
     }
 
-    fun addItem(element: OrderItem){
-        items.add(element)
-        notifyDataSetChanged()
-    }
-
-    fun clearItems(){
-        items.clear()
-        notifyDataSetChanged()
-    }
-
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        fun bind(element: OrderItem, onClick: (OrderItem) -> Unit) {
+        fun bind(element: OrderItem) {
             itemView.run {
                 Timber.i("Bingind")
                 tvItemName.text = element.itemName

@@ -14,9 +14,9 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class CheckoutPresenter(private val activityView: CheckoutView,
-                                 val auth: AuthenticationService,
-                                 val preferences: PreferencesRepository,
-                                 val database: DatabaseService,
+                                 private val auth: AuthenticationService,
+                                 private val preferences: PreferencesRepository,
+                                 private val database: DatabaseService,
                                  private val cart: CartDao) : BasePresenter() {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {

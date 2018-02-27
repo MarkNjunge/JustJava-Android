@@ -35,7 +35,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
 
         presenter = DrinkDetailsPresenter(this, cartDao)
 
-        drink = intent.extras.getParcelable<CoffeeDrink>(DRINK_KEY)
+        drink = intent.extras.getParcelable(DRINK_KEY)
 
         tvDrinkName.text = drink.drinkName
         tvDrinkContents.text = drink.drinkContents

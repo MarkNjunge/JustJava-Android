@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.models.CartItem
 
 import kotlinx.android.synthetic.main.item_cart.view.*
 
-class CartAdapter(private val context: Context, private val cartDao: CartDao, private val onEditClick: (CartItem) -> Unit) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter(private val context: Context, private val onEditClick: (CartItem) -> Unit) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<CartItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_cart))

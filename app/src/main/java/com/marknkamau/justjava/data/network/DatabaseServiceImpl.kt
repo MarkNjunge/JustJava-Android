@@ -14,8 +14,6 @@ class DatabaseServiceImpl : DatabaseService {
     private val fireStore = FirebaseFirestore.getInstance()
     private var dbRootRef: DatabaseReference
 
-    private lateinit var previousOrders: MutableList<PreviousOrder>
-
     init {
         fireStore.firestoreSettings = FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)

@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.login
 
-import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -19,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_log_in.*
 class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     private lateinit var email: String
     private var passVisible = false
-//    private lateinit var progressDialog: ProgressDialog
     private lateinit var presenter: LogInPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {

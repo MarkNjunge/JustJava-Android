@@ -5,21 +5,21 @@
     <item
         android:id="@+id/menu_cart"
         android:icon="@drawable/ic_cart"
-        android:title="Cart"
+        android:title="@string/cart"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/menu_login"
-        android:title="Login" />
+        android:title="@string/login" />
     <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_profile"
-        android:title="Profile"
+        android:title="@string/profile"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_logout"
-        android:title="Logout"
+        android:title="@string/logout"
         app:showAsAction="never" />
     <item
         android:id="@+id/menu_about"
-        android:title="About" />
+        android:title="@string/about" />
 </menu>

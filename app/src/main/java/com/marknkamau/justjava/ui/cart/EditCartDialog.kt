@@ -16,7 +16,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.DrinksProvider
 import com.marknkamau.justjava.models.CartItem
 
-class EditCartDialog() : DialogFragment(), View.OnClickListener {
+class EditCartDialog : DialogFragment(), View.OnClickListener {
     lateinit var tvDrinkName: TextView
     lateinit var tvQuantity: TextView
     lateinit var tvChocolate: TextView
@@ -83,7 +83,7 @@ class EditCartDialog() : DialogFragment(), View.OnClickListener {
             setToppingOn(tvMarshmallows)
             withMarshmallow = true
         }
-        tvTotal.text = getString(R.string.ksh) + item!!.itemPrice
+        tvTotal.text = getString(R.string.ksh) + item.itemPrice
 
         imgMinusQty.setOnClickListener(this)
         imgAddQty.setOnClickListener(this)
@@ -166,7 +166,7 @@ class EditCartDialog() : DialogFragment(), View.OnClickListener {
 
         var base = 0
         for (drink in drinks) {
-            if (TextUtils.equals(drink.drinkName, item?.itemName)) {
+            if (TextUtils.equals(drink.drinkName, item.itemName)) {
                 base = Integer.parseInt(drink.drinkPrice)
             }
         }
@@ -186,32 +186,32 @@ class EditCartDialog() : DialogFragment(), View.OnClickListener {
     }
 
     private fun switchCinnamon(selected: Boolean) {
-        if (selected) {
+        withCinnamon = if (selected) {
             setToppingOff(tvCinnamon)
-            withCinnamon = false
+            false
         } else {
             setToppingOn(tvCinnamon)
-            withCinnamon = true
+            true
         }
     }
 
     private fun switchChocolate(selected: Boolean) {
-        if (selected) {
+        withChocolate = if (selected) {
             setToppingOff(tvChocolate)
-            withChocolate = false
+            false
         } else {
             setToppingOn(tvChocolate)
-            withChocolate = true
+            true
         }
     }
 
     private fun switchMarshmallow(selected: Boolean) {
-        if (selected) {
+        withMarshmallow = if (selected) {
             setToppingOff(tvMarshmallows)
-            withMarshmallow = false
+            false
         } else {
             setToppingOn(tvMarshmallows)
-            withMarshmallow = true
+            true
         }
     }
 

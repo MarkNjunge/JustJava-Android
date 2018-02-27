@@ -1,7 +1,6 @@
 package com.marknkamau.justjava.ui.profile
 
 import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
 import com.marknkamau.justjava.models.PreviousOrder

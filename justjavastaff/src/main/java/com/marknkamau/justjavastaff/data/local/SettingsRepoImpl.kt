@@ -11,14 +11,14 @@ import com.marknkamau.justjavastaff.models.StatusSettings
  * mark.kamau@outlook.com
  * https://github.com/MarkNjunge
  */
-class SettingsRepoImpl(private val context: Context) : SettingsRespository {
+class SettingsRepoImpl(context: Context) : SettingsRespository {
 
-    lateinit var prefPending: String
-    lateinit var prefInProgress: String
-    lateinit var prefCompleted: String
-    lateinit var prefDelivered: String
-    lateinit var prefCancelled: String
-    lateinit var preferences: SharedPreferences
+    private lateinit var prefPending: String
+    private lateinit var prefInProgress: String
+    private lateinit var prefCompleted: String
+    private lateinit var prefDelivered: String
+    private lateinit var prefCancelled: String
+    private lateinit var preferences: SharedPreferences
 
     init {
         with(context) {

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
-import butterknife.ButterKnife
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.models.Order
@@ -42,7 +41,6 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
-        ButterKnife.bind(this)
 
         order = intent.getParcelableExtra(ORDER)
 
@@ -58,7 +56,7 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
 
         rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvOrderItems.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
-        orderItemsAdapter = OrderItemsAdapter { _ -> }
+        orderItemsAdapter = OrderItemsAdapter()
         rvOrderItems.adapter = orderItemsAdapter
 
         tvOrderId.text = order.orderId
@@ -90,7 +88,7 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
     }
 
     override fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun displayOrderItems(items: MutableList<OrderItem>) {

@@ -13,7 +13,6 @@ import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.ui.MenuBarActivity
 import com.marknkamau.justjavastaff.ui.orderdetails.OrderDetailsActivity
 
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : MenuBarActivity(), MainView {
@@ -23,7 +22,6 @@ class MainActivity : MenuBarActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
 
         val settings = (application as JustJavaStaffApp).settingsRepository
         val ordersRepository = (application as JustJavaStaffApp).ordersRepository

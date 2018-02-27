@@ -117,7 +117,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         address = etDeliveryAddress.trimmedText
         comments = etComments.trimmedText
 
-        var returnValue: Boolean = true
+        var returnValue = true
         if (TextUtils.isEmpty(name)) {
             etName.error = getString(R.string.required)
             returnValue = false

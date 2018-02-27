@@ -154,7 +154,8 @@
                 android:text="1"
                 app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
                 app:layout_constraintLeft_toRightOf="@+id/imgMinusQty"
-                app:layout_constraintTop_toTopOf="@+id/imgMinusQty" />
+                app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
+                tools:ignore="HardcodedText" />
 
             <ImageView
                 android:id="@+id/imgAddQty"

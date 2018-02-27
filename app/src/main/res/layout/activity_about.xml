@@ -147,7 +147,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            android:text="Source Code"
+            android:text="@string/source_code"
             android:textColor="@android:color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"

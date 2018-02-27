@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">JustJava</string>
-    <string name="androidslidinguppanel">AndroidSlidingUpPanel</string>
     <string name="add_to_cart">Add to cart</string>
-    <!--<string name="added_to_cart">Added to cart</string>-->
     <string name="about">About</string>
     <string name="additional_comments_optional">Additional comments (optional)</string>
     <string name="already_have_an_account">Already have an account?</string>
-    <string name="butter_knife">Butter Knife</string>
+
     <string name="contains">Contains</string>
     <string name="contents_of_the_drink">Contents of the drink</string>
     <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 100)</string>
@@ -15,30 +13,41 @@
     <string name="cinnamon">Cinnamon</string>
     <string name="create_an_account">Create an account</string>
     <string name="chocolate">Chocolate</string>
-    <!--<string name="cart">CartActivity</string>-->
     <string name="check_your_internet_connection">Check your internet connection</string>
+    <string name="cart">Cart</string>
+
     <string name="drink_name">Drink name</string>
     <string name="description_of_the_drink">Description of the drink.</string>
     <string name="default_details">Default details</string>
     <string name="default_address">Default address</string>
-    <!--<string name="defaults_for">Defaults for</string>-->
     <string name="delivery_address">Delivery Address</string>
     <string name="developer">Developer</string>
+
     <string name="email_address">Email Address</string>
+
     <string name="forgot_password">Forgot password</string>
+    <string name="for_">for</string>
     <string name="full_name">Full name</string>
+
+    <string name="item_s">item(s)</string>
+
     <string name="ksh">Ksh. </string>
+
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="log_in">Log in</string>
     <string name="logged_in_as">Logged in as</string>
     <string name="log_out">Log out</string>
+
     <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 100)</string>
     <string name="mini_marshmallows">Mini Marshmallows</string>
     <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
     <string name="mark_njung_e_kamau">Mark Njung\'e Kamau</string>
+
     <string name="name">Name</string>
+
     <string name="or">OR</string>
-    <!--<string name="order_placed">Order Placed</string>-->
-    <!--<string name="open_source_libraries">Open source libraries</string>-->
+
     <string name="price">Price:</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
     <string name="profile">Profile</string>
@@ -46,26 +55,27 @@
     <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
     <string name="previous_orders">Previous orders</string>
-    <string name="picasso">Picasso</string>
+
     <string name="quantity">Quantity</string>
+
     <string name="repeat_password">Repeat Password</string>
     <string name="required">Required</string>
+
     <string name="sign_up">Sign up</string>
+    <string name="source_code">Source Code</string>
     <string name="save_changes">Save changes</string>
+
     <string name="toppings">Toppings</string>
     <string name="total">Total</string>
     <string name="there_are_no_items_in_your_cart">There are no items in your cart.</string>
     <string name="timestamp">Timestamp</string>
+
     <string name="status">Status</string>
-    <string name="realm_mobile_database">Realm Mobile Database</string>
-    <string name="by_realm">by Realm</string>
-    <string name="libraries">libraries</string>
-    <string name="by_jake_wharton">by Jake Wharton</string>
-    <string name="by_square">by Square</string>
-    <string name="by_umano">by Umano</string>
-    <string name="cart">Cart</string>
+
     <string name="update_profile">Update Profile</string>
+
     <string name="you_do_not_have_any_previous_orders">You do not have any previous orders</string>
+
 
     <!--Because "Render problem caused by TextInputLayout-->
     <item name="visible" type="id" />

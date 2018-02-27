@@ -3,7 +3,6 @@ package com.marknkamau.justjavastaff.ui.login
 import com.marknkamau.justjavastaff.authentication.AuthenticationService
 import com.marknkamau.justjavastaff.models.Employee
 
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**

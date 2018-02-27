@@ -12,7 +12,6 @@ import com.marknkamau.justjavastaff.JustJavaStaffApp
 import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.ui.main.MainActivity
 
-import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
@@ -23,7 +22,6 @@ class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_in)
-        ButterKnife.bind(this)
 
         val auth = (application as JustJavaStaffApp).auth
         presenter = LoginPresenter(auth, this)

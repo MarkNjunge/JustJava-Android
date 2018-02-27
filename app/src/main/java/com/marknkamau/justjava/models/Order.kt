@@ -5,5 +5,4 @@ data class Order(val customerName: String,
                  var itemsCount: Int,
                  var totalPrice: Int,
                  val deliveryAddress: String,
-                 val additionalComments: String){
-}
+                 val additionalComments: String)

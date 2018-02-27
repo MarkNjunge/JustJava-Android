@@ -1,15 +1,12 @@
 package com.marknkamau.justjava.ui.about
 
 import android.content.Intent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 
-import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.R
 
 import kotlinx.android.synthetic.main.activity_about.*
