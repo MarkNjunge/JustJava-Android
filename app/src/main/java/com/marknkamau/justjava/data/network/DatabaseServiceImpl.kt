@@ -68,11 +68,10 @@ class DatabaseServiceImpl : DatabaseService {
 
     override fun placeNewOrder(userId: String?, order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
         val orderRef = fireStore.collection("orders").document()
-        val id = orderRef.id
         val itemsRef = fireStore.collection("orderItems")
 
         val orderMap = mutableMapOf<String, Any>()
-        orderMap.put("orderId", id)
+        orderMap.put("orderId", order.orderId)
         orderMap.put("customerName", order.customerName)
         orderMap.put("customerPhone", order.customerPhone)
         orderMap.put("deliveryAddress", order.deliveryAddress)
@@ -95,7 +94,7 @@ class DatabaseServiceImpl : DatabaseService {
                         val item = cartItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
 
-                        itemsMap.put("orderId", id)
+                        itemsMap.put("orderId", order.orderId)
                         itemsMap.put("itemName", item.itemName)
                         itemsMap.put("itemQty", item.itemQty)
                         itemsMap.put("itemCinnamon", item.itemCinnamon)

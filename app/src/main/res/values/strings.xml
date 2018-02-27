@@ -15,6 +15,7 @@
     <string name="chocolate">Chocolate</string>
     <string name="check_your_internet_connection">Check your internet connection</string>
     <string name="cart">Cart</string>
+    <string name="cash_on_delivery">Cash on delivery</string>
 
     <string name="drink_name">Drink name</string>
     <string name="description_of_the_drink">Description of the drink.</string>
@@ -43,6 +44,7 @@
     <string name="mini_marshmallows">Mini Marshmallows</string>
     <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
     <string name="mark_njung_e_kamau">Mark Njung\'e Kamau</string>
+    <string name="m_pesa">M-Pesa</string>
 
     <string name="name">Name</string>
 
@@ -54,7 +56,9 @@
     <string name="place_order">Place order</string>
     <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
+    <string name="pay">Pay</string>
     <string name="previous_orders">Previous orders</string>
+    <string name="payment">Payment</string>
 
     <string name="quantity">Quantity</string>
 

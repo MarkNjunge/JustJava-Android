@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.widget.RadioButton
 import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
@@ -18,13 +19,17 @@ import com.marknkamau.justjava.ui.main.MainActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
+import java.util.*
 
-class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
+class CheckoutActivity : BaseActivity(), CheckoutView {
     private lateinit var name: String
     private lateinit var phone: String
     private lateinit var address: String
     private lateinit var comments: String
     private lateinit var presenter: CheckoutPresenter
+
+    private var payCash = true
+    private val orderId = UUID.randomUUID().toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +45,26 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
         presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
-        presenter.getSignInStatus()
 
-        btnLogin.setOnClickListener(this)
-        btnPlaceOrder.setOnClickListener(this)
+        rgPayment.setOnCheckedChangeListener { _, checkedId ->
+            val text = findViewById<RadioButton>(checkedId).text
+            payCash = text == getString(R.string.cash_on_delivery)
+            btnPay.visibility = if (payCash) View.GONE else View.VISIBLE
+        }
+
+        btnPlaceOrder.setOnClickListener {
+            if (canConnectToInternet()) {
+                placeOder()
+            } else {
+                Toast.makeText(this, getString(R.string.check_your_internet_connection), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getSignInStatus()
     }
 
     override fun onStop() {
@@ -51,27 +72,13 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
         presenter.unSubscribe()
     }
 
-    override fun onClick(view: View) {
-        when (view) {
-            btnLogin -> startActivity(Intent(this@CheckoutActivity, LogInActivity::class.java))
-            btnPlaceOrder -> if (canConnectToInternet()) {
-                placeOder()
-            } else {
-                Toast.makeText(this, getString(R.string.check_your_internet_connection), Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     private fun placeOder() {
         if (validateInput()) {
-            presenter.placeOrder(Order(name, phone, 0, 0, address, comments))
+            presenter.placeOrder(Order(orderId, name, phone, 0, 0, address, comments))
         }
     }
 
     override fun setDisplayToLoggedIn(userDetails: UserDetails) {
-        tvOr.visibility = View.GONE
-        btnLogin.visibility = View.GONE
-
         etName.setText(userDetails.name)
         etPhone.setText(userDetails.phone)
         etDeliveryAddress.setText(userDetails.address)
@@ -82,8 +89,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView, View.OnClickListener {
     }
 
     override fun setDisplayToLoggedOut() {
-        tvOr.text = getString(R.string.or)
-        btnLogin.visibility = View.VISIBLE
+        startActivity(Intent(this, LogInActivity::class.java))
     }
 
     override fun showUploadBar() {

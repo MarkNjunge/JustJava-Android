@@ -39,7 +39,7 @@ class CartActivity : BaseActivity(), CartView {
             }
         }
 
-        adapter = CartAdapter(this, cartDao, { cartItem ->
+        adapter = CartAdapter(this, { cartItem ->
             val args = Bundle()
             args.putParcelable(EditCartDialog.CART_ITEM, cartItem)
             editCartDialog.arguments = args
