@@ -16,6 +16,7 @@ import com.marknkamau.justjava.ui.profile.ProfileActivity
 abstract class BaseActivity : AppCompatActivity() {
 
     private val authService by lazy { (application as JustJavaApp).authService }
+    private val preferencesRepository by lazy { (application as JustJavaApp).preferencesRepo }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -35,9 +36,11 @@ abstract class BaseActivity : AppCompatActivity() {
         if (authService.isSignedIn()) {
             menu?.findItem(R.id.menu_login)?.isVisible = false
             menu?.findItem(R.id.menu_profile)?.isVisible = true
+            menu?.findItem(R.id.menu_logout)?.isVisible = true
         } else {
             menu?.findItem(R.id.menu_login)?.isVisible = true
             menu?.findItem(R.id.menu_profile)?.isVisible = false
+            menu?.findItem(R.id.menu_logout)?.isVisible = false
         }
         return true
     }
@@ -54,6 +57,14 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             R.id.menu_profile -> {
                 startActivity(Intent(this, ProfileActivity::class.java))
+                return true
+            }
+            R.id.menu_logout -> {
+                invalidateOptionsMenu()
+                preferencesRepository.clearUserDetails()
+                authService.logOut()
+                // If this is ProfileActivity
+                (this as? ProfileActivity)?.finish()
                 return true
             }
             R.id.menu_about -> {

@@ -43,11 +43,6 @@ class ProfileActivity : BaseActivity(), ProfileView {
         presenter = ProfilePresenter(this, preferencesRepository, auth, database)
 
         btnSave.setOnClickListener { saveChanges() }
-        btnLogout.setOnClickListener {
-            preferencesRepository.clearUserDetails()
-            presenter.logUserOut()
-            finish()
-        }
     }
 
     override fun showProgressBar() {

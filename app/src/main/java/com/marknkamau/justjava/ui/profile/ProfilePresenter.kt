@@ -66,8 +66,4 @@ internal class ProfilePresenter(private val activityView: ProfileView,
         })
     }
 
-    fun logUserOut() {
-        AuthenticationServiceImpl.logOut()
-        preferencesRepository.clearUserDetails()
-    }
 }
