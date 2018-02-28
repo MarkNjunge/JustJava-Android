@@ -52,4 +52,16 @@ class NotificationHelper(private val context: Context) {
 
         notificationManager.notify(1, notification)
     }
+
+    fun showNotification(title: String, body: String) {
+        val channelId = context.getString(R.string.default_notification_channel)
+        val notification = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_just_java_logo_black)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .build()
+
+        notificationManager.notify(2, notification)
+    }
 }

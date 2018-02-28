@@ -11,6 +11,8 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.data.network.DatabaseService
 import com.marknkamau.justjava.data.network.DatabaseServiceImpl
+import com.marknkamau.justjava.data.network.MpesaService
+import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
@@ -21,6 +23,7 @@ class JustJavaApp : Application() {
     lateinit var databaseService: DatabaseService
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
+    lateinit var mpesaService: MpesaService
 
     override fun onCreate() {
         super.onCreate()
@@ -38,6 +41,7 @@ class JustJavaApp : Application() {
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
         authService = AuthenticationServiceImpl
         databaseService = DatabaseServiceImpl()
+        mpesaService = NetworkProvider().mpesaService
 
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
 

@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
+import com.marknkamau.justjava.BuildConfig
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
@@ -42,9 +43,10 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         val authService = (application as JustJavaApp).authService
         val preferencesRepo = (application as JustJavaApp).preferencesRepo
         val database = (application as JustJavaApp).databaseService
+        val mpesaService = (application as JustJavaApp).mpesaService
         val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
-        presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
+        presenter = CheckoutPresenter(this, authService, preferencesRepo, database, mpesaService, cart)
 
         rgPayment.setOnCheckedChangeListener { _, checkedId ->
             val text = findViewById<RadioButton>(checkedId).text
@@ -57,6 +59,13 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
                 placeOder()
             } else {
                 Toast.makeText(this, getString(R.string.check_your_internet_connection), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnPay.setOnClickListener {
+            val phoneNumber = etPhone.trimmedText
+            if (phoneNumber.isNotEmpty()){
+                presenter.makeMpesaPayment(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET, "1", phoneNumber, orderId)
             }
         }
 

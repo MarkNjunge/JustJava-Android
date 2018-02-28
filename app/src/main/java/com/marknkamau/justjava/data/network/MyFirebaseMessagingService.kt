@@ -14,6 +14,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     private val notificationHelper by lazy { (application as JustJavaApp).notificationHelper }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        remoteMessage.notification?.let {
+            notificationHelper.showNotification(it.title ?: "JustJava" , it.body ?: "")
+        }
         remoteMessage.data?.let {
             if(it["reason"] == "completed-order"){
                 notificationHelper.showCompletedOrderNotification("Your order has been completed.")

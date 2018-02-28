@@ -79,7 +79,7 @@ class DatabaseServiceImpl : DatabaseService {
         orderMap.put("totalPrice", order.totalPrice)
         orderMap.put("status", OrderStatus.PENDING.toString())
         orderMap.put("additionalComments", order.additionalComments)
-        orderMap.put("timestamp", FieldValue.serverTimestamp())
+        orderMap.put("timestampNow", FieldValue.serverTimestamp())
 
         FirebaseInstanceId.getInstance().token?.let {
             orderMap.put("fcmToken", it)
@@ -124,7 +124,7 @@ class DatabaseServiceImpl : DatabaseService {
                                 snapshot.data["orderId"] as String,
                                 (snapshot.data["itemsCount"] as Long).toInt(),
                                 snapshot.data["deliveryAddress"] as String,
-                                snapshot.data["timestamp"] as Date,
+                                snapshot.data["timestampNow"] as Date,
                                 (snapshot.data["totalPrice"] as Long).toInt(),
                                 snapshot.data["status"] as String
                         )
@@ -137,33 +137,6 @@ class DatabaseServiceImpl : DatabaseService {
                     listener.onError(it.message ?: "Error getting previous orders")
                 }
 
-//        previousOrders = mutableListOf()
-//        dbRootRef.child("userOrders/" + AuthenticationServiceImpl.getCurrentUser()?.uid)
-//                .addListenerForSingleValueEvent(object : ValueEventListener {
-//                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                        if (dataSnapshot.childrenCount.toInt() == 0) {
-//                            listener.noValuesPresent()
-//                        } else {
-//                            for (snapshot in dataSnapshot.children) {
-//                                getOrder(snapshot.value as String, object : DatabaseService.OrderListener {
-//                                    override fun onSuccess(deliveryAddress: String, timestamp: String, totalPrice: String, status: String) {
-//                                        previousOrders.add(PreviousOrder(deliveryAddress, timestamp, totalPrice, status))
-//                                        listener.onSuccess(previousOrders)
-//                                    }
-//
-//                                    override fun onError(reason: String) {
-//                                        listener.onError(reason)
-//                                    }
-//
-//                                })
-//                            }
-//                        }
-//                    }
-//
-//                    override fun onCancelled(databaseError: DatabaseError) {
-//                        listener.onError(databaseError.message)
-//                    }
-//                })
     }
 
     override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
@@ -172,7 +145,7 @@ class DatabaseServiceImpl : DatabaseService {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 listener.taskSuccessful(
                         dataSnapshot.child("deliveryAddress").value.toString(),
-                        dataSnapshot.child("timestamp").value.toString(),
+                        dataSnapshot.child("timestampNow").value.toString(),
                         dataSnapshot.child("totalPrice").value.toString(),
                         dataSnapshot.child("status").value.toString())
             }
