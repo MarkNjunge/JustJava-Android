@@ -51,7 +51,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     }
 
-    fun makeMpesaPayment(consumerKey: String, consumerSecret: String, total: String, phoneNumber: String, orderId:String){
+    fun makeMpesaPayment(consumerKey: String, consumerSecret: String, total: String, phoneNumber: String, orderId: String) {
         val keys = "$consumerKey:$consumerSecret"
         val accessTokenHeader = "Basic ${Base64.encodeToString(keys.toByteArray(), Base64.NO_WRAP)}"
 
@@ -68,8 +68,8 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                             Utils.sanitizePhoneNumber(phoneNumber),
                             MpesaConfig.PARTY_B,
                             Utils.sanitizePhoneNumber(phoneNumber),
-                            "Order: ${MpesaConfig.CALLBACK_URL + token}",
-                            orderId, //The account reference
+                            MpesaConfig.CALLBACK_URL + token,
+                            "Order: $orderId", //The account reference
                             "Payment for order: $orderId") //The transaction description
 
                     val lnmHeader = "Bearer ${oAuthAccess.accessToken}"
@@ -79,10 +79,10 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {lnmPaymentResponse ->
+                        { lnmPaymentResponse ->
                             activityView.displayMessage(lnmPaymentResponse.customerMessage)
                         },
-                        {t ->
+                        { t ->
                             Timber.e(t)
                             activityView.displayMessage(t.message)
                         }
