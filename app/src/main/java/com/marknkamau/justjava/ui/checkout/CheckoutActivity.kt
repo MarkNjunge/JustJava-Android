@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.widget.RadioButton
@@ -64,8 +65,17 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
         btnPay.setOnClickListener {
             val phoneNumber = etPhone.trimmedText
-            if (phoneNumber.isNotEmpty()){
-                presenter.makeMpesaPayment(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET, "1", phoneNumber, orderId)
+            if (phoneNumber.isNotEmpty()) {
+                val dialog = AlertDialog.Builder(this@CheckoutActivity)
+                        .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?")
+                        .setTitle("Confirm payment")
+                        .setPositiveButton("Ok", { _, _ ->
+                            presenter.makeMpesaPayment(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET, "1", phoneNumber, orderId)
+                        })
+                        .setNegativeButton("cancel", { dialogInterface, _ -> dialogInterface.dismiss() })
+                        .create()
+
+                dialog.show()
             }
         }
 
