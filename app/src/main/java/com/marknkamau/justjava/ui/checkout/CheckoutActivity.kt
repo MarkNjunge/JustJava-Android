@@ -109,6 +109,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
     override fun setDisplayToLoggedOut() {
         startActivity(Intent(this, LogInActivity::class.java))
+        finish()
     }
 
     override fun showUploadBar() {
