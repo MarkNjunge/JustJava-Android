@@ -36,26 +36,31 @@ class OrdersRepositoryImpl : OrdersRepository {
                         listener.onError(e.message ?: "Error getting orders")
                     } else {
                         val orders = ArrayList<Order>()
-                        val documentSnapshots = querySnapshot.documents
+                        val documentSnapshots = querySnapshot?.documents
 
-                        for (document in documentSnapshots) {
-                            val data = document.data
-                            val order = Order(
-                                    data["orderId"] as String,
-                                    data["customerName"] as String,
-                                    data["customerPhone"] as String,
-                                    data["deliveryAddress"] as String,
-                                    data["additionalComments"] as String,
-                                    data["status"] as String,
-                                    data["timestamp"] as Date,
-                                    (data["totalPrice"] as Long).toInt(),
-                                    (data["itemsCount"] as Long).toInt()
-                            )
+                        documentSnapshots?.let {
 
-                            orders.add(order)
+                            for (document in documentSnapshots) {
+                                val data = document.data
+                                data?.let {
+
+                                    val order = Order(
+                                            data["orderId"] as String,
+                                            data["customerName"] as String,
+                                            data["customerPhone"] as String,
+                                            data["deliveryAddress"] as String,
+                                            data["additionalComments"] as String,
+                                            data["status"] as String,
+                                            data["timestampNow"] as Date,
+                                            (data["totalPrice"] as Long).toInt(),
+                                            (data["itemsCount"] as Long).toInt()
+                                    )
+                                    orders.add(order)
+                                }
+                            }
+
+                            listener.onSuccess(orders)
                         }
-
-                        listener.onSuccess(orders)
                     }
                 }
     }
@@ -69,15 +74,17 @@ class OrdersRepositoryImpl : OrdersRepository {
 
                     for (document in documents) {
                         val data = document.data
-                        val orderItem = OrderItem(
-                                data["itemName"].toString(),
-                                (data["itemQty"] as Long).toInt(),
-                                data["itemCinnamon"] as Boolean,
-                                data["itemChoc"] as Boolean,
-                                data["itemMarshmallow"] as Boolean,
-                                (data["itemPrice"] as Long).toInt()
-                        )
-                        items.add(orderItem)
+                        data?.let {
+                            val orderItem = OrderItem(
+                                    data["itemName"].toString(),
+                                    (data["itemQty"] as Long).toInt(),
+                                    data["itemCinnamon"] as Boolean,
+                                    data["itemChoc"] as Boolean,
+                                    data["itemMarshmallow"] as Boolean,
+                                    (data["itemPrice"] as Long).toInt()
+                            )
+                            items.add(orderItem)
+                        }
                     }
 
                     listener.onSuccess(items)
@@ -92,7 +99,9 @@ class OrdersRepositoryImpl : OrdersRepository {
         firestore.collection("orders").document(orderId)
                 .update("status", status.name)
                 .addOnSuccessListener { listener.onSuccess() }
-                .addOnFailureListener { e -> listener.onError(e.message ?: "Error updating order status") }
+                .addOnFailureListener { e ->
+                    listener.onError(e.message ?: "Error updating order status")
+                }
     }
 
 }
