@@ -71,15 +71,15 @@ class DatabaseServiceImpl : DatabaseService {
         val itemsRef = fireStore.collection("orderItems")
 
         val orderMap = mutableMapOf<String, Any>()
-        orderMap.put("orderId", order.orderId)
-        orderMap.put("customerName", order.customerName)
-        orderMap.put("customerPhone", order.customerPhone)
-        orderMap.put("deliveryAddress", order.deliveryAddress)
-        orderMap.put("itemsCount", order.itemsCount)
-        orderMap.put("totalPrice", order.totalPrice)
-        orderMap.put("status", OrderStatus.PENDING.toString())
-        orderMap.put("additionalComments", order.additionalComments)
-        orderMap.put("timestampNow", FieldValue.serverTimestamp())
+        orderMap["orderId"] = order.orderId
+        orderMap["customerName"] = order.customerName
+        orderMap["customerPhone"] = order.customerPhone
+        orderMap["deliveryAddress"] = order.deliveryAddress
+        orderMap["itemsCount"] = order.itemsCount
+        orderMap["totalPrice"] = order.totalPrice
+        orderMap["status"] = OrderStatus.PENDING.toString()
+        orderMap["additionalComments"] = order.additionalComments
+        orderMap["timestampNow"] = FieldValue.serverTimestamp()
 
         FirebaseInstanceId.getInstance().token?.let {
             orderMap.put("fcmToken", it)
@@ -94,13 +94,13 @@ class DatabaseServiceImpl : DatabaseService {
                         val item = cartItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
 
-                        itemsMap.put("orderId", order.orderId)
-                        itemsMap.put("itemName", item.itemName)
-                        itemsMap.put("itemQty", item.itemQty)
-                        itemsMap.put("itemCinnamon", item.itemCinnamon)
-                        itemsMap.put("itemChoc", item.itemChoc)
-                        itemsMap.put("itemMarshmallow", item.itemMarshmallow)
-                        itemsMap.put("itemPrice", item.itemPrice)
+                        itemsMap["orderId"] = order.orderId
+                        itemsMap["itemName"] = item.itemName
+                        itemsMap["itemQty"] = item.itemQty
+                        itemsMap["itemCinnamon"] = item.itemCinnamon
+                        itemsMap["itemChoc"] = item.itemChoc
+                        itemsMap["itemMarshmallow"] = item.itemMarshmallow
+                        itemsMap["itemPrice"] = item.itemPrice
 
                         val reference = itemsRef.document()
                         it.set(reference, itemsMap)
