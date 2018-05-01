@@ -1,8 +1,8 @@
 package com.marknkamau.justjava
 
-import android.app.Application
 import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
+import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
@@ -17,7 +17,7 @@ import com.marknkamau.justjava.utils.NotificationHelper
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
-class JustJavaApp : Application() {
+class JustJavaApp : MultiDexApplication() {
     lateinit var preferencesRepo: PreferencesRepository
     lateinit var authService: AuthenticationService
     lateinit var databaseService: DatabaseService

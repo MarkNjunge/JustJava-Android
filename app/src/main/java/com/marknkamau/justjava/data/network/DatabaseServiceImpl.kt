@@ -10,16 +10,12 @@ import timber.log.Timber
 import java.util.*
 
 class DatabaseServiceImpl : DatabaseService {
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val fireStore = FirebaseFirestore.getInstance()
-    private var dbRootRef: DatabaseReference
 
     init {
         fireStore.firestoreSettings = FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build()
-        database.setPersistenceEnabled(true)
-        dbRootRef = database.reference
     }
 
     override fun saveUserDetails(userDetails: UserDetails, listener: DatabaseService.WriteListener) {
@@ -140,21 +136,7 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
-        val order = dbRootRef.child("allOrders/$orderId")
-        order.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                listener.taskSuccessful(
-                        dataSnapshot.child("deliveryAddress").value.toString(),
-                        dataSnapshot.child("timestampNow").value.toString(),
-                        dataSnapshot.child("totalPrice").value.toString(),
-                        dataSnapshot.child("status").value.toString())
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                listener.onError(databaseError.message)
-            }
-
-        })
     }
 
 }

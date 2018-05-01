@@ -136,13 +136,13 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
     private fun setToppingOn(textView: TextView) {
         textView.setBackgroundResource(R.drawable.topping_on)
         textView.setPadding(PADDING, PADDING, PADDING, PADDING)
-        textView.setTextColor(ContextCompat.getColor(activity, R.color.colorToppingOnText))
+        textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorToppingOnText))
     }
 
     private fun setToppingOff(textView: TextView) {
         textView.setBackgroundResource(R.drawable.topping_off)
         textView.setPadding(PADDING, PADDING, PADDING, PADDING)
-        textView.setTextColor(ContextCompat.getColor(activity, R.color.colorToppingOffText))
+        textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorToppingOffText))
     }
 
     private fun minusQty() {
