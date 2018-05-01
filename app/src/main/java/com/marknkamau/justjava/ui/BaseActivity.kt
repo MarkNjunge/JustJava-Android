@@ -9,6 +9,7 @@ import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
+import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 
@@ -25,7 +26,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         super.onPrepareOptionsMenu(menu)
-        if (this is CartActivity) {
+        if (this is CartActivity || this is CheckoutActivity) {
             menu?.findItem(R.id.menu_cart)?.isVisible = false
         }
         if (this is ProfileActivity) {
