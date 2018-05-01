@@ -4,6 +4,7 @@ import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.data.network.MpesaService
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDetails
@@ -29,11 +30,18 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class CheckoutPresenterTest {
 
-    @Mock private lateinit var view: CheckoutView
-    @Mock private lateinit var auth: AuthenticationService
-    @Mock private lateinit var preferences: PreferencesRepository
-    @Mock private lateinit var database: DatabaseService
-    @Mock private lateinit var cartDao: CartDao
+    @Mock
+    private lateinit var view: CheckoutView
+    @Mock
+    private lateinit var auth: AuthenticationService
+    @Mock
+    private lateinit var preferences: PreferencesRepository
+    @Mock
+    private lateinit var database: DatabaseService
+    @Mock
+    private lateinit var cartDao: CartDao
+    @Mock
+    private lateinit var mpesaService: MpesaService
 
     private lateinit var presenter: CheckoutPresenter
 
@@ -42,7 +50,7 @@ class CheckoutPresenterTest {
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
 
-        presenter = CheckoutPresenter(view, auth, preferences, database, cartDao)
+        presenter = CheckoutPresenter(view, auth, preferences, database, mpesaService, cartDao)
     }
 
     @After
