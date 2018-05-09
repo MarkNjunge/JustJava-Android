@@ -57,9 +57,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
     // Firebase libraries
-    implementation "com.google.firebase:firebase-auth:$firebase_version"
-    implementation "com.google.firebase:firebase-database:$firebase_version"
-    implementation "com.google.firebase:firebase-firestore:$firebase_version"
+    implementation "com.google.firebase:firebase-auth:15.1.0"
+    implementation "com.google.firebase:firebase-database:15.0.1"
+    implementation "com.google.firebase:firebase-firestore:16.0.0"
 
     //Other libraries
     implementation 'com.squareup.picasso:picasso:2.5.2'
