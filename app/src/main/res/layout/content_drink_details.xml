@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/tvDrinkName"
@@ -68,6 +68,7 @@
         android:layout_marginTop="8dp"
         android:alpha=".87"
         android:clickable="true"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
         app:layout_constraintHorizontal_bias="0.5"
@@ -97,6 +98,7 @@
         android:layout_marginStart="8dp"
         android:alpha=".87"
         android:clickable="true"
+        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.5"
