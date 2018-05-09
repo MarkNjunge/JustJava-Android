@@ -31,7 +31,6 @@ proguard/
 captures/
 
 .idea/
-gradle/
 *.iml
 keystore.properties
 fabric.properties
