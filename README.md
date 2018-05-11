@@ -1,4 +1,4 @@
-# Just Java
+# Just Java [![Build Status](https://www.bitrise.io/app/1b5caf804b0879e8/status.svg?token=EojpLsZ-no6pTQ2TaUzXTA&branch=master)](https://www.bitrise.io/app/1b5caf804b0879e8)
 A mock Android application for a coffee shop. 
 
 * 100% Kotlin.
