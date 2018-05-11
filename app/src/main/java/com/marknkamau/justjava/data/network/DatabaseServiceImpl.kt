@@ -63,7 +63,7 @@ class DatabaseServiceImpl : DatabaseService {
                 }
     }
 
-    override fun placeNewOrder(userId: String?, order: Order, orderItems: List<OrderItem>, listener: DatabaseService.WriteListener) {
+    override fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: DatabaseService.WriteListener) {
         val orderRef = fireStore.collection("orders").document(order.orderId)
         val itemsRef = fireStore.collection("orderItems")
 
