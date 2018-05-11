@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.OrderItem
 
 import kotlinx.android.synthetic.main.item_cart.view.*
 
-class CartAdapter(private val context: Context, private val onEditClick: (CartItem) -> Unit) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
-    private val items by lazy { mutableListOf<CartItem>() }
+class CartAdapter(private val context: Context, private val onEditClick: (OrderItem) -> Unit) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+    private val items by lazy { mutableListOf<OrderItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_cart))
 
@@ -20,14 +20,14 @@ class CartAdapter(private val context: Context, private val onEditClick: (CartIt
 
     override fun getItemCount() = items.size
 
-    fun setItems(items: MutableList<CartItem>) {
+    fun setItems(items: MutableList<OrderItem>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        fun bind(item: CartItem, context: Context, onEditClick: (CartItem) -> Unit) {
+        fun bind(item: OrderItem, context: Context, onEditClick: (OrderItem) -> Unit) {
             itemView.tvItemName.text = item.itemName
             itemView.tvItemQty.text = context.getString(R.string.quantity) + ": " + item.itemQty
             itemView.tvItemPrice.text = context.getString(R.string.price) + " " + item.itemPrice

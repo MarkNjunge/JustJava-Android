@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.OrderItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,7 +13,7 @@ internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView,
                                      private val cart: CartDao)
     : BasePresenter() {
 
-    fun addToCart(item: CartItem) {
+    fun addToCart(item: OrderItem) {
         disposables.add(Completable.fromCallable { cart.addItem(item) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

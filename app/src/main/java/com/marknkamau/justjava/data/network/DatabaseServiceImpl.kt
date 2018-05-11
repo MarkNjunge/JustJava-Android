@@ -63,7 +63,7 @@ class DatabaseServiceImpl : DatabaseService {
                 }
     }
 
-    override fun placeNewOrder(userId: String?, order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
+    override fun placeNewOrder(userId: String?, order: Order, orderItems: List<OrderItem>, listener: DatabaseService.WriteListener) {
         val orderRef = fireStore.collection("orders").document(order.orderId)
         val itemsRef = fireStore.collection("orderItems")
 
@@ -86,8 +86,8 @@ class DatabaseServiceImpl : DatabaseService {
         fireStore
                 .runTransaction { transaction ->
                     transaction.set(orderRef, orderMap)
-                    for (i in cartItems.indices) {
-                        val item = cartItems[i]
+                    for (i in orderItems.indices) {
+                        val item = orderItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
 
                         itemsMap[DatabaseKeys.Order.orderId] = order.orderId

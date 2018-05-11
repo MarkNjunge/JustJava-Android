@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.OrderItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -62,8 +62,8 @@ class CartActivity : BaseActivity(), CartView {
         presenter.unSubscribe()
     }
 
-    override fun displayCart(cartItems: MutableList<CartItem>) {
-        adapter.setItems(cartItems)
+    override fun displayCart(orderItems: MutableList<OrderItem>) {
+        adapter.setItems(orderItems)
         btnCheckout.isEnabled = true
     }
 

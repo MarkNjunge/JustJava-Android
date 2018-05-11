@@ -6,7 +6,7 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CartItem
+import com.marknkamau.justjava.models.OrderItem
 import com.marknkamau.justjava.models.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
@@ -83,7 +83,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     }
 
     private fun addToCart() {
-        val itemRm = CartItem(0,
+        val itemRm = OrderItem(0,
                 drink.drinkName,
                 quantity,
                 cbCinnamon.isChecked,

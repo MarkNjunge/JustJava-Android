@@ -5,11 +5,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
 import com.marknkamau.justjava.data.network.MpesaService
-import com.marknkamau.justjava.models.CartItem
-import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDetails
-import com.nhaarman.mockito_kotlin.any
-import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
