@@ -1,10 +1,10 @@
 package com.marknkamau.justjava.authentication
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 
 object AuthenticationServiceImpl : AuthenticationService {
+
 
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
@@ -28,7 +28,7 @@ object AuthenticationServiceImpl : AuthenticationService {
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener?) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener?.actionSuccessful(getCurrentUser()!!.uid) }
+                .addOnSuccessListener { listener?.actionSuccessful(getUserId()!!) }
                 .addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
     }
 
@@ -46,7 +46,14 @@ object AuthenticationServiceImpl : AuthenticationService {
                 ?.addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
     }
 
-    override fun getCurrentUser(): FirebaseUser? = firebaseAuth.currentUser
+    override fun getUserId(): String? {
+        return if(isSignedIn){
+            firebaseAuth.currentUser!!.uid
+        }else{
+            null
+        }
+
+    }
 
     override fun isSignedIn() = isSignedIn
 

@@ -24,7 +24,7 @@ internal class ProfilePresenter(private val activityView: ProfileView,
     }
 
     private fun getPreviousOrders() {
-        databaseService.getPreviousOrders(authenticationService.getCurrentUser()!!.uid, object : DatabaseService.PreviousOrdersListener {
+        databaseService.getPreviousOrders(authenticationService.getUserId()!!, object : DatabaseService.PreviousOrdersListener {
             override fun onSuccess(previousOrders: MutableList<Order>) {
                 if (previousOrders.isEmpty()) {
                     activityView.displayNoPreviousOrders()

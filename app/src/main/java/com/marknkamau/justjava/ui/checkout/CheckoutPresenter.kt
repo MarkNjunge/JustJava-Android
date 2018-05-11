@@ -35,7 +35,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
     }
 
     fun placeOrder(orderId: String, address: String, comments: String) {
-        val order = Order(orderId, auth.getCurrentUser()!!.uid, 0, 0, address, comments)
+        val order = Order(orderId, auth.getUserId()!!, 0, 0, address, comments)
         activityView.showUploadBar()
 
         disposables.add(cart.getAll()
@@ -98,10 +98,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        // TODO change getCurrentUser to not return FirebaseUser
-        val userId = auth.getCurrentUser()?.uid
-
-        database.placeNewOrder(userId, order, items, object : DatabaseService.WriteListener {
+        database.placeNewOrder(order, items, object : DatabaseService.WriteListener {
             override fun onSuccess() {
                 disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())

@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.authentication
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.marknkamau.justjava.models.UserDetails
 
 interface AuthenticationService {
     fun addAuthListener(listener: FirebaseAuth.AuthStateListener)
@@ -14,7 +14,7 @@ interface AuthenticationService {
 
     fun setUserDisplayName(name: String, listener: AuthActionListener?)
 
-    fun getCurrentUser() : FirebaseUser?
+    fun getUserId(): String?
 
     fun isSignedIn() : Boolean
 
