@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.profile
 
-import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDetails
 
 internal interface ProfileView {
@@ -8,6 +8,6 @@ internal interface ProfileView {
     fun showProgressBar()
     fun hideProgressBar()
     fun displayNoPreviousOrders()
-    fun displayPreviousOrders(orderList: MutableList<PreviousOrder>)
+    fun displayPreviousOrders(orderList: MutableList<Order>)
     fun displayMessage(message: String?)
 }

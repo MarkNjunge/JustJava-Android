@@ -10,7 +10,7 @@ import android.widget.Toast
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
 
@@ -60,7 +60,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
 //        Toast.makeText(this, "No previous orders", Toast.LENGTH_SHORT).show()
     }
 
-    override fun displayPreviousOrders(orderList: MutableList<PreviousOrder>) {
+    override fun displayPreviousOrders(orderList: MutableList<Order>) {
         pbLoadingOrders.visibility = View.GONE
         adapter.setItems(orderList)
     }

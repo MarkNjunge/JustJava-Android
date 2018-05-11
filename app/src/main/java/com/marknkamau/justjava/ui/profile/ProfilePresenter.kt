@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.profile
 import com.marknkamau.justjava.authentication.AuthenticationService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.DatabaseService
-import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.Order
 import com.marknkamau.justjava.models.UserDetails
 
 internal class ProfilePresenter(private val activityView: ProfileView,
@@ -25,7 +25,7 @@ internal class ProfilePresenter(private val activityView: ProfileView,
 
     private fun getPreviousOrders() {
         databaseService.getPreviousOrders(authenticationService.getCurrentUser()!!.uid, object : DatabaseService.PreviousOrdersListener {
-            override fun onSuccess(previousOrders: MutableList<PreviousOrder>) {
+            override fun onSuccess(previousOrders: MutableList<Order>) {
                 if (previousOrders.isEmpty()) {
                     activityView.displayNoPreviousOrders()
                 } else {

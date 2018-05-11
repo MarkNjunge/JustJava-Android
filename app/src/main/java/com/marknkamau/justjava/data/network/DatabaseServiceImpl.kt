@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.data.network
 
-import com.google.firebase.database.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
@@ -69,14 +68,14 @@ class DatabaseServiceImpl : DatabaseService {
         val itemsRef = fireStore.collection("orderItems")
 
         val orderMap = mutableMapOf<String, Any>()
-        orderMap["orderId"] = order.orderId
-        orderMap["customerId"] = order.customerId
-        orderMap["address"] = order.deliveryAddress
-        orderMap["itemsCount"] = order.itemsCount
-        orderMap["totalPrice"] = order.totalPrice
-        orderMap["status"] = OrderStatus.PENDING.toString()
-        orderMap["comments"] = order.additionalComments
-        orderMap["date"] = FieldValue.serverTimestamp()
+        orderMap[DatabaseKeys.Order.orderId] = order.orderId
+        orderMap[DatabaseKeys.Order.customerId] = order.customerId
+        orderMap[DatabaseKeys.Order.address] = order.deliveryAddress
+        orderMap[DatabaseKeys.Order.itemsCount] = order.itemsCount
+        orderMap[DatabaseKeys.Order.totalPrice] = order.totalPrice
+        orderMap[DatabaseKeys.Order.status] = order.status
+        orderMap[DatabaseKeys.Order.comments] = order.additionalComments
+        orderMap[DatabaseKeys.Order.date] = FieldValue.serverTimestamp()
 
         FirebaseInstanceId.getInstance().token?.let {
             orderMap.put("fcmToken", it)
@@ -91,13 +90,13 @@ class DatabaseServiceImpl : DatabaseService {
                         val item = cartItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
 
-                        itemsMap["orderId"] = order.orderId
-                        itemsMap["itemName"] = item.itemName
-                        itemsMap["itemQty"] = item.itemQty
-                        itemsMap["itemCinnamon"] = item.itemCinnamon
-                        itemsMap["itemChoc"] = item.itemChoc
-                        itemsMap["itemMarshmallow"] = item.itemMarshmallow
-                        itemsMap["itemPrice"] = item.itemPrice
+                        itemsMap[DatabaseKeys.Order.orderId] = order.orderId
+                        itemsMap[DatabaseKeys.OrderItem.itemName] = item.itemName
+                        itemsMap[DatabaseKeys.OrderItem.itemQty] = item.itemQty
+                        itemsMap[DatabaseKeys.OrderItem.itemCinnamon] = item.itemCinnamon
+                        itemsMap[DatabaseKeys.OrderItem.itemChoc] = item.itemChoc
+                        itemsMap[DatabaseKeys.OrderItem.itemMarshmallow] = item.itemMarshmallow
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
 
                         val reference = itemsRef.document("${order.orderId}-$i")
                         transaction.set(reference, itemsMap)
@@ -115,17 +114,19 @@ class DatabaseServiceImpl : DatabaseService {
                 .whereEqualTo("customerId", userId)
                 .get()
                 .addOnSuccessListener {
-                    val orders = mutableListOf<PreviousOrder>()
+                    val orders = mutableListOf<Order>()
                     it.forEach { snapshot ->
-                        val previousOrder = PreviousOrder(
-                                snapshot.data["orderId"] as String,
-                                (snapshot.data["itemsCount"] as Long).toInt(),
-                                snapshot.data["address"] as String,
-                                snapshot.data["date"] as Date,
-                                (snapshot.data["totalPrice"] as Long).toInt(),
-                                snapshot.data["status"] as String
+                        val order = Order(
+                                snapshot.data[DatabaseKeys.Order.orderId] as String,
+                                snapshot.data[DatabaseKeys.Order.customerId] as String,
+                                (snapshot.data[DatabaseKeys.Order.itemsCount] as Long).toInt(),
+                                (snapshot.data[DatabaseKeys.Order.totalPrice] as Long).toInt(),
+                                snapshot.data[DatabaseKeys.Order.address] as String,
+                                snapshot.data[DatabaseKeys.Order.comments] as String,
+                                OrderStatus.valueOf(snapshot.data[DatabaseKeys.Order.status] as String),
+                                snapshot.data[DatabaseKeys.Order.date] as Date
                         )
-                        orders.add(previousOrder)
+                        orders.add(order)
                     }
                     listener.onSuccess(orders)
                 }

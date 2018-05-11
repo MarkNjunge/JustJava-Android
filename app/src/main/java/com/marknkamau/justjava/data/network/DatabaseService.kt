@@ -2,7 +2,6 @@ package com.marknkamau.justjava.data.network
 
 import com.marknkamau.justjava.models.CartItem
 import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.PreviousOrder
 import com.marknkamau.justjava.models.UserDetails
 
 interface DatabaseService {
@@ -32,7 +31,7 @@ interface DatabaseService {
     }
 
     interface PreviousOrdersListener : DatabaseListener {
-        fun onSuccess(previousOrders: MutableList<PreviousOrder>)
+        fun onSuccess(previousOrders: MutableList<Order>)
     }
 
     interface OrderListener : DatabaseListener {

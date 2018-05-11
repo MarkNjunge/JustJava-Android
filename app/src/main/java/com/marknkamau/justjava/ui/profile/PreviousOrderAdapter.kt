@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.PreviousOrder
+import com.marknkamau.justjava.models.Order
 import kotlinx.android.synthetic.main.item_previous_order.view.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<PreviousOrderAdapter.ViewHolder>() {
-    private val items by lazy { mutableListOf<PreviousOrder>() }
+    private val items by lazy { mutableListOf<Order>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_previous_order))
 
@@ -22,7 +22,7 @@ class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<
 
     override fun getItemCount() = items.size
 
-    fun setItems(items: MutableList<PreviousOrder>) {
+    fun setItems(items: MutableList<Order>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
@@ -31,10 +31,10 @@ class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(order: PreviousOrder, context: Context) {
-            itemView.tvTimestamp.text = order.timestamp.formatForApp()
+        fun bind(order: Order, context: Context) {
+            itemView.tvTimestamp.text = order.date.formatForApp()
             itemView.tvPrice.text = "${context.getString(R.string.ksh)}${order.totalPrice}"
-            itemView.tvStatus.text = order.status.toLowerCase().capitalize()
+            itemView.tvStatus.text = order.status.name.toLowerCase().capitalize()
             itemView.tvAddress.text = order.deliveryAddress
             itemView.tvItems.text = order.itemsCount.toString()
         }
