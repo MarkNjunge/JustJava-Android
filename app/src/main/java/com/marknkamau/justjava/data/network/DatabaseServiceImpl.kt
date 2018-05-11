@@ -40,7 +40,9 @@ class DatabaseServiceImpl : DatabaseService {
                         "address", address
                 )
                 .addOnSuccessListener { listener.onSuccess() }
-                .addOnFailureListener { listener.onError(it.message ?: "Error updating user details") }
+                .addOnFailureListener {
+                    listener.onError(it.message ?: "Error updating user details")
+                }
     }
 
     override fun getUserDefaults(id: String, listener: DatabaseService.UserDetailsListener) {
@@ -63,29 +65,28 @@ class DatabaseServiceImpl : DatabaseService {
     }
 
     override fun placeNewOrder(userId: String?, order: Order, cartItems: List<CartItem>, listener: DatabaseService.WriteListener) {
-        val orderRef = fireStore.collection("orders").document()
+        val orderRef = fireStore.collection("orders").document(order.orderId)
         val itemsRef = fireStore.collection("orderItems")
 
         val orderMap = mutableMapOf<String, Any>()
         orderMap["orderId"] = order.orderId
-        orderMap["customerName"] = order.customerName
-        orderMap["customerPhone"] = order.customerPhone
-        orderMap["deliveryAddress"] = order.deliveryAddress
+        orderMap["customerId"] = order.customerId
+        orderMap["address"] = order.deliveryAddress
         orderMap["itemsCount"] = order.itemsCount
         orderMap["totalPrice"] = order.totalPrice
         orderMap["status"] = OrderStatus.PENDING.toString()
-        orderMap["additionalComments"] = order.additionalComments
-        orderMap["timestampNow"] = FieldValue.serverTimestamp()
+        orderMap["comments"] = order.additionalComments
+        orderMap["date"] = FieldValue.serverTimestamp()
 
         FirebaseInstanceId.getInstance().token?.let {
             orderMap.put("fcmToken", it)
         }
 
-        userId?.let { orderMap.put("user", it) }
+        fireStore.runTransaction { }
 
         fireStore
-                .runTransaction {
-                    it.set(orderRef, orderMap)
+                .runTransaction { transaction ->
+                    transaction.set(orderRef, orderMap)
                     for (i in cartItems.indices) {
                         val item = cartItems[i]
                         val itemsMap = mutableMapOf<String, Any>()
@@ -98,8 +99,8 @@ class DatabaseServiceImpl : DatabaseService {
                         itemsMap["itemMarshmallow"] = item.itemMarshmallow
                         itemsMap["itemPrice"] = item.itemPrice
 
-                        val reference = itemsRef.document()
-                        it.set(reference, itemsMap)
+                        val reference = itemsRef.document("${order.orderId}-$i")
+                        transaction.set(reference, itemsMap)
                     }
                 }
                 .addOnSuccessListener { listener.onSuccess() }
@@ -111,7 +112,7 @@ class DatabaseServiceImpl : DatabaseService {
 
     override fun getPreviousOrders(userId: String, listener: DatabaseService.PreviousOrdersListener) {
         fireStore.collection("orders")
-                .whereEqualTo("user", userId)
+                .whereEqualTo("customerId", userId)
                 .get()
                 .addOnSuccessListener {
                     val orders = mutableListOf<PreviousOrder>()
@@ -119,8 +120,8 @@ class DatabaseServiceImpl : DatabaseService {
                         val previousOrder = PreviousOrder(
                                 snapshot.data["orderId"] as String,
                                 (snapshot.data["itemsCount"] as Long).toInt(),
-                                snapshot.data["deliveryAddress"] as String,
-                                snapshot.data["timestampNow"] as Date,
+                                snapshot.data["address"] as String,
+                                snapshot.data["date"] as Date,
                                 (snapshot.data["totalPrice"] as Long).toInt(),
                                 snapshot.data["status"] as String
                         )

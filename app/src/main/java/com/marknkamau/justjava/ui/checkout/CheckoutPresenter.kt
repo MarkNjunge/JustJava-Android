@@ -34,7 +34,8 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         }
     }
 
-    fun placeOrder(order: Order) {
+    fun placeOrder(orderId: String, address: String, comments: String) {
+        val order = Order(orderId, auth.getCurrentUser()!!.uid, 0, 0, address, comments)
         activityView.showUploadBar()
 
         disposables.add(cart.getAll()

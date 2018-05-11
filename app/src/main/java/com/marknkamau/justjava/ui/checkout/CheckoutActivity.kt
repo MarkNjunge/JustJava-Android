@@ -31,7 +31,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
     private lateinit var presenter: CheckoutPresenter
 
     private var payCash = true
-    private val orderId = UUID.randomUUID().toString()
+    private val orderId = UUID.randomUUID().toString().replace("-", "").subSequence(0, 10).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +93,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
     private fun placeOder() {
         if (validateInput()) {
-            presenter.placeOrder(Order(orderId, name, phone, 0, 0, address, comments))
+            presenter.placeOrder(orderId, address, comments)
         }
     }
 
