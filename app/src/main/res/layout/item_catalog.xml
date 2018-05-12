@@ -61,11 +61,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:text="@string/ksh"
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgDrinkImage"
-            app:layout_constraintTop_toBottomOf="@+id/tvShortDesc" />
+            app:layout_constraintTop_toBottomOf="@+id/tvShortDesc"
+            tools:text="@string/price_listing" />
 
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -30,7 +30,7 @@ class CatalogAdapter(private val context: Context, private val onClick: (CoffeeD
         fun bind(drink: CoffeeDrink, context: Context, onClick: (CoffeeDrink) -> Unit) {
             itemView.tvItemName.text = drink.drinkName
             itemView.tvShortDesc.text = drink.drinkContents
-            itemView.tvDrinkName.text = context.resources.getString(R.string.ksh) + drink.drinkPrice
+            itemView.tvDrinkName.text = context.resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
 
             val drinkImage = "file:///android_asset/" + drink.drinkImage
             Picasso.with(context).load(drinkImage).placeholder(R.drawable.plain_brown).into(itemView.imgDrinkImage)

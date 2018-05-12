@@ -41,8 +41,8 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         tvDrinkName.text = drink.drinkName
         tvDrinkContents.text = drink.drinkContents
         tvDrinkDescription.text = drink.drinkDescription
-        tvDrinkPrice.text = String.format("%s%s", resources.getString(R.string.ksh), drink.drinkPrice)
-        tvSubtotal.text = String.format("%s%s", resources.getString(R.string.ksh), drink.drinkPrice)
+        tvDrinkPrice.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
+        tvSubtotal.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
 
         val drinkImage = "file:///android_asset/" + drink.drinkImage
         val picasso = Picasso.with(this)
@@ -121,7 +121,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         if (cbMarshmallow.isChecked) {
             base += quantity * 100
         }
-        tvSubtotal.text = resources.getString(R.string.ksh) + base
+        tvSubtotal.text = resources.getString(R.string.price_listing, base)
         return base
     }
 }

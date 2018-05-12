@@ -2,8 +2,10 @@ package com.marknkamau.justjava.ui.cart
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
@@ -46,6 +48,7 @@ class CartActivity : BaseActivity(), CartView {
             editCartDialog.show(supportFragmentManager, "edit_cart_dialog")
         })
         rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvCart .addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvCart.adapter = adapter
 
         btnClearCart.setOnClickListener{
@@ -63,23 +66,18 @@ class CartActivity : BaseActivity(), CartView {
     }
 
     override fun displayCart(orderItems: MutableList<OrderItem>) {
+        tvNoItems.visibility = View.GONE
         adapter.setItems(orderItems)
         btnCheckout.isEnabled = true
     }
 
     override fun displayCartTotal(totalCost: Int) {
-        tvCartTotal.text = getString(R.string.total) + ": " + getString(R.string.ksh) + totalCost
+        tvCartTotal.text = getString(R.string.price_listing, totalCost)
     }
 
     override fun displayEmptyCart() {
-        rvCart.visibility = View.INVISIBLE
         tvNoItems.visibility = View.VISIBLE
-        btnClearCart.isEnabled = false
-        btnClearCart.alpha = .54f
-        tvCartTotal.alpha = .54f
-        tvCartTotal.text = getString(R.string.total) + ": " + getString(R.string.ksh)
-        btnCheckout.setBackgroundResource(R.drawable.large_button_disabled)
-        btnCheckout.isEnabled = false
+        groupCartNotEmpty.visibility = View.GONE
     }
 
     override fun displayMessage(message: String?) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

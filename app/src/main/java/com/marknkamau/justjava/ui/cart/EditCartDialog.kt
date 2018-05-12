@@ -58,7 +58,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
         tvChocolate = view.findViewById<TextView>(R.id.tvChocolate) as TextView
         tvMarshmallows = view.findViewById<TextView>(R.id.tvMarshmallows) as TextView
         tvTotal = view.findViewById<TextView>(R.id.tv_total) as TextView
-        tvCinnamon = view.findViewById<TextView>(R.id.tvCinnamon) as TextView
+        tvCinnamon = view.findViewById<TextView>(R.id.tvToppings) as TextView
         imgMinusQty = view.findViewById<ImageView>(R.id.imgMinusQty) as ImageView
         imgDelete = view.findViewById<ImageView>(R.id.img_delete) as ImageView
         imgAddQty = view.findViewById<ImageView>(R.id.imgAddQty) as ImageView
@@ -83,7 +83,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
             setToppingOn(tvMarshmallows)
             withMarshmallow = true
         }
-        tvTotal.text = getString(R.string.ksh) + item.itemPrice
+        tvTotal.text = getString(R.string.price_listing, item.itemPrice)
 
         imgMinusQty.setOnClickListener(this)
         imgAddQty.setOnClickListener(this)
@@ -181,7 +181,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
         if (withMarshmallow) {
             base += quantity * 100
         }
-        tvTotal.text = resources.getString(R.string.ksh) + base
+        tvTotal.text = resources.getString(R.string.price_listing, base)
         return base
     }
 

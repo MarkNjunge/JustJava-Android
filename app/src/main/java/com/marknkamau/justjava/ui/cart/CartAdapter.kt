@@ -29,19 +29,30 @@ class CartAdapter(private val context: Context, private val onEditClick: (OrderI
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: OrderItem, context: Context, onEditClick: (OrderItem) -> Unit) {
             itemView.tvItemName.text = item.itemName
-            itemView.tvItemQty.text = context.getString(R.string.quantity) + ": " + item.itemQty
-            itemView.tvItemPrice.text = context.getString(R.string.price) + " " + item.itemPrice
+            itemView.tvItemQty.text = context.getString(R.string.quantity_listing, item.itemQty)
+            itemView.tvItemPrice.text = context.getString(R.string.price_listing, item.itemPrice)
 
-            if (!item.itemCinnamon)
-                itemView.tvCinnamon.visibility = View.GONE
+            val toppings = mutableListOf<String>()
 
-            if (!item.itemChoc)
-                itemView.tvChocolate.visibility = View.GONE
+            if (item.itemCinnamon)
+                toppings.add("Cinnamon")
 
-            if (!item.itemMarshmallow)
-                itemView.tvMarshmallows.visibility = View.GONE
+            if (item.itemChoc)
+                toppings.add("Chocolate")
 
-            itemView.imgEdit.setOnClickListener { onEditClick(item) }
+            if (item.itemMarshmallow)
+                toppings.add("Marshmallows")
+
+            if (toppings.isNotEmpty()){
+                itemView.tvToppings.text = toppings.toString().replace("[", "").replace("]", "")
+            }else{
+                itemView.tvToppings.visibility = View.GONE
+            }
+
+            itemView.setOnLongClickListener {
+                onEditClick(item)
+                true
+            }
         }
     }
 

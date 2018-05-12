@@ -32,7 +32,6 @@
 
     <string name="item_s">item(s)</string>
 
-    <string name="ksh">Ksh. </string>
 
     <string name="login">Login</string>
     <string name="logout">Logout</string>
@@ -50,6 +49,7 @@
 
     <string name="or">OR</string>
 
+    <string name="price_listing">Ksh. %d</string>
     <string name="price">Price:</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
     <string name="profile">Profile</string>
@@ -60,7 +60,7 @@
     <string name="previous_orders">Previous orders</string>
     <string name="payment">Payment</string>
 
-    <string name="quantity">Quantity</string>
+    <string name="quantity_listing">Quantity: %d</string>
 
     <string name="repeat_password">Repeat Password</string>
     <string name="required">Required</string>

@@ -33,7 +33,7 @@ class PreviousOrderAdapter(private val context: Context) : RecyclerView.Adapter<
         @SuppressLint("SetTextI18n")
         fun bind(order: Order, context: Context) {
             itemView.tvTimestamp.text = order.date.formatForApp()
-            itemView.tvPrice.text = "${context.getString(R.string.ksh)}${order.totalPrice}"
+            itemView.tvPrice.text = context.getString(R.string.price_listing, order.totalPrice)
             itemView.tvStatus.text = order.status.name.toLowerCase().capitalize()
             itemView.tvAddress.text = order.deliveryAddress
             itemView.tvItems.text = order.itemsCount.toString()
