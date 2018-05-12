@@ -6,8 +6,8 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.OrderItem
-import com.marknkamau.justjava.models.CoffeeDrink
+import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.models.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
 
@@ -90,7 +90,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
                 cbChocolate.isChecked,
                 cbMarshmallow.isChecked,
                 updateSubtotal()
-                )
+        )
 
         presenter.addToCart(itemRm)
     }

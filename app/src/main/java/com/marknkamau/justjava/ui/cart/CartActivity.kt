@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.OrderItem
+import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*

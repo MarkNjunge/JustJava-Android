@@ -1,21 +1,21 @@
 package com.marknkamau.justjava.ui.checkout
 
 import android.util.Base64
-import com.marknkamau.justjava.authentication.AuthenticationService
+import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.data.network.MpesaService
-import com.marknkamau.justjava.models.OrderItem
-import com.marknkamau.justjava.models.Order
+import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import com.marknkamau.justjava.models.STKPush
-import com.marknkamau.justjava.models.OAuthAccess
+import com.marknkamau.justjava.data.models.STKPush
+import com.marknkamau.justjava.data.models.OAuthAccess
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.utils.MpesaConfig
 import com.marknkamau.justjava.utils.Utils

@@ -25,7 +25,7 @@
 #-renamesourcefileattribute SourceFile
 
 
--keep class com.marknkamau.justjava.models.OrderItem implements android.os.Parcelable {
+-keep class com.marknkamau.justjava.data.models.OrderItem implements android.os.Parcelable {
     *;
 }
 -dontwarn com.squareup.okhttp.**

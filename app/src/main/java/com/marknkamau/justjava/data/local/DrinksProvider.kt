@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.data.local
 
-import com.marknkamau.justjava.models.CoffeeDrink
+import com.marknkamau.justjava.data.models.CoffeeDrink
 
 object DrinksProvider {
     val drinksList: MutableList<CoffeeDrink> = mutableListOf()

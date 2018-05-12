@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.models.OrderItem
+import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,7 +49,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 ))
     }
 
-    fun deleteItem(item:OrderItem){
+    fun deleteItem(item: OrderItem){
         Completable.fromCallable { cart.deleteItem(item) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

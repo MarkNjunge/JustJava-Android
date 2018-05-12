@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.checkout
 
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.data.models.UserDetails
 import com.marknkamau.justjava.ui.BaseView
 
 interface CheckoutView : BaseView {

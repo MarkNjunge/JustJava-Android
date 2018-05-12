@@ -1,10 +1,13 @@
-package com.marknkamau.justjava.data.network
+package com.marknkamau.justjava.data.network.db
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.firebase.iid.FirebaseInstanceId
-import com.marknkamau.justjava.models.*
+import com.marknkamau.justjava.data.models.Order
+import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.models.OrderStatus
+import com.marknkamau.justjava.data.models.UserDetails
 import timber.log.Timber
 import java.util.*
 

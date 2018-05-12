@@ -4,13 +4,13 @@ import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
 import android.support.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
-import com.marknkamau.justjava.authentication.AuthenticationService
-import com.marknkamau.justjava.authentication.AuthenticationServiceImpl
+import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknkamau.justjava.data.network.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
-import com.marknkamau.justjava.data.network.DatabaseService
-import com.marknkamau.justjava.data.network.DatabaseServiceImpl
+import com.marknkamau.justjava.data.network.db.DatabaseService
+import com.marknkamau.justjava.data.network.db.DatabaseServiceImpl
 import com.marknkamau.justjava.data.network.MpesaService
 import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper

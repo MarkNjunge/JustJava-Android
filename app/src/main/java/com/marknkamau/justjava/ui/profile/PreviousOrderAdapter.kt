@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.Order
+import com.marknkamau.justjava.data.models.Order
 import kotlinx.android.synthetic.main.item_previous_order.view.*
 import timber.log.Timber
 import java.text.SimpleDateFormat

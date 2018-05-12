@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.models.OrderItem
+import com.marknkamau.justjava.data.models.OrderItem
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers

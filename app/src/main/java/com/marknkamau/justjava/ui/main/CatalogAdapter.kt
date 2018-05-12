@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.CoffeeDrink
+import com.marknkamau.justjava.data.models.CoffeeDrink
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_catalog.view.*
 

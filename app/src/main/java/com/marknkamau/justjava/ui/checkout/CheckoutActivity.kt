@@ -13,8 +13,7 @@ import com.marknkamau.justjava.BuildConfig
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.data.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity

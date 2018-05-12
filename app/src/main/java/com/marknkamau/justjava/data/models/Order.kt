@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.models
+package com.marknkamau.justjava.data.models
 
 import java.util.*
 

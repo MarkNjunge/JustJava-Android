@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.data.network
 
-import com.marknkamau.justjava.models.LNMPaymentResponse
-import com.marknkamau.justjava.models.OAuthAccess
-import com.marknkamau.justjava.models.STKPush
+import com.marknkamau.justjava.data.models.LNMPaymentResponse
+import com.marknkamau.justjava.data.models.OAuthAccess
+import com.marknkamau.justjava.data.models.STKPush
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET

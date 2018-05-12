@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.models.OrderItem
+import com.marknkamau.justjava.data.models.OrderItem
 
 import kotlinx.android.synthetic.main.item_cart.view.*
 

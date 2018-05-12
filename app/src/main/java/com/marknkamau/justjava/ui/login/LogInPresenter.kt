@@ -1,10 +1,10 @@
 package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.models.UserDetails
-import com.marknkamau.justjava.authentication.AuthenticationService
+import com.marknkamau.justjava.data.models.UserDetails
+import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 
-import com.marknkamau.justjava.data.network.DatabaseService
+import com.marknkamau.justjava.data.network.db.DatabaseService
 
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,

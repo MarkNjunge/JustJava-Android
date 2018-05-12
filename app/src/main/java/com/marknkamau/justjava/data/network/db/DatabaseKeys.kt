@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.network
+package com.marknkamau.justjava.data.network.db
 
 /**
  * Created by MarkNjunge.

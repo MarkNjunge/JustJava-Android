@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.data.local
 
 import android.content.SharedPreferences
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.data.models.UserDetails
 
 class PreferencesRepositoryImpl(private val sharedPreferences: SharedPreferences) : PreferencesRepository {
     private val id = "user_id"

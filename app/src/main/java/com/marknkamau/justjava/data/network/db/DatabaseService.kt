@@ -1,14 +1,14 @@
-package com.marknkamau.justjava.data.network
+package com.marknkamau.justjava.data.network.db
 
-import com.marknkamau.justjava.models.OrderItem
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.models.Order
+import com.marknkamau.justjava.data.models.UserDetails
 
 interface DatabaseService {
 
     fun saveUserDetails(userDetails: UserDetails, listener: WriteListener)
 
-    fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener)
+    fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: WriteListener)
 
     fun getUserDefaults(id: String, listener: UserDetailsListener)
 

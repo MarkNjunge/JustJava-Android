@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.profile
 
-import com.marknkamau.justjava.models.Order
-import com.marknkamau.justjava.models.UserDetails
+import com.marknkamau.justjava.data.models.Order
+import com.marknkamau.justjava.data.models.UserDetails
 
 internal interface ProfileView {
     fun displayUserDetails(userDetails: UserDetails)
