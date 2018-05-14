@@ -12,7 +12,4 @@ A mock Android application for a coffee shop.
 
 ## Screenshots
 
-![Home](/images/home.png)
-![Item](/images/item.png)
-![Cart](/images/cart.png)
-![Checkout](/images/checkout.png)
+![App](/images/app_design.jpeg)
