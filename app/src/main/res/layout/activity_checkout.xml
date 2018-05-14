@@ -52,6 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
+                android:enabled="false"
                 android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:textSize="14sp" />
@@ -75,8 +76,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
+                android:enabled="false"
                 android:hint="@string/phone_number"
-                android:inputType="phone"
+                android:inputType="none|phone"
                 android:textSize="14sp" />
         </android.support.design.widget.TextInputLayout>
 
