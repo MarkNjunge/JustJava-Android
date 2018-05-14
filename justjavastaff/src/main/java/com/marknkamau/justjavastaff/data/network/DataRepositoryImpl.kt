@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.models.OrderItem
 import com.marknkamau.justjavastaff.models.OrderStatus
+import com.marknkamau.justjavastaff.models.User
 
 import java.util.ArrayList
 import java.util.Date
@@ -17,7 +18,7 @@ import timber.log.Timber
  * https://github.com/MarkNjunge
  */
 
-class OrdersRepositoryImpl : OrdersRepository {
+class DataRepositoryImpl : DataRepository {
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init {
@@ -28,8 +29,8 @@ class OrdersRepositoryImpl : OrdersRepository {
         firestore.firestoreSettings = settings
     }
 
-    override fun getOrders(listener: OrdersRepository.OrdersListener) {
-        val registration = firestore.collection("orders")
+    override fun getOrders(listener: DataRepository.OrdersListener) {
+        firestore.collection("orders")
                 .addSnapshotListener { querySnapshot, e ->
                     if (e != null) {
                         Timber.e(e)
@@ -45,16 +46,16 @@ class OrdersRepositoryImpl : OrdersRepository {
                                 data?.let {
 
                                     val order = Order(
-                                            data["orderId"] as String,
-                                            data["customerName"] as String,
-                                            data["customerPhone"] as String,
-                                            data["deliveryAddress"] as String,
-                                            data["additionalComments"] as String,
-                                            data["status"] as String,
-                                            data["timestampNow"] as Date,
-                                            (data["totalPrice"] as Long).toInt(),
-                                            (data["itemsCount"] as Long).toInt()
+                                            data[DatabaseKeys.Order.orderId] as String,
+                                            data[DatabaseKeys.Order.customerId] as String,
+                                            (data[DatabaseKeys.Order.itemsCount] as Long).toInt(),
+                                            (data[DatabaseKeys.Order.totalPrice] as Long).toInt(),
+                                            data[DatabaseKeys.Order.address] as String,
+                                            data[DatabaseKeys.Order.comments] as String,
+                                            OrderStatus.valueOf(data[DatabaseKeys.Order.status] as String),
+                                            data[DatabaseKeys.Order.date] as Date
                                     )
+
                                     orders.add(order)
                                 }
                             }
@@ -65,7 +66,7 @@ class OrdersRepositoryImpl : OrdersRepository {
                 }
     }
 
-    override fun getOrderItems(orderId: String, listener: OrdersRepository.OrderItemsListener) {
+    override fun getOrderItems(orderId: String, listener: DataRepository.OrderItemsListener) {
         firestore.collection("orderItems").whereEqualTo("orderId", orderId)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
@@ -95,12 +96,34 @@ class OrdersRepositoryImpl : OrdersRepository {
                 }
     }
 
-    override fun updateOderStatus(orderId: String, status: OrderStatus, listener: OrdersRepository.BasicListener) {
+    override fun updateOderStatus(orderId: String, status: OrderStatus, listener: DataRepository.BasicListener) {
         firestore.collection("orders").document(orderId)
                 .update("status", status.name)
                 .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener { e ->
                     listener.onError(e.message ?: "Error updating order status")
+                }
+    }
+
+    override fun getCustomerDetails(userId: String, listener: DataRepository.UserListener) {
+        firestore.collection("users")
+                .whereEqualTo("id", userId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    querySnapshot.forEach { documentSnapshot ->
+                        val user = User(
+                                documentSnapshot[DatabaseKeys.User.id] as String,
+                                documentSnapshot[DatabaseKeys.User.name] as String,
+                                documentSnapshot[DatabaseKeys.User.address] as String,
+                                documentSnapshot[DatabaseKeys.User.email] as String,
+                                documentSnapshot[DatabaseKeys.User.phone] as String)
+
+                        listener.onSuccess(user)
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Timber.e(exception)
+                    listener.onError(exception.localizedMessage)
                 }
     }
 

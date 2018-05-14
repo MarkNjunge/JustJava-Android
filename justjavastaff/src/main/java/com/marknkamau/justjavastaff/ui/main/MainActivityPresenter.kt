@@ -2,14 +2,16 @@ package com.marknkamau.justjavastaff.ui.main
 
 import com.marknkamau.justjavastaff.data.local.SettingsRespository
 
-import com.marknkamau.justjavastaff.data.network.OrdersRepository
+import com.marknkamau.justjavastaff.data.network.DataRepository
 import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.models.OrderStatus
+import com.marknkamau.justjavastaff.models.User
+import timber.log.Timber
 
-internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val ordersRepository: OrdersRepository) {
+internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val dataRepository: DataRepository) {
 
     fun getOrders() {
-        ordersRepository.getOrders(object : OrdersRepository.OrdersListener {
+        dataRepository.getOrders(object : DataRepository.OrdersListener {
             override fun onSuccess(orders: List<Order>) {
                 if (orders.isEmpty()) {
                     view.displayNoOrders()
@@ -17,15 +19,15 @@ internal class MainActivityPresenter(private val view: MainView, private val set
                     val statusSettings = settings.getStatusSettings()
                     val filteredOrders = mutableListOf<Order>()
                     orders.forEach {
-                        if (it.status == OrderStatus.PENDING.name && statusSettings.pending)
+                        if (it.status == OrderStatus.PENDING && statusSettings.pending)
                             filteredOrders.add(it)
-                        if (it.status == OrderStatus.INPROGRESS.name && statusSettings.inProgress)
+                        if (it.status == OrderStatus.INPROGRESS && statusSettings.inProgress)
                             filteredOrders.add(it)
-                        if (it.status == OrderStatus.COMPLETED.name && statusSettings.completed)
+                        if (it.status == OrderStatus.COMPLETED && statusSettings.completed)
                             filteredOrders.add(it)
-                        if (it.status == OrderStatus.DELIVERED.name && statusSettings.delivered)
+                        if (it.status == OrderStatus.DELIVERED && statusSettings.delivered)
                             filteredOrders.add(it)
-                        if (it.status == OrderStatus.CANCELLED.name && statusSettings.cancelled)
+                        if (it.status == OrderStatus.CANCELLED && statusSettings.cancelled)
                             filteredOrders.add(it)
                     }
                     view.displayAvailableOrders(filteredOrders)
@@ -36,5 +38,7 @@ internal class MainActivityPresenter(private val view: MainView, private val set
                 view.displayMessage(reason)
             }
         })
+
+
     }
 }

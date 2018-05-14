@@ -24,7 +24,7 @@ class MainActivity : MenuBarActivity(), MainView {
         setContentView(R.layout.activity_main)
 
         val settings = (application as JustJavaStaffApp).settingsRepository
-        val ordersRepository = (application as JustJavaStaffApp).ordersRepository
+        val ordersRepository = (application as JustJavaStaffApp).dataRepository
         presenter = MainActivityPresenter(this, settings, ordersRepository)
 
         rvOrders.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

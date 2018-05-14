@@ -1,8 +1,9 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
-import com.marknkamau.justjavastaff.data.network.OrdersRepository
+import com.marknkamau.justjavastaff.data.network.DataRepository
 import com.marknkamau.justjavastaff.models.OrderItem
 import com.marknkamau.justjavastaff.models.OrderStatus
+import com.marknkamau.justjavastaff.models.User
 
 /**
  * Created by Mark Njung'e.
@@ -10,10 +11,10 @@ import com.marknkamau.justjavastaff.models.OrderStatus
  * https://github.com/MarkNjunge
  */
 
-class OrderDetailsPresenter(private val view: OrderDetailsView, private val ordersRepository: OrdersRepository) {
+class OrderDetailsPresenter(private val view: OrderDetailsView, private val dataRepository: DataRepository) {
 
     fun getOrderItems(orderId: String) {
-        ordersRepository.getOrderItems(orderId, object : OrdersRepository.OrderItemsListener {
+        dataRepository.getOrderItems(orderId, object : DataRepository.OrderItemsListener {
             override fun onSuccess(items: List<OrderItem>) {
                 view.displayOrderItems(items.toMutableList())
             }
@@ -24,8 +25,21 @@ class OrderDetailsPresenter(private val view: OrderDetailsView, private val orde
         })
     }
 
+    fun getUserDetails(userId: String) {
+        dataRepository.getCustomerDetails(userId, object : DataRepository.UserListener {
+            override fun onError(reason: String) {
+                view.displayMessage(reason)
+            }
+
+            override fun onSuccess(user: User) {
+                view.setUserDetails(user)
+            }
+
+        })
+    }
+
     fun updateOrderStatus(orderId: String, status: OrderStatus) {
-        ordersRepository.updateOderStatus(orderId, status, object : OrdersRepository.BasicListener {
+        dataRepository.updateOderStatus(orderId, status, object : DataRepository.BasicListener {
             override fun onSuccess() {
                 view.displayMessage("Updated!")
                 view.setOrderStatus(status)

@@ -14,10 +14,13 @@ import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.models.OrderItem
 import com.marknkamau.justjavastaff.models.OrderStatus
+import com.marknkamau.justjavastaff.models.User
 import com.marknkamau.justjavastaff.ui.MenuBarActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
 
 class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
+
+
     companion object {
         val ORDER = "order"
     }
@@ -60,12 +63,11 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
         rvOrderItems.adapter = orderItemsAdapter
 
         tvOrderId.text = order.orderId
-        tvOrderTime.text = order.timestamp.toString()
-        tvName.text = order.customerName
-        tvPhone.text = order.customerPhone
+        tvOrderTime.text = order.date.toString()
+
         tvAddress.text = order.deliveryAddress
         tvTotalPrice.text = order.totalPrice.toString()
-        currentStatus = OrderStatus.valueOf(order.status)
+        currentStatus = order.status
         if (order.additionalComments.isEmpty()) {
             tvComments.visibility = View.GONE
         } else {
@@ -83,8 +85,9 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
             confirmCancelOrder()
         }
 
-        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).ordersRepository)
+        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).dataRepository)
         presenter.getOrderItems(order.orderId)
+        presenter.getUserDetails(order.customerId)
     }
 
     override fun displayMessage(message: String) {
@@ -93,6 +96,11 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
 
     override fun displayOrderItems(items: MutableList<OrderItem>) {
         orderItemsAdapter.setItems(items)
+    }
+
+    override fun setUserDetails(user: User) {
+        tvName.text = user.name
+        tvPhone.text = user.phone
     }
 
     override fun setOrderStatus(status: OrderStatus) {

@@ -5,39 +5,36 @@ import android.os.Parcelable
 import java.util.Date
 
 data class Order(val orderId: String,
-                 val customerName: String,
-                 val customerPhone: String,
+                 val customerId: String,
+                 var itemsCount: Int,
+                 var totalPrice: Int,
                  val deliveryAddress: String,
                  val additionalComments: String,
-                 val status: String,
-                 val timestamp: Date,
-                 val totalPrice: Int,
-                 val itemsCount: Int) : Parcelable {
+                 val status: OrderStatus = OrderStatus.PENDING,
+                 val date: Date = Date()) : Parcelable {
 
     constructor(source: Parcel) : this(
             source.readString(),
             source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readString(),
-            source.readSerializable() as Date,
             source.readInt(),
-            source.readInt()
+            source.readInt(),
+            source.readString(),
+            source.readString(),
+            OrderStatus.values()[source.readInt()],
+            source.readSerializable() as Date
     )
 
     override fun describeContents() = 0
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(orderId)
-        writeString(customerName)
-        writeString(customerPhone)
+        writeString(customerId)
+        writeInt(itemsCount)
+        writeInt(totalPrice)
         writeString(deliveryAddress)
         writeString(additionalComments)
-        writeString(status)
-        writeSerializable(timestamp)
-        writeInt(totalPrice)
-        writeInt(itemsCount)
+        writeInt(status.ordinal)
+        writeSerializable(date)
     }
 
     companion object {

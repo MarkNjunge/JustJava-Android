@@ -41,14 +41,13 @@ class OrdersAdapter(private val context: Context, private val onClick: (Order) -
                 tvItemsCount.text = order.itemsCount.toString()
                 tvOrderId.text = order.orderId
                 tvTotalPrice.text = order.totalPrice.toString()
-                tvTimestamp.text = dateFormat.format(order.timestamp)
+                tvTimestamp.text = dateFormat.format(order.date)
                 val color = when (order.status) {
-                    OrderStatus.PENDING.name -> ContextCompat.getColor(context, R.color.colorPending)
-                    OrderStatus.INPROGRESS.name -> ContextCompat.getColor(context, R.color.colorInProgress)
-                    OrderStatus.COMPLETED.name -> ContextCompat.getColor(context, R.color.colorCompleted)
-                    OrderStatus.DELIVERED.name -> ContextCompat.getColor(context, R.color.colorDelivered)
-                    OrderStatus.CANCELLED.name -> ContextCompat.getColor(context, R.color.colorCancelled)
-                    else -> ContextCompat.getColor(context, R.color.colorPending)
+                    OrderStatus.PENDING -> ContextCompat.getColor(context, R.color.colorPending)
+                    OrderStatus.INPROGRESS -> ContextCompat.getColor(context, R.color.colorInProgress)
+                    OrderStatus.COMPLETED -> ContextCompat.getColor(context, R.color.colorCompleted)
+                    OrderStatus.DELIVERED -> ContextCompat.getColor(context, R.color.colorDelivered)
+                    OrderStatus.CANCELLED -> ContextCompat.getColor(context, R.color.colorCancelled)
                 }
 
                 viewStatus.setBackgroundColor(color)

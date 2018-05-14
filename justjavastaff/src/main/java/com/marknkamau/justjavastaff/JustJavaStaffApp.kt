@@ -6,14 +6,14 @@ import com.marknkamau.justjavastaff.authentication.AuthServiceImpl
 import com.marknkamau.justjavastaff.authentication.AuthenticationService
 import com.marknkamau.justjavastaff.data.local.SettingsRepoImpl
 import com.marknkamau.justjavastaff.data.local.SettingsRespository
-import com.marknkamau.justjavastaff.data.network.OrdersRepository
-import com.marknkamau.justjavastaff.data.network.OrdersRepositoryImpl
+import com.marknkamau.justjavastaff.data.network.DataRepository
+import com.marknkamau.justjavastaff.data.network.DataRepositoryImpl
 
 import timber.log.Timber
 
 class JustJavaStaffApp : Application() {
     lateinit var auth: AuthenticationService
-    lateinit var ordersRepository: OrdersRepository
+    lateinit var dataRepository: DataRepository
     lateinit var settingsRepository: SettingsRespository
 
     override fun onCreate() {
@@ -28,7 +28,7 @@ class JustJavaStaffApp : Application() {
         }
 
         auth = AuthServiceImpl()
-        ordersRepository = OrdersRepositoryImpl()
+        dataRepository = DataRepositoryImpl()
         settingsRepository = SettingsRepoImpl(this)
     }
 }

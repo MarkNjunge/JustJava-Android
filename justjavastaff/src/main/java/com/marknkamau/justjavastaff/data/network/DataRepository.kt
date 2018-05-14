@@ -3,6 +3,7 @@ package com.marknkamau.justjavastaff.data.network
 import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.models.OrderItem
 import com.marknkamau.justjavastaff.models.OrderStatus
+import com.marknkamau.justjavastaff.models.User
 
 /**
  * Created by Mark Njung'e.
@@ -10,12 +11,14 @@ import com.marknkamau.justjavastaff.models.OrderStatus
  * https://github.com/MarkNjunge
  */
 
-interface OrdersRepository {
+interface DataRepository {
     fun getOrders(listener: OrdersListener)
 
     fun getOrderItems(orderId: String, listener: OrderItemsListener)
 
     fun updateOderStatus(orderId: String, status: OrderStatus, listener: BasicListener)
+
+    fun getCustomerDetails(userId: String, listener: DataRepository.UserListener)
 
     interface BaseListener {
         fun onError(reason: String)
@@ -31,5 +34,9 @@ interface OrdersRepository {
 
     interface OrderItemsListener : BaseListener {
         fun onSuccess(items: List<OrderItem>)
+    }
+
+    interface UserListener : BaseListener {
+        fun onSuccess(user: User)
     }
 }
