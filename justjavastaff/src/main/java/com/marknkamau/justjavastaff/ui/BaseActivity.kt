@@ -21,7 +21,7 @@ import com.marknkamau.justjavastaff.ui.preferences.SettingsActivity
  */
 
 @SuppressLint("Registered")
-open class MenuBarActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     private lateinit var auth: AuthenticationService
 

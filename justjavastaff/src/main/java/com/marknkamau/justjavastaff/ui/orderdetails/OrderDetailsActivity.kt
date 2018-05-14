@@ -1,8 +1,6 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -15,12 +13,10 @@ import com.marknkamau.justjavastaff.models.Order
 import com.marknkamau.justjavastaff.models.OrderItem
 import com.marknkamau.justjavastaff.models.OrderStatus
 import com.marknkamau.justjavastaff.models.User
-import com.marknkamau.justjavastaff.ui.MenuBarActivity
+import com.marknkamau.justjavastaff.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
 
-class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
-
-
+class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
     companion object {
         val ORDER = "order"
     }
@@ -31,15 +27,13 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
     private lateinit var orderItemsAdapter: OrderItemsAdapter
     private lateinit var order: Order
 
-    private var drawableInProgress: Drawable? = null
-    private var drawableCompleted: Drawable? = null
-    private var drawableDelivered: Drawable? = null
+    private val colorUtils by lazy { (application as JustJavaStaffApp).colorUtils }
 
-    private var colorPending: Int = 0
-    private var colorInProgress: Int = 0
-    private var colorCancelled: Int = 0
-    private var colorCompleted: Int = 0
-    private var colorDelivered: Int = 0
+//    private val colorPending by lazy { ContextCompat.getColor(this, R.color.colorPending) }
+//    private val colorInProgress by lazy { ContextCompat.getColor(this, R.color.colorInProgress) }
+//    private val colorCancelled by lazy { ContextCompat.getColor(this, R.color.colorCancelled) }
+//    private val colorCompleted by lazy { ContextCompat.getColor(this, R.color.colorCompleted) }
+//    private val colorDelivered by lazy { ContextCompat.getColor(this, R.color.colorDelivered) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,15 +41,9 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
 
         order = intent.getParcelableExtra(ORDER)
 
-        colorPending = ContextCompat.getColor(this, R.color.colorPending)
-        colorInProgress = ContextCompat.getColor(this, R.color.colorInProgress)
-        colorCancelled = ContextCompat.getColor(this, R.color.colorCancelled)
-        colorCompleted = ContextCompat.getColor(this, R.color.colorCompleted)
-        colorDelivered = ContextCompat.getColor(this, R.color.colorDelivered)
-
-        drawableInProgress = ContextCompat.getDrawable(this, R.drawable.button_in_progress)
-        drawableCompleted = ContextCompat.getDrawable(this, R.drawable.button_completed)
-        drawableDelivered = ContextCompat.getDrawable(this, R.drawable.button_delivered)
+        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).dataRepository)
+        presenter.getOrderItems(order.orderId)
+        presenter.getUserDetails(order.customerId)
 
         rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvOrderItems.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
@@ -64,10 +52,10 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
 
         tvOrderId.text = order.orderId
         tvOrderTime.text = order.date.toString()
-
         tvAddress.text = order.deliveryAddress
         tvTotalPrice.text = order.totalPrice.toString()
         currentStatus = order.status
+
         if (order.additionalComments.isEmpty()) {
             tvComments.visibility = View.GONE
         } else {
@@ -84,10 +72,6 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
         btnCancelOrder.setOnClickListener {
             confirmCancelOrder()
         }
-
-        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).dataRepository)
-        presenter.getOrderItems(order.orderId)
-        presenter.getUserDetails(order.customerId)
     }
 
     override fun displayMessage(message: String) {
@@ -120,20 +104,25 @@ class OrderDetailsActivity : MenuBarActivity(), OrderDetailsView {
     private fun setStatusView() {
         when (currentStatus) {
             OrderStatus.PENDING -> {
-                viewStatus.setBackgroundColor(colorPending)
-                btnAdvanceOrder.background = drawableInProgress
+                viewStatus.setBackgroundColor(colorUtils.colorPending)
+                btnAdvanceOrder.setBackgroundColor(colorUtils.colorInProgress)
             }
             OrderStatus.INPROGRESS -> {
-                viewStatus.setBackgroundColor(colorInProgress)
-                btnAdvanceOrder.background = drawableCompleted
+                viewStatus.setBackgroundColor(colorUtils.colorInProgress)
+                btnAdvanceOrder.setBackgroundColor(colorUtils.colorCompleted)
             }
             OrderStatus.COMPLETED -> {
-                viewStatus.setBackgroundColor(colorCompleted)
+                viewStatus.setBackgroundColor(colorUtils.colorCompleted)
                 btnAdvanceOrder.visibility = View.GONE
                 btnCancelOrder.visibility = View.GONE
             }
             OrderStatus.CANCELLED -> {
-                viewStatus.setBackgroundColor(colorCancelled)
+                viewStatus.setBackgroundColor(colorUtils.colorCancelled)
+                btnAdvanceOrder.visibility = View.GONE
+                btnCancelOrder.visibility = View.GONE
+            }
+            OrderStatus.DELIVERED -> {
+                viewStatus.setBackgroundColor(colorUtils.colorDelivered)
                 btnAdvanceOrder.visibility = View.GONE
                 btnCancelOrder.visibility = View.GONE
             }

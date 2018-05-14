@@ -15,6 +15,7 @@ class JustJavaStaffApp : Application() {
     lateinit var auth: AuthenticationService
     lateinit var dataRepository: DataRepository
     lateinit var settingsRepository: SettingsRespository
+    lateinit var colorUtils: ColorUtils
 
     override fun onCreate() {
         super.onCreate()
@@ -30,5 +31,6 @@ class JustJavaStaffApp : Application() {
         auth = AuthServiceImpl()
         dataRepository = DataRepositoryImpl()
         settingsRepository = SettingsRepoImpl(this)
+        colorUtils = ColorUtils(this)
     }
 }

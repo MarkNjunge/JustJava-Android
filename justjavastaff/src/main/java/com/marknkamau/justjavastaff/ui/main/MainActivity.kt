@@ -10,12 +10,12 @@ import android.widget.Toast
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.models.Order
-import com.marknkamau.justjavastaff.ui.MenuBarActivity
+import com.marknkamau.justjavastaff.ui.BaseActivity
 import com.marknkamau.justjavastaff.ui.orderdetails.OrderDetailsActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : MenuBarActivity(), MainView {
+class MainActivity : BaseActivity(), MainView {
     private lateinit var presenter: MainActivityPresenter
     private lateinit var adapter: OrdersAdapter
 
