@@ -20,6 +20,7 @@ import com.marknkamau.justjava.ui.main.MainActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
+import kotlinx.android.synthetic.main.content_appbar.*
 import java.util.*
 
 class CheckoutActivity : BaseActivity(), CheckoutView {

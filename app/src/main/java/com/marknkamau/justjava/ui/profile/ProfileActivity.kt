@@ -16,6 +16,7 @@ import com.marknkamau.justjava.ui.BaseActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.content_appbar.*
 
 class ProfileActivity : BaseActivity(), ProfileView {
     private var name: String? = null

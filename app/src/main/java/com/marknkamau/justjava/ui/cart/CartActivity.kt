@@ -13,6 +13,7 @@ import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
+import kotlinx.android.synthetic.main.content_appbar.*
 
 class CartActivity : BaseActivity(), CartView {
     private lateinit var presenter: CartPresenter

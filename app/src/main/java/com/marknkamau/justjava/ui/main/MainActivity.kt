@@ -9,6 +9,7 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_appbar.*
 
 class MainActivity : BaseActivity(), MainView {
     private lateinit var presenter: MainPresenter
