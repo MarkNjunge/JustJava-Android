@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/tvTimestamp"
+        android:id="@+id/tvOrderId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -30,75 +30,45 @@
         android:alpha=".87"
         android:textColor="@android:color/black"
         android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/viewStatus"
+        app:layout_constraintStart_toEndOf="@+id/viewStatus"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="10:30 AM 24 Dec" />
+        tools:text="86e3f8b95d" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:alpha=".87"
-        android:text="@string/items"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintLeft_toRightOf="@+id/viewStatus"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimestamp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOrderId"
+        tools:text="10:30 AM, 12 May" />
 
     <TextView
         android:id="@+id/tvItemsCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:alpha=".87"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/textView6"
-        app:layout_constraintTop_toTopOf="@+id/textView6"
-        tools:text="1" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:alpha=".87"
-        android:text="@string/total"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/viewStatus"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/tvTotalPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:alpha=".87"
-        android:textColor="@android:color/black"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView7"
-        tools:text="Ksh. 200" />
-
-    <TextView
-        android:id="@+id/tvOrderId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:alpha=".87"
         android:textColor="@android:color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/viewStatus"
-        app:layout_constraintTop_toBottomOf="@+id/textView7"
-        tools:text="ozpxirmhmIadaCJ6b7neRXS78cp1" />
+        app:layout_constraintStart_toEndOf="@+id/viewStatus"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimestamp"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/items"
+        app:layout_constraintStart_toEndOf="@+id/tvItemsCount"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimestamp" />
 
 </android.support.constraint.ConstraintLayout>

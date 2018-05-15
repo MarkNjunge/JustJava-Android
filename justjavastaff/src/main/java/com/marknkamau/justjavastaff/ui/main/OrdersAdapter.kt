@@ -40,7 +40,6 @@ class OrdersAdapter(private val context: Context, private val onClick: (Order) -
             with(itemView) {
                 tvItemsCount.text = order.itemsCount.toString()
                 tvOrderId.text = order.orderId
-                tvTotalPrice.text = order.totalPrice.toString()
                 tvTimestamp.text = dateFormat.format(order.date)
                 val color = when (order.status) {
                     OrderStatus.PENDING -> ContextCompat.getColor(context, R.color.colorPending)
