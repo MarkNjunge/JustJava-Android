@@ -76,7 +76,7 @@ class DatabaseServiceImpl : DatabaseService {
         orderMap[DatabaseKeys.Order.address] = order.deliveryAddress
         orderMap[DatabaseKeys.Order.itemsCount] = order.itemsCount
         orderMap[DatabaseKeys.Order.totalPrice] = order.totalPrice
-        orderMap[DatabaseKeys.Order.status] = order.status
+        orderMap[DatabaseKeys.Order.status] = order.status.name
         orderMap[DatabaseKeys.Order.comments] = order.additionalComments
         orderMap[DatabaseKeys.Order.date] = FieldValue.serverTimestamp()
 
