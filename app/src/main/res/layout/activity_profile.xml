@@ -28,13 +28,12 @@
                 android:id="@+id/tilName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="8dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
                     android:id="@+id/etName"
@@ -54,9 +53,7 @@
                 android:id="@+id/tilPhone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilName">
@@ -86,7 +83,6 @@
                     android:id="@+id/etDeliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:ems="10"
@@ -118,32 +114,43 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="0dp"
-                android:background="@android:color/transparent"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
+                android:background="@color/colorAccent"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
                 android:text="@string/update_profile"
-                app:layout_constraintHorizontal_bias="0.501"
+                android:textColor="@android:color/white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pbSavingProfile" />
 
+            <View
+                android:id="@+id/view3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:alpha=".12"
+                android:background="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+
             <TextView
                 android:id="@+id/textView11"
-                style="@style/main_text"
+                style="@style/secondary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/previous_orders"
                 android:textAllCaps="false"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvPreviousOrders"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -170,11 +177,13 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:indeterminate="true"
                 android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11" />
