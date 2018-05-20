@@ -70,7 +70,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                             MpesaConfig.PARTY_B,
                             Utils.sanitizePhoneNumber(phoneNumber),
                             MpesaConfig.CALLBACK_URL + token,
-                            "Order: $orderId", //The account reference
+                            orderId, //The account reference
                             "Payment for order: $orderId") //The transaction description
 
                     val lnmHeader = "Bearer ${oAuthAccess.accessToken}"
