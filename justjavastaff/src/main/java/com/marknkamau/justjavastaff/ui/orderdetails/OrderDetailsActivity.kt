@@ -1,6 +1,9 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.support.transition.TransitionManager
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +18,8 @@ import com.marknkamau.justjavastaff.models.OrderStatus
 import com.marknkamau.justjavastaff.models.User
 import com.marknkamau.justjavastaff.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
+import kotlinx.android.synthetic.main.include_customer_details.*
+import kotlinx.android.synthetic.main.include_order_details.*
 
 class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
     companion object {
@@ -46,17 +51,18 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
         presenter.getUserDetails(order.customerId)
 
         rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rvOrderItems.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+//        rvOrderItems.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
         orderItemsAdapter = OrderItemsAdapter()
         rvOrderItems.adapter = orderItemsAdapter
 
         tvOrderId.text = order.orderId
-        tvOrderTime.text = order.date.toString()
-        tvAddress.text = order.deliveryAddress
-        tvTotalPrice.text = order.totalPrice.toString()
+        tvOrderDate.text = order.date.toString()
+        tvDeliveryAddress.text = order.deliveryAddress
+        tvTotalPrice.text = getString(R.string.ksh, order.totalPrice)
         currentStatus = order.status
 
         if (order.additionalComments.isEmpty()) {
+            tvCommentsLabel.visibility = View.GONE
             tvComments.visibility = View.GONE
         } else {
             tvComments.text = order.additionalComments
@@ -83,8 +89,14 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
     }
 
     override fun setUserDetails(user: User) {
-        tvName.text = user.name
-        tvPhone.text = user.phone
+        TransitionManager.beginDelayedTransition(sceneRoot)
+        cardCustomerDetails.visibility = View.VISIBLE
+        tvCustomerName.text = user.name
+        tvCustomerPhone.text = user.phone
+        imgCall.setOnClickListener {
+            val i = Intent(Intent.ACTION_DIAL, Uri.parse("tel:${user.phone}"))
+            startActivity(i)
+        }
     }
 
     override fun setOrderStatus(status: OrderStatus) {

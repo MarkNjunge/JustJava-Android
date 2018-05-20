@@ -14,8 +14,11 @@
 
     <string name="help">Help</string>
 
+
     <string name="in_progress">In progress</string>
     <string name="items">Items</string>
+
+    <string name="ksh">Ksh. %d</string>
 
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
@@ -49,4 +52,12 @@
     <string name="COMPLETED_ORDERS_KEY">preference_completed_orders</string>
     <string name="DELIVERED_ORDERS_KEY">preference_delivered_orders</string>
     <string name="CANCELLED_ORDERS_KEY">preference_cancelled_orders</string>
+    <string name="customer_details">Customer details</string>
+    <string name="order_id">Order ID</string>
+    <string name="customer_phone">Customer Phone</string>
+    <string name="additional_comments">Additional Comments</string>
+    <string name="order_items">Order Items</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="_8_30_pm_18_may_2018">8:30 PM, 18 May 2018</string>
+    <string name="order_date">Order Date</string>
 </resources>

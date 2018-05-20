@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.models.OrderItem
 import kotlinx.android.synthetic.main.item_order_item.view.*
-import timber.log.Timber
 
 class OrderItemsAdapter() : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<OrderItem>() }
@@ -24,21 +23,20 @@ class OrderItemsAdapter() : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>()
 
     override fun getItemCount() = items.size
 
-    fun setItems(items: MutableList<OrderItem>){
+    fun setItems(items: MutableList<OrderItem>) {
         this.items.clear()
         this.items.addAll(items)
         notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
-        fun bind(element: OrderItem) {
+        fun bind(item: OrderItem) {
             itemView.run {
-                Timber.i("Bingind")
-                tvItemName.text = element.itemName
-                tvItemQuantity.text = element.itemQty.toString()
-                tvChocolate.visibility = if(element.itemChoc) View.VISIBLE else View.GONE
-                tvCinnamon.visibility = if(element.itemCinnamon) View.VISIBLE else View.GONE
-                tvMarshmallows.visibility = if(element.itemMarshmallow) View.VISIBLE else View.GONE
+                tvItemName.text = item.itemName
+                tvItemQuantity.text = "x ${item.itemQty}"
+                tvChocolate.visibility = if (item.itemChoc) View.VISIBLE else View.GONE
+                tvCinnamon.visibility = if (item.itemCinnamon) View.VISIBLE else View.GONE
+                tvMarshmallows.visibility = if (item.itemMarshmallow) View.VISIBLE else View.GONE
             }
         }
     }
