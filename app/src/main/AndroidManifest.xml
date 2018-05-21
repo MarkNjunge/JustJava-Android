@@ -13,15 +13,18 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.main.MainActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
+            android:name=".ui.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.drinkdetails.DrinkDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
