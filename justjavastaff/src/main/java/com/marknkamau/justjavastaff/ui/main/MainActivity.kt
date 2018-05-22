@@ -28,7 +28,6 @@ class MainActivity : BaseActivity(), MainView {
         presenter = MainActivityPresenter(this, settings, ordersRepository)
 
         rvOrders.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvOrders.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
 
         adapter = OrdersAdapter(this){order ->
             goToDetails(order)
