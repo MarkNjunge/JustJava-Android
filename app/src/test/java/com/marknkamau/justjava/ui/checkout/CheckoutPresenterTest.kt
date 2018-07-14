@@ -6,6 +6,7 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.data.network.MpesaService
 import com.marknkamau.justjava.data.models.UserDetails
+import com.marknkamau.justjava.utils.mpesa.Mpesa
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -45,8 +46,9 @@ class CheckoutPresenterTest {
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
+        val mpesa = Mpesa("", "", mpesaService)
 
-        presenter = CheckoutPresenter(view, auth, preferences, database, mpesaService, cartDao)
+        presenter = CheckoutPresenter(view, auth, preferences, database, mpesa, cartDao)
     }
 
     @After

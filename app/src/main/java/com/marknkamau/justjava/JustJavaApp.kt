@@ -14,6 +14,7 @@ import com.marknkamau.justjava.data.network.db.DatabaseServiceImpl
 import com.marknkamau.justjava.data.network.MpesaService
 import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper
+import com.marknkamau.justjava.utils.mpesa.Mpesa
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
@@ -23,7 +24,7 @@ class JustJavaApp : MultiDexApplication() {
     lateinit var databaseService: DatabaseService
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
-    lateinit var mpesaService: MpesaService
+    lateinit var mpesa: Mpesa
 
     override fun onCreate() {
         super.onCreate()
@@ -41,7 +42,7 @@ class JustJavaApp : MultiDexApplication() {
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
         authService = AuthenticationServiceImpl
         databaseService = DatabaseServiceImpl()
-        mpesaService = NetworkProvider().mpesaService
+        mpesa = Mpesa(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET, NetworkProvider().mpesaService)
 
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
 

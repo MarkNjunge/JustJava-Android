@@ -12,7 +12,7 @@ data class STKPush(
         @SerializedName("TransactionType")
         private val transactionType: String,
         @SerializedName("Amount")
-        private val amount: String,
+        private val amount: Int,
         @SerializedName("PartyA")
         private val partyA: String,
         @SerializedName("PartyB")
