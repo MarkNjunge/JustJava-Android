@@ -1,8 +1,6 @@
 package com.marknkamau.justjava.data.network.db
 
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
+import com.google.firebase.firestore.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.OrderItem
@@ -82,12 +80,16 @@ class DatabaseServiceImpl : DatabaseService {
         orderMap[DatabaseKeys.Order.paymentMethod] = order.paymentMethod
         orderMap[DatabaseKeys.Order.paymentStatus] = order.paymentStatus
 
-        FirebaseInstanceId.getInstance().token?.let {
-            orderMap.put("fcmToken", it)
+        FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
+            if (it.isSuccessful) {
+                orderMap["fcmToken"] = it.result.token
+            }
+            placeOrder(orderRef, orderMap, orderItems, order, itemsRef, listener)
         }
 
-        fireStore.runTransaction { }
+    }
 
+    private fun placeOrder(orderRef: DocumentReference, orderMap: MutableMap<String, Any>, orderItems: List<OrderItem>, order: Order, itemsRef: CollectionReference, listener: DatabaseService.WriteListener) {
         fireStore
                 .runTransaction { transaction ->
                     transaction.set(orderRef, orderMap)
@@ -132,8 +134,10 @@ class DatabaseServiceImpl : DatabaseService {
                                 snapshot.data[DatabaseKeys.Order.comments] as String,
                                 OrderStatus.valueOf(snapshot.data[DatabaseKeys.Order.status] as String),
                                 snapshot.data[DatabaseKeys.Order.date] as Date,
-                                snapshot.data[DatabaseKeys.Order.paymentMethod] as String? ?: "cash",
-                                snapshot.data[DatabaseKeys.Order.paymentStatus] as String? ?: "unpaid"
+                                snapshot.data[DatabaseKeys.Order.paymentMethod] as String?
+                                        ?: "cash",
+                                snapshot.data[DatabaseKeys.Order.paymentStatus] as String?
+                                        ?: "unpaid"
 
                         )
                         orders.add(order)
