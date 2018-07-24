@@ -93,7 +93,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
     private fun placeOder() {
         if (validateInput()) {
-            presenter.placeOrder(orderId, address, comments)
+            presenter.placeOrder(orderId, address, comments, payCash)
         }
     }
 

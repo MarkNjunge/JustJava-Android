@@ -16,6 +16,8 @@ object DatabaseKeys{
         const val status = "status"
         const val comments = "comments"
         const val date = "date"
+        const val paymentMethod = "paymentMethod"
+        const val paymentStatus = "paymentStatus"
     }
 
     object OrderItem{

@@ -9,4 +9,6 @@ data class Order(val orderId: String,
                  val deliveryAddress: String,
                  val additionalComments: String,
                  val status: OrderStatus = OrderStatus.PENDING,
-                 val date:Date = Date())
+                 val date: Date = Date(),
+                 val paymentMethod: String,
+                 val paymentStatus: String = "unpaid")

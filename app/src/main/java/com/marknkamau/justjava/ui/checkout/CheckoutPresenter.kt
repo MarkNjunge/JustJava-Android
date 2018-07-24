@@ -29,8 +29,9 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         }
     }
 
-    fun placeOrder(orderId: String, address: String, comments: String) {
-        val order = Order(orderId, auth.getUserId()!!, 0, 0, address, comments)
+    fun placeOrder(orderId: String, address: String, comments: String, payCash: Boolean) {
+        val paymentMethod = if (payCash) "cash" else "mpesa"
+        val order = Order(orderId, auth.getUserId()!!, 0, 0, address, comments, paymentMethod = paymentMethod)
         activityView.showUploadBar()
 
         disposables.add(cart.getAll()

@@ -79,6 +79,8 @@ class DatabaseServiceImpl : DatabaseService {
         orderMap[DatabaseKeys.Order.status] = order.status.name
         orderMap[DatabaseKeys.Order.comments] = order.additionalComments
         orderMap[DatabaseKeys.Order.date] = FieldValue.serverTimestamp()
+        orderMap[DatabaseKeys.Order.paymentMethod] = order.paymentMethod
+        orderMap[DatabaseKeys.Order.paymentStatus] = order.paymentStatus
 
         FirebaseInstanceId.getInstance().token?.let {
             orderMap.put("fcmToken", it)
@@ -99,6 +101,8 @@ class DatabaseServiceImpl : DatabaseService {
                         itemsMap[DatabaseKeys.OrderItem.itemCinnamon] = item.itemCinnamon
                         itemsMap[DatabaseKeys.OrderItem.itemChoc] = item.itemChoc
                         itemsMap[DatabaseKeys.OrderItem.itemMarshmallow] = item.itemMarshmallow
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
                         itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
 
                         val reference = itemsRef.document("${order.orderId}-$i")
@@ -127,7 +131,10 @@ class DatabaseServiceImpl : DatabaseService {
                                 snapshot.data[DatabaseKeys.Order.address] as String,
                                 snapshot.data[DatabaseKeys.Order.comments] as String,
                                 OrderStatus.valueOf(snapshot.data[DatabaseKeys.Order.status] as String),
-                                snapshot.data[DatabaseKeys.Order.date] as Date
+                                snapshot.data[DatabaseKeys.Order.date] as Date,
+                                snapshot.data[DatabaseKeys.Order.paymentMethod] as String? ?: "cash",
+                                snapshot.data[DatabaseKeys.Order.paymentStatus] as String? ?: "unpaid"
+
                         )
                         orders.add(order)
                     }
