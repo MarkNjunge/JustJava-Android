@@ -47,12 +47,11 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         val mpesa = (application as JustJavaApp).mpesa
         val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
-        presenter = CheckoutPresenter(this, authService, preferencesRepo, database, mpesa, cart)
+        presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
 
         rgPayment.setOnCheckedChangeListener { _, checkedId ->
             val text = findViewById<RadioButton>(checkedId).text
             payCash = text == getString(R.string.cash_on_delivery)
-            btnPay.visibility = if (payCash) View.GONE else View.VISIBLE
         }
 
         btnPlaceOrder.setOnClickListener {
@@ -60,22 +59,6 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
                 placeOder()
             } else {
                 Toast.makeText(this, getString(R.string.check_your_internet_connection), Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        btnPay.setOnClickListener {
-            val phoneNumber = etPhone.trimmedText
-            if (phoneNumber.isNotEmpty()) {
-                val dialog = AlertDialog.Builder(this@CheckoutActivity)
-                        .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?")
-                        .setTitle("Confirm payment")
-                        .setPositiveButton("Ok", { _, _ ->
-                            presenter.makeMpesaPayment(1, phoneNumber, orderId)
-                        })
-                        .setNegativeButton("cancel", { dialogInterface, _ -> dialogInterface.dismiss() })
-                        .create()
-
-                dialog.show()
             }
         }
 

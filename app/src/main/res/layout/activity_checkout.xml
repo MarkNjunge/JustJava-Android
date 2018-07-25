@@ -171,20 +171,5 @@
                 android:text="@string/m_pesa" />
         </RadioGroup>
 
-        <Button
-            android:id="@+id/btnPay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/large_button"
-            android:text="@string/pay"
-            android:textColor="@android:color/white"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/rgPayment"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/rgPayment" />
-
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

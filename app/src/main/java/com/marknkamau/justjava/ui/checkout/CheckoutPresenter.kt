@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.checkout
 
-import android.util.Base64
 import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
@@ -13,13 +12,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import com.marknkamau.justjava.utils.mpesa.Mpesa
 
 internal class CheckoutPresenter(private val activityView: CheckoutView,
                                  private val auth: AuthenticationService,
                                  private val preferences: PreferencesRepository,
                                  private val database: DatabaseService,
-                                 private val mpesa: Mpesa,
                                  private val cart: CartDao) : BasePresenter() {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
@@ -46,21 +43,6 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                         }
                 ))
 
-    }
-
-    fun makeMpesaPayment(total: Int, phoneNumber: String, orderId: String) {
-        mpesa.sendStkPush(total, phoneNumber, orderId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { lnmPaymentResponse ->
-                            activityView.displayMessage(lnmPaymentResponse.customerMessage)
-                        },
-                        { t ->
-                            Timber.e(t)
-                            activityView.displayMessage(t.message)
-                        }
-                )
     }
 
     private fun placeOrderInternal(items: MutableList<OrderItem>, order: Order) {

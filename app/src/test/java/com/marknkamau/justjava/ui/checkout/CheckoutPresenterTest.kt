@@ -37,8 +37,6 @@ class CheckoutPresenterTest {
     private lateinit var database: DatabaseService
     @Mock
     private lateinit var cartDao: CartDao
-    @Mock
-    private lateinit var mpesaService: MpesaService
 
     private lateinit var presenter: CheckoutPresenter
 
@@ -46,9 +44,8 @@ class CheckoutPresenterTest {
     fun setup() {
         RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
         RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-        val mpesa = Mpesa("", "", mpesaService)
 
-        presenter = CheckoutPresenter(view, auth, preferences, database, mpesa, cartDao)
+        presenter = CheckoutPresenter(view, auth, preferences, database, cartDao)
     }
 
     @After
