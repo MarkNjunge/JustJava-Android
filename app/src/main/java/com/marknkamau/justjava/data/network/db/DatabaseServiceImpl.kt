@@ -151,8 +151,35 @@ class DatabaseServiceImpl : DatabaseService {
 
     }
 
-    override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
+    override fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener) {
+        fireStore.collection("orderItems").whereEqualTo("orderId", orderId)
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val items = ArrayList<OrderItem>()
+                    val documents = querySnapshot.documents
 
+                    for (document in documents) {
+                        val data = document.data
+                        data?.let {
+                            val orderItem = OrderItem(
+                                    0,
+                                    data["itemName"].toString(),
+                                    (data["itemQty"] as Long).toInt(),
+                                    data["itemCinnamon"] as Boolean,
+                                    data["itemChoc"] as Boolean,
+                                    data["itemMarshmallow"] as Boolean,
+                                    (data["itemPrice"] as Long).toInt()
+                            )
+                            items.add(orderItem)
+                        }
+                    }
+
+                    listener.onSuccess(items)
+                }
+                .addOnFailureListener { e ->
+                    Timber.e(e)
+                    listener.onError(e.message ?: "Error getting order items")
+                }
     }
 
 }

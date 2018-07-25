@@ -13,6 +13,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -32,7 +33,9 @@ class ProfileActivity : BaseActivity(), ProfileView {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        adapter = PreviousOrderAdapter(this)
+        adapter = PreviousOrderAdapter(this) { order ->
+            PreviousOrderActivity.start(this, order)
+        }
 
         rvPreviousOrders.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         rvPreviousOrders.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))

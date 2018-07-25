@@ -16,7 +16,7 @@ interface DatabaseService {
 
     fun getPreviousOrders(userId: String, listener: PreviousOrdersListener)
 
-    fun getOrder(orderId: String, listener: OrderListener)
+    fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener)
 
     interface DatabaseListener {
         fun onError(reason: String)
@@ -36,5 +36,9 @@ interface DatabaseService {
 
     interface OrderListener : DatabaseListener {
         fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String)
+    }
+
+    interface OrderItemsListener : DatabaseListener {
+        fun onSuccess(items: List<OrderItem>)
     }
 }
