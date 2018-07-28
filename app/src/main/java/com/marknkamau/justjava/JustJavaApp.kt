@@ -3,6 +3,7 @@ package com.marknkamau.justjava
 import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
 import android.support.multidex.MultiDexApplication
+import android.support.v4.content.LocalBroadcastManager
 import com.crashlytics.android.Crashlytics
 import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.network.authentication.AuthenticationServiceImpl
@@ -25,6 +26,7 @@ class JustJavaApp : MultiDexApplication() {
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
     lateinit var mpesa: Mpesa
+    lateinit var broadcastManager: LocalBroadcastManager
 
     override fun onCreate() {
         super.onCreate()
@@ -47,6 +49,8 @@ class JustJavaApp : MultiDexApplication() {
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
 
         notificationHelper = NotificationHelper(this)
+
+        broadcastManager = LocalBroadcastManager.getInstance(this)
     }
 
 }
