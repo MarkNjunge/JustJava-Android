@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.ui.previousOrder
 
 import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
 import com.marknkamau.justjava.utils.mpesa.Mpesa
@@ -16,7 +17,9 @@ import timber.log.Timber
 
 class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val databaseService: DatabaseService,
-                             private val mpesa: Mpesa) : BasePresenter() {
+                             private val mpesa: Mpesa,
+                             private val authService: AuthenticationService)
+    : BasePresenter() {
     fun getOrderItems(orderId: String) {
         databaseService.getOrderItems(orderId, object : DatabaseService.OrderItemsListener {
             override fun onSuccess(items: List<OrderItem>) {
@@ -37,6 +40,13 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                 .subscribe(
                         { lnmPaymentResponse ->
                             view.displayMessage(lnmPaymentResponse.customerMessage)
+                            if (lnmPaymentResponse.responseCode == "0") {
+                                databaseService.savePaymentRequest(
+                                        lnmPaymentResponse.merchantRequestId,
+                                        lnmPaymentResponse.checkoutRequestId,
+                                        orderId, authService.getUserId() ?: ""
+                                )
+                            }
                         },
                         { t ->
                             Timber.e(t)

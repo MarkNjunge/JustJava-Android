@@ -28,4 +28,12 @@ object DatabaseKeys{
         const val itemMarshmallow = "itemMarshmallow"
         const val itemPrice = "itemPrice"
     }
+
+    object Payment{
+        const val CHECKOUT_REQUEST_ID = "checkoutRequestId"
+        const val MERCHANT_REQUEST_ID = "merchantRequestId"
+        const val ORDER_ID = "orderId"
+        const val CUSTOMER_ID = "customerId"
+        const val STATUS = "status"
+    }
 }

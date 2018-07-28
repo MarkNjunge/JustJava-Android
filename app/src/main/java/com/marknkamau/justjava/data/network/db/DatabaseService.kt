@@ -18,6 +18,8 @@ interface DatabaseService {
 
     fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener)
 
+    fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId:String)
+
     interface DatabaseListener {
         fun onError(reason: String)
     }

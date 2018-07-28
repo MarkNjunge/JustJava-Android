@@ -40,7 +40,8 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
 
         val mpesa = (application as JustJavaApp).mpesa
         val preferencesRepo = (application as JustJavaApp).preferencesRepo
-        presenter = PreviousOrderPresenter(this, (application as JustJavaApp).databaseService, mpesa)
+        val authService = (application as JustJavaApp).authService
+        presenter = PreviousOrderPresenter(this, (application as JustJavaApp).databaseService, mpesa, authService)
 
         tvOrderId.text = order.orderId
         tvOrderStatus.text = order.status.name.toLowerCase().capitalize()

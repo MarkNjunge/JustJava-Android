@@ -182,4 +182,19 @@ class DatabaseServiceImpl : DatabaseService {
                 }
     }
 
+    override fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String) {
+        val map = mapOf(
+                Pair(DatabaseKeys.Payment.CHECKOUT_REQUEST_ID, checkoutRequestId),
+                Pair(DatabaseKeys.Payment.MERCHANT_REQUEST_ID, merchantRequestId),
+                Pair(DatabaseKeys.Payment.ORDER_ID, orderId),
+                Pair(DatabaseKeys.Payment.CUSTOMER_ID, customerId),
+                Pair(DatabaseKeys.Payment.STATUS, "pending")
+        )
+
+        fireStore.collection("payments")
+                .document()
+                .set(map)
+                .addOnFailureListener { exception -> Timber.e(exception) }
+    }
+
 }
