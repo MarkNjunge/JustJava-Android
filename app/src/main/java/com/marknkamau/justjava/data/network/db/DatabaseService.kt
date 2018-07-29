@@ -18,7 +18,9 @@ interface DatabaseService {
 
     fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener)
 
-    fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId:String)
+    fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String)
+
+    fun getOrder(orderId: String, listener: OrderListener)
 
     interface DatabaseListener {
         fun onError(reason: String)
@@ -36,11 +38,11 @@ interface DatabaseService {
         fun onSuccess(previousOrders: MutableList<Order>)
     }
 
-    interface OrderListener : DatabaseListener {
-        fun taskSuccessful(deliveryAddress: String, timestamp: String, totalPrice: String, orderStatus: String)
-    }
-
     interface OrderItemsListener : DatabaseListener {
         fun onSuccess(items: List<OrderItem>)
+    }
+
+    interface OrderListener : DatabaseListener {
+        fun onSuccess(order: Order)
     }
 }

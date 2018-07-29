@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.include_order_details.*
 import timber.log.Timber
 
 class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
+
 
     companion object {
         private const val ORDER_KEY = "order_key"
@@ -38,6 +40,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     private lateinit var presenter: PreviousOrderPresenter
     private lateinit var broadcastManager: LocalBroadcastManager
     private lateinit var broadcastReceiver: BroadcastReceiver
+    private lateinit var preferencesRepo: PreferencesRepository
     private lateinit var order: Order
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +51,67 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
         order = intent.getParcelableExtra(ORDER_KEY)
 
         val mpesa = (application as JustJavaApp).mpesa
-        val preferencesRepo = (application as JustJavaApp).preferencesRepo
+        preferencesRepo = (application as JustJavaApp).preferencesRepo
         val authService = (application as JustJavaApp).authService
         presenter = PreviousOrderPresenter(this, (application as JustJavaApp).databaseService, mpesa, authService)
 
+        updateViews(order)
+
+        orderItemsAdapter = OrderItemsAdapter()
+        rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvOrderItems.adapter = orderItemsAdapter
+
+
+        presenter.getOrderItems(order.orderId)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.action == MyFirebaseMessagingService.MPESA_ORDER_PAID_ACTION) {
+                    val orderId = intent.getStringExtra(MyFirebaseMessagingService.ORDER_ID)
+                    Timber.d("Payment received for order $orderId")
+                    if (order.orderId == orderId) {
+                        Timber.d("The current order has been paid for!")
+                        btnPay.visibility = View.GONE
+                        tvPaymentStatus.text = "Paid"
+                        displayMessage("Payment received!")
+                    }
+                }
+            }
+        }
+
+        broadcastManager.registerReceiver(broadcastReceiver, IntentFilter(MyFirebaseMessagingService.MPESA_ORDER_PAID_ACTION))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.getOrderDetails(order.orderId)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        broadcastManager.unregisterReceiver(broadcastReceiver)
+    }
+
+    override fun displayOrderItems(orderItems: List<OrderItem>) {
+        cardOrderItems.visibility = View.VISIBLE
+        orderItemsAdapter.setItems(orderItems)
+    }
+
+    override fun displayMessage(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun displayOrder(order: Order) {
+        this.order = order
+        updateViews(order)
+    }
+
+    private fun updateViews(order: Order) {
         tvOrderId.text = order.orderId
         tvOrderStatus.text = order.status.name.toLowerCase().capitalize()
         tvOrderDate.text = order.date.formatForApp()
@@ -84,47 +144,5 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
 
             dialog.show()
         }
-
-        orderItemsAdapter = OrderItemsAdapter()
-        rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rvOrderItems.adapter = orderItemsAdapter
-
-        presenter.getOrderItems(order.orderId)
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        broadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-                if (intent.action == MyFirebaseMessagingService.MPESA_ORDER_PAID_ACTION) {
-                    val orderId = intent.getStringExtra(MyFirebaseMessagingService.ORDER_ID)
-                    Timber.d("Payment received for order $orderId")
-                    if (order.orderId == orderId) {
-                        Timber.d("The current order has been paid for!")
-                        btnPay.visibility = View.GONE
-                        tvPaymentStatus.text = "Paid"
-                        displayMessage("Payment received!")
-                    }
-                }
-            }
-        }
-
-        broadcastManager.registerReceiver(broadcastReceiver, IntentFilter(MyFirebaseMessagingService.MPESA_ORDER_PAID_ACTION))
-    }
-
-    override fun onStop() {
-        super.onStop()
-        broadcastManager.unregisterReceiver(broadcastReceiver)
-    }
-
-    override fun displayOrderItems(orderItems: List<OrderItem>) {
-        cardOrderItems.visibility = View.VISIBLE
-        orderItemsAdapter.setItems(orderItems)
-    }
-
-    override fun displayMessage(message: String?) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

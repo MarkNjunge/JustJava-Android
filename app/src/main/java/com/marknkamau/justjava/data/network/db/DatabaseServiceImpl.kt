@@ -197,4 +197,33 @@ class DatabaseServiceImpl : DatabaseService {
                 .addOnFailureListener { exception -> Timber.e(exception) }
     }
 
+    override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
+        fireStore.collection("orders").document(orderId)
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    snapshot.data?.let { data ->
+
+                        val order = Order(
+                                data[DatabaseKeys.Order.orderId] as String,
+                                data[DatabaseKeys.Order.customerId] as String,
+                                (data[DatabaseKeys.Order.itemsCount] as Long).toInt(),
+                                (data[DatabaseKeys.Order.totalPrice] as Long).toInt(),
+                                data[DatabaseKeys.Order.address] as String,
+                                data[DatabaseKeys.Order.comments] as String,
+                                OrderStatus.valueOf(data[DatabaseKeys.Order.status] as String),
+                                data[DatabaseKeys.Order.date] as Date,
+                                data[DatabaseKeys.Order.paymentMethod] as String? ?: "cash",
+                                data[DatabaseKeys.Order.paymentStatus] as String? ?: "unpaid"
+
+                        )
+
+                        listener.onSuccess(order)
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Timber.e(e)
+                    listener.onError(e.message ?: "Error getting order items")
+                }
+    }
+
 }

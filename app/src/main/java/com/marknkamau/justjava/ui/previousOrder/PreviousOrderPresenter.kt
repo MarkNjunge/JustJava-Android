@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.ui.previousOrder
 
+import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.network.db.DatabaseService
@@ -20,6 +21,20 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val mpesa: Mpesa,
                              private val authService: AuthenticationService)
     : BasePresenter() {
+
+    fun getOrderDetails(orderId: String){
+        databaseService.getOrder(orderId, object: DatabaseService.OrderListener{
+            override fun onSuccess(order: Order) {
+                view.displayOrder(order)
+            }
+
+            override fun onError(reason: String) {
+                Timber.e(reason)
+                view.displayMessage(reason)
+            }
+        })
+    }
+
     fun getOrderItems(orderId: String) {
         databaseService.getOrderItems(orderId, object : DatabaseService.OrderItemsListener {
             override fun onSuccess(items: List<OrderItem>) {
