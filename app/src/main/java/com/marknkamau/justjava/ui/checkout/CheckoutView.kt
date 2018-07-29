@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.ui.checkout
 
+import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.UserDetails
 import com.marknkamau.justjava.ui.BaseView
 
@@ -9,5 +10,5 @@ interface CheckoutView : BaseView {
     fun setDisplayToLoggedOut()
     fun showUploadBar()
     fun hideUploadBar()
-    fun finishActivity()
+    fun finishActivity(order: Order)
 }

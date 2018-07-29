@@ -62,7 +62,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                                 onComplete = {
                                     activityView.hideUploadBar()
                                     activityView.displayMessage("Order placed")
-                                    activityView.finishActivity()
+                                    activityView.finishActivity(order)
                                 },
                                 onError = { t: Throwable? ->
                                     Timber.e(t)

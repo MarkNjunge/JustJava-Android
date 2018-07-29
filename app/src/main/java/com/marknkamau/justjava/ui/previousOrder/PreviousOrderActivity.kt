@@ -27,7 +27,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
 
 
     companion object {
-        private const val ORDER_KEY = "order_key"
+        const val ORDER_KEY = "order_key"
         fun start(context: Context, order: Order) {
             val i = Intent(context, PreviousOrderActivity::class.java)
             i.putExtra(ORDER_KEY, order)

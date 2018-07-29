@@ -1,9 +1,11 @@
 package com.marknkamau.justjava.ui.checkout
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.support.v4.app.TaskStackBuilder
 import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
@@ -13,10 +15,12 @@ import com.marknkamau.justjava.BuildConfig
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.UserDetails
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
+import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
@@ -107,12 +111,15 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         btnPlaceOrder.isEnabled = true
     }
 
-    override fun finishActivity() {
-        val intent = Intent(this@CheckoutActivity, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        startActivity(intent)
+    override fun finishActivity(order: Order) {
+        val i = Intent(this, PreviousOrderActivity::class.java)
+        i.putExtra(PreviousOrderActivity.ORDER_KEY, order)
+
+        TaskStackBuilder.create(this)
+                .addNextIntentWithParentStack(Intent(this, MainActivity::class.java))
+                .addNextIntentWithParentStack(i)
+                .startActivities()
+
         finish()
     }
 
