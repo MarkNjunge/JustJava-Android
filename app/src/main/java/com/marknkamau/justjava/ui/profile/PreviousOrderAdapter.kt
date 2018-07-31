@@ -34,10 +34,9 @@ class PreviousOrderAdapter(private val context: Context, private val onClick: (o
         @SuppressLint("SetTextI18n")
         fun bind(order: Order, context: Context, onClick: (order: Order) -> Unit) {
             itemView.tvTimestamp.text = order.date.formatForApp()
-            itemView.tvPrice.text = context.getString(R.string.price_listing, order.totalPrice)
             itemView.tvStatus.text = order.status.name.toLowerCase().capitalize()
             itemView.tvAddress.text = order.deliveryAddress
-            itemView.tvItems.text = order.itemsCount.toString()
+            itemView.tvOrderInfo.text = context.resources.getQuantityString(R.plurals.order_info, order.itemsCount, order.itemsCount, order.totalPrice)
 
             itemView.rootLayout.setOnClickListener {
                 onClick(order)

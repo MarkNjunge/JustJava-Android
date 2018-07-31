@@ -39,4 +39,13 @@
         <item name="android:colorBackground">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="DarkInputField">
+        <item name="android:background">@drawable/input_field</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/colorPrimaryLight</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
 </resources>

@@ -66,7 +66,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
                 }
             btnSignup -> createUser()
             tvLogin -> {
-                startActivity(Intent(this@SignUpActivity, LogInActivity::class.java))
                 finish()
             }
         }

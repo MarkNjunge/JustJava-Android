@@ -40,7 +40,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTimestamp" />
 
     <TextView
-        android:id="@+id/tvItems"
+        android:id="@+id/tvOrderInfo"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,35 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAddress"
-        tools:text="1" />
-
-    <TextView
-        android:id="@+id/textView2"
-        style="@style/main_text_alt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/item_s"
-        app:layout_constraintStart_toEndOf="@+id/tvItems"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
-
-    <TextView
-        android:id="@+id/textView4"
-        style="@style/main_text_alt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/for_"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/tvAddress" />
-
-    <TextView
-        android:id="@+id/tvPrice"
-        style="@style/main_text_alt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        tools:text="1 item for Ksh 1700" />
 
 </android.support.constraint.ConstraintLayout>

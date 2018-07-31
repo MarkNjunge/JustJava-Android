@@ -58,7 +58,6 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
             tvForgotPass -> resetUserPassword()
             tvSignup -> {
                 startActivity(Intent(this@LogInActivity, SignUpActivity::class.java))
-                finish()
             }
         }
     }
