@@ -23,7 +23,4 @@ interface CartDao{
 
     @Update
     fun updateItem(item: OrderItem)
-
-    @Query("UPDATE sqlite_sequence SET seq = (SELECT MAX(itemName) FROM cart) WHERE name='cart'")
-    fun resetIndex()
 }

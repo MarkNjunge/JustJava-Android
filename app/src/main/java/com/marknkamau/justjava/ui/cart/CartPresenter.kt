@@ -59,7 +59,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                             loadItems()
                         },
                         onError = {throwable ->
-                            Timber.e(throwable.message)
+                            Timber.e(throwable)
                             activityView.displayMessage(throwable.message)
                         }
                 )
@@ -75,7 +75,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                             loadItems()
                         },
                         onError = {throwable ->
-                            Timber.e(throwable.message)
+                            Timber.e(throwable)
                             activityView.displayMessage(throwable.message)
                         }
                 )

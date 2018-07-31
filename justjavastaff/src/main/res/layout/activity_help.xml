@@ -17,7 +17,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
-        android:id="@+id/tv_pending"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,7 +40,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view_pending" />
 
     <TextView
-        android:id="@+id/tv_in_progress"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,7 +63,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view_in_progress" />
 
     <TextView
-        android:id="@+id/tv_completed"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +86,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view_completed" />
 
     <TextView
-        android:id="@+id/tv_delivered"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +109,6 @@
         app:layout_constraintTop_toBottomOf="@+id/view_delivered" />
 
     <TextView
-        android:id="@+id/tv_cancelled"
         style="@style/main_text_alt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

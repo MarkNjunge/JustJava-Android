@@ -17,13 +17,13 @@ import io.reactivex.Single
 
 class Mpesa(private val consumerKey: String, private val consumerSecret: String, private val mpesaService: MpesaService) {
 
-   object Config{
-       val BUSINESS_SHORT_CODE = "174379"
-       val PARTY_B = "174379"
-       val TRANSACTION_TYPE = "CustomerPayBillOnline"
-       val PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
-       val CALLBACK_URL = "https://us-central1-justjava-android.cloudfunctions.net/callback_url/"
-   }
+    object Config {
+        val BUSINESS_SHORT_CODE = "174379"
+        val PARTY_B = "174379"
+        val TRANSACTION_TYPE = "CustomerPayBillOnline"
+        val PASSKEY = "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+        val CALLBACK_URL = "https://us-central1-justjava-android.cloudfunctions.net/callback_url/"
+    }
 
     private fun getAccessToken(): Single<OAuthAccess> {
         val keys = "$consumerKey:$consumerSecret"
@@ -32,8 +32,7 @@ class Mpesa(private val consumerKey: String, private val consumerSecret: String,
         return mpesaService.getAccessToken(accessTokenHeader)
     }
 
-    fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String): Single<LNMPaymentResponse> {
-        val token = FirebaseInstanceId.getInstance().token
+    fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): Single<LNMPaymentResponse> {
         val timestamp = Utils.timestampNow
         val stkPush = STKPush(
                 Config.BUSINESS_SHORT_CODE,
@@ -44,7 +43,7 @@ class Mpesa(private val consumerKey: String, private val consumerSecret: String,
                 Utils.sanitizePhoneNumber(phoneNumber),
                 Config.PARTY_B,
                 Utils.sanitizePhoneNumber(phoneNumber),
-                Config.CALLBACK_URL + token,
+                Config.CALLBACK_URL + fcmToken,
                 accountRef, //The account reference
                 "Payment for order: $accountRef") //The transaction description
 

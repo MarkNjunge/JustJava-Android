@@ -1,20 +1,16 @@
 package com.marknkamau.justjava.ui.signup
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
-
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.login.LogInActivity
-
-import java.util.regex.Pattern
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private lateinit var name: String

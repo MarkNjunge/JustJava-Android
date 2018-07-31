@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.utils
 
+import android.annotation.SuppressLint
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -10,6 +11,7 @@ import java.util.*
  * https://github.com/MarkNjunge
  */
 
+@SuppressLint("SimpleDateFormat")
 fun Date.formatForApp(): String {
     try {
         val simpleDateFormat = SimpleDateFormat("hh:mm a, d MMM")

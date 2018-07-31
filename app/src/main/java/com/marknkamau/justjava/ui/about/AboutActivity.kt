@@ -8,13 +8,9 @@ import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.Toast
 import com.marknkamau.justjava.BuildConfig
-
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.Library
-
 import kotlinx.android.synthetic.main.activity_about.*
 
 class AboutActivity : AppCompatActivity(), View.OnClickListener {

@@ -64,17 +64,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:alpha=".87"
         android:clickable="true"
         android:padding="8dp"
+        android:contentDescription="@string/minus_quantity_button_content_desc"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_remove" />
+        app:srcCompat="@drawable/ic_remove"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/tvQuantity"
@@ -98,13 +100,15 @@
         android:layout_marginStart="8dp"
         android:alpha=".87"
         android:clickable="true"
+        android:contentDescription="@string/add_quantity_button_content_desc"
         android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/tvQuantity"
         app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
-        app:srcCompat="@drawable/ic_add" />
+        app:srcCompat="@drawable/ic_add"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/textView6"

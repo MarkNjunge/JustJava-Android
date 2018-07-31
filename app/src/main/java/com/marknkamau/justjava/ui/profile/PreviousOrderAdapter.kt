@@ -10,9 +10,6 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.item_previous_order.view.*
-import timber.log.Timber
-import java.text.SimpleDateFormat
-import java.util.*
 
 class PreviousOrderAdapter(private val context: Context, private val onClick: (order: Order) -> Unit) : RecyclerView.Adapter<PreviousOrderAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<Order>() }

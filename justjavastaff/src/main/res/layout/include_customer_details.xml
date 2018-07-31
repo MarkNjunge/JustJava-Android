@@ -42,7 +42,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCustomerName" />
 
         <TextView
-            android:id="@+id/tvCustomerPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -55,7 +54,6 @@
             tools:text="0712345678" />
 
         <ImageView
-            android:id="@+id/imgCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"

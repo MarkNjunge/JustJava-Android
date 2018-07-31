@@ -11,7 +11,6 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -28,7 +27,6 @@
             tools:text="5769abcc92" />
 
         <TextView
-            android:id="@+id/textView8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -36,7 +34,6 @@
             android:text="@string/order_date" />
 
         <TextView
-            android:id="@+id/tvOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -45,7 +42,6 @@
             android:textColor="@android:color/black" />
 
         <TextView
-            android:id="@+id/textView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -53,7 +49,6 @@
             android:text="@string/delivery_address" />
 
         <TextView
-            android:id="@+id/tvDeliveryAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -63,7 +58,6 @@
             tools:text="Nairobi" />
 
         <TextView
-            android:id="@+id/tvCommentsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -71,7 +65,6 @@
             android:text="@string/additional_comments" />
 
         <TextView
-            android:id="@+id/tvComments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -80,7 +73,6 @@
             tools:text="Some other comments" />
 
         <TextView
-            android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -88,7 +80,6 @@
             android:text="@string/total_price" />
 
         <TextView
-            android:id="@+id/tvTotalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
