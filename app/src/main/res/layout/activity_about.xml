@@ -29,31 +29,15 @@
 
         <ImageView
             android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:srcCompat="@drawable/ic_just_java_logo" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView5"
-            app:srcCompat="@drawable/ic_just_java_text" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:srcCompat="@drawable/ic_just_java_logo" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
@@ -72,7 +56,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/developer"
             android:textColor="@color/colorAccent"
-            android:textSize="17sp"
+            android:textSize="14sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSource" />
 
@@ -81,12 +65,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            android:text="@string/mark_njung_e_kamau"
+            android:text="Mark Njung'e"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -95,11 +78,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
             android:alpha=".54"
             android:text="@string/mark_kamau_outlook_com"
             android:textColor="@android:color/white"
-            android:textSize="14sp"
+            android:textSize="17sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
@@ -110,11 +92,12 @@
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            app:layout_constraintLeft_toLeftOf="@+id/textView10"
-            app:layout_constraintRight_toLeftOf="@+id/imgLinkedin"
+            app:layout_constraintEnd_toStartOf="@+id/imgLinkedin"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
-            app:srcCompat="@drawable/ic_mail"
-            app:layout_constraintHorizontal_chainStyle="spread_inside" />
+            app:srcCompat="@drawable/ic_mail" />
 
         <ImageView
             android:id="@+id/imgLinkedin"
@@ -122,8 +105,9 @@
             android:layout_height="24dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            app:layout_constraintLeft_toRightOf="@+id/imgMail"
-            app:layout_constraintRight_toLeftOf="@+id/imgGithub"
+            app:layout_constraintEnd_toStartOf="@+id/imgGithub"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imgMail"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_linkedin_tm" />
 
@@ -134,8 +118,9 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".54"
-            app:layout_constraintLeft_toRightOf="@+id/imgLinkedin"
-            app:layout_constraintRight_toRightOf="@+id/textView10"
+            app:layout_constraintEnd_toStartOf="@+id/imgWebsite"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imgLinkedin"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
             app:srcCompat="@drawable/ic_github_mark" />
 
@@ -145,14 +130,97 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:alpha=".54"
             android:text="@string/source_code"
             android:textColor="@android:color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+            app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17"
+            tools:text="v1.0.0" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/arimo"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="32sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/imgBack"
+            app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Legal"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgMail" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".54"
+            android:text="App icon: Coffee by Nikita Tcherednikov from the Noun Project"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+        <ImageView
+            android:id="@+id/imgWebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:alpha=".54"
+            app:layout_constraintEnd_toEndOf="@+id/textView10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/imgGithub"
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:srcCompat="@drawable/ic_website" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:alpha=".54"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="Open Source Libraries"
+            android:textColor="@android:color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

@@ -22,6 +22,7 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
         imgMail.setOnClickListener(this)
         imgLinkedin.setOnClickListener(this)
         imgGithub.setOnClickListener(this)
+        imgWebsite.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
@@ -29,15 +30,10 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
             tvSource -> openUrl("https://github.com/MarkNjunge/JustJava-Android")
             imgBack -> finish()
             imgMail -> sendEmail()
-            imgLinkedin -> openLinkedInProfile()
+            imgLinkedin -> openUrl("https://linkedin.com/in/marknjunge")
             imgGithub -> openUrl("https://github.com/MarkNjunge")
+            imgWebsite -> openUrl("https://marknjunge.com")
         }
-    }
-
-    private fun openLinkedInProfile() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://linkedin.com/in/marknkamau"))
-        Toast.makeText(this, "linkedin.com/in/marknkamau", Toast.LENGTH_LONG).show()
-        startActivity(intent)
     }
 
     private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
