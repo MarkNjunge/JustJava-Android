@@ -81,7 +81,7 @@
     <string name="add_quantity_button_content_desc">Add quantity button</string>
 
     <plurals name="order_info">
-        <item quantity="one">%d item for Ksh. %d</item>
-        <item quantity="other">%d items for Ksh. %d</item>
+        <item quantity="one" formatted="true">%d item for Ksh. %d</item>
+        <item quantity="other" formatted="true">%d items for Ksh. %d</item>
     </plurals>
 </resources>
