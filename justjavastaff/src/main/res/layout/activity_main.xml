@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvOrders"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fadeScrollbars="false"
