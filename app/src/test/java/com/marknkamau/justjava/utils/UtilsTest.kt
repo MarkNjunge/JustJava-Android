@@ -3,8 +3,6 @@ package com.marknkamau.justjava.utils
 import org.junit.Assert
 import org.junit.Test
 
-import org.junit.Assert.*
-
 /**
  * Created by MarkNjunge.
  * mark.kamau@outlook.com

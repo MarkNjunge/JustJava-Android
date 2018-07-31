@@ -21,7 +21,7 @@
             <FrameLayout
                 android:id="@+id/frameLayout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -40,7 +40,7 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="bottom"
                     app:srcCompat="@drawable/fade" />
 
@@ -50,7 +50,7 @@
                 android:id="@+id/view2"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="48dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 app:layout_constraintBottom_toBottomOf="@+id/frameLayout"

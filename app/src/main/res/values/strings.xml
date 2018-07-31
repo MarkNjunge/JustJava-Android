@@ -5,7 +5,6 @@
     <string name="additional_comments_optional">Additional comments (optional)</string>
     <string name="already_have_an_account">Already have an account?</string>
 
-    <string name="contains">Contains</string>
     <string name="contents_of_the_drink">Contents of the drink</string>
     <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 100)</string>
     <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 100)</string>
@@ -19,7 +18,6 @@
 
     <string name="drink_name">Drink name</string>
     <string name="description_of_the_drink">Description of the drink.</string>
-    <string name="default_details">Default details</string>
     <string name="default_address">Default address</string>
     <string name="delivery_address">Delivery Address</string>
     <string name="developer">Developer</string>
@@ -27,37 +25,26 @@
     <string name="email_address">Email Address</string>
 
     <string name="forgot_password">Forgot password</string>
-    <string name="for_">for</string>
     <string name="full_name">Full name</string>
-
-    <string name="item_s">item(s)</string>
 
     <string name="ksh">Ksh. %d</string>
 
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="log_in">Log in</string>
-    <string name="logged_in_as">Logged in as</string>
-    <string name="log_out">Log out</string>
 
     <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 100)</string>
-    <string name="mini_marshmallows">Mini Marshmallows</string>
     <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
-    <string name="mark_njung_e_kamau">Mark Njung\'e Kamau</string>
     <string name="m_pesa">M-Pesa</string>
 
     <string name="name">Name</string>
 
-    <string name="or">OR</string>
-
     <string name="price_listing">Ksh. %d</string>
-    <string name="price">Price:</string>
     <string name="proceed_to_checkout">Proceed to checkout</string>
     <string name="profile">Profile</string>
     <string name="place_order">Place order</string>
     <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
-    <string name="pay">Pay</string>
     <string name="previous_orders">Previous orders</string>
     <string name="payment">Payment</string>
 
@@ -68,7 +55,6 @@
 
     <string name="sign_up">Sign up</string>
     <string name="source_code">Source Code</string>
-    <string name="save_changes">Save changes</string>
 
     <string name="toppings">Toppings</string>
     <string name="total">Total</string>
@@ -88,4 +74,14 @@
 
     <!--Notifications-->
     <string name="default_notification_channel">defaultNotificationChannel</string>
+    <string name="drink_image_content_desc">Drink Image</string>
+    <string name="visibility_icon_content_desc">Visibility icon</string>
+    <string name="app_icon_content_desc">App icon</string>
+    <string name="minus_quantity_button_content_desc">Minus quantity button</string>
+    <string name="add_quantity_button_content_desc">Add quantity button</string>
+
+    <plurals name="order_info">
+        <item quantity="one">%1$d item for Ksh. %2$d</item>
+        <item quantity="other">%1$d items for Ksh. %2$d</item>
+    </plurals>
 </resources>

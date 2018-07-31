@@ -29,7 +29,8 @@ internal class ProfilePresenter(private val activityView: ProfileView,
                 if (previousOrders.isEmpty()) {
                     activityView.displayNoPreviousOrders()
                 } else {
-                    activityView.displayPreviousOrders(previousOrders)
+                    val sorted = previousOrders.sortedBy { it.date }.reversed().toMutableList()
+                    activityView.displayPreviousOrders(sorted)
                 }
             }
 

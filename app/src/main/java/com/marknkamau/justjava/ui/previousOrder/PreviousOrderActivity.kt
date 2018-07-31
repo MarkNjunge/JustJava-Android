@@ -134,12 +134,12 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
         btnPay.setOnClickListener {
             val phoneNumber = preferencesRepo.getUserDetails().phone
             val dialog = AlertDialog.Builder(this)
-                    .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?")
+                    .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?\nThe money will be automatically refunded by Safaricom the following day.")
                     .setTitle("Confirm payment")
-                    .setPositiveButton("Ok", { _, _ ->
+                    .setPositiveButton("Ok") { _, _ ->
                         presenter.makeMpesaPayment(1, phoneNumber, order.orderId)
-                    })
-                    .setNegativeButton("cancel", { dialogInterface, _ -> dialogInterface.dismiss() })
+                    }
+                    .setNegativeButton("cancel") { dialogInterface, _ -> dialogInterface.dismiss() }
                     .create()
 
             dialog.show()

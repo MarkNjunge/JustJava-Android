@@ -1,18 +1,14 @@
 package com.marknkamau.justjava.ui.checkout
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v4.app.TaskStackBuilder
-import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.widget.RadioButton
 import android.widget.Toast
-import com.marknkamau.justjava.BuildConfig
-
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.Order
@@ -21,7 +17,6 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
-
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
 import kotlinx.android.synthetic.main.content_appbar.*
@@ -48,7 +43,6 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         val authService = (application as JustJavaApp).authService
         val preferencesRepo = (application as JustJavaApp).preferencesRepo
         val database = (application as JustJavaApp).databaseService
-        val mpesa = (application as JustJavaApp).mpesa
         val cart = (application as JustJavaApp).cartDatabase.cartDao()
 
         presenter = CheckoutPresenter(this, authService, preferencesRepo, database, cart)
