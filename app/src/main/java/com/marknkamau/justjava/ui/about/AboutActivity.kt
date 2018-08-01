@@ -47,6 +47,7 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
         imgLinkedin.setOnClickListener(this)
         imgGithub.setOnClickListener(this)
         imgWebsite.setOnClickListener(this)
+        tvPrivacyPolicy.setOnClickListener(this)
 
         scrollView.post{
             Runnable {
@@ -63,6 +64,7 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
             imgLinkedin -> openUrl("https://linkedin.com/in/marknjunge")
             imgGithub -> openUrl("https://github.com/MarkNjunge")
             imgWebsite -> openUrl("https://marknjunge.com")
+            tvPrivacyPolicy -> openUrl("https://marknjunge.com/projects/justjava/privacy")
         }
     }
 

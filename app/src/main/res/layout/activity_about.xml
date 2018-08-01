@@ -200,12 +200,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Open Source Libraries"
             android:textColor="@color/colorAccent"
             android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19" />
+            app:layout_constraintTop_toBottomOf="@+id/tvPrivacyPolicy" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLibraries"
@@ -218,6 +218,20 @@
             app:layout_constraintTop_toBottomOf="@+id/tvLicenses"
             tools:itemCount="2"
             tools:listitem="@layout/item_library" />
+
+        <TextView
+            android:id="@+id/tvPrivacyPolicy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="Privacy Policy"
+            android:textColor="@color/colorAccent"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
