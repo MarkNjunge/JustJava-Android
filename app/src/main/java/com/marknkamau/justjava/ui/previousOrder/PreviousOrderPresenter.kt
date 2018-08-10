@@ -57,13 +57,15 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                         .addOnSuccessListener { emitter.onSuccess(it.token) }
                         .addOnFailureListener {
                             Timber.e(it)
-                            emitter.onSuccess("")
+                            emitter.onError(it)
                         }
             }
         }
 
         getFcmToken().flatMap { token ->
             mpesa.sendStkPush(total, phoneNumber, orderId, token)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
         }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
