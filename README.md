@@ -1,5 +1,5 @@
 ![App](/images/just_java_logo.png)
-# Just Java [![Build Status](https://app.bitrise.io/app/1b5caf804b0879e8/status.svg?token=EojpLsZ-no6pTQ2TaUzXTA&branch=master)](https://app.bitrise.io/app/1b5caf804b0879e8)
+# Just Java [![Build Status](https://app.bitrise.io/app/c373b1aa540acc1c/status.svg?token=u-KpJIBnS_0TQUtBtYNEJQ&branch=master)](https://app.bitrise.io/app/c373b1aa540acc1c)
 
 A mock Android application for a coffee shop. 
 
