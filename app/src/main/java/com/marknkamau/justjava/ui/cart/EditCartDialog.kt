@@ -17,17 +17,16 @@ import com.marknkamau.justjava.data.local.DrinksProvider
 import com.marknkamau.justjava.data.models.OrderItem
 
 class EditCartDialog : DialogFragment(), View.OnClickListener {
-    lateinit var tvDrinkName: TextView
-    lateinit var tvQuantity: TextView
-    lateinit var tvChocolate: TextView
-    lateinit var tvMarshmallows: TextView
-    lateinit var tvTotal: TextView
-    lateinit var tvCinnamon: TextView
-    lateinit var imgMinusQty: ImageView
-    lateinit var imgDelete: ImageView
-    lateinit var imgAddQty: ImageView
-    lateinit var imgSave: ImageView
-
+    private lateinit var tvDrinkName: TextView
+    private lateinit var tvQuantity: TextView
+    private lateinit var tvChocolate: TextView
+    private lateinit var tvMarshmallows: TextView
+    private lateinit var tvTotal: TextView
+    private lateinit var tvCinnamon: TextView
+    private lateinit var imgMinusQty: ImageView
+    private lateinit var imgDelete: ImageView
+    private lateinit var imgAddQty: ImageView
+    private lateinit var imgSave: ImageView
 
     private var quantity: Int = 0
     private lateinit var item: OrderItem
@@ -221,7 +220,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
     }
 
     companion object {
-        val CART_ITEM = "item_cart"
-        private val PADDING = 24
+        const val CART_ITEM = "item_cart"
+        private const val PADDING = 24
     }
 }

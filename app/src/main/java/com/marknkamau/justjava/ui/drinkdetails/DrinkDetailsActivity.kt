@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.content_drink_details.*
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
 
     companion object {
-        val DRINK_KEY = "drink_key"
+        const val DRINK_KEY = "drink_key"
     }
 
     private lateinit var drink: CoffeeDrink

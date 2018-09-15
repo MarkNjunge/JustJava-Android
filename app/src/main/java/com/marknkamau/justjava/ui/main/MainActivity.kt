@@ -23,11 +23,11 @@ class MainActivity : BaseActivity(), MainView {
 
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        catalogAdapter = CatalogAdapter(this, { coffeeDrink ->
+        catalogAdapter = CatalogAdapter(this) { coffeeDrink ->
             val i = Intent(this, DrinkDetailsActivity::class.java)
             i.putExtra(DrinkDetailsActivity.DRINK_KEY, coffeeDrink)
             startActivity(i)
-        })
+        }
 
         rvCatalog.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvCatalog.adapter = catalogAdapter

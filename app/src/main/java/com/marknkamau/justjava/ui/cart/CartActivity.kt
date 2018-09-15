@@ -42,12 +42,12 @@ class CartActivity : BaseActivity(), CartView {
             }
         }
 
-        adapter = CartAdapter(this, { cartItem ->
+        adapter = CartAdapter(this) { cartItem ->
             val args = Bundle()
             args.putParcelable(EditCartDialog.CART_ITEM, cartItem)
             editCartDialog.arguments = args
             editCartDialog.show(supportFragmentManager, "edit_cart_dialog")
-        })
+        }
         rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rvCart .addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvCart.adapter = adapter
