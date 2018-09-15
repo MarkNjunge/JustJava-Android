@@ -5,8 +5,10 @@ import com.marknkamau.justjava.data.models.UserDetails
 
 internal interface ProfileView {
     fun displayUserDetails(userDetails: UserDetails)
-    fun showProgressBar()
-    fun hideProgressBar()
+    fun showOrdersProgressBar()
+    fun hideOrdersProgressBar()
+    fun showProfileProgressBar()
+    fun hideProfileProgressBar()
     fun displayNoPreviousOrders()
     fun displayPreviousOrders(orderList: MutableList<Order>)
     fun displayMessage(message: String?)

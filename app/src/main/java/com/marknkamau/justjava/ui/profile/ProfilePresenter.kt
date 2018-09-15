@@ -5,8 +5,9 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.UserDetails
+import timber.log.Timber
 
-internal class ProfilePresenter(private val activityView: ProfileView,
+internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
                                 private val authenticationService: AuthenticationService,
                                 private val databaseService: DatabaseService) {
@@ -20,29 +21,31 @@ internal class ProfilePresenter(private val activityView: ProfileView,
 
     private fun getUserDetails() {
         userDetails = preferencesRepository.getUserDetails()
-        activityView.displayUserDetails(userDetails)
+        view.displayUserDetails(userDetails)
     }
 
     private fun getPreviousOrders() {
+        view.showOrdersProgressBar()
         databaseService.getPreviousOrders(authenticationService.getUserId()!!, object : DatabaseService.PreviousOrdersListener {
             override fun onSuccess(previousOrders: MutableList<Order>) {
+                view.hideOrdersProgressBar()
                 if (previousOrders.isEmpty()) {
-                    activityView.displayNoPreviousOrders()
+                    view.displayNoPreviousOrders()
                 } else {
                     val sorted = previousOrders.sortedBy { it.date }.reversed().toMutableList()
-                    activityView.displayPreviousOrders(sorted)
+                    view.displayPreviousOrders(sorted)
                 }
             }
 
             override fun onError(reason: String) {
-                activityView.displayMessage(reason)
+                view.hideOrdersProgressBar()
+                view.displayMessage(reason)
             }
         })
     }
 
     fun updateUserDetails(name: String, phone: String, address: String) {
-        activityView.showProgressBar()
-
+        view.showProfileProgressBar()
         authenticationService.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 databaseService.updateUserDetails(userDetails.id, name, phone, address, object : DatabaseService.WriteListener {
@@ -50,18 +53,20 @@ internal class ProfilePresenter(private val activityView: ProfileView,
                         val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
 
                         preferencesRepository.saveUserDetails(newUserDetails)
-                        activityView.hideProgressBar()
-                        activityView.displayMessage("Default values updated")
+                        view.hideProfileProgressBar()
+                        view.displayMessage("Profile updated")
                     }
 
                     override fun onError(reason: String) {
-
+                        Timber.e(reason)
+                        view.hideProfileProgressBar()
+                        view.displayMessage(reason)
                     }
                 })
             }
 
             override fun actionFailed(response: String?) {
-                activityView.displayMessage(response)
+                view.displayMessage(response)
             }
         })
     }

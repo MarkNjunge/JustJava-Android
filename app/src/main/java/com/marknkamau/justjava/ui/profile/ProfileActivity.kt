@@ -46,37 +46,40 @@ class ProfileActivity : BaseActivity(), ProfileView {
         val database = (application as JustJavaApp).databaseService
         presenter = ProfilePresenter(this, preferencesRepository, auth, database)
 
-        btnSave.setOnClickListener { saveChanges() }
+        btnUpdateProfile.setOnClickListener { saveChanges() }
     }
 
-    override fun showProgressBar() {
+    override fun showOrdersProgressBar() {
         pbLoadingOrders.visibility = View.VISIBLE
     }
 
-    override fun hideProgressBar() {
-        pbLoadingOrders.visibility = View.INVISIBLE
+    override fun hideOrdersProgressBar() {
+        pbLoadingOrders.visibility = View.GONE
+    }
+
+    override fun showProfileProgressBar() {
+        pbUpdatingProject.visibility = View.VISIBLE
+    }
+
+    override fun hideProfileProgressBar() {
+        pbUpdatingProject.visibility = View.GONE
     }
 
     override fun displayNoPreviousOrders() {
-        pbLoadingOrders.visibility = View.GONE
         tvNoOrders.visibility = View.VISIBLE
         rvPreviousOrders.visibility = View.GONE
-//        Toast.makeText(this, "No previous orders", Toast.LENGTH_SHORT).show()
     }
 
     override fun displayPreviousOrders(orderList: MutableList<Order>) {
-        pbLoadingOrders.visibility = View.GONE
         adapter.setItems(orderList)
     }
 
     override fun displayMessage(message: String?) {
-        pbLoadingOrders.visibility = View.GONE
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveChanges() {
         if (fieldsOk()) {
-            pbLoadingOrders.visibility = View.VISIBLE
             presenter.updateUserDetails(name!!, phone!!, address!!)
         }
     }

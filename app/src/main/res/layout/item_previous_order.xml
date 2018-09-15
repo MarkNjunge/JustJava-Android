@@ -15,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/timestamp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10:30 AM, 2 Sep" />
 
     <TextView
         android:id="@+id/tvStatus"
@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/status"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Pending" />
 
     <TextView
         android:id="@+id/tvAddress"
@@ -35,9 +35,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/delivery_address"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTimestamp" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTimestamp"
+        tools:text="Nairobi" />
 
     <TextView
         android:id="@+id/tvOrderInfo"
@@ -49,6 +49,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAddress"
-        tools:text="1 item for Ksh 1700" />
+        tools:text="1 item for Ksh. 1700" />
 
 </android.support.constraint.ConstraintLayout>
