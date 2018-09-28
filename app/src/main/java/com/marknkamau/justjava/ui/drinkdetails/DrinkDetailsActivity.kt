@@ -12,7 +12,6 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_drink_details.*
-import kotlinx.android.synthetic.main.content_appbar.*
 import kotlinx.android.synthetic.main.content_drink_details.*
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
@@ -28,10 +27,6 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_details)
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
 

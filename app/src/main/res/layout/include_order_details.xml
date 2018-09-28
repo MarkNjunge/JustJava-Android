@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Order ID" />
+            android:text="@string/order_id" />
 
         <TextView
             android:id="@+id/tvOrderId"
@@ -34,7 +34,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Order status" />
+            android:text="@string/order_status" />
 
         <TextView
             android:id="@+id/tvOrderStatus"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Order date" />
+            android:text="@string/order_date" />
 
         <TextView
             android:id="@+id/tvOrderDate"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Additional comments" />
+            android:text="@string/additional_comments" />
 
         <TextView
             android:id="@+id/tvComments"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="Total price" />
+            android:text="@string/total_price" />
 
         <TextView
             android:id="@+id/tvTotalPrice"

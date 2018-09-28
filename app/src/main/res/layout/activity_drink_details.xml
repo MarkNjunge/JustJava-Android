@@ -7,9 +7,6 @@
     android:orientation="vertical"
     tools:context="com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity">
 
-
-    <include layout="@layout/content_appbar" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,6 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:contentDescription="@string/drink_image_content_desc"
                     android:scaleType="centerCrop"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -42,7 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_gravity="bottom"
-                    app:srcCompat="@drawable/fade" />
+                    app:srcCompat="@drawable/fade"
+                    tools:ignore="ContentDescription" />
 
             </FrameLayout>
 
@@ -50,9 +49,9 @@
                 android:id="@+id/view2"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_marginBottom="48dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="48dp"
                 app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -60,10 +59,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

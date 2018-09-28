@@ -79,6 +79,18 @@
     <string name="app_icon_content_desc">App icon</string>
     <string name="minus_quantity_button_content_desc">Minus quantity button</string>
     <string name="add_quantity_button_content_desc">Add quantity button</string>
+    <string name="customer_details">Customer details</string>
+    <string name="payment_method">Payment method</string>
+    <string name="payment_status">Payment status</string>
+    <string name="pay_now">Pay now</string>
+    <string name="order_items">Order items</string>
+    <string name="delete_from_cart_content_desc">Delete item from cart</string>
+    <string name="save_cart_update_content_desc">Save cart update</string>
+    <string name="order_id">Order ID</string>
+    <string name="order_status">Order status</string>
+    <string name="order_date">Order date</string>
+    <string name="additional_comments">Additional comments</string>
+    <string name="total_price">Total price</string>
 
     <plurals name="order_info">
         <item quantity="one">%1$d item for Ksh. %2$d</item>

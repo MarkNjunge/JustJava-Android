@@ -13,7 +13,6 @@ import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.content_appbar.*
 
 class CartActivity : BaseActivity(), CartView {
     private lateinit var presenter: CartPresenter
@@ -22,9 +21,6 @@ class CartActivity : BaseActivity(), CartView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
 

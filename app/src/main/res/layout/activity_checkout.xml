@@ -8,13 +8,11 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         tools:context="com.marknkamau.justjava.ui.checkout.CheckoutActivity">
-
-        <include layout="@layout/content_appbar" />
 
         <TextView
             android:id="@+id/textView2"
@@ -23,16 +21,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".87"
-            android:text="Customer details"
+            android:text="@string/customer_details"
             android:textColor="@android:color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -46,14 +44,14 @@
                 android:ems="10"
                 android:hint="@string/name"
                 android:inputType="textPersonName"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="Autofill" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -69,14 +67,14 @@
                 android:ems="10"
                 android:hint="@string/phone_number"
                 android:inputType="none|phone"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="Autofill" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -92,7 +90,8 @@
                 android:ems="10"
                 android:hint="@string/delivery_address"
                 android:inputType="textMultiLine"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:ignore="Autofill" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -100,8 +99,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -111,7 +110,6 @@
                 android:id="@+id/etComments"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:hint="@string/additional_comments_optional"
                 android:textSize="14sp" />
         </android.support.design.widget.TextInputLayout>
@@ -134,9 +132,9 @@
             android:id="@+id/btnPlaceOrder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="9dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
+            android:layout_marginBottom="9dp"
             android:background="@drawable/large_button"
             android:text="@string/place_order"
             android:textColor="@android:color/white"

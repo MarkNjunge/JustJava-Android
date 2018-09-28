@@ -19,7 +19,6 @@ import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
-import kotlinx.android.synthetic.main.content_appbar.*
 import java.util.*
 
 class CheckoutActivity : BaseActivity(), CheckoutView {
@@ -35,10 +34,6 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
-
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val authService = (application as JustJavaApp).authService
         val preferencesRepo = (application as JustJavaApp).preferencesRepo

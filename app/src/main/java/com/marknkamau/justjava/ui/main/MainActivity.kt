@@ -9,7 +9,6 @@ import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_appbar.*
 
 class MainActivity : BaseActivity(), MainView {
     private lateinit var presenter: MainPresenter
@@ -18,10 +17,6 @@ class MainActivity : BaseActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         catalogAdapter = CatalogAdapter(this) { coffeeDrink ->
             val i = Intent(this, DrinkDetailsActivity::class.java)
