@@ -16,6 +16,18 @@
 
         <include layout="@layout/content_appbar" />
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha=".87"
+            android:text="Customer details"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tilName"
             android:layout_width="0dp"
@@ -25,14 +37,13 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="@+id/textView2">
 
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:enabled="false"
                 android:hint="@string/name"
                 android:inputType="textPersonName"
                 android:textSize="14sp" />
@@ -56,7 +67,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:enabled="false"
                 android:hint="@string/phone_number"
                 android:inputType="none|phone"
                 android:textSize="14sp" />
