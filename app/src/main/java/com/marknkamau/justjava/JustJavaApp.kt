@@ -4,7 +4,6 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
-import com.crashlytics.android.Crashlytics
 import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.network.authentication.AuthenticationServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
@@ -15,7 +14,6 @@ import com.marknkamau.justjava.data.network.db.DatabaseServiceImpl
 import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper
 import com.marknkamau.justjava.utils.mpesa.Mpesa
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
 class JustJavaApp : Application() {
@@ -36,8 +34,6 @@ class JustJavaApp : Application() {
                     return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
                 }
             })
-        } else {
-            Fabric.with(this, Crashlytics())
         }
 
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))

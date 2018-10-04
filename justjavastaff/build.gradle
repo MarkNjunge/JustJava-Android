@@ -1,23 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android-extensions'
-
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.24.2'
-    }
-}
-
-repositories {
-    maven { url 'https://maven.fabric.io/public' }
-    mavenCentral()
-}
 
 android {
     compileSdkVersion 27
@@ -44,10 +28,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-        transitive = true;
-    }
 
     // Android libraries
     implementation "com.android.support:design:$support_version"
