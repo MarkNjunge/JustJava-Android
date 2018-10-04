@@ -1,5 +1,9 @@
 # JustJava changelog
 
+## 1.2.1 
+
+* Fix crash reporting
+
 ## 1.2.0
 
 * Enable editing customer details - [812538a](https://github.com/MarkNjunge/JustJava-Android/commit/812538a12dd6a16f7623ab9531135538f627a86b)
