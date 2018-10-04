@@ -15,6 +15,10 @@ import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper
 import com.marknkamau.justjava.utils.mpesa.Mpesa
 import timber.log.Timber
+import io.fabric.sdk.android.Fabric
+import com.crashlytics.android.Crashlytics
+
+
 
 class JustJavaApp : Application() {
     lateinit var preferencesRepo: PreferencesRepository
@@ -34,6 +38,11 @@ class JustJavaApp : Application() {
                     return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
                 }
             })
+        }else{
+            val fabric = Fabric.Builder(this)
+                    .kits(Crashlytics())
+                    .build()
+            Fabric.with(fabric)
         }
 
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
