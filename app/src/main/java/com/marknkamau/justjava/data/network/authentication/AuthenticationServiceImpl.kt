@@ -5,7 +5,6 @@ import com.google.firebase.auth.UserProfileChangeRequest
 
 object AuthenticationServiceImpl : AuthenticationService {
 
-
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     private var isSignedIn = false
@@ -20,40 +19,33 @@ object AuthenticationServiceImpl : AuthenticationService {
         firebaseAuth.addAuthStateListener(listener)
     }
 
-    override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener?) {
+    override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener?.actionSuccessful("User created successfully") }
-                .addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
+                .addOnSuccessListener { listener.actionSuccessful("User created successfully") }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener?) {
+    override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener?.actionSuccessful(getUserId()!!) }
-                .addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
+                .addOnSuccessListener { listener.actionSuccessful(it.user.uid) }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun sendPasswordResetEmail(email: String, listener: AuthenticationService.AuthActionListener?) {
+    override fun sendPasswordResetEmail(email: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener { listener?.actionSuccessful("Password reset email sent") }
-                .addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
+                .addOnSuccessListener { listener.actionSuccessful("Password reset email sent") }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener?) {
+    override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
 
         firebaseAuth.currentUser?.updateProfile(profileUpdate)
-                ?.addOnSuccessListener { listener?.actionSuccessful("User display name set") }
-                ?.addOnFailureListener { exception -> listener?.actionFailed(exception.message) }
+                ?.addOnSuccessListener { listener.actionSuccessful("User display name set") }
+                ?.addOnFailureListener { exception -> listener.actionFailed(exception.message) }
     }
 
-    override fun getUserId(): String? {
-        return if(isSignedIn){
-            firebaseAuth.currentUser!!.uid
-        }else{
-            null
-        }
-
-    }
+    override fun getUserId() = if (isSignedIn) firebaseAuth.currentUser!!.uid else null
 
     override fun isSignedIn() = isSignedIn
 

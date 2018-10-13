@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.data.network.db
 
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.firestore.*
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknkamau.justjava.data.models.Order
@@ -22,25 +23,29 @@ class DatabaseServiceImpl : DatabaseService {
         fireStore.collection("users")
                 .document(userDetails.id)
                 .set(userDetails)
-                .addOnSuccessListener {
-                    listener.onSuccess()
-                }
-                .addOnFailureListener { exception ->
-                    listener.onError(exception.message ?: "Error saving user details")
+                .addOnSuccessListener { listener.onSuccess() }
+                .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
+                    listener.onError(it.message ?: "Error saving user details")
                 }
 
     }
 
     override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener) {
+        val userDetailsMap = mapOf(
+                "name" to name,
+                "phone" to phone,
+                "address" to address
+        )
+
         fireStore.collection("users")
                 .document(id)
-                .update(
-                        "name", name,
-                        "phone", phone,
-                        "address", address
-                )
+                .update(userDetailsMap)
                 .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error updating user details")
                 }
     }
@@ -59,8 +64,10 @@ class DatabaseServiceImpl : DatabaseService {
                     )
                     listener.onSuccess(userDetails)
                 }
-                .addOnFailureListener { exception ->
-                    listener.onError(exception.message ?: "Error getting user details")
+                .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
+                    listener.onError(it.message ?: "Error getting user details")
                 }
     }
 
@@ -114,6 +121,7 @@ class DatabaseServiceImpl : DatabaseService {
                 .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener {
                     Timber.e(it)
+                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error placing order")
                 }
     }
@@ -146,6 +154,7 @@ class DatabaseServiceImpl : DatabaseService {
                 }
                 .addOnFailureListener {
                     Timber.e(it)
+                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error getting previous orders")
                 }
 
@@ -176,25 +185,29 @@ class DatabaseServiceImpl : DatabaseService {
 
                     listener.onSuccess(items)
                 }
-                .addOnFailureListener { e ->
-                    Timber.e(e)
-                    listener.onError(e.message ?: "Error getting order items")
+                .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
+                    listener.onError(it.message ?: "Error getting order items")
                 }
     }
 
     override fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String) {
         val map = mapOf(
-                Pair(DatabaseKeys.Payment.CHECKOUT_REQUEST_ID, checkoutRequestId),
-                Pair(DatabaseKeys.Payment.MERCHANT_REQUEST_ID, merchantRequestId),
-                Pair(DatabaseKeys.Payment.ORDER_ID, orderId),
-                Pair(DatabaseKeys.Payment.CUSTOMER_ID, customerId),
-                Pair(DatabaseKeys.Payment.STATUS, "pending")
+                DatabaseKeys.Payment.CHECKOUT_REQUEST_ID to checkoutRequestId,
+                DatabaseKeys.Payment.MERCHANT_REQUEST_ID to merchantRequestId,
+                DatabaseKeys.Payment.ORDER_ID to orderId,
+                DatabaseKeys.Payment.CUSTOMER_ID to customerId,
+                DatabaseKeys.Payment.STATUS to "pending"
         )
 
         fireStore.collection("payments")
                 .document()
                 .set(map)
-                .addOnFailureListener { exception -> Timber.e(exception) }
+                .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
+                }
     }
 
     override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
@@ -220,9 +233,10 @@ class DatabaseServiceImpl : DatabaseService {
                         listener.onSuccess(order)
                     }
                 }
-                .addOnFailureListener { e ->
-                    Timber.e(e)
-                    listener.onError(e.message ?: "Error getting order items")
+                .addOnFailureListener {
+                    Timber.e(it)
+                    Crashlytics.logException(it)
+                    listener.onError(it.message ?: "Error getting order items")
                 }
     }
 
