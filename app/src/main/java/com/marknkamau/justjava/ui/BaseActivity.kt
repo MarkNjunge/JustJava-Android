@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
@@ -35,11 +36,11 @@ abstract class BaseActivity : AppCompatActivity() {
 
         if (authService.isSignedIn()) {
             menu?.findItem(R.id.menu_login)?.isVisible = false
-            menu?.findItem(R.id.menu_profile)?.isVisible = true
+//            menu?.findItem(R.id.menu_profile)?.isVisible = true
             menu?.findItem(R.id.menu_logout)?.isVisible = true
         } else {
             menu?.findItem(R.id.menu_login)?.isVisible = true
-            menu?.findItem(R.id.menu_profile)?.isVisible = false
+//            menu?.findItem(R.id.menu_profile)?.isVisible = false
             menu?.findItem(R.id.menu_logout)?.isVisible = false
         }
         return true
@@ -56,7 +57,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 return true
             }
             R.id.menu_profile -> {
-                startActivity(Intent(this, ProfileActivity::class.java))
+                if (authService.isSignedIn()) {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                } else {
+                    startActivity(Intent(this, LogInActivity::class.java))
+                }
                 return true
             }
             R.id.menu_logout -> {
@@ -65,6 +70,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 authService.logOut()
                 // If this is ProfileActivity
                 (this as? ProfileActivity)?.finish()
+                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
                 return true
             }
             R.id.menu_about -> {
