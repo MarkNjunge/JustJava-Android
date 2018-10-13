@@ -38,23 +38,25 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:alpha=".87"
-            android:text="@string/drink_name"
             android:textColor="@android:color/black"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imgDrinkImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/drink_name" />
 
         <TextView
             android:id="@+id/tvShortDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:alpha=".54"
-            android:text="@string/contents_of_the_drink"
             android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imgDrinkImage"
-            app:layout_constraintTop_toBottomOf="@+id/tvItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/tvItemName"
+            tools:text="@string/contents_of_the_drink" />
 
         <TextView
             android:id="@+id/tvDrinkName"
