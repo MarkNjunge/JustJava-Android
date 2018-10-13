@@ -22,19 +22,19 @@ object AuthenticationServiceImpl : AuthenticationService {
     override fun createUser(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnSuccessListener { listener.actionSuccessful("User created successfully") }
-                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message ?: "Unable to create account") }
     }
 
     override fun signIn(email: String, password: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener { listener.actionSuccessful(it.user.uid) }
-                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message ?: "Unable to sign in") }
     }
 
     override fun sendPasswordResetEmail(email: String, listener: AuthenticationService.AuthActionListener) {
         firebaseAuth.sendPasswordResetEmail(email)
                 .addOnSuccessListener { listener.actionSuccessful("Password reset email sent") }
-                .addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+                .addOnFailureListener { exception -> listener.actionFailed(exception.message ?: "Unable to send email") }
     }
 
     override fun setUserDisplayName(name: String, listener: AuthenticationService.AuthActionListener) {
@@ -42,7 +42,7 @@ object AuthenticationServiceImpl : AuthenticationService {
 
         firebaseAuth.currentUser?.updateProfile(profileUpdate)
                 ?.addOnSuccessListener { listener.actionSuccessful("User display name set") }
-                ?.addOnFailureListener { exception -> listener.actionFailed(exception.message) }
+                ?.addOnFailureListener { exception -> listener.actionFailed(exception.message ?: "Unable to update profile") }
     }
 
     override fun getUserId() = if (isSignedIn) firebaseAuth.currentUser!!.uid else null

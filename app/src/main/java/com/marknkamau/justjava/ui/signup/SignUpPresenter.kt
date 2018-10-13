@@ -18,7 +18,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
                 signInUser(email, password, name, phone, address)
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 activityView.enableUserInteraction()
                 activityView.displayMessage(response)
             }
@@ -31,7 +31,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
                 setUserDisplayName(response, email, name, phone, address)
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 activityView.enableUserInteraction()
                 activityView.displayMessage(response)
             }
@@ -59,7 +59,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
 
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 activityView.enableUserInteraction()
                 activityView.displayMessage(response)
             }

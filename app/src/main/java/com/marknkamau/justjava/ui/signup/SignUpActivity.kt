@@ -19,7 +19,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private lateinit var address: String
     private lateinit var password: String
     private var passVisible = false
-    private var passRptVisible = false
     private lateinit var presenter: SignUpPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +32,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         presenter = SignUpPresenter(this, preferencesRepository, auth, database)
 
         imgViewPass.setOnClickListener(this)
-        imgViewPassRpt.setOnClickListener(this)
         btnSignup.setOnClickListener(this)
         tvLogin.setOnClickListener(this)
     }
@@ -49,16 +47,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
                     etPassword.transformationMethod = null
                     imgViewPass.setImageResource(R.drawable.ic_visibility)
                     passVisible = true
-                }
-            imgViewPassRpt ->
-                if (passRptVisible) {
-                    etPasswordRepeat.transformationMethod = PasswordTransformationMethod()
-                    imgViewPassRpt.setImageResource(R.drawable.ic_visibility_off)
-                    passRptVisible = false
-                } else {
-                    etPasswordRepeat.transformationMethod = null
-                    imgViewPassRpt.setImageResource(R.drawable.ic_visibility)
-                    passRptVisible = true
                 }
             btnSignup -> createUser()
             tvLogin -> {
@@ -79,7 +67,9 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         btnSignup.isEnabled = false
     }
 
-    override fun displayMessage(message: String?) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    override fun displayMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
     override fun finishActivity() = finish()
 
@@ -92,7 +82,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private fun fieldsOk(): Boolean {
         email = etEmailAddress.trimmedText
         password = etPassword.trimmedText
-        val passwordRpt = etPasswordRepeat.trimmedText
 
         name = etName.trimmedText
         phone = etPhone.trimmedText
@@ -105,21 +94,19 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
             etEmailAddress.error = "Can not use @justjava.com"
             return false
         }
-        if (email.isEmpty() || password.isEmpty() || passwordRpt.isEmpty()
+        if (email.isEmpty() || password.isEmpty()
                 || name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
             Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
             return false
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
             etEmailAddress.error = "Incorrect format"
             return false
         }
         if (password.length < 6) {
+            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show()
             etPassword.error = "At least 6 characters"
-            return false
-        }
-        if (password != passwordRpt) {
-            etPasswordRepeat.error = "Passwords do no match"
             return false
         }
         return true

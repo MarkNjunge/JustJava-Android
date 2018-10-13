@@ -65,7 +65,7 @@ internal class ProfilePresenter(private val view: ProfileView,
                 })
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 view.displayMessage(response)
             }
         })

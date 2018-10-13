@@ -22,6 +22,6 @@ interface AuthenticationService {
     interface AuthActionListener {
         fun actionSuccessful(response: String)
 
-        fun actionFailed(response: String?)
+        fun actionFailed(response: String)
     }
 }

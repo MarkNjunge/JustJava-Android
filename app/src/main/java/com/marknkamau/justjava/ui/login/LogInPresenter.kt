@@ -24,7 +24,7 @@ internal class LogInPresenter(private val activityView: LogInView,
                 getUserDefaults(response)
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 activityView.displayMessage(response)
             }
         })
@@ -51,7 +51,7 @@ internal class LogInPresenter(private val activityView: LogInView,
                 activityView.displayMessage(response)
             }
 
-            override fun actionFailed(response: String?) {
+            override fun actionFailed(response: String) {
                 activityView.displayMessage(response)
             }
         })
