@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.network
+package com.marknjunge.core.mpesa
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -6,20 +6,13 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-/**
- * Created by Mark Njung'e.
- * mark.kamau@outlook.com
- * https://github.com/MarkNjunge
- */
-
-class NetworkProvider {
-
-    private val API_URL = "https://sandbox.safaricom.co.ke/"
+internal class NetworkProvider {
+    private val apiUrl = "https://sandbox.safaricom.co.ke/"
 
     val mpesaService: MpesaService
 
     init {
-        val retrofit = provideRetrofit(API_URL)
+        val retrofit = provideRetrofit(apiUrl)
         mpesaService = retrofit.create<MpesaService>(MpesaService::class.java)
     }
 

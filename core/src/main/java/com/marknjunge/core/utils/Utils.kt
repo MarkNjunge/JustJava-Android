@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.utils
+package com.marknjunge.core.utils
 
 import android.util.Base64
 
@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-object Utils {
-    val timestampNow: String
+internal object Utils {
+    val timestamp: String
         get() = SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault()).format(Date())
 
     fun sanitizePhoneNumber(phone: String): String {

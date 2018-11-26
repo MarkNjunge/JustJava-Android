@@ -1,16 +1,9 @@
-package com.marknkamau.justjava.utils
+package com.marknjunge.core.utils
 
 import org.junit.Assert
 import org.junit.Test
 
-/**
- * Created by MarkNjunge.
- * mark.kamau@outlook.com
- * https://github.com/MarkNjunge
- */
-
-class UtilsTest {
-
+class UtilsTest{
     @Test
     fun should_sanitizePhoneNumber() {
         val num1 = "0712345678"

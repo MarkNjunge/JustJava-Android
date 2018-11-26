@@ -1,12 +1,12 @@
 package com.marknkamau.justjava.ui.previousOrder
 
 import com.google.firebase.iid.FirebaseInstanceId
+import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.OrderItem
 import com.marknkamau.justjava.data.network.authentication.AuthenticationService
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
-import com.marknkamau.justjava.utils.mpesa.Mpesa
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val databaseService: DatabaseService,
-                             private val mpesa: Mpesa,
+                             private val mpesaInteractor: MpesaInteractor,
                              private val authService: AuthenticationService)
     : BasePresenter() {
 
@@ -62,8 +62,8 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
             }
         }
 
-        getFcmToken().flatMap { token ->
-            mpesa.sendStkPush(total, phoneNumber, orderId, token)
+        val disposable = getFcmToken().flatMap { token ->
+            mpesaInteractor.sendStkPush(total, phoneNumber, orderId, token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
@@ -85,5 +85,7 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                             view.displayMessage(t.message)
                         }
                 )
+
+        disposables.add(disposable)
     }
 }

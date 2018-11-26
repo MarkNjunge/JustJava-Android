@@ -11,14 +11,12 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.data.network.db.DatabaseServiceImpl
-import com.marknkamau.justjava.data.network.NetworkProvider
 import com.marknkamau.justjava.utils.NotificationHelper
-import com.marknkamau.justjava.utils.mpesa.Mpesa
 import timber.log.Timber
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.Crashlytics
-
-
+import com.marknjunge.core.mpesa.MpesaInteractor
+import com.marknjunge.core.mpesa.MpesaInteractorImpl
 
 class JustJavaApp : Application() {
     lateinit var preferencesRepo: PreferencesRepository
@@ -26,7 +24,7 @@ class JustJavaApp : Application() {
     lateinit var databaseService: DatabaseService
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
-    lateinit var mpesa: Mpesa
+    lateinit var mpesaInteractor: MpesaInteractor
     lateinit var broadcastManager: LocalBroadcastManager
 
     override fun onCreate() {
@@ -48,7 +46,7 @@ class JustJavaApp : Application() {
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
         authService = AuthenticationServiceImpl
         databaseService = DatabaseServiceImpl()
-        mpesa = Mpesa(BuildConfig.CONSUMER_KEY, BuildConfig.CONSUMER_SECRET, NetworkProvider().mpesaService)
+        mpesaInteractor = MpesaInteractorImpl()
 
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
 
