@@ -13,7 +13,7 @@ import android.widget.TextView
 
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.data.local.DrinksProvider
+import com.marknjunge.core.data.local.DrinksProvider
 import com.marknkamau.justjava.data.models.OrderItem
 
 class EditCartDialog : DialogFragment(), View.OnClickListener {

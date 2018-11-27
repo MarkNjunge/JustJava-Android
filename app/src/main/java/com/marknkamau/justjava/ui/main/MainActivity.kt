@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.models.CoffeeDrink
+import com.marknjunge.core.model.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity
 

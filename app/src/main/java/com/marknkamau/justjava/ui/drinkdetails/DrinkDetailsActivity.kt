@@ -7,7 +7,7 @@ import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.models.CoffeeDrink
+import com.marknjunge.core.model.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
 
