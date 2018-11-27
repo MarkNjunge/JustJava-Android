@@ -1,9 +1,10 @@
-package com.marknkamau.justjava.data.network.authentication
+package com.marknjunge.core.auth
 
 import com.google.firebase.auth.FirebaseAuth
+import com.marknjunge.core.model.AuthUser
 
-interface AuthenticationService {
-    fun addAuthListener(listener: FirebaseAuth.AuthStateListener)
+interface AuthService {
+    fun addStateListener(listener: FirebaseAuth.AuthStateListener)
 
     fun createUser(email: String, password: String, listener: AuthActionListener)
 
@@ -13,7 +14,7 @@ interface AuthenticationService {
 
     fun setUserDisplayName(name: String, listener: AuthActionListener)
 
-    fun getUserId(): String?
+    fun getCurrentUser(): AuthUser
 
     fun isSignedIn() : Boolean
 

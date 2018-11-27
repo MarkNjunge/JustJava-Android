@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.checkout
 
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
@@ -14,7 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class CheckoutPresenter(private val activityView: CheckoutView,
-                                 private val auth: AuthenticationService,
+                                 private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
                                  private val database: DatabaseService,
                                  private val cart: CartDao) : BasePresenter() {
@@ -28,7 +28,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     fun placeOrder(orderId: String, address: String, comments: String, payCash: Boolean) {
         val paymentMethod = if (payCash) "cash" else "mpesa"
-        val order = Order(orderId, auth.getUserId()!!, 0, 0, address, comments, paymentMethod = paymentMethod)
+        val order = Order(orderId, auth.getCurrentUser().userId, 0, 0, address, comments, paymentMethod = paymentMethod)
         activityView.showUploadBar()
 
         disposables.add(cart.getAll()

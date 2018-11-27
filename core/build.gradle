@@ -37,6 +37,10 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:${versions.support}"
 
+    // Firebase
+    implementation "com.google.firebase:firebase-core:${versions.firebase.core}"
+    implementation "com.google.firebase:firebase-auth:${versions.firebase.auth}"
+
     // REST
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
     implementation "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}"

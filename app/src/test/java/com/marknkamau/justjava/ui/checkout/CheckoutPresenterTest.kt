@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.checkout
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.models.UserDetails
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -28,7 +28,7 @@ class CheckoutPresenterTest {
     @Mock
     private lateinit var view: CheckoutView
     @Mock
-    private lateinit var auth: AuthenticationService
+    private lateinit var auth: AuthService
     @Mock
     private lateinit var preferences: PreferencesRepository
     @Mock

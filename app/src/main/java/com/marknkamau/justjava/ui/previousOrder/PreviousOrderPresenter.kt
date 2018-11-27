@@ -4,7 +4,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknkamau.justjava.data.models.Order
 import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Single
@@ -21,7 +21,7 @@ import timber.log.Timber
 class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val databaseService: DatabaseService,
                              private val mpesaInteractor: MpesaInteractor,
-                             private val authService: AuthenticationService)
+                             private val authService: AuthService)
     : BasePresenter() {
 
     fun getOrderDetails(orderId: String) {
@@ -76,7 +76,7 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                                 databaseService.savePaymentRequest(
                                         lnmPaymentResponse.merchantRequestId,
                                         lnmPaymentResponse.checkoutRequestId,
-                                        orderId, authService.getUserId() ?: ""
+                                        orderId, authService.getCurrentUser().userId
                                 )
                             }
                         },

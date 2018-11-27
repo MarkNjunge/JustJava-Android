@@ -89,7 +89,7 @@ class DatabaseServiceImpl : DatabaseService {
 
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (it.isSuccessful) {
-                orderMap["fcmToken"] = it.result.token
+                orderMap["fcmToken"] = it.result!!.token
             }
             placeOrder(orderRef, orderMap, orderItems, order, itemsRef, listener)
         }

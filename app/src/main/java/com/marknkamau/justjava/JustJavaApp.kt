@@ -4,8 +4,8 @@ import android.app.Application
 import android.arch.persistence.room.Room
 import android.preference.PreferenceManager
 import android.support.v4.content.LocalBroadcastManager
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
-import com.marknkamau.justjava.data.network.authentication.AuthenticationServiceImpl
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
@@ -20,7 +20,7 @@ import com.marknjunge.core.mpesa.MpesaInteractorImpl
 
 class JustJavaApp : Application() {
     lateinit var preferencesRepo: PreferencesRepository
-    lateinit var authService: AuthenticationService
+    lateinit var authService: AuthService
     lateinit var databaseService: DatabaseService
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
@@ -44,7 +44,7 @@ class JustJavaApp : Application() {
         }
 
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
-        authService = AuthenticationServiceImpl
+        authService = AuthServiceImpl()
         databaseService = DatabaseServiceImpl()
         mpesaInteractor = MpesaInteractorImpl()
 

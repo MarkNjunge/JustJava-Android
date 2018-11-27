@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.profile
 
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.data.models.Order
@@ -9,7 +9,7 @@ import timber.log.Timber
 
 internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
-                                private val authenticationService: AuthenticationService,
+                                private val authenticationService: AuthService,
                                 private val databaseService: DatabaseService) {
 
     init {
@@ -26,7 +26,7 @@ internal class ProfilePresenter(private val view: ProfileView,
 
     private fun getPreviousOrders() {
         view.showOrdersProgressBar()
-        databaseService.getPreviousOrders(authenticationService.getUserId()!!, object : DatabaseService.PreviousOrdersListener {
+        databaseService.getPreviousOrders(authenticationService.getCurrentUser().userId, object : DatabaseService.PreviousOrdersListener {
             override fun onSuccess(previousOrders: MutableList<Order>) {
                 view.hideOrdersProgressBar()
                 if (previousOrders.isEmpty()) {
@@ -46,7 +46,7 @@ internal class ProfilePresenter(private val view: ProfileView,
 
     fun updateUserDetails(name: String, phone: String, address: String) {
         view.showProfileProgressBar()
-        authenticationService.setUserDisplayName(name, object : AuthenticationService.AuthActionListener {
+        authenticationService.setUserDisplayName(name, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 databaseService.updateUserDetails(userDetails.id, name, phone, address, object : DatabaseService.WriteListener {
                     override fun onSuccess() {

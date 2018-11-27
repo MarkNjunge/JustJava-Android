@@ -2,13 +2,13 @@ package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.models.UserDetails
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
 
 import com.marknkamau.justjava.data.network.db.DatabaseService
 
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,
-                              private val auth: AuthenticationService,
+                              private val auth: AuthService,
                               private val database: DatabaseService) {
 
     fun checkSignInStatus() {
@@ -19,7 +19,7 @@ internal class LogInPresenter(private val activityView: LogInView,
 
     fun signIn(email: String, password: String) {
         activityView.showDialog()
-        auth.signIn(email, password, object : AuthenticationService.AuthActionListener {
+        auth.signIn(email, password, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 getUserDefaults(response)
             }
@@ -46,7 +46,7 @@ internal class LogInPresenter(private val activityView: LogInView,
     }
 
     fun resetUserPassword(email: String) {
-        auth.sendPasswordResetEmail(email, object : AuthenticationService.AuthActionListener {
+        auth.sendPasswordResetEmail(email, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 activityView.displayMessage(response)
             }
