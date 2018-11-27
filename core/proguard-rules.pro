@@ -1,4 +1,11 @@
 ############################
+# App
+############################
+-keep class com.marknjunge.core.model.OrderItem implements android.os.Parcelable {
+    *;
+}
+
+############################
 # Retrofit
 ############################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and

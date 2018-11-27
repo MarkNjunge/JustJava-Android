@@ -1,11 +1,10 @@
-package com.marknkamau.justjava.data.network.db
+package com.marknjunge.core.data.firebase
 
-import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.UserDetails
 
-interface DatabaseService {
-
+interface ClientDatabaseService {
     fun saveUserDetails(userDetails: UserDetails, listener: WriteListener)
 
     fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: WriteListener)
@@ -16,7 +15,7 @@ interface DatabaseService {
 
     fun getPreviousOrders(userId: String, listener: PreviousOrdersListener)
 
-    fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener)
+    fun getOrderItems(orderId: String, listener: OrderItemsListener)
 
     fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String)
 
@@ -45,4 +44,5 @@ interface DatabaseService {
     interface OrderListener : DatabaseListener {
         fun onSuccess(order: Order)
     }
+
 }

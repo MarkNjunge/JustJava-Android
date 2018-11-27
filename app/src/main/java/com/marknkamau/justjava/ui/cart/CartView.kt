@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.cart
 
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.ui.BaseView
 
 internal interface CartView : BaseView{

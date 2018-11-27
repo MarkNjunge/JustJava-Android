@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.models
+package com.marknjunge.core.model
 
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey

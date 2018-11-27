@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.data.local
 
 import android.arch.persistence.room.*
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.OrderItem
 import io.reactivex.Single
 
 @Dao

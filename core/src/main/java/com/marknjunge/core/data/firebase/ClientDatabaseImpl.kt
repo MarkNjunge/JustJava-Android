@@ -1,79 +1,64 @@
-package com.marknkamau.justjava.data.network.db
+package com.marknjunge.core.data.firebase
 
-import com.crashlytics.android.Crashlytics
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.iid.FirebaseInstanceId
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.models.OrderStatus
-import com.marknkamau.justjava.data.models.UserDetails
-import timber.log.Timber
+import com.marknjunge.core.model.*
 import java.util.*
 
-class DatabaseServiceImpl : DatabaseService {
-    private val fireStore = FirebaseFirestore.getInstance()
+class ClientDatabaseImpl : ClientDatabaseService {
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
 
-    init {
-        fireStore.firestoreSettings = FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build()
-    }
-
-    override fun saveUserDetails(userDetails: UserDetails, listener: DatabaseService.WriteListener) {
-        fireStore.collection("users")
+    override fun saveUserDetails(userDetails: UserDetails, listener: ClientDatabaseService.WriteListener) {
+        firestore.collection("users")
                 .document(userDetails.id)
                 .set(userDetails)
                 .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error saving user details")
                 }
-
     }
 
-    override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: DatabaseService.WriteListener) {
+    override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: ClientDatabaseService.WriteListener) {
         val userDetailsMap = mapOf(
-                "name" to name,
-                "phone" to phone,
-                "address" to address
+                DatabaseKeys.User.name to name,
+                DatabaseKeys.User.phone to phone,
+                DatabaseKeys.User.address to address
         )
 
-        fireStore.collection("users")
+        firestore.collection("users")
                 .document(id)
                 .update(userDetailsMap)
                 .addOnSuccessListener { listener.onSuccess() }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error updating user details")
                 }
     }
 
-    override fun getUserDefaults(id: String, listener: DatabaseService.UserDetailsListener) {
-        fireStore.collection("users")
+    override fun getUserDefaults(id: String, listener: ClientDatabaseService.UserDetailsListener) {
+        firestore.collection("users")
                 .document(id)
                 .get()
                 .addOnSuccessListener {
                     val userDetails = UserDetails(
-                            it["id"] as String,
-                            it["email"] as String,
-                            it["name"] as String,
-                            it["phone"] as String,
-                            it["address"] as String
+                            it[DatabaseKeys.User.userId] as String,
+                            it[DatabaseKeys.User.email] as String,
+                            it[DatabaseKeys.User.name] as String,
+                            it[DatabaseKeys.User.phone] as String,
+                            it[DatabaseKeys.User.address] as String
                     )
                     listener.onSuccess(userDetails)
                 }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error getting user details")
                 }
     }
 
-    override fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: DatabaseService.WriteListener) {
-        val orderRef = fireStore.collection("orders").document(order.orderId)
-        val itemsRef = fireStore.collection("orderItems")
+    override fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: ClientDatabaseService.WriteListener) {
+        val orderRef = firestore.collection("orders").document(order.orderId)
+        val itemsRef = firestore.collection("orderItems")
 
         val orderMap = mutableMapOf<String, Any>()
         orderMap[DatabaseKeys.Order.orderId] = order.orderId
@@ -89,45 +74,14 @@ class DatabaseServiceImpl : DatabaseService {
 
         FirebaseInstanceId.getInstance().instanceId.addOnCompleteListener {
             if (it.isSuccessful) {
-                orderMap["fcmToken"] = it.result!!.token
+                orderMap[DatabaseKeys.Order.fcmToken] = it.result!!.token
             }
             placeOrder(orderRef, orderMap, orderItems, order, itemsRef, listener)
         }
-
     }
 
-    private fun placeOrder(orderRef: DocumentReference, orderMap: MutableMap<String, Any>, orderItems: List<OrderItem>, order: Order, itemsRef: CollectionReference, listener: DatabaseService.WriteListener) {
-        fireStore
-                .runTransaction { transaction ->
-                    transaction.set(orderRef, orderMap)
-                    for (i in orderItems.indices) {
-                        val item = orderItems[i]
-                        val itemsMap = mutableMapOf<String, Any>()
-
-                        itemsMap[DatabaseKeys.Order.orderId] = order.orderId
-                        itemsMap[DatabaseKeys.OrderItem.itemName] = item.itemName
-                        itemsMap[DatabaseKeys.OrderItem.itemQty] = item.itemQty
-                        itemsMap[DatabaseKeys.OrderItem.itemCinnamon] = item.itemCinnamon
-                        itemsMap[DatabaseKeys.OrderItem.itemChoc] = item.itemChoc
-                        itemsMap[DatabaseKeys.OrderItem.itemMarshmallow] = item.itemMarshmallow
-                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
-                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
-                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
-
-                        val reference = itemsRef.document("${order.orderId}-$i")
-                        transaction.set(reference, itemsMap)
-                    }
-                }
-                .addOnSuccessListener { listener.onSuccess() }
-                .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
-                    listener.onError(it.message ?: "Error placing order")
-                }
-    }
-
-    override fun getPreviousOrders(userId: String, listener: DatabaseService.PreviousOrdersListener) {
-        fireStore.collection("orders")
+    override fun getPreviousOrders(userId: String, listener: ClientDatabaseService.PreviousOrdersListener) {
+        firestore.collection("orders")
                 .whereEqualTo("customerId", userId)
                 .get()
                 .addOnSuccessListener {
@@ -153,15 +107,12 @@ class DatabaseServiceImpl : DatabaseService {
                     listener.onSuccess(orders)
                 }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error getting previous orders")
                 }
-
     }
 
-    override fun getOrderItems(orderId: String, listener: DatabaseService.OrderItemsListener) {
-        fireStore.collection("orderItems").whereEqualTo("orderId", orderId)
+    override fun getOrderItems(orderId: String, listener: ClientDatabaseService.OrderItemsListener) {
+        firestore.collection("orderItems").whereEqualTo("orderId", orderId)
                 .get()
                 .addOnSuccessListener { querySnapshot ->
                     val items = ArrayList<OrderItem>()
@@ -172,12 +123,12 @@ class DatabaseServiceImpl : DatabaseService {
                         data?.let {
                             val orderItem = OrderItem(
                                     0,
-                                    data["itemName"].toString(),
-                                    (data["itemQty"] as Long).toInt(),
-                                    data["itemCinnamon"] as Boolean,
-                                    data["itemChoc"] as Boolean,
-                                    data["itemMarshmallow"] as Boolean,
-                                    (data["itemPrice"] as Long).toInt()
+                                    data[DatabaseKeys.OrderItem.itemName].toString(),
+                                    (data[DatabaseKeys.OrderItem.itemQty] as Long).toInt(),
+                                    data[DatabaseKeys.OrderItem.itemCinnamon] as Boolean,
+                                    data[DatabaseKeys.OrderItem.itemChoc] as Boolean,
+                                    data[DatabaseKeys.OrderItem.itemMarshmallow] as Boolean,
+                                    (data[DatabaseKeys.OrderItem.itemPrice] as Long).toInt()
                             )
                             items.add(orderItem)
                         }
@@ -186,32 +137,28 @@ class DatabaseServiceImpl : DatabaseService {
                     listener.onSuccess(items)
                 }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error getting order items")
                 }
     }
 
     override fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String) {
         val map = mapOf(
-                DatabaseKeys.Payment.CHECKOUT_REQUEST_ID to checkoutRequestId,
-                DatabaseKeys.Payment.MERCHANT_REQUEST_ID to merchantRequestId,
-                DatabaseKeys.Payment.ORDER_ID to orderId,
-                DatabaseKeys.Payment.CUSTOMER_ID to customerId,
-                DatabaseKeys.Payment.STATUS to "pending"
+                DatabaseKeys.Payment.checkoutRequestId to checkoutRequestId,
+                DatabaseKeys.Payment.merchantRequestId to merchantRequestId,
+                DatabaseKeys.Payment.orderId to orderId,
+                DatabaseKeys.Payment.customerId to customerId,
+                DatabaseKeys.Payment.status to "pending"
         )
 
-        fireStore.collection("payments")
+        firestore.collection("payments")
                 .document()
                 .set(map)
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                 }
     }
 
-    override fun getOrder(orderId: String, listener: DatabaseService.OrderListener) {
-        fireStore.collection("orders").document(orderId)
+    override fun getOrder(orderId: String, listener: ClientDatabaseService.OrderListener) {
+        firestore.collection("orders").document(orderId)
                 .get()
                 .addOnSuccessListener { snapshot ->
                     snapshot.data?.let { data ->
@@ -234,9 +181,35 @@ class DatabaseServiceImpl : DatabaseService {
                     }
                 }
                 .addOnFailureListener {
-                    Timber.e(it)
-                    Crashlytics.logException(it)
                     listener.onError(it.message ?: "Error getting order items")
+                }
+    }
+
+    private fun placeOrder(orderRef: DocumentReference, orderMap: MutableMap<String, Any>, orderItems: List<OrderItem>, order: Order, itemsRef: CollectionReference, listener: ClientDatabaseService.WriteListener) {
+        firestore
+                .runTransaction { transaction ->
+                    transaction.set(orderRef, orderMap)
+                    for (i in orderItems.indices) {
+                        val item = orderItems[i]
+                        val itemsMap = mutableMapOf<String, Any>()
+
+                        itemsMap[DatabaseKeys.Order.orderId] = order.orderId
+                        itemsMap[DatabaseKeys.OrderItem.itemName] = item.itemName
+                        itemsMap[DatabaseKeys.OrderItem.itemQty] = item.itemQty
+                        itemsMap[DatabaseKeys.OrderItem.itemCinnamon] = item.itemCinnamon
+                        itemsMap[DatabaseKeys.OrderItem.itemChoc] = item.itemChoc
+                        itemsMap[DatabaseKeys.OrderItem.itemMarshmallow] = item.itemMarshmallow
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
+                        itemsMap[DatabaseKeys.OrderItem.itemPrice] = item.itemPrice
+
+                        val reference = itemsRef.document("${order.orderId}-$i")
+                        transaction.set(reference, itemsMap)
+                    }
+                }
+                .addOnSuccessListener { listener.onSuccess() }
+                .addOnFailureListener {
+                    listener.onError(it.message ?: "Error placing order")
                 }
     }
 

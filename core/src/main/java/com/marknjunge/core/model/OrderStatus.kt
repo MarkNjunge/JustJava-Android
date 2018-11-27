@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.models
+package com.marknjunge.core.model
 
 /**
  * Created by Mark Njung'e.

@@ -1,14 +1,15 @@
 package com.marknkamau.justjava.ui.signup
 
 import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 
 internal class SignUpPresenter(private val activityView: SignUpView,
                                private val preferences: PreferencesRepository,
                                private val auth: AuthService,
-                               private val database: DatabaseService) {
+                               private val database: ClientDatabaseService) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
         activityView.disableUserInteraction()
@@ -43,7 +44,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
             override fun actionSuccessful(response: String) {
                 val userDetails = UserDetails(id, email, name, phone, address)
 
-                database.saveUserDetails(userDetails, object : DatabaseService.WriteListener {
+                database.saveUserDetails(userDetails, object : ClientDatabaseService.WriteListener {
                     override fun onSuccess() {
                         activityView.enableUserInteraction()
                         preferences.saveUserDetails(userDetails)

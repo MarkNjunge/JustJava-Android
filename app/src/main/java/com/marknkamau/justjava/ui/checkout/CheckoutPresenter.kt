@@ -1,11 +1,12 @@
 package com.marknkamau.justjava.ui.checkout
 
 import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.models.Order
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -16,7 +17,7 @@ import timber.log.Timber
 internal class CheckoutPresenter(private val activityView: CheckoutView,
                                  private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
-                                 private val database: DatabaseService,
+                                 private val database: ClientDatabaseService,
                                  private val cart: CartDao) : BasePresenter() {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
@@ -53,7 +54,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        database.placeNewOrder(order, items, object : DatabaseService.WriteListener {
+        database.placeNewOrder(order, items, object : ClientDatabaseService.WriteListener {
             override fun onSuccess() {
                 disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())

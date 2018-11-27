@@ -1,15 +1,16 @@
 package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 
 import com.marknkamau.justjava.data.network.db.DatabaseService
 
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,
                               private val auth: AuthService,
-                              private val database: DatabaseService) {
+                              private val database: ClientDatabaseService) {
 
     fun checkSignInStatus() {
         if (auth.isSignedIn()) {
@@ -31,7 +32,7 @@ internal class LogInPresenter(private val activityView: LogInView,
     }
 
     private fun getUserDefaults(id: String) {
-        database.getUserDefaults(id, object : DatabaseService.UserDetailsListener {
+        database.getUserDefaults(id, object : ClientDatabaseService.UserDetailsListener {
             override fun onSuccess(userDetails: UserDetails) {
                 preferences.saveUserDetails(userDetails)
                 activityView.dismissDialog()

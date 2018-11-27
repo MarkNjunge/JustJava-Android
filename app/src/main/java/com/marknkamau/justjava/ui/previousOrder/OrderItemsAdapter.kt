@@ -11,7 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.OrderItem
 import kotlinx.android.synthetic.main.item_order_item.view.*
 
 class OrderItemsAdapter : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {

@@ -14,7 +14,7 @@ import android.widget.TextView
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknjunge.core.data.local.DrinksProvider
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.OrderItem
 
 class EditCartDialog : DialogFragment(), View.OnClickListener {
     private lateinit var tvDrinkName: TextView

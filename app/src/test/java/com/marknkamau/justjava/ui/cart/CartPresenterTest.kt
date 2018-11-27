@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.OrderItem
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins

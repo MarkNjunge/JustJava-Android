@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.checkout
 
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.network.db.DatabaseService
 import io.reactivex.android.plugins.RxAndroidPlugins

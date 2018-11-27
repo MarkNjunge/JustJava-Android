@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 // A properties file is located at projectFolder/keys.properties
 def keysPropertiesFile = rootProject.file("keys.properties")
@@ -40,6 +41,7 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-core:${versions.firebase.core}"
     implementation "com.google.firebase:firebase-auth:${versions.firebase.auth}"
+    implementation "com.google.firebase:firebase-firestore:${versions.firebase.firestore}"
 
     // REST
     implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
@@ -54,7 +56,11 @@ dependencies {
 
     // Other
     implementation "com.google.code.gson:gson:${versions.gson}"
-    implementation "com.jakewharton.timber:timber:${versions.timber}"
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:${versions.room}"
+    implementation "android.arch.persistence.room:rxjava2:${versions.room}"
+    kapt "android.arch.persistence.room:compiler:${versions.room}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

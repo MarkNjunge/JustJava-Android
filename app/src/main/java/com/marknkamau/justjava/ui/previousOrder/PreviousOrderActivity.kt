@@ -15,8 +15,8 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_previous_order.*

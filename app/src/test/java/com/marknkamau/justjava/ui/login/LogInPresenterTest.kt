@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.login
 import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 import com.nhaarman.mockito_kotlin.any
 import org.junit.Before
 import org.junit.Test

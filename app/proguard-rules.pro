@@ -25,9 +25,6 @@
 #-renamesourcefileattribute SourceFile
 
 
--keep class com.marknkamau.justjava.data.models.OrderItem implements android.os.Parcelable {
-    *;
-}
 -dontwarn com.squareup.okhttp.**
 -dontwarn android.arch.util.paging.CountedDataSource
 -dontwarn android.arch.persistence.room.paging.LimitOffsetDataSource

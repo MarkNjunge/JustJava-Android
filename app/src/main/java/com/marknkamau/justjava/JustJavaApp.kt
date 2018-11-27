@@ -15,13 +15,15 @@ import com.marknkamau.justjava.utils.NotificationHelper
 import timber.log.Timber
 import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.Crashlytics
+import com.marknjunge.core.data.firebase.ClientDatabaseImpl
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknjunge.core.mpesa.MpesaInteractorImpl
 
 class JustJavaApp : Application() {
     lateinit var preferencesRepo: PreferencesRepository
     lateinit var authService: AuthService
-    lateinit var databaseService: DatabaseService
+    lateinit var databaseService: ClientDatabaseService
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
     lateinit var mpesaInteractor: MpesaInteractor
@@ -45,7 +47,7 @@ class JustJavaApp : Application() {
 
         preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
         authService = AuthServiceImpl()
-        databaseService = DatabaseServiceImpl()
+        databaseService = ClientDatabaseImpl()
         mpesaInteractor = MpesaInteractorImpl()
 
         cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()

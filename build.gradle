@@ -16,6 +16,7 @@ buildscript {
             'rxkotlin'     : '2.3.0',
             'rxandroid'    : '2.1.0',
             'timber'       : '4.7.1',
+            'room'         : '1.1.1',
             'firebase'     : [
                     'core'     : '16.0.5',
                     'auth'     : '16.0.5',

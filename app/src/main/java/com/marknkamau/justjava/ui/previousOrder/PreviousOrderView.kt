@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.previousOrder
 
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.ui.BaseView
 
 /**

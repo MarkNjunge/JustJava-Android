@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.network.db
+package com.marknjunge.core.model
 
 /**
  * Created by MarkNjunge.
@@ -6,8 +6,16 @@ package com.marknkamau.justjava.data.network.db
  * https://github.com/MarkNjunge
  */
 
-object DatabaseKeys{
-    object Order{
+object DatabaseKeys {
+    object User {
+        const val userId = "id"
+        const val name = "name"
+        const val email = "email"
+        const val phone = "phone"
+        const val address = "address"
+    }
+
+    object Order {
         const val orderId = "orderId"
         const val customerId = "customerId"
         const val address = "address"
@@ -18,9 +26,10 @@ object DatabaseKeys{
         const val date = "date"
         const val paymentMethod = "paymentMethod"
         const val paymentStatus = "paymentStatus"
+        const val fcmToken = "fcmToken"
     }
 
-    object OrderItem{
+    object OrderItem {
         const val itemName = "itemName"
         const val itemQty = "itemQty"
         const val itemCinnamon = "itemCinnamon"
@@ -29,11 +38,11 @@ object DatabaseKeys{
         const val itemPrice = "itemPrice"
     }
 
-    object Payment{
-        const val CHECKOUT_REQUEST_ID = "checkoutRequestId"
-        const val MERCHANT_REQUEST_ID = "merchantRequestId"
-        const val ORDER_ID = "orderId"
-        const val CUSTOMER_ID = "customerId"
-        const val STATUS = "status"
+    object Payment {
+        const val checkoutRequestId = "checkoutRequestId"
+        const val merchantRequestId = "merchantRequestId"
+        const val orderId = "orderId"
+        const val customerId = "customerId"
+        const val status = "status"
     }
 }

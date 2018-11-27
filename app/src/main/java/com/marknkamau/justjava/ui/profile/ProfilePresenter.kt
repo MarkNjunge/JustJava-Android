@@ -1,16 +1,17 @@
 package com.marknkamau.justjava.ui.profile
 
 import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.UserDetails
 import timber.log.Timber
 
 internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
                                 private val authenticationService: AuthService,
-                                private val databaseService: DatabaseService) {
+                                private val databaseService: ClientDatabaseService) {
 
     init {
         getUserDetails()
@@ -26,7 +27,7 @@ internal class ProfilePresenter(private val view: ProfileView,
 
     private fun getPreviousOrders() {
         view.showOrdersProgressBar()
-        databaseService.getPreviousOrders(authenticationService.getCurrentUser().userId, object : DatabaseService.PreviousOrdersListener {
+        databaseService.getPreviousOrders(authenticationService.getCurrentUser().userId, object : ClientDatabaseService.PreviousOrdersListener {
             override fun onSuccess(previousOrders: MutableList<Order>) {
                 view.hideOrdersProgressBar()
                 if (previousOrders.isEmpty()) {
@@ -48,7 +49,7 @@ internal class ProfilePresenter(private val view: ProfileView,
         view.showProfileProgressBar()
         authenticationService.setUserDisplayName(name, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
-                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : DatabaseService.WriteListener {
+                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : ClientDatabaseService.WriteListener {
                     override fun onSuccess() {
                         val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
 
