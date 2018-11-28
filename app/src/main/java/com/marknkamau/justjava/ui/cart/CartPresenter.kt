@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknjunge.core.model.OrderItem
+import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -17,7 +17,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onSuccess = { items: MutableList<OrderItem>? ->
+                        onSuccess = { items: MutableList<CartItem>? ->
                             if (items != null && items.size > 0) {
                                 activityView.displayCart(items)
                                 var total = 0
@@ -49,7 +49,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 ))
     }
 
-    fun deleteItem(item: OrderItem){
+    fun deleteItem(item: CartItem){
         Completable.fromCallable { cart.deleteItem(item) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -65,7 +65,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 )
     }
 
-    fun updateItem(item: OrderItem){
+    fun updateItem(item: CartItem){
         Completable.fromCallable { cart.updateItem(item) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

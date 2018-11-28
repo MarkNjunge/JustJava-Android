@@ -14,7 +14,7 @@ import android.widget.TextView
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknjunge.core.data.local.DrinksProvider
-import com.marknjunge.core.model.OrderItem
+import com.marknkamau.justjava.data.models.CartItem
 
 class EditCartDialog : DialogFragment(), View.OnClickListener {
     private lateinit var tvDrinkName: TextView
@@ -29,14 +29,14 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
     private lateinit var imgSave: ImageView
 
     private var quantity: Int = 0
-    private lateinit var item: OrderItem
+    private lateinit var item: CartItem
     private var withCinnamon = false
     private var withChocolate = false
     private var withMarshmallow = false
 
     lateinit var cartDao: CartDao
 
-    lateinit var onComplete: (EditType, OrderItem) -> Unit
+    lateinit var onComplete: (EditType, CartItem) -> Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
             = inflater.inflate(R.layout.edit_fragment, container, false)
@@ -119,7 +119,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
     }
 
     private fun saveChanges() {
-        val newItem = OrderItem(
+        val newItem = CartItem(
                 item.id,
                 item.itemName,
                 quantity,

@@ -6,6 +6,8 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.model.Order
+import com.marknkamau.justjava.data.models.CartItem
+import com.marknkamau.justjava.data.models.toOrderItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,7 +37,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onSuccess = { items: MutableList<OrderItem> ->
+                        onSuccess = { items: MutableList<CartItem> ->
                             placeOrderInternal(items, order)
                         },
                         onError = { t: Throwable? ->
@@ -45,7 +47,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     }
 
-    private fun placeOrderInternal(items: MutableList<OrderItem>, order: Order) {
+    private fun placeOrderInternal(items: MutableList<CartItem>, order: Order) {
         val itemsCount = items.size
         var total = 0
         items.forEach { item -> total += item.itemPrice }
@@ -53,7 +55,12 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        database.placeNewOrder(order, items, object : ClientDatabaseService.WriteListener {
+        val orderItems = mutableListOf<OrderItem>()
+        items.forEach {
+            orderItems.add(it.toOrderItem())
+        }
+
+        database.placeNewOrder(order, orderItems, object : ClientDatabaseService.WriteListener {
             override fun onSuccess() {
                 disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())
