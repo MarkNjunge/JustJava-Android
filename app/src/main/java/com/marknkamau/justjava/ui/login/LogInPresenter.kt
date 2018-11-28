@@ -5,8 +5,6 @@ import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 
-import com.marknkamau.justjava.data.network.db.DatabaseService
-
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,
                               private val auth: AuthService,

@@ -9,8 +9,6 @@ import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
-import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.network.db.DatabaseServiceImpl
 import com.marknkamau.justjava.utils.NotificationHelper
 import timber.log.Timber
 import io.fabric.sdk.android.Fabric

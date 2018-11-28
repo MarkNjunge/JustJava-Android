@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui.signup
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknjunge.core.model.UserDetails
 
 internal class SignUpPresenter(private val activityView: SignUpView,

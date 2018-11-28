@@ -4,7 +4,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
-import com.marknkamau.justjava.data.network.db.DatabaseService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -32,7 +32,7 @@ class CheckoutPresenterTest {
     @Mock
     private lateinit var preferences: PreferencesRepository
     @Mock
-    private lateinit var database: DatabaseService
+    private lateinit var database: ClientDatabaseService
     @Mock
     private lateinit var cartDao: CartDao
 

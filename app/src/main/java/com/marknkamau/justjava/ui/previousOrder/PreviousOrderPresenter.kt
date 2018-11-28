@@ -6,7 +6,6 @@ import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknkamau.justjava.data.network.db.DatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
