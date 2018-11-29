@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknjunge.core.model.OrderItem
+import com.marknkamau.justjava.data.models.CartItem
 import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
@@ -29,7 +29,7 @@ class CartPresenterTest {
     @Mock private lateinit var cartDao: CartDao
 
     private lateinit var presenter: CartPresenter
-    private val cartItem = OrderItem(1, "itemName", 1, false, false, false, 10)
+    private val cartItem = CartItem(1, "itemName", 1, false, false, false, 10)
     private val cartItems = mutableListOf(cartItem)
 
     @Before
