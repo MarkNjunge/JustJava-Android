@@ -1,11 +1,13 @@
 package com.marknkamau.justjava.ui.checkout
 
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.models.Order
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.Order
+import com.marknkamau.justjava.data.models.CartItem
+import com.marknkamau.justjava.data.models.toOrderItem
 import com.marknkamau.justjava.ui.BasePresenter
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -14,9 +16,9 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
 internal class CheckoutPresenter(private val activityView: CheckoutView,
-                                 private val auth: AuthenticationService,
+                                 private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
-                                 private val database: DatabaseService,
+                                 private val database: ClientDatabaseService,
                                  private val cart: CartDao) : BasePresenter() {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
@@ -28,14 +30,14 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     fun placeOrder(orderId: String, address: String, comments: String, payCash: Boolean) {
         val paymentMethod = if (payCash) "cash" else "mpesa"
-        val order = Order(orderId, auth.getUserId()!!, 0, 0, address, comments, paymentMethod = paymentMethod)
+        val order = Order(orderId, auth.getCurrentUser().userId, 0, 0, address, comments, paymentMethod = paymentMethod)
         activityView.showUploadBar()
 
         disposables.add(cart.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onSuccess = { items: MutableList<OrderItem> ->
+                        onSuccess = { items: MutableList<CartItem> ->
                             placeOrderInternal(items, order)
                         },
                         onError = { t: Throwable? ->
@@ -45,7 +47,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
     }
 
-    private fun placeOrderInternal(items: MutableList<OrderItem>, order: Order) {
+    private fun placeOrderInternal(items: MutableList<CartItem>, order: Order) {
         val itemsCount = items.size
         var total = 0
         items.forEach { item -> total += item.itemPrice }
@@ -53,7 +55,12 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         order.itemsCount = itemsCount
         order.totalPrice = total
 
-        database.placeNewOrder(order, items, object : DatabaseService.WriteListener {
+        val orderItems = mutableListOf<OrderItem>()
+        items.forEach {
+            orderItems.add(it.toOrderItem())
+        }
+
+        database.placeNewOrder(order, orderItems, object : ClientDatabaseService.WriteListener {
             override fun onSuccess() {
                 disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())

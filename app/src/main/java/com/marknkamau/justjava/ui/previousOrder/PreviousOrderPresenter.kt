@@ -1,12 +1,12 @@
 package com.marknkamau.justjava.ui.previousOrder
 
 import com.google.firebase.iid.FirebaseInstanceId
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.OrderItem
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
-import com.marknkamau.justjava.data.network.db.DatabaseService
+import com.marknjunge.core.mpesa.MpesaInteractor
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
-import com.marknkamau.justjava.utils.mpesa.Mpesa
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -19,13 +19,13 @@ import timber.log.Timber
  */
 
 class PreviousOrderPresenter(private val view: PreviousOrderView,
-                             private val databaseService: DatabaseService,
-                             private val mpesa: Mpesa,
-                             private val authService: AuthenticationService)
+                             private val databaseService: ClientDatabaseService,
+                             private val mpesaInteractor: MpesaInteractor,
+                             private val authService: AuthService)
     : BasePresenter() {
 
     fun getOrderDetails(orderId: String) {
-        databaseService.getOrder(orderId, object : DatabaseService.OrderListener {
+        databaseService.getOrder(orderId, object : ClientDatabaseService.OrderListener {
             override fun onSuccess(order: Order) {
                 view.displayOrder(order)
             }
@@ -38,7 +38,7 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
     }
 
     fun getOrderItems(orderId: String) {
-        databaseService.getOrderItems(orderId, object : DatabaseService.OrderItemsListener {
+        databaseService.getOrderItems(orderId, object : ClientDatabaseService.OrderItemsListener {
             override fun onSuccess(items: List<OrderItem>) {
                 view.displayOrderItems(items)
             }
@@ -62,8 +62,8 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
             }
         }
 
-        getFcmToken().flatMap { token ->
-            mpesa.sendStkPush(total, phoneNumber, orderId, token)
+        val disposable = getFcmToken().flatMap { token ->
+            mpesaInteractor.sendStkPush(total, phoneNumber, orderId, token)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
         }
@@ -76,7 +76,7 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                                 databaseService.savePaymentRequest(
                                         lnmPaymentResponse.merchantRequestId,
                                         lnmPaymentResponse.checkoutRequestId,
-                                        orderId, authService.getUserId() ?: ""
+                                        orderId, authService.getCurrentUser().userId
                                 )
                             }
                         },
@@ -85,5 +85,7 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                             view.displayMessage(t.message)
                         }
                 )
+
+        disposables.add(disposable)
     }
 }

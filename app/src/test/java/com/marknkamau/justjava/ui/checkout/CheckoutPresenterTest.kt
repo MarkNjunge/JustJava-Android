@@ -2,9 +2,9 @@ package com.marknkamau.justjava.ui.checkout
 
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.models.UserDetails
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
-import com.marknkamau.justjava.data.network.db.DatabaseService
+import com.marknjunge.core.model.UserDetails
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -28,11 +28,11 @@ class CheckoutPresenterTest {
     @Mock
     private lateinit var view: CheckoutView
     @Mock
-    private lateinit var auth: AuthenticationService
+    private lateinit var auth: AuthService
     @Mock
     private lateinit var preferences: PreferencesRepository
     @Mock
-    private lateinit var database: DatabaseService
+    private lateinit var database: ClientDatabaseService
     @Mock
     private lateinit var cartDao: CartDao
 

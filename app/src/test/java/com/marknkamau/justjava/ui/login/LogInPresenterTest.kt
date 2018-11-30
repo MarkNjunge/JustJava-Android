@@ -1,9 +1,9 @@
 package com.marknkamau.justjava.ui.login
 
-import com.marknkamau.justjava.data.network.authentication.AuthenticationService
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.network.db.DatabaseService
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 import com.nhaarman.mockito_kotlin.any
 import org.junit.Before
 import org.junit.Test
@@ -23,8 +23,8 @@ class LogInPresenterTest {
 
     @Mock private lateinit var view: LogInView
     @Mock private lateinit var preferences: PreferencesRepository
-    @Mock private lateinit var auth: AuthenticationService
-    @Mock private lateinit var database: DatabaseService
+    @Mock private lateinit var auth: AuthService
+    @Mock private lateinit var database: ClientDatabaseService
 
     private lateinit var presenter: LogInPresenter
 
@@ -46,13 +46,13 @@ class LogInPresenterTest {
     fun should_finishSignIn_when_signInAndUserDefaults_success() {
         // Succeed in signing in
         Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthenticationService.AuthActionListener
+            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
             authActionListener.actionSuccessful("")
         }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         // Succeed in getting user defaults
         Mockito.doAnswer { invocation ->
-            val userDetailsListener = invocation.arguments[1] as DatabaseService.UserDetailsListener
+            val userDetailsListener = invocation.arguments[1] as ClientDatabaseService.UserDetailsListener
             userDetailsListener.onSuccess(UserDetails("", "", "", "", ""))
         }.`when`(database).getUserDefaults(Mockito.anyString(), any())
 
@@ -65,7 +65,7 @@ class LogInPresenterTest {
     fun should_displayMessage_when_signIn_failed() {
         // Fail in signing in
         Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthenticationService.AuthActionListener
+            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
             authActionListener.actionFailed("")
         }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
@@ -78,13 +78,13 @@ class LogInPresenterTest {
     fun should_displayMessage_when_getUserDefaults_failed() {
         // Succeed in signing in
         Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthenticationService.AuthActionListener
+            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
             authActionListener.actionSuccessful("")
         }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         // Fail in getting user defaults
         Mockito.doAnswer { invocation ->
-            val userDetailsListener = invocation.arguments[1] as DatabaseService.UserDetailsListener
+            val userDetailsListener = invocation.arguments[1] as ClientDatabaseService.UserDetailsListener
             userDetailsListener.onError("")
         }.`when`(database).getUserDefaults(Mockito.anyString(), any())
 
@@ -96,7 +96,7 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_success() {
         Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[1] as AuthenticationService.AuthActionListener
+            val authActionListener = invocation.arguments[1] as AuthService.AuthActionListener
             authActionListener.actionSuccessful("")
         }.`when`(auth).sendPasswordResetEmail(Mockito.anyString(), any())
 
@@ -108,7 +108,7 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_failed() {
         Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[1] as AuthenticationService.AuthActionListener
+            val authActionListener = invocation.arguments[1] as AuthService.AuthActionListener
             authActionListener.actionFailed("")
         }.`when`(auth).sendPasswordResetEmail(Mockito.anyString(), any())
 

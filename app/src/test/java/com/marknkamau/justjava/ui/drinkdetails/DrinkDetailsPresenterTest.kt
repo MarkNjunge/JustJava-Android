@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
 import com.marknkamau.justjava.data.local.CartDao
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknkamau.justjava.data.models.CartItem
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
@@ -26,7 +26,7 @@ class DrinkDetailsPresenterTest {
     @Mock private lateinit var cartDao: CartDao
 
     private lateinit var presenter: DrinkDetailsPresenter
-    private val cartItem = OrderItem(1, "itemName", 1, false, false, false, 10)
+    private val cartItem = CartItem(1, "itemName", 1, false, false, false, 10)
 
     @Before
     fun setup() {

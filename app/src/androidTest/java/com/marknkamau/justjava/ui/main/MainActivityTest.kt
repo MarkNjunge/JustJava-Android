@@ -10,7 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.support.v7.widget.RecyclerView
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.DrinksProvider
+import com.marknjunge.core.data.local.DrinksProvider
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

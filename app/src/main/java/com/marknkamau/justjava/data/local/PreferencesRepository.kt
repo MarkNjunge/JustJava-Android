@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.data.local
 
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.UserDetails
 
 interface PreferencesRepository {
     fun saveUserDetails(userDetails: UserDetails)

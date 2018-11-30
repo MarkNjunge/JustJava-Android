@@ -8,7 +8,7 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.DrinksProvider
+import com.marknjunge.core.data.local.DrinksProvider
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith

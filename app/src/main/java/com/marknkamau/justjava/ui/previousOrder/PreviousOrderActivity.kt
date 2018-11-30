@@ -15,8 +15,8 @@ import android.widget.Toast
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.OrderItem
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_previous_order.*
@@ -24,7 +24,6 @@ import kotlinx.android.synthetic.main.include_order_details.*
 import timber.log.Timber
 
 class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
-
 
     companion object {
         const val ORDER_KEY = "order_key"
@@ -50,7 +49,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
         broadcastManager = (application as JustJavaApp).broadcastManager
         order = intent.getParcelableExtra(ORDER_KEY)
 
-        val mpesa = (application as JustJavaApp).mpesa
+        val mpesa = (application as JustJavaApp).mpesaInteractor
         preferencesRepo = (application as JustJavaApp).preferencesRepo
         val authService = (application as JustJavaApp).authService
         presenter = PreviousOrderPresenter(this, (application as JustJavaApp).databaseService, mpesa, authService)
@@ -95,6 +94,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     override fun onStop() {
         super.onStop()
         broadcastManager.unregisterReceiver(broadcastReceiver)
+        presenter.unSubscribe()
     }
 
     override fun displayOrderItems(orderItems: List<OrderItem>) {

@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.checkout
 
-import com.marknkamau.justjava.data.models.Order
-import com.marknkamau.justjava.data.models.UserDetails
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.ui.BaseView
 
 interface CheckoutView : BaseView {
