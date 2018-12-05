@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.signup
 
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 
@@ -43,7 +44,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
             override fun actionSuccessful(response: String) {
                 val userDetails = UserDetails(id, email, name, phone, address)
 
-                database.saveUserDetails(userDetails, object : ClientDatabaseService.WriteListener {
+                database.saveUserDetails(userDetails, object : WriteListener {
                     override fun onSuccess() {
                         activityView.enableUserInteraction()
                         preferences.saveUserDetails(userDetails)

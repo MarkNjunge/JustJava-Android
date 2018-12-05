@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.checkout
 
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.OrderItem
@@ -60,7 +61,7 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
             orderItems.add(it.toOrderItem())
         }
 
-        database.placeNewOrder(order, orderItems, object : ClientDatabaseService.WriteListener {
+        database.placeNewOrder(order, orderItems, object : WriteListener {
             override fun onSuccess() {
                 disposables.add(Completable.fromCallable { cart.deleteAll() }
                         .subscribeOn(Schedulers.io())

@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.profile
 
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
@@ -48,7 +49,7 @@ internal class ProfilePresenter(private val view: ProfileView,
         view.showProfileProgressBar()
         authenticationService.setUserDisplayName(name, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
-                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : ClientDatabaseService.WriteListener {
+                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : WriteListener {
                     override fun onSuccess() {
                         val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
 
