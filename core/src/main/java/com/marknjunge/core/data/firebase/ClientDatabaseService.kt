@@ -21,16 +21,8 @@ interface ClientDatabaseService {
 
     fun getOrder(orderId: String, listener: OrderListener)
 
-    interface DatabaseListener {
-        fun onError(reason: String)
-    }
-
     interface UserDetailsListener : DatabaseListener {
         fun onSuccess(userDetails: UserDetails)
-    }
-
-    interface WriteListener : DatabaseListener {
-        fun onSuccess()
     }
 
     interface PreviousOrdersListener : DatabaseListener {

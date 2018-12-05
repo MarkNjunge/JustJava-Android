@@ -3,19 +3,17 @@ package com.marknkamau.justjavastaff.ui.orderdetails
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.transition.TransitionManager
 import android.support.v7.app.AlertDialog
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.OrderStatus
+import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 import com.marknkamau.justjavastaff.R
-import com.marknkamau.justjavastaff.models.Order
-import com.marknkamau.justjavastaff.models.OrderItem
-import com.marknkamau.justjavastaff.models.OrderStatus
-import com.marknkamau.justjavastaff.models.User
 import com.marknkamau.justjavastaff.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_order_details.*
 import kotlinx.android.synthetic.main.include_customer_details.*
@@ -34,24 +32,17 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
 
     private val colorUtils by lazy { (application as JustJavaStaffApp).colorUtils }
 
-//    private val colorPending by lazy { ContextCompat.getColor(this, R.color.colorPending) }
-//    private val colorInProgress by lazy { ContextCompat.getColor(this, R.color.colorInProgress) }
-//    private val colorCancelled by lazy { ContextCompat.getColor(this, R.color.colorCancelled) }
-//    private val colorCompleted by lazy { ContextCompat.getColor(this, R.color.colorCompleted) }
-//    private val colorDelivered by lazy { ContextCompat.getColor(this, R.color.colorDelivered) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_order_details)
 
         order = intent.getParcelableExtra(ORDER)
 
-        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).dataRepository)
+        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).databaseService)
         presenter.getOrderItems(order.orderId)
         presenter.getUserDetails(order.customerId)
 
         rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-//        rvOrderItems.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
         orderItemsAdapter = OrderItemsAdapter()
         rvOrderItems.adapter = orderItemsAdapter
 
@@ -88,8 +79,7 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
         orderItemsAdapter.setItems(items)
     }
 
-    override fun setUserDetails(user: User) {
-        TransitionManager.beginDelayedTransition(sceneRoot)
+    override fun setUserDetails(user: UserDetails) {
         cardCustomerDetails.visibility = View.VISIBLE
         tvCustomerName.text = user.name
         tvCustomerPhone.text = user.phone

@@ -1,8 +1,8 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
-import com.marknkamau.justjavastaff.models.OrderItem
-import com.marknkamau.justjavastaff.models.OrderStatus
-import com.marknkamau.justjavastaff.models.User
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.OrderStatus
+import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjavastaff.ui.BaseView
 
 /**
@@ -14,7 +14,7 @@ import com.marknkamau.justjavastaff.ui.BaseView
 interface OrderDetailsView : BaseView {
     fun displayOrderItems(items: MutableList<OrderItem>)
 
-    fun setUserDetails(user: User)
+    fun setUserDetails(user: UserDetails)
 
     fun setOrderStatus(status: OrderStatus)
 }

@@ -1,17 +1,16 @@
 package com.marknkamau.justjavastaff.ui.main
 
+import com.marknjunge.core.data.firebase.StaffDatabaseService
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderStatus
 import com.marknkamau.justjavastaff.data.local.SettingsRespository
 
-import com.marknkamau.justjavastaff.data.network.DataRepository
-import com.marknkamau.justjavastaff.models.Order
-import com.marknkamau.justjavastaff.models.OrderStatus
-import com.marknkamau.justjavastaff.models.User
 import timber.log.Timber
 
-internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val dataRepository: DataRepository) {
+internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val databaseService: StaffDatabaseService) {
 
     fun getOrders() {
-        dataRepository.getOrders(object : DataRepository.OrdersListener {
+        databaseService.getOrders(object : StaffDatabaseService.OrdersListener {
             override fun onSuccess(orders: List<Order>) {
                 if (orders.isEmpty()) {
                     view.displayNoOrders()
@@ -19,6 +18,8 @@ internal class MainActivityPresenter(private val view: MainView, private val set
                     val statusSettings = settings.getStatusSettings()
                     val filteredOrders = mutableListOf<Order>()
                     orders.forEach {
+                    Timber.d(it.status.toString())
+                    Timber.d((it.status == OrderStatus.PENDING).toString())
                         if (it.status == OrderStatus.PENDING && statusSettings.pending)
                             filteredOrders.add(it)
                         if (it.status == OrderStatus.INPROGRESS && statusSettings.inProgress)
@@ -37,8 +38,8 @@ internal class MainActivityPresenter(private val view: MainView, private val set
             override fun onError(reason: String) {
                 view.displayMessage(reason)
             }
-        })
 
+        })
 
     }
 }

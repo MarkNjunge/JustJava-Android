@@ -6,10 +6,10 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 
 import com.marknkamau.justjavastaff.R
-import com.marknkamau.justjavastaff.authentication.AuthenticationService
 import com.marknkamau.justjavastaff.ui.help.HelpActivity
 import com.marknkamau.justjavastaff.ui.login.LogInActivity
 import com.marknkamau.justjavastaff.ui.preferences.SettingsActivity
@@ -23,7 +23,7 @@ import com.marknkamau.justjavastaff.ui.preferences.SettingsActivity
 @SuppressLint("Registered")
 open class BaseActivity : AppCompatActivity() {
 
-    private lateinit var auth: AuthenticationService
+    private lateinit var auth: AuthService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +40,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_log_out ->{
-                auth.signOut()
+                auth.logOut()
                 val intent = Intent(this, LogInActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

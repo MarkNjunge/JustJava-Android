@@ -10,5 +10,6 @@ enum class OrderStatus {
     PENDING,
     INPROGRESS,
     COMPLETED,
-    CANCELLED
+    CANCELLED,
+    DELIVERED
 }

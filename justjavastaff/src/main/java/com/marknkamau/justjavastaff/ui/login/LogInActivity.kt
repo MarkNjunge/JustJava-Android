@@ -24,12 +24,13 @@ class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
         setContentView(R.layout.activity_log_in)
 
         val auth = (application as JustJavaStaffApp).auth
-        presenter = LoginPresenter(auth, this)
 
-        if (auth.currentEmployee() != null) {
+        if (auth.isSignedIn()) {
             startActivity(Intent(this@LogInActivity, MainActivity::class.java))
             finish()
         }
+
+        presenter = LoginPresenter(auth, this)
 
         btnLogIn.setOnClickListener(this)
         imgVisibility.setOnClickListener(this)

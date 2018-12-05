@@ -1,6 +1,6 @@
 package com.marknkamau.justjavastaff.ui.main
 
-import com.marknkamau.justjavastaff.models.Order
+import com.marknjunge.core.model.Order
 
 interface MainView {
     fun displayMessage(message: String)

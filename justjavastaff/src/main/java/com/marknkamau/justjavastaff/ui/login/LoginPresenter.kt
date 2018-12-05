@@ -1,8 +1,6 @@
 package com.marknkamau.justjavastaff.ui.login
 
-import com.marknkamau.justjavastaff.authentication.AuthenticationService
-import com.marknkamau.justjavastaff.models.Employee
-
+import com.marknjunge.core.auth.AuthService
 import java.util.regex.Pattern
 
 /**
@@ -11,7 +9,7 @@ import java.util.regex.Pattern
  * https://github.com/MarkNjunge
  */
 
-class LoginPresenter(private val auth: AuthenticationService, private val view: LoginView) {
+class LoginPresenter(private val auth: AuthService, private val view: LoginView) {
 
     fun signIn(email: String, password: String) {
         val pattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
@@ -22,13 +20,13 @@ class LoginPresenter(private val auth: AuthenticationService, private val view: 
             return
         }
 
-        auth.signIn(email, password, object : AuthenticationService.AuthListener {
-            override fun onSuccess(employee: Employee) {
+        auth.signIn(email, password, object : AuthService.AuthActionListener {
+            override fun actionSuccessful(response: String) {
                 view.onSignedIn()
             }
 
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
+            override fun actionFailed(response: String) {
+                view.displayMessage(response)
             }
         })
     }

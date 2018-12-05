@@ -1,9 +1,10 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
-import com.marknkamau.justjavastaff.data.network.DataRepository
-import com.marknkamau.justjavastaff.models.OrderItem
-import com.marknkamau.justjavastaff.models.OrderStatus
-import com.marknkamau.justjavastaff.models.User
+import com.marknjunge.core.data.firebase.StaffDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.model.OrderStatus
+import com.marknjunge.core.model.UserDetails
 
 /**
  * Created by Mark Njung'e.
@@ -11,10 +12,10 @@ import com.marknkamau.justjavastaff.models.User
  * https://github.com/MarkNjunge
  */
 
-class OrderDetailsPresenter(private val view: OrderDetailsView, private val dataRepository: DataRepository) {
+class OrderDetailsPresenter(private val view: OrderDetailsView, private val databaseService: StaffDatabaseService) {
 
     fun getOrderItems(orderId: String) {
-        dataRepository.getOrderItems(orderId, object : DataRepository.OrderItemsListener {
+        databaseService.getOrderItems(orderId, object : StaffDatabaseService.OrderItemsListener {
             override fun onSuccess(items: List<OrderItem>) {
                 view.displayOrderItems(items.toMutableList())
             }
@@ -26,12 +27,12 @@ class OrderDetailsPresenter(private val view: OrderDetailsView, private val data
     }
 
     fun getUserDetails(userId: String) {
-        dataRepository.getCustomerDetails(userId, object : DataRepository.UserListener {
+        databaseService.getCustomerDetails(userId, object : StaffDatabaseService.UserListener {
             override fun onError(reason: String) {
                 view.displayMessage(reason)
             }
 
-            override fun onSuccess(user: User) {
+            override fun onSuccess(user: UserDetails) {
                 view.setUserDetails(user)
             }
 
@@ -39,7 +40,7 @@ class OrderDetailsPresenter(private val view: OrderDetailsView, private val data
     }
 
     fun updateOrderStatus(orderId: String, status: OrderStatus) {
-        dataRepository.updateOderStatus(orderId, status, object : DataRepository.BasicListener {
+        databaseService.updateOrderStatus(orderId, status, object : WriteListener {
             override fun onSuccess() {
                 view.displayMessage("Updated!")
                 view.setOrderStatus(status)

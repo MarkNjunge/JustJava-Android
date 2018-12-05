@@ -12,9 +12,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.marknjunge.core.model.Order
+import com.marknjunge.core.model.OrderStatus
 import com.marknkamau.justjavastaff.R
-import com.marknkamau.justjavastaff.models.Order
-import com.marknkamau.justjavastaff.models.OrderStatus
+
 import kotlinx.android.synthetic.main.item_orders.view.*
 import java.text.SimpleDateFormat
 

@@ -10,11 +10,11 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjavastaff.R
-import com.marknkamau.justjavastaff.models.OrderItem
 import kotlinx.android.synthetic.main.item_order_item.view.*
 
-class OrderItemsAdapter() : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
+class OrderItemsAdapter : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<OrderItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_order_item))

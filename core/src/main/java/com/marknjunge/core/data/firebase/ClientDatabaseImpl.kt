@@ -11,7 +11,7 @@ import java.util.*
 class ClientDatabaseImpl : ClientDatabaseService {
     private val firestore by lazy { FirebaseFirestore.getInstance() }
 
-    override fun saveUserDetails(userDetails: UserDetails, listener: ClientDatabaseService.WriteListener) {
+    override fun saveUserDetails(userDetails: UserDetails, listener: WriteListener) {
         firestore.collection("users")
                 .document(userDetails.id)
                 .set(userDetails)
@@ -21,7 +21,7 @@ class ClientDatabaseImpl : ClientDatabaseService {
                 }
     }
 
-    override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: ClientDatabaseService.WriteListener) {
+    override fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: WriteListener) {
         val userDetailsMap = mapOf(
                 DatabaseKeys.User.name to name,
                 DatabaseKeys.User.phone to phone,
@@ -56,7 +56,7 @@ class ClientDatabaseImpl : ClientDatabaseService {
                 }
     }
 
-    override fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: ClientDatabaseService.WriteListener) {
+    override fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: WriteListener) {
         val orderRef = firestore.collection("orders").document(order.orderId)
         val itemsRef = firestore.collection("orderItems")
 
@@ -185,7 +185,7 @@ class ClientDatabaseImpl : ClientDatabaseService {
                 }
     }
 
-    private fun placeOrder(orderRef: DocumentReference, orderMap: MutableMap<String, Any>, orderItems: List<OrderItem>, order: Order, itemsRef: CollectionReference, listener: ClientDatabaseService.WriteListener) {
+    private fun placeOrder(orderRef: DocumentReference, orderMap: MutableMap<String, Any>, orderItems: List<OrderItem>, order: Order, itemsRef: CollectionReference, listener: WriteListener) {
         firestore
                 .runTransaction { transaction ->
                     transaction.set(orderRef, orderMap)

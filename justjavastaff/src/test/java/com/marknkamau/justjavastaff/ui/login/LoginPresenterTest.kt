@@ -1,7 +1,6 @@
 package com.marknkamau.justjavastaff.ui.login
 
-import com.marknkamau.justjavastaff.authentication.AuthenticationService
-import com.marknkamau.justjavastaff.models.Employee
+import com.marknjunge.core.auth.AuthService
 import com.nhaarman.mockito_kotlin.any
 
 import org.junit.Before
@@ -20,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner
 @RunWith(MockitoJUnitRunner::class)
 class LoginPresenterTest {
     @Mock
-    private val auth: AuthenticationService? = null
+    private val auth: AuthService? = null
 
     @Mock
     private val view: LoginView? = null
@@ -34,11 +33,10 @@ class LoginPresenterTest {
 
     @Test
     fun should_signIn() {
-        Mockito.doAnswer({
-            val authListener = it.arguments[2] as AuthenticationService.AuthListener
-            authListener.onSuccess(Employee("", "", ""))
-        }
-        ).`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
+        Mockito.doAnswer {
+            val authListener = it.arguments[2] as AuthService.AuthActionListener
+            authListener.actionSuccessful("")
+        }.`when`<AuthService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         presenter!!.signIn("mark@justjava.com", "")
 
@@ -48,9 +46,9 @@ class LoginPresenterTest {
     @Test
     fun should_showError_onFailedSignedIn() {
         Mockito.doAnswer {
-            val authListener = it.arguments[2] as AuthenticationService.AuthListener
-            authListener.onError("")
-        }.`when`<AuthenticationService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
+            val authListener = it.arguments[2] as AuthService.AuthActionListener
+            authListener.actionFailed("")
+        }.`when`<AuthService>(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
 
         presenter!!.signIn("mark@justjava.com", "")
 
