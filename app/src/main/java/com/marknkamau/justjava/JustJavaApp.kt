@@ -17,6 +17,7 @@ import com.marknjunge.core.data.firebase.ClientDatabaseImpl
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknjunge.core.mpesa.MpesaInteractorImpl
+import com.squareup.leakcanary.LeakCanary
 
 class JustJavaApp : Application() {
     lateinit var preferencesRepo: PreferencesRepository
@@ -29,6 +30,8 @@ class JustJavaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        LeakCanary.install(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
