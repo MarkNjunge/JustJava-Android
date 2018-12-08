@@ -1,11 +1,8 @@
 package com.marknjunge.core.data.firebase
 
-import com.marknjunge.core.model.Order
-import com.marknjunge.core.model.OrderItem
-import com.marknjunge.core.model.OrderStatus
-import com.marknjunge.core.model.UserDetails
+import com.marknjunge.core.model.*
 
-interface StaffDatabaseService{
+interface StaffDatabaseService {
     fun getOrders(listener: OrdersListener)
 
     fun getOrderItems(orderId: String, listener: OrderItemsListener)
@@ -13,6 +10,8 @@ interface StaffDatabaseService{
     fun updateOrderStatus(orderId: String, status: OrderStatus, listener: WriteListener)
 
     fun getCustomerDetails(userId: String, listener: UserListener)
+
+    fun getPayments(listener: PaymentsListener)
 
     interface OrdersListener : DatabaseListener {
         fun onSuccess(orders: List<Order>)
@@ -24,5 +23,9 @@ interface StaffDatabaseService{
 
     interface UserListener : DatabaseListener {
         fun onSuccess(user: UserDetails)
+    }
+
+    interface PaymentsListener : DatabaseListener {
+        fun onSuccess(payments: List<Payment>)
     }
 }

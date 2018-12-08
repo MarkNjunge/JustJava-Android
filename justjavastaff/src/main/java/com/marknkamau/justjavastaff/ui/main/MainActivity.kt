@@ -1,64 +1,52 @@
 package com.marknkamau.justjavastaff.ui.main
 
 import android.content.Intent
+import android.support.design.widget.TabLayout
+
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.view.View
-import android.widget.Toast
-
 import com.marknkamau.justjavastaff.JustJavaStaffApp
+
 import com.marknkamau.justjavastaff.R
-import com.marknjunge.core.model.Order
 import com.marknkamau.justjavastaff.ui.BaseActivity
-import com.marknkamau.justjavastaff.ui.orderdetails.OrderDetailsActivity
-
+import com.marknkamau.justjavastaff.ui.login.LogInActivity
+import com.marknkamau.justjavastaff.ui.orders.OrdersFragment
+import com.marknkamau.justjavastaff.ui.payments.PaymentsFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 
-class MainActivity : BaseActivity(), MainView {
-    private lateinit var presenter: MainActivityPresenter
-    private lateinit var adapter: OrdersAdapter
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val settings = (application as JustJavaStaffApp).settingsRepository
-        val databaseService = (application as JustJavaStaffApp).databaseService
-        presenter = MainActivityPresenter(this, settings, databaseService)
+        setSupportActionBar(toolbar)
 
-        rvOrders.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        adapter = OrdersAdapter(this){order ->
-            Timber.d(order.toString())
-            goToDetails(order)
+        val auth = (application as JustJavaStaffApp).auth
+        if (!auth.isSignedIn()) {
+            startActivity(Intent(this@MainActivity, LogInActivity::class.java))
+            finish()
         }
 
-        rvOrders.adapter = adapter
+        val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        container.adapter = sectionsPagerAdapter
+
+        container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
+        tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
     }
 
-    override fun onResume() {
-        super.onResume()
-        presenter.getOrders()
+    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+        override fun getItem(position: Int): Fragment {
+            return when (position) {
+                0 -> OrdersFragment()
+                1 -> PaymentsFragment()
+                else -> OrdersFragment()
+            }
+        }
+
+        override fun getCount() = 2
     }
 
-    override fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun displayAvailableOrders(orders: MutableList<Order>) {
-        pbLoading.visibility = View.GONE
-        adapter.setItems(orders)
-    }
-
-    override fun displayNoOrders() {
-        Toast.makeText(this, "There are no orders", Toast.LENGTH_SHORT).show()
-        pbLoading.visibility = View.GONE
-    }
-
-    private fun goToDetails(order: Order) {
-        val intent = Intent(this, OrderDetailsActivity::class.java)
-        intent.putExtra(OrderDetailsActivity.ORDER, order)
-        startActivity(intent)
-    }
 }

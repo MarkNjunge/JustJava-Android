@@ -1,4 +1,4 @@
-package com.marknkamau.justjavastaff.ui.main
+package com.marknkamau.justjavastaff.ui.orders
 
 import com.marknjunge.core.data.firebase.StaffDatabaseService
 import com.marknjunge.core.model.Order
@@ -7,7 +7,7 @@ import com.marknkamau.justjavastaff.data.local.SettingsRespository
 
 import timber.log.Timber
 
-internal class MainActivityPresenter(private val view: MainView, private val settings: SettingsRespository, private val databaseService: StaffDatabaseService) {
+internal class OrdersFragmentPresenter(private val view: OrdersView, private val settings: SettingsRespository, private val databaseService: StaffDatabaseService) {
 
     fun getOrders() {
         databaseService.getOrders(object : StaffDatabaseService.OrdersListener {
@@ -18,8 +18,6 @@ internal class MainActivityPresenter(private val view: MainView, private val set
                     val statusSettings = settings.getStatusSettings()
                     val filteredOrders = mutableListOf<Order>()
                     orders.forEach {
-                    Timber.d(it.status.toString())
-                    Timber.d((it.status == OrderStatus.PENDING).toString())
                         if (it.status == OrderStatus.PENDING && statusSettings.pending)
                             filteredOrders.add(it)
                         if (it.status == OrderStatus.INPROGRESS && statusSettings.inProgress)

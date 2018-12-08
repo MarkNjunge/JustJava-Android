@@ -43,6 +43,10 @@ object DatabaseKeys {
         const val merchantRequestId = "merchantRequestId"
         const val orderId = "orderId"
         const val customerId = "customerId"
+        const val resultDesc = "resultDesc"
+        const val date = "date"
         const val status = "status"
+        const val mpesaReceiptNumber = "mpesaReceiptNumber"
+        const val phoneNumber = "phoneNumber"
     }
 }

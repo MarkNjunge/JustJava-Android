@@ -1,4 +1,4 @@
-package com.marknkamau.justjavastaff.ui.main
+package com.marknkamau.justjavastaff.ui.orders
 
 /**
  * Created by Mark Njung'e.

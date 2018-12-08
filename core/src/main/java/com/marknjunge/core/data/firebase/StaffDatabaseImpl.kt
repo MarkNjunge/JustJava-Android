@@ -98,4 +98,31 @@ class StaffDatabaseImpl : StaffDatabaseService {
                 }
     }
 
+    override fun getPayments(listener: StaffDatabaseService.PaymentsListener) {
+        firestore.collection("payments")
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    val payments = mutableListOf<Payment>()
+                    querySnapshot.forEach { documentSnapshot ->
+                        val payment = Payment(
+                                documentSnapshot[DatabaseKeys.Payment.checkoutRequestId] as String,
+                                documentSnapshot[DatabaseKeys.Payment.customerId] as String,
+                                documentSnapshot[DatabaseKeys.Payment.date] as Long,
+                                documentSnapshot[DatabaseKeys.Payment.merchantRequestId] as String,
+                                documentSnapshot[DatabaseKeys.Payment.orderId] as String,
+                                documentSnapshot[DatabaseKeys.Payment.resultDesc] as String,
+                                documentSnapshot[DatabaseKeys.Payment.status] as String,
+                                documentSnapshot[DatabaseKeys.Payment.mpesaReceiptNumber] as String?,
+                                (documentSnapshot[DatabaseKeys.Payment.phoneNumber] as Long?).toString()
+                        )
+                        payments.add(payment)
+                    }
+
+                    listener.onSuccess(payments)
+                }
+                .addOnFailureListener {
+                    listener.onError(it.message ?: "Error getting payments")
+                }
+    }
+
 }
