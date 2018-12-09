@@ -58,6 +58,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${versions.timber}"
     implementation "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}"
 
     // Test libraries
     testImplementation "junit:junit:${versions.junit}"
