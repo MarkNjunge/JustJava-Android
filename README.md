@@ -21,7 +21,9 @@ A mock Android application for a coffee shop.
 
 ## Download 
 <a href='https://play.google.com/store/apps/details?id=com.marknkamau.justjava'>
-    <img alt='Get it on Google Play' 
-         src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
-         height="116" width="300"/>
-</a>
+​    <img alt='Get it on Google Play' 
+​         src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'
+​         height="116" width="300"/>
+</a>  
+
+[Download latest build](https://skyll.herokuapp.com/apps?slug=c373b1aa540acc1c&redirect=true)
