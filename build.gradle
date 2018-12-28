@@ -24,6 +24,7 @@ buildscript {
             'testRunner'      : '1.0.2',
             'espresso'        : '3.0.2',
             'leakCanary'      : '1.6.2',
+            'testRules'       : '1.0.2',
             'firebase'        : [
                     'core'     : '16.0.5',
                     'auth'     : '16.0.5',
