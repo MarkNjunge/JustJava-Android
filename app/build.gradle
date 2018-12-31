@@ -15,9 +15,6 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        // M-Pesa credentials in gradle.properties
-        buildConfigField("String", "CONSUMER_KEY", CONSUMER_KEY)
-        buildConfigField("String", "CONSUMER_SECRET", CONSUMER_SECRET)
     }
     buildTypes {
         release {
