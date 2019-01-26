@@ -3,8 +3,8 @@ package com.marknkamau.justjavastaff.ui.orderdetails
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
@@ -43,7 +43,7 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
         presenter.getOrderItems(order.orderId)
         presenter.getUserDetails(order.customerId)
 
-        rvOrderItems.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvOrderItems.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         orderItemsAdapter = OrderItemsAdapter()
         rvOrderItems.adapter = orderItemsAdapter
 

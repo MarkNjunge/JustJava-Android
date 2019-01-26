@@ -5,21 +5,21 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion androidConfig.compileSdk
     defaultConfig {
         applicationId "com.marknkamau.justjava"
-        minSdkVersion 21
-        targetSdkVersion 27
+        minSdkVersion androidConfig.minSdk
+        targetSdkVersion androidConfig.targetSdk
         versionCode 6
         versionName "1.4.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
-          ext.alwaysUpdateBuildId = false
-          ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            ext.enableCrashlytics = false
         }
         release {
             minifyEnabled true
@@ -32,43 +32,43 @@ dependencies {
     implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    implementation deps.kotlinStdlib
 
     //Android libraries
-    implementation "com.android.support:design:${versions.support}"
-    implementation "com.android.support:cardview-v7:${versions.support}"
-    implementation "com.android.support:appcompat-v7:${versions.support}"
-    implementation "com.android.support:recyclerview-v7:${versions.support}"
-    implementation "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
+    implementation deps.material
+    implementation deps.cardview
+    implementation deps.appcompat
+    implementation deps.recycerview
+    implementation deps.constraintLayout
 
     //Firebase libraries
-    implementation "com.google.firebase:firebase-messaging:${versions.firebase.messaging}"
+    implementation deps.firebaseMessaging
 
     // Room
-    implementation "android.arch.persistence.room:runtime:${versions.room}"
-    implementation "android.arch.persistence.room:rxjava2:${versions.room}"
-    kapt "android.arch.persistence.room:compiler:${versions.room}"
+    implementation deps.roomRuntime
+    implementation deps.roomRxJava
+    kapt deps.roomCompiler
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
-    implementation "io.reactivex.rxjava2:rxkotlin:${versions.rxkotlin}"
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+    implementation deps.rxKotlin
 
     // Other libraries
-    implementation "com.squareup.picasso:picasso:${versions.picasso}"
-    implementation "com.jakewharton.timber:timber:${versions.timber}"
-    implementation "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}"
+    implementation deps.picasso
+    implementation deps.timber
+    implementation deps.crashlytics
+    debugImplementation deps.leakCanary
+    releaseImplementation deps.leakCanaryNoOp
 
     // Test libraries
-    testImplementation "junit:junit:${versions.junit}"
-    testImplementation "org.mockito:mockito-core:${versions.mockitoCore}"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${versions.mockitoKotlin}"
-    androidTestImplementation "com.android.support.test:runner:${versions.testRunner}"
-    androidTestImplementation "com.android.support.test:rules:${versions.testRules}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:${versions.espresso}"
+    testImplementation deps.junit
+    testImplementation deps.mockitoCore
+    testImplementation deps.mockitoKotlin
+    androidTestImplementation deps.testRunner
+    androidTestImplementation deps.testRules
+    androidTestImplementation deps.espressoCore
+    androidTestImplementation deps.espressoContrib
 }
 
 apply plugin: 'com.google.gms.google-services'

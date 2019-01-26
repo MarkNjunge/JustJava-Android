@@ -2,8 +2,8 @@ package com.marknkamau.justjava.ui.cart
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.content.ContextCompat
+import androidx.fragment.app.DialogFragment
+import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +16,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknjunge.core.data.local.DrinksProvider
 import com.marknkamau.justjava.data.models.CartItem
 
-class EditCartDialog : DialogFragment(), View.OnClickListener {
+class EditCartDialog : androidx.fragment.app.DialogFragment(), View.OnClickListener {
     private lateinit var tvDrinkName: TextView
     private lateinit var tvQuantity: TextView
     private lateinit var tvChocolate: TextView
@@ -50,7 +50,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
             return
         }
 
-        item = args.getParcelable(CART_ITEM)
+        item = args.getParcelable(CART_ITEM) as CartItem
 
         tvDrinkName = view.findViewById(R.id.tvDrinkName) as TextView
         tvQuantity = view.findViewById(R.id.tvQuantity) as TextView

@@ -1,8 +1,8 @@
 package com.marknkamau.justjavastaff.ui.payments
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class PaymentsAdapter(private val context: Context, private val onClick: (Payment) -> Unit) : RecyclerView.Adapter<PaymentsAdapter.ViewHolder>() {
+class PaymentsAdapter(private val context: Context, private val onClick: (Payment) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<PaymentsAdapter.ViewHolder>() {
 
     private var data: List<Payment> = ArrayList()
 
@@ -34,7 +34,7 @@ class PaymentsAdapter(private val context: Context, private val onClick: (Paymen
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(context: Context, payment: Payment, onClick: (Payment) -> Unit) {
             val dateFormat = SimpleDateFormat("hh:mm a, d MMM")
 

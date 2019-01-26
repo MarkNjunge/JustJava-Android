@@ -2,8 +2,8 @@ package com.marknkamau.justjava.ui.cart
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -44,8 +44,8 @@ class CartActivity : BaseActivity(), CartView {
             editCartDialog.arguments = args
             editCartDialog.show(supportFragmentManager, "edit_cart_dialog")
         }
-        rvCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rvCart .addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        rvCart.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+        rvCart .addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvCart.adapter = adapter
 
         btnClearCart.setOnClickListener{

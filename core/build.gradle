@@ -8,15 +8,15 @@ def keys = new Properties()
 keys.load(new FileInputStream(keysPropertiesFile))
 
 android {
-    compileSdkVersion versions.compiledSdk
+    compileSdkVersion androidConfig.compileSdk
 
     defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+        minSdkVersion androidConfig.minSdk
+        targetSdkVersion androidConfig.targetSdk
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         // Safaricom API credentials
         buildConfigField("String", "safaricomConsumerKey", keys['SAFARICOM_CONSUMER_KEY'])
@@ -34,32 +34,31 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
 
-    implementation ("com.android.support:appcompat-v7:${versions.support}", {
-        exclude group: 'com.android.support', module: 'support-media-compat'
-    })
+    implementation deps.kotlinStdlib
+
+    implementation deps.appcompat
 
     // Firebase
-    api "com.google.firebase:firebase-core:${versions.firebase.core}"
-    api "com.google.firebase:firebase-auth:${versions.firebase.auth}"
-    api "com.google.firebase:firebase-firestore:${versions.firebase.firestore}"
+    api deps.firebaseCore
+    api deps.firebaseAuth
+    api deps.firebaseFirestore
 
     // REST
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${versions.okhttpLogging}"
+    implementation deps.retrofit
+    implementation deps.retrofitRxJava
+    implementation deps.retrofitGson
+    implementation deps.okhttpLogging
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
-    implementation "io.reactivex.rxjava2:rxkotlin:${versions.rxkotlin}"
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+    implementation deps.rxKotlin
 
     // Other
-    implementation "com.google.code.gson:gson:${versions.gson}"
+    implementation deps.gson
 
-    testImplementation "junit:junit:${versions.junit}"
-    androidTestImplementation "com.android.support.test:runner:${versions.testRunner}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
+    testImplementation deps.junit
+    androidTestImplementation deps.testRunner
+    androidTestImplementation deps.espressoCore
 }

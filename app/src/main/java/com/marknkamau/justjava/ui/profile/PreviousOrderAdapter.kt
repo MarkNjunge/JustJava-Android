@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.profile
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.item_previous_order.view.*
 
-class PreviousOrderAdapter(private val context: Context, private val onClick: (order: Order) -> Unit) : RecyclerView.Adapter<PreviousOrderAdapter.ViewHolder>() {
+class PreviousOrderAdapter(private val context: Context, private val onClick: (order: Order) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<PreviousOrderAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<Order>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_previous_order))
@@ -26,7 +26,7 @@ class PreviousOrderAdapter(private val context: Context, private val onClick: (o
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("SetTextI18n")
         fun bind(order: Order, context: Context, onClick: (order: Order) -> Unit) {

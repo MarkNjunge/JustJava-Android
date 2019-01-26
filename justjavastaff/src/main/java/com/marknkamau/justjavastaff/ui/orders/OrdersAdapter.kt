@@ -7,8 +7,8 @@ package com.marknkamau.justjavastaff.ui.orders
  */
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ import com.marknkamau.justjavastaff.R
 import kotlinx.android.synthetic.main.item_orders.view.*
 import java.text.SimpleDateFormat
 
-class OrdersAdapter(private val context: Context, private val onClick: (Order) -> Unit) : RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
+class OrdersAdapter(private val context: Context, private val onClick: (Order) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<OrdersAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<Order>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_orders))
@@ -34,7 +34,7 @@ class OrdersAdapter(private val context: Context, private val onClick: (Order) -
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(context: Context, order: Order, onClick: (Order) -> Unit) {
             val dateFormat = SimpleDateFormat("hh:mm a, d MMM")
 

@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +11,7 @@ import com.marknkamau.justjava.data.models.CartItem
 
 import kotlinx.android.synthetic.main.item_cart.view.*
 
-class CartAdapter(private val context: Context, private val onEditClick: (CartItem) -> Unit) : RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+class CartAdapter(private val context: Context, private val onEditClick: (CartItem) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<CartAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<CartItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_cart))
@@ -26,7 +26,7 @@ class CartAdapter(private val context: Context, private val onEditClick: (CartIt
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(item: CartItem, context: Context, onEditClick: (CartItem) -> Unit) {
             itemView.tvItemName.text = item.itemName
             itemView.tvItemQty.text = context.getString(R.string.quantity_listing, item.itemQty)

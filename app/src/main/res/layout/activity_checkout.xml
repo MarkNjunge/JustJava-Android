@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="true"
@@ -26,7 +26,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
                 android:inputType="textPersonName"
                 android:textSize="14sp"
                 tools:ignore="Autofill" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPhone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,9 +69,9 @@
                 android:inputType="none|phone"
                 android:textSize="14sp"
                 tools:ignore="Autofill" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -92,9 +92,9 @@
                 android:inputType="textMultiLine"
                 android:textSize="14sp"
                 tools:ignore="Autofill" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilComments"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:hint="@string/additional_comments_optional"
                 android:textSize="14sp" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
             android:id="@+id/pbSavingProfile"
@@ -179,5 +179,5 @@
                 android:text="@string/m_pesa" />
         </RadioGroup>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
