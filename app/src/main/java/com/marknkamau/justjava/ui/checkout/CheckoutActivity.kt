@@ -90,13 +90,11 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
     override fun showUploadBar() {
         pbSavingProfile.visibility = View.VISIBLE
-        btnPlaceOrder.setBackgroundResource(R.drawable.large_button_disabled)
         btnPlaceOrder.isEnabled = false
     }
 
     override fun hideUploadBar() {
         pbSavingProfile.visibility = View.INVISIBLE
-        btnPlaceOrder.setBackgroundResource(R.drawable.large_button)
         btnPlaceOrder.isEnabled = true
     }
 

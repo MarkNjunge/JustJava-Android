@@ -31,19 +31,20 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilName"
+                style="@style/AppTheme.InputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/name"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etName"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/name"
                     android:inputType="textPersonName"
                     android:textSize="14sp"
                     tools:ignore="Autofill" />
@@ -51,18 +52,19 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPhone"
+                style="@style/AppTheme.InputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/phone_number"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilName">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/phone_number"
                     android:inputType="phone"
                     android:textSize="14sp"
                     tools:ignore="Autofill" />
@@ -70,18 +72,19 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAddress"
+                style="@style/AppTheme.InputField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/delivery_address"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilPhone">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etDeliveryAddress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:ems="10"
-                    android:hint="@string/delivery_address"
                     android:inputType="textMultiLine"
                     android:textSize="14sp"
                     tools:ignore="Autofill" />
@@ -102,13 +105,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilAddress" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnUpdateProfile"
-                style="@style/button_primary"
+                style="@style/AppTheme.PrimaryButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:paddingStart="16dp"

@@ -2,22 +2,18 @@ package com.marknkamau.justjava.ui.login
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
-import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.signup.SignUpActivity
-
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_log_in.*
 
 class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     private lateinit var email: String
-    private var passVisible = false
     private lateinit var presenter: LogInPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,10 +27,9 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         presenter = LogInPresenter(this, preferencesRepository, authService, database)
         presenter.checkSignInStatus()
 
-        imgVisibility.setOnClickListener(this)
         btnLogin.setOnClickListener(this)
         tvForgotPass.setOnClickListener(this)
-        tvSignup.setOnClickListener(this)
+        btnSignUp.setOnClickListener(this)
     }
 
     override fun onResume() {
@@ -44,19 +39,9 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view) {
-            imgVisibility ->
-                if (passVisible) {
-                    etPassword.transformationMethod = PasswordTransformationMethod()
-                    imgVisibility.setImageResource(R.drawable.ic_visibility_off)
-                    passVisible = false
-                } else {
-                    imgVisibility.setImageResource(R.drawable.ic_visibility)
-                    etPassword.transformationMethod = null
-                    passVisible = true
-                }
             btnLogin -> signIn()
             tvForgotPass -> resetUserPassword()
-            tvSignup -> {
+            btnSignUp -> {
                 startActivity(Intent(this@LogInActivity, SignUpActivity::class.java))
             }
         }
@@ -105,13 +90,13 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
 
     private fun disableButtons() {
         btnLogin.isEnabled = false
-        tvSignup.isEnabled = false
+        btnSignUp.isEnabled = false
         tvForgotPass.isEnabled = false
     }
 
     private fun enableButtons() {
         btnLogin.isEnabled = true
-        tvSignup.isEnabled = true
+        btnSignUp.isEnabled = true
         tvForgotPass.isEnabled = true
     }
 

@@ -35,13 +35,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/btnClearCart" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnClearCart"
+        style="@style/AppTheme.SecondaryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:background="@android:color/transparent"
         android:focusableInTouchMode="true"
         android:text="@string/clear_cart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,14 +61,14 @@
         app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCheckout"
+        style="@style/AppTheme.PrimaryButton"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:background="@drawable/large_button"
         android:text="@string/proceed_to_checkout"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"

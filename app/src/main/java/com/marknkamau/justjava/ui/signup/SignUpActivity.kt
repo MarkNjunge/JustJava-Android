@@ -1,11 +1,10 @@
 package com.marknkamau.justjava.ui.signup
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import android.text.method.PasswordTransformationMethod
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.utils.trimmedText
@@ -18,7 +17,6 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private lateinit var email: String
     private lateinit var address: String
     private lateinit var password: String
-    private var passVisible = false
     private lateinit var presenter: SignUpPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,23 +29,12 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
 
         presenter = SignUpPresenter(this, preferencesRepository, auth, database)
 
-        imgViewPass.setOnClickListener(this)
         btnSignup.setOnClickListener(this)
         tvLogin.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         when (view) {
-            imgViewPass ->
-                if (passVisible) {
-                    etPassword.transformationMethod = PasswordTransformationMethod()
-                    imgViewPass.setImageResource(R.drawable.ic_visibility_off)
-                    passVisible = false
-                } else {
-                    etPassword.transformationMethod = null
-                    imgViewPass.setImageResource(R.drawable.ic_visibility)
-                    passVisible = true
-                }
             btnSignup -> createUser()
             tvLogin -> {
                 finish()

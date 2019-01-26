@@ -95,7 +95,7 @@ class ClientDatabaseImpl : ClientDatabaseService {
                                 snapshot.data[DatabaseKeys.Order.address] as String,
                                 snapshot.data[DatabaseKeys.Order.comments] as String,
                                 OrderStatus.valueOf(snapshot.data[DatabaseKeys.Order.status] as String),
-                                snapshot.data[DatabaseKeys.Order.date] as Date,
+                                snapshot.getTimestamp(DatabaseKeys.Order.date)!!.toDate(),
                                 snapshot.data[DatabaseKeys.Order.paymentMethod] as String?
                                         ?: "cash",
                                 snapshot.data[DatabaseKeys.Order.paymentStatus] as String?
@@ -171,7 +171,7 @@ class ClientDatabaseImpl : ClientDatabaseService {
                                 data[DatabaseKeys.Order.address] as String,
                                 data[DatabaseKeys.Order.comments] as String,
                                 OrderStatus.valueOf(data[DatabaseKeys.Order.status] as String),
-                                data[DatabaseKeys.Order.date] as Date,
+                                snapshot.getTimestamp(DatabaseKeys.Order.date)!!.toDate(),
                                 data[DatabaseKeys.Order.paymentMethod] as String? ?: "cash",
                                 data[DatabaseKeys.Order.paymentStatus] as String? ?: "unpaid"
 
