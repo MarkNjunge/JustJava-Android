@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.main
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.marknjunge.core.model.CoffeeDrink
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_catalog.view.*
 
-class CatalogAdapter(private val context: Context, private val onClick: (CoffeeDrink) -> Unit) : RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
+class CatalogAdapter(private val context: Context, private val onClick: (CoffeeDrink) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
 
     private val items by lazy { mutableListOf<CoffeeDrink>() }
 
@@ -26,7 +26,7 @@ class CatalogAdapter(private val context: Context, private val onClick: (CoffeeD
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(drink: CoffeeDrink, context: Context, onClick: (CoffeeDrink) -> Unit) {
             itemView.tvItemName.text = drink.drinkName
             itemView.tvShortDesc.text = drink.drinkContents

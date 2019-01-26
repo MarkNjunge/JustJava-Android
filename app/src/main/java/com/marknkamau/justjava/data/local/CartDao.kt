@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.data.local
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.marknkamau.justjava.data.models.CartItem
 import io.reactivex.Single
 

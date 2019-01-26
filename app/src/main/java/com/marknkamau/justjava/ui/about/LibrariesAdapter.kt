@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.about
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +15,7 @@ import java.util.*
  * https://github.com/MarkNjunge
  */
 
-class LibrariesAdapter(private val onClick: (Library) -> Unit) : RecyclerView.Adapter<LibrariesAdapter.ViewHolder>() {
+class LibrariesAdapter(private val onClick: (Library) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<LibrariesAdapter.ViewHolder>() {
 
     private var data: List<Library> = ArrayList()
 
@@ -34,7 +34,7 @@ class LibrariesAdapter(private val onClick: (Library) -> Unit) : RecyclerView.Ad
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(library: Library, onClick: (Library) -> Unit) {
             with(itemView) {
                 tvName.text = library.name

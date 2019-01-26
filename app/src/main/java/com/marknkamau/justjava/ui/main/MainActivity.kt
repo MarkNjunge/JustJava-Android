@@ -2,7 +2,7 @@ package com.marknkamau.justjava.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
@@ -24,7 +24,7 @@ class MainActivity : BaseActivity(), MainView {
             startActivity(i)
         }
 
-        rvCatalog.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvCatalog.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         rvCatalog.adapter = catalogAdapter
 
         presenter = MainPresenter(this)

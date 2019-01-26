@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.ui.profile
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
@@ -33,8 +33,8 @@ class ProfileActivity : BaseActivity(), ProfileView {
             PreviousOrderActivity.start(this, order)
         }
 
-        rvPreviousOrders.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rvPreviousOrders.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        rvPreviousOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvPreviousOrders.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvPreviousOrders.adapter = adapter
 
         val preferencesRepository = (application as JustJavaApp).preferencesRepo

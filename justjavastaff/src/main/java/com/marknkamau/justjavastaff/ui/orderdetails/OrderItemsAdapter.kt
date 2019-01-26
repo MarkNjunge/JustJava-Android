@@ -6,7 +6,7 @@ package com.marknkamau.justjavastaff.ui.orderdetails
  * https://github.com/MarkNjunge
  */
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,7 @@ import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjavastaff.R
 import kotlinx.android.synthetic.main.item_order_item.view.*
 
-class OrderItemsAdapter : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
+class OrderItemsAdapter : androidx.recyclerview.widget.RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<OrderItem>() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.item_order_item))
@@ -29,7 +29,7 @@ class OrderItemsAdapter : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View?) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         fun bind(item: OrderItem) {
             itemView.run {
                 tvItemName.text = item.itemName

@@ -2,7 +2,7 @@ package com.marknkamau.justjavastaff.ui.preferences
 
 import android.os.Bundle
 import android.preference.PreferenceFragment
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 
 import com.marknkamau.justjavastaff.R
 

@@ -3,9 +3,9 @@ package com.marknkamau.justjava.ui.about
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import com.marknkamau.justjava.BuildConfig
@@ -33,8 +33,8 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
                 Library("Mockito-Kotlin", "Niek Haarman", Library.MIT, "https://github.com/nhaarman/mockito-kotlin")
         ).sortedBy { it.name }
 
-        rvLibraries.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rvLibraries.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
+        rvLibraries.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvLibraries.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         val librariesAdapter = LibrariesAdapter { library ->
             openUrl(library.link)
         }

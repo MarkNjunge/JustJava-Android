@@ -1,9 +1,9 @@
 package com.marknkamau.justjava
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.preference.PreferenceManager
-import android.support.v4.content.LocalBroadcastManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
@@ -26,7 +26,7 @@ class JustJavaApp : Application() {
     lateinit var cartDatabase: CartDatabase
     lateinit var notificationHelper: NotificationHelper
     lateinit var mpesaInteractor: MpesaInteractor
-    lateinit var broadcastManager: LocalBroadcastManager
+    lateinit var broadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager
 
     override fun onCreate() {
         super.onCreate()
@@ -55,7 +55,7 @@ class JustJavaApp : Application() {
 
         notificationHelper = NotificationHelper(this)
 
-        broadcastManager = LocalBroadcastManager.getInstance(this)
+        broadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
     }
 
 }

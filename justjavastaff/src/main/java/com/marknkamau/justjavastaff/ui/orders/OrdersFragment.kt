@@ -2,8 +2,8 @@ package com.marknkamau.justjavastaff.ui.orders
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -17,7 +17,7 @@ import com.marknkamau.justjavastaff.ui.orderdetails.OrderDetailsActivity
 import kotlinx.android.synthetic.main.fragment_orders.*
 import timber.log.Timber
 
-class OrdersFragment : Fragment(), OrdersView {
+class OrdersFragment : androidx.fragment.app.Fragment(), OrdersView {
     private lateinit var presenter: OrdersFragmentPresenter
     private lateinit var adapter: OrdersAdapter
 
@@ -31,7 +31,7 @@ class OrdersFragment : Fragment(), OrdersView {
         val databaseService = (requireActivity().application as JustJavaStaffApp).databaseService
         presenter = OrdersFragmentPresenter(this, settings, databaseService)
 
-        rvOrders.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        rvOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
 
         adapter = OrdersAdapter(requireContext()) { order ->
             Timber.d(order.toString())
