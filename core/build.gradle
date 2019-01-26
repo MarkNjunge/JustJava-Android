@@ -8,11 +8,11 @@ def keys = new Properties()
 keys.load(new FileInputStream(keysPropertiesFile))
 
 android {
-    compileSdkVersion versions.compiledSdk
+    compileSdkVersion androidConfig.compileSdk
 
     defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+        minSdkVersion androidConfig.minSdk
+        targetSdkVersion androidConfig.targetSdk
         versionCode 1
         versionName "1.0"
 
