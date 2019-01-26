@@ -29,7 +29,7 @@ class OrderItemsAdapter : RecyclerView.Adapter<OrderItemsAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: OrderItem) {
             itemView.run {
                 tvItemName.text = item.itemName

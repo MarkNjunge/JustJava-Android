@@ -5,11 +5,11 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion androidConfig.compileSdk
     defaultConfig {
         applicationId "com.marknkamau.justjava"
-        minSdkVersion 21
-        targetSdkVersion 27
+        minSdkVersion androidConfig.minSdk
+        targetSdkVersion androidConfig.targetSdk
         versionCode 6
         versionName "1.4.0"
         multiDexEnabled true

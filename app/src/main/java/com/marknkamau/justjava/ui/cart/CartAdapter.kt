@@ -26,7 +26,7 @@ class CartAdapter(private val context: Context, private val onEditClick: (CartIt
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(item: CartItem, context: Context, onEditClick: (CartItem) -> Unit) {
             itemView.tvItemName.text = item.itemName
             itemView.tvItemQty.text = context.getString(R.string.quantity_listing, item.itemQty)

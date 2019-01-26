@@ -50,7 +50,7 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
             return
         }
 
-        item = args.getParcelable(CART_ITEM)
+        item = args.getParcelable(CART_ITEM) as CartItem
 
         tvDrinkName = view.findViewById(R.id.tvDrinkName) as TextView
         tvQuantity = view.findViewById(R.id.tvQuantity) as TextView

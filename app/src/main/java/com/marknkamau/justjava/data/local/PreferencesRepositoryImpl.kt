@@ -23,11 +23,11 @@ class PreferencesRepositoryImpl(private val sharedPreferences: SharedPreferences
 
     override fun getUserDetails(): UserDetails {
         return UserDetails(
-                sharedPreferences.getString(id, ""),
-                sharedPreferences.getString(email, ""),
-                sharedPreferences.getString(name, ""),
-                sharedPreferences.getString(phone, ""),
-                sharedPreferences.getString(address, "")
+                sharedPreferences.getString(id, "") as String,
+                sharedPreferences.getString(email, "") as String,
+                sharedPreferences.getString(name, "") as String,
+                sharedPreferences.getString(phone, "") as String,
+                sharedPreferences.getString(address, "") as String
         )
     }
 

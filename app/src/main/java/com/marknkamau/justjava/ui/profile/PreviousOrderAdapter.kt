@@ -26,7 +26,7 @@ class PreviousOrderAdapter(private val context: Context, private val onClick: (o
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("SetTextI18n")
         fun bind(order: Order, context: Context, onClick: (order: Order) -> Unit) {

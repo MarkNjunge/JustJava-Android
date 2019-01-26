@@ -26,7 +26,7 @@ class CatalogAdapter(private val context: Context, private val onClick: (CoffeeD
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(drink: CoffeeDrink, context: Context, onClick: (CoffeeDrink) -> Unit) {
             itemView.tvItemName.text = drink.drinkName
             itemView.tvShortDesc.text = drink.drinkContents
