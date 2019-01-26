@@ -1,8 +1,8 @@
 ext {
 
     androidConfig = [
-            minSdk: 21,
-            targetSdk: 28,
+            minSdk    : 21,
+            targetSdk : 28,
             compileSdk: 28
     ]
 
@@ -40,6 +40,60 @@ ext {
     ]
 
     deps = [
+            androidGradlePlugin: "com.android.tools.build:gradle:3.3.0",
+            kotlinGradlePlugin : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
+            googleServices     : "com.google.gms:google-services:4.2.0",
+            fabric             : "io.fabric.tools:gradle:1.27.0",
 
+            // Kotlin
+            kotlinStdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+
+            // Android libraries
+            material           : "com.google.android.material:material:${versions.support}",
+            cardview           : "androidx.cardview:cardview:${versions.support}",
+            legacySupport      : "androidx.legacy:legacy-support-v4:${versions.support}",
+            appcompat          : "androidx.appcompat:appcompat:${versions.support}",
+            recycerview        : "androidx.recyclerview:recyclerview:${versions.support}",
+            constraintLayout   : "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
+
+            // Firebase libraries
+            firebaseCore       : "com.google.firebase:firebase-core:${versions.firebase.core}",
+            firebaseAuth       : "com.google.firebase:firebase-auth:${versions.firebase.auth}",
+            firebaseDatabase   : "com.google.firebase:firebase-database:${versions.firebase.database}",
+            firebaseFirestore  : "com.google.firebase:firebase-firestore:${versions.firebase.firestore}",
+            firebaseMessaging  : "com.google.firebase:firebase-messaging:${versions.firebase.messaging}",
+            crashlytics        : "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}",
+
+            // Room
+            roomRuntime        : "androidx.room:room-runtime:${versions.room}",
+            roomRxJava         : "androidx.room:room-rxjava2:${versions.room}",
+            roomCompiler       : "androidx.room:room-compiler:${versions.room}",
+
+            // REST
+            retrofit           : "com.squareup.retrofit2:retrofit:${versions.retrofit}",
+            retrofitRxJava     : "com.squareup.retrofit2:adapter-rxjava2:${versions.retrofit}",
+            retrofitGson       : "com.squareup.retrofit2:converter-gson:${versions.retrofit}",
+            okhttpLogging      : "com.squareup.okhttp3:logging-interceptor:${versions.okhttpLogging}",
+
+            // Rx
+            rxAndroid          : "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}",
+            rxJava             : "io.reactivex.rxjava2:rxjava:${versions.rxjava}",
+            rxKotlin           : "io.reactivex.rxjava2:rxkotlin:${versions.rxkotlin}",
+
+            // Other
+            picasso            : "com.squareup.picasso:picasso:${versions.picasso}",
+            gson               : "com.google.code.gson:gson:${versions.gson}",
+            timber             : "com.jakewharton.timber:timber:${versions.timber}",
+            leakCanary         : "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}",
+            leakCanaryNoOp     : "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}",
+
+            // Test
+            junit              : "junit:junit:${versions.junit}",
+            mockitoCore        : "org.mockito:mockito-core:${versions.mockitoCore}",
+            mockitoKotlin      : "com.nhaarman:mockito-kotlin-kt1.1:${versions.mockitoKotlin}",
+            testRunner         : "androidx.test:runner:${versions.testRunner}",
+            testRules          : "androidx.test:rules:${versions.testRules}",
+            espressoCore       : "androidx.test.espresso:espresso-core:${versions.espresso}",
+            espressoContrib    : "androidx.test.espresso:espresso-contrib:${versions.espresso}",
     ]
 }

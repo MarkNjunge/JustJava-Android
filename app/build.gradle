@@ -18,8 +18,8 @@ android {
     }
     buildTypes {
         debug {
-          ext.alwaysUpdateBuildId = false
-          ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            ext.enableCrashlytics = false
         }
         release {
             minifyEnabled true
@@ -32,43 +32,43 @@ dependencies {
     implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    implementation deps.kotlinStdlib
 
     //Android libraries
-    implementation "com.google.android.material:material:${versions.support}"
-    implementation "androidx.cardview:cardview:${versions.support}"
-    implementation "androidx.appcompat:appcompat:${versions.support}"
-    implementation "androidx.recyclerview:recyclerview:${versions.support}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+    implementation deps.material
+    implementation deps.cardview
+    implementation deps.appcompat
+    implementation deps.recycerview
+    implementation deps.constraintLayout
 
     //Firebase libraries
-    implementation "com.google.firebase:firebase-messaging:${versions.firebase.messaging}"
+    implementation deps.firebaseMessaging
 
     // Room
-    implementation "androidx.room:room-runtime:${versions.room}"
-    implementation "androidx.room:room-rxjava2:${versions.room}"
-    kapt "androidx.room:room-compiler:${versions.room}"
+    implementation deps.roomRuntime
+    implementation deps.roomRxJava
+    kapt deps.roomCompiler
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxandroid:${versions.rxandroid}"
-    implementation "io.reactivex.rxjava2:rxjava:${versions.rxjava}"
-    implementation "io.reactivex.rxjava2:rxkotlin:${versions.rxkotlin}"
+    implementation deps.rxAndroid
+    implementation deps.rxJava
+    implementation deps.rxKotlin
 
     // Other libraries
-    implementation "com.squareup.picasso:picasso:${versions.picasso}"
-    implementation "com.jakewharton.timber:timber:${versions.timber}"
-    implementation "com.crashlytics.sdk.android:crashlytics:${versions.crashlytics}"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}"
-    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}"
+    implementation deps.picasso
+    implementation deps.timber
+    implementation deps.crashlytics
+    debugImplementation deps.leakCanary
+    releaseImplementation deps.leakCanaryNoOp
 
     // Test libraries
-    testImplementation "junit:junit:${versions.junit}"
-    testImplementation "org.mockito:mockito-core:${versions.mockitoCore}"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${versions.mockitoKotlin}"
-    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
-    androidTestImplementation "androidx.test:rules:${versions.testRules}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:${versions.espresso}"
+    testImplementation deps.junit
+    testImplementation deps.mockitoCore
+    testImplementation deps.mockitoKotlin
+    androidTestImplementation deps.testRunner
+    androidTestImplementation deps.testRules
+    androidTestImplementation deps.espressoCore
+    androidTestImplementation deps.espressoContrib
 }
 
 apply plugin: 'com.google.gms.google-services'

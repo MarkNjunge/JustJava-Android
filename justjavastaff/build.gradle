@@ -28,33 +28,33 @@ dependencies {
     implementation project(':core')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
+    implementation deps.kotlinStdlib
 
     // Android libraries
-    implementation "com.google.android.material:material:${versions.support}"
-    implementation "androidx.legacy:legacy-support-v4:${versions.support}"
-    implementation "androidx.cardview:cardview:${versions.support}"
-    implementation "androidx.appcompat:appcompat:${versions.support}"
-    implementation "androidx.recyclerview:recyclerview:${versions.support}"
-    implementation "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}"
+    implementation deps.material
+    implementation deps.legacySupport
+    implementation deps.cardview
+    implementation deps.appcompat
+    implementation deps.recycerview
+    implementation deps.constraintLayout
 
     // Firebase libraries
-    implementation "com.google.firebase:firebase-core:${versions.firebase.core}"
-    implementation "com.google.firebase:firebase-auth:${versions.firebase.auth}"
-    implementation "com.google.firebase:firebase-database:${versions.firebase.database}"
-    implementation "com.google.firebase:firebase-firestore:${versions.firebase.firestore}"
+    implementation deps.firebaseCore
+    implementation deps.firebaseAuth
+    implementation deps.firebaseDatabase
+    implementation deps.firebaseFirestore
 
     //Other libraries
-    implementation "com.squareup.picasso:picasso:${versions.picasso}"
-    implementation "com.jakewharton.timber:timber:${versions.timber}"
+    implementation deps.picasso
+    implementation deps.timber
 
     // Test libraries
-    testImplementation "junit:junit:${versions.junit}"
-    testImplementation "org.mockito:mockito-core:${versions.mockitoCore}"
-    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:${versions.mockitoKotlin}"
-    androidTestImplementation "androidx.test:runner:${versions.testRunner}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${versions.espresso}"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:${versions.espresso}"
+    testImplementation deps.junit
+    testImplementation deps.mockitoCore
+    testImplementation deps.mockitoKotlin
+    androidTestImplementation deps.testRunner
+    androidTestImplementation deps.espressoCore
+    androidTestImplementation deps.espressoContrib
 }
 
 apply plugin: 'com.google.gms.google-services'
