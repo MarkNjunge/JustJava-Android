@@ -11,7 +11,11 @@ ext {
             'compiledSdk'     : 27,
             'targetSdk'       : 27,
             'minSdk'          : 21,
-            'support'         : '1.0.0-beta01',
+            material          : '1.0.0',
+            cardview          : '1.0.0',
+            legacySupport      : '1.0.0',
+            appCompat         : '1.0.2',
+            recyclerview      : '1.0.0',
             'retrofit'        : '2.4.0',
             'okhttpLogging'   : '3.11.0',
             'gson'            : '2.8.5',
@@ -49,11 +53,11 @@ ext {
             kotlinStdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
 
             // Android libraries
-            material           : "com.google.android.material:material:${versions.support}",
-            cardview           : "androidx.cardview:cardview:${versions.support}",
-            legacySupport      : "androidx.legacy:legacy-support-v4:${versions.support}",
-            appcompat          : "androidx.appcompat:appcompat:${versions.support}",
-            recycerview        : "androidx.recyclerview:recyclerview:${versions.support}",
+            material           : "com.google.android.material:material:${versions.material}",
+            cardview           : "androidx.cardview:cardview:${versions.cardview}",
+            legacySupport      : "androidx.legacy:legacy-support-v4:${versions.legacySupport}",
+            appcompat          : "androidx.appcompat:appcompat:${versions.appCompat}",
+            recycerview        : "androidx.recyclerview:recyclerview:${versions.recyclerview}",
             constraintLayout   : "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
 
             // Firebase libraries
