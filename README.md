@@ -17,6 +17,14 @@ A mock Android application for a coffee shop.
 * Crashlytics by Fabric for crash reporting.
 * Mpesa payment
 
+## Cloning
+
+- Create a Firebase project and add two applications; `com.marknkamau.justjavastaff` 
+and `com.marknkamau.justjava`. Add the `google-service.json` files to their respective folders.
+- Enable Email/Password authentication on Firebase.
+- Create a `keys.properties` file based on`keys.properties.sample`. You can get the credentials from
+[Safaricom developer portal](https://developer.safaricom.co.ke/). If you don't want to use M-Pesa, 
+you can put random values.
 
 ## Screenshots
 
