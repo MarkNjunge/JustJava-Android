@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.ui.cart
 
+import android.annotation.SuppressLint
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
@@ -49,6 +50,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 ))
     }
 
+    @SuppressLint("CheckResult")
     fun deleteItem(item: CartItem){
         Completable.fromCallable { cart.deleteItem(item) }
                 .subscribeOn(Schedulers.io())
@@ -65,6 +67,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
                 )
     }
 
+    @SuppressLint("CheckResult")
     fun updateItem(item: CartItem){
         Completable.fromCallable { cart.updateItem(item) }
                 .subscribeOn(Schedulers.io())
