@@ -91,6 +91,7 @@
     <string name="order_date">Order date</string>
     <string name="additional_comments">Additional comments</string>
     <string name="total_price">Total price</string>
+    <string name="profile_details">Profile details</string>
 
     <plurals name="order_info">
         <item quantity="one">%1$d item for Ksh. %2$d</item>
