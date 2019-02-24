@@ -13,12 +13,9 @@ data class Library(val name: String, val author: String, val license: Int, val l
     }
 
     val licenseText: String
-        get() {
-            return  when(license){
-                MIT -> "MIT"
-                APACHE2 -> "Apache-2.0"
-                else -> "Unknown"
-            }
+        get() = when (license) {
+            MIT -> "MIT"
+            APACHE2 -> "Apache-2.0"
+            else -> "Unknown"
         }
-
 }

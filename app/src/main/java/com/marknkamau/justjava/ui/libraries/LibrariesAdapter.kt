@@ -1,6 +1,5 @@
-package com.marknkamau.justjava.ui.about
+package com.marknkamau.justjava.ui.libraries
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,23 +14,14 @@ import java.util.*
  * https://github.com/MarkNjunge
  */
 
-class LibrariesAdapter(private val onClick: (Library) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<LibrariesAdapter.ViewHolder>() {
+class LibrariesAdapter(private val data: List<Library>, private val onClick: (Library) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<LibrariesAdapter.ViewHolder>() {
 
-    private var data: List<Library> = ArrayList()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.item_library, parent, false)
-        )
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_library, parent, false))
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(data[position], onClick)
-
-    fun setItems(data: List<Library>) {
-        this.data = data
-        notifyDataSetChanged()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(data[position], onClick)
     }
 
     class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {

@@ -60,6 +60,9 @@
             android:name=".ui.about.AboutActivity"
             android:theme="@style/AppThemeNoBar" />
         <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
+        <activity
+            android:name=".ui.libraries.LibrariesActivity"
+            android:parentActivityName=".ui.about.AboutActivity" />
 
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>
@@ -76,11 +79,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
-
     </application>
 
 </manifest>
