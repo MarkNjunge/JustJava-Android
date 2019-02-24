@@ -43,16 +43,13 @@ class CartAdapter(private val context: Context, private val onEditClick: (CartIt
             if (item.itemMarshmallow)
                 toppings.add("Marshmallows")
 
-            if (toppings.isNotEmpty()){
+            if (toppings.isNotEmpty()) {
                 itemView.tvToppings.text = toppings.toString().replace("[", "").replace("]", "")
-            }else{
+            } else {
                 itemView.tvToppings.visibility = View.GONE
             }
 
-            itemView.setOnLongClickListener {
-                onEditClick(item)
-                true
-            }
+            itemView.setOnClickListener { onEditClick(item) }
         }
     }
 

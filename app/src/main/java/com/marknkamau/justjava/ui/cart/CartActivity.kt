@@ -2,11 +2,12 @@ package com.marknkamau.justjava.ui.cart
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
@@ -17,42 +18,42 @@ import kotlinx.android.synthetic.main.activity_cart.*
 class CartActivity : BaseActivity(), CartView {
     private lateinit var presenter: CartPresenter
     private lateinit var adapter: CartAdapter
+    private val cartDao by lazy { (application as JustJavaApp).cartDatabase.cartDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
-
         presenter = CartPresenter(this, cartDao)
         presenter.loadItems()
 
-        val editCartDialog = EditCartDialog()
-        editCartDialog.cartDao = cartDao
-        editCartDialog.onComplete = { editType, cartItem ->
-            editCartDialog.dismiss()
-            if (editType == EditCartDialog.EditType.DELETE) {
-                presenter.deleteItem(cartItem)
-            } else {
-                presenter.updateItem(cartItem)
+        val editCartDialog = EditCartDialog().apply {
+            cartDao = this@CartActivity.cartDao
+            onComplete = { editType, cartItem ->
+                dismiss()
+                if (editType == EditCartDialog.EditType.DELETE) {
+                    presenter.deleteItem(cartItem)
+                } else {
+                    presenter.updateItem(cartItem)
+                }
             }
         }
 
         adapter = CartAdapter(this) { cartItem ->
-            val args = Bundle()
-            args.putParcelable(EditCartDialog.CART_ITEM, cartItem)
-            editCartDialog.arguments = args
+            editCartDialog.arguments = Bundle().apply {
+                putParcelable(EditCartDialog.CART_ITEM, cartItem)
+            }
             editCartDialog.show(supportFragmentManager, "edit_cart_dialog")
         }
-        rvCart.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
-        rvCart .addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
+        rvCart.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rvCart.addItemDecoration(DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvCart.adapter = adapter
 
-        btnClearCart.setOnClickListener{
+        btnClearCart.setOnClickListener {
             presenter.clearCart()
         }
 
-        btnCheckout.setOnClickListener{
+        btnCheckout.setOnClickListener {
             startActivity(Intent(this@CartActivity, CheckoutActivity::class.java))
         }
     }
