@@ -10,8 +10,8 @@ android {
         applicationId "com.marknkamau.justjava"
         minSdkVersion androidConfig.minSdk
         targetSdkVersion androidConfig.targetSdk
-        versionCode 7
-        versionName "1.4.1"
+        versionCode 8
+        versionName "1.5.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

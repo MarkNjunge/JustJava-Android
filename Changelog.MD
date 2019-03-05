@@ -1,5 +1,22 @@
 # JustJava changelog
 
+## 1.5.0
+* Move open source libraries list to separate page.
+* Dialog to edit the cart shows up when an item is clicked.
+* Update profile screen design.
+* Update privacy policy url and contact email.
+
+## 1.4.1
+* Minor UI change from switching to new material library.
+
+## 1.4.0
+* Fix critical bug that prevented new accounts from being created.
+
+## 1.3.0
+* Profile icon is always present.
+* Fix text wrapping on catalog.
+* Various changes to sign up.
+
 ## 1.2.1 
 
 * Fix crash reporting
