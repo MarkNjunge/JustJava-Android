@@ -36,14 +36,14 @@ class AboutActivity : AppCompatActivity(), View.OnClickListener {
             imgLinkedin -> openUrl("https://linkedin.com/in/marknjunge")
             imgGithub -> openUrl("https://github.com/MarkNjunge")
             imgWebsite -> openUrl("https://marknjunge.com")
-            tvPrivacyPolicy -> openUrl("https://marknjunge.com/projects/justjava/privacy-policy")
+            tvPrivacyPolicy -> openUrl("https://markn.dev/justjava/privacy")
         }
     }
 
     private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
     private fun sendEmail() {
-        val addresses = arrayOf("mark.kamau@outlook.com") //Has to be String array or it will ignore
+        val addresses = arrayOf("contact@markn.dev") //Has to be String array or it will ignore
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:") // only email apps should handle this
         intent.putExtra(Intent.EXTRA_EMAIL, addresses)
