@@ -1,16 +1,20 @@
-<h1 align="center">
+<p align="center">
 	<img
 		width="100"
-		alt="Banner"
+		alt="Logo"
 		src="/images/just_java_logo.png">
+</p>
+<h1 align="center">
+	JustJava
 </h1>
+<p align="center">
+A sample food delivery application for a coffee shop.
+</p>
 
-# Just Java  
+## Status
 [![Build Status](https://app.bitrise.io/app/c373b1aa540acc1c/status.svg?token=u-KpJIBnS_0TQUtBtYNEJQ&branch=master)](https://app.bitrise.io/app/c373b1aa540acc1c)
 [![Playstore](https://img.shields.io/badge/Download-Playstore-brightgreen.svg)](https://play.google.com/store/apps/details?id=com.marknkamau.justjava)
 [![latest build](https://img.shields.io/badge/Download-Latest%20build-brightgreen.svg)](https://skyll.herokuapp.com/justjava/latest?redirect=true)
-
-JustJava is a sample food delivery application for a coffee shop.
 
 ## Features
 
