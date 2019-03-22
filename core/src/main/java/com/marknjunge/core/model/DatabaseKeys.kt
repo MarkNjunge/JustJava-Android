@@ -13,6 +13,7 @@ object DatabaseKeys {
         const val email = "email"
         const val phone = "phone"
         const val address = "address"
+        const val fcmToken = "fcmToken"
     }
 
     object Order {

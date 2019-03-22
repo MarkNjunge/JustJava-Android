@@ -15,6 +15,7 @@ import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.Crashlytics
 import com.marknjunge.core.data.firebase.ClientDatabaseImpl
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
 import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknjunge.core.mpesa.MpesaInteractorImpl
 import com.squareup.leakcanary.LeakCanary
@@ -56,6 +57,21 @@ class JustJavaApp : Application() {
         notificationHelper = NotificationHelper(this)
 
         broadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
+
+        if (authService.isSignedIn()) {
+            val user = authService.getCurrentUser()
+
+            databaseService.updateUserFcmToken(user.userId, object : WriteListener {
+                override fun onError(reason: String) {
+                    Timber.e(reason)
+                }
+
+                override fun onSuccess() {
+                    Timber.i("FCM token saved")
+                }
+
+            })
+        }
     }
 
 }

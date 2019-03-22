@@ -37,6 +37,25 @@ class ClientDatabaseImpl : ClientDatabaseService {
                 }
     }
 
+    override fun updateUserFcmToken(userId: String, listener: WriteListener) {
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnSuccessListener { instanceIdResult ->
+                    val data = mapOf(
+                            DatabaseKeys.User.fcmToken to instanceIdResult.token
+                    )
+                    firestore.collection("users")
+                            .document(userId)
+                            .update(data)
+                            .addOnSuccessListener {
+                                listener.onSuccess()
+                            }
+                            .addOnFailureListener {
+                                listener.onError(it.message ?: "Unable tp update user token")
+                            }
+                }
+                .addOnFailureListener { listener.onError(it.message ?: "Unable to retrieve user token") }
+    }
+
     override fun getUserDefaults(id: String, listener: ClientDatabaseService.UserDetailsListener) {
         firestore.collection("users")
                 .document(id)

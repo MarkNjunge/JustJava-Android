@@ -9,6 +9,8 @@ interface ClientDatabaseService {
 
     fun updateUserDetails(id: String, name: String, phone: String, address: String, listener: WriteListener)
 
+    fun updateUserFcmToken(userId: String, listener: WriteListener)
+
     fun getUserDefaults(id: String, listener: UserDetailsListener)
 
     fun placeNewOrder(order: Order, orderItems: List<OrderItem>, listener: WriteListener)

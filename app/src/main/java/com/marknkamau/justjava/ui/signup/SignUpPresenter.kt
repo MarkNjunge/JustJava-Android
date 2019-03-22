@@ -5,6 +5,7 @@ import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
+import timber.log.Timber
 
 internal class SignUpPresenter(private val activityView: SignUpView,
                                private val preferences: PreferencesRepository,
@@ -50,6 +51,7 @@ internal class SignUpPresenter(private val activityView: SignUpView,
                         preferences.saveUserDetails(userDetails)
                         activityView.displayMessage("Sign up successfully")
                         activityView.finishActivity()
+                        setFcmToken()
                     }
 
                     override fun onError(reason: String) {
@@ -63,6 +65,18 @@ internal class SignUpPresenter(private val activityView: SignUpView,
             override fun actionFailed(response: String) {
                 activityView.enableUserInteraction()
                 activityView.displayMessage(response)
+            }
+        })
+    }
+
+    private fun setFcmToken(){
+        database.updateUserFcmToken(auth.getCurrentUser().userId, object : WriteListener {
+            override fun onError(reason: String) {
+                Timber.e(reason)
+            }
+
+            override fun onSuccess() {
+                Timber.i("FCM token saved")
             }
         })
     }
