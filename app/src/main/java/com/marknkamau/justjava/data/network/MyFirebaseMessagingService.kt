@@ -28,31 +28,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         remoteMessage.notification?.let {
             notificationHelper.showNotification(it.title ?: "JustJava", it.body ?: "")
         }
+
         remoteMessage.data?.let {
             Timber.d(it.toString())
-            if (it["reason"] == "completed-order") {
-                notificationHelper.showCompletedOrderNotification("Your order has been completed.")
-            }
-
-            when (it["reason"]) {
+            when(it["reason"]){
                 "completed-order" -> {
-                    notificationHelper.showCompletedOrderNotification("Your order has been completed.")
+                    notificationHelper.showCompletedOrderNotification()
                 }
                 "mpesa" -> {
-                    it["body"]?.let { body ->
-                        notificationHelper.showNotification("Payment", body)
+                    // Show notification
+                    notificationHelper.showPaymentNotification(it["body"]!!)
+
+                    // Send local broadcast so that if the user is on the order's page, the status updates
+                    if (it["status"] == "completed") {
+                        val intent = Intent(MPESA_ORDER_PAID_ACTION)
+                        intent.putExtra(ORDER_ID,  it["orderId"])
+                        broadcastManager.sendBroadcast(intent)
                     }
-                    it["status"]?.let { status ->
-                        it["orderId"]?.let { orderId ->
-                            if (status == "completed") {
-                                val intent = Intent(MPESA_ORDER_PAID_ACTION)
-                                intent.putExtra(ORDER_ID, orderId)
-                                broadcastManager.sendBroadcast(intent)
-                            }
-                        }
-                    }
-                }
-                else -> {
                 }
             }
         }

@@ -73,7 +73,6 @@
     <item name="masked" type="id" />
 
     <!--Notifications-->
-    <string name="default_notification_channel">defaultNotificationChannel</string>
     <string name="drink_image_content_desc">Drink Image</string>
     <string name="visibility_icon_content_desc">Visibility icon</string>
     <string name="app_icon_content_desc">App icon</string>

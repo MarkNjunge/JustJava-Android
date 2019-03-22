@@ -3,12 +3,12 @@ package com.marknkamau.justjava.utils
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.marknkamau.justjava.R
+import kotlin.random.Random
 
 /**
  * Created by Mark Njung'e.
@@ -18,43 +18,42 @@ import com.marknkamau.justjava.R
 
 class NotificationHelper(private val context: Context) {
 
+    private val defaultChannelId = "defaultNotificationChannel"
+    private val ordersChannelId = "ordersNotificationChannel"
+    private val paymentsChannelId = "ordersNotificationChannel"
+
     private val notificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createDefaultChannel()
+            createChannel(defaultChannelId, "Default channel", "Notifications")
+            createChannel(ordersChannelId, "Orders channel", "Notifications for orders")
+            createChannel(paymentsChannelId, "Payments channel", "Notifications for payments")
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun createDefaultChannel() {
-        val id = context.getString(R.string.default_notification_channel)
-        val channel = NotificationChannel(id, "Default notification channel", NotificationManager.IMPORTANCE_DEFAULT)
+    private fun createChannel(id: String, name: String, description: String) {
+        val channel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_DEFAULT)
 
-        channel.description = "Default notifications"
+        channel.description = description
         channel.enableLights(true)
-        channel.lightColor = Color.RED
         channel.enableVibration(true)
 
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun showCompletedOrderNotification(text: String) {
-        val channelId = context.getString(R.string.default_notification_channel)
-        val notification = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_just_java_logo_black)
-                .setContentTitle("Completed order")
-                .setContentText(text)
-                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
-                .build()
-
-        notificationManager.notify(1, notification)
+    fun showCompletedOrderNotification() {
+        showNotification("Completed Order", "Your order has been completed.", ordersChannelId)
     }
 
-    fun showNotification(title: String, body: String) {
-        val channelId = context.getString(R.string.default_notification_channel)
+    fun showPaymentNotification(body: String) {
+        showNotification("Order Payment", body, paymentsChannelId)
+    }
+
+    fun showNotification(title: String, body: String, channelId: String = defaultChannelId) {
         val notification = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_just_java_logo_black)
                 .setContentTitle(title)
@@ -62,6 +61,6 @@ class NotificationHelper(private val context: Context) {
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .build()
 
-        notificationManager.notify(2, notification)
+        notificationManager.notify(Random.nextInt(), notification)
     }
 }
