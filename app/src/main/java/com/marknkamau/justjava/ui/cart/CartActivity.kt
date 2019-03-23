@@ -10,15 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
+import org.koin.android.ext.android.inject
 
 class CartActivity : BaseActivity(), CartView {
     private lateinit var presenter: CartPresenter
     private lateinit var adapter: CartAdapter
-    private val cartDao by lazy { (application as JustJavaApp).cartDatabase.cartDao() }
+    private val cartDao: CartDao by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

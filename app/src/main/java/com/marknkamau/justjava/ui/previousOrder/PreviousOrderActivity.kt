@@ -12,15 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_previous_order.*
 import kotlinx.android.synthetic.main.include_order_details.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
@@ -37,22 +41,22 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
 
     private lateinit var orderItemsAdapter: OrderItemsAdapter
     private lateinit var presenter: PreviousOrderPresenter
-    private lateinit var broadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager
     private lateinit var broadcastReceiver: BroadcastReceiver
-    private lateinit var preferencesRepo: PreferencesRepository
     private lateinit var order: Order
+
+    private val preferencesRepository: PreferencesRepository by inject()
+    private val authService: AuthService by inject()
+    private val databaseService: ClientDatabaseService by inject()
+    private val mpesaInteractor: MpesaInteractor by inject()
+    private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_order)
 
-        broadcastManager = (application as JustJavaApp).broadcastManager
         order = intent.getParcelableExtra(ORDER_KEY)
 
-        val mpesa = (application as JustJavaApp).mpesaInteractor
-        preferencesRepo = (application as JustJavaApp).preferencesRepo
-        val authService = (application as JustJavaApp).authService
-        presenter = PreviousOrderPresenter(this, (application as JustJavaApp).databaseService, mpesa, authService)
+        presenter = PreviousOrderPresenter(this, databaseService, mpesaInteractor, authService)
 
         updateViews(order)
 
@@ -132,7 +136,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
         }
 
         btnPay.setOnClickListener {
-            val phoneNumber = preferencesRepo.getUserDetails().phone
+            val phoneNumber = preferencesRepository.getUserDetails().phone
             val dialog = AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?\nThe money will be automatically refunded by Safaricom the following day.")
                     .setTitle("Confirm payment")

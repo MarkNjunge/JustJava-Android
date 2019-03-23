@@ -7,16 +7,20 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
+import org.koin.android.ext.android.inject
 
 class ProfileActivity : BaseActivity(), ProfileView {
     private var name: String? = null
@@ -24,6 +28,10 @@ class ProfileActivity : BaseActivity(), ProfileView {
     private var address: String? = null
     private lateinit var presenter: ProfilePresenter
     private lateinit var adapter: PreviousOrderAdapter
+
+    private val preferencesRepository: PreferencesRepository by inject()
+    private val authService: AuthService by inject()
+    private val databaseService: ClientDatabaseService by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +45,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
         rvPreviousOrders.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvPreviousOrders.adapter = adapter
 
-        val preferencesRepository = (application as JustJavaApp).preferencesRepo
-        val auth = (application as JustJavaApp).authService
-        val database = (application as JustJavaApp).databaseService
-        presenter = ProfilePresenter(this, preferencesRepository, auth, database)
+        presenter = ProfilePresenter(this, preferencesRepository, authService, databaseService)
 
         btnUpdateProfile.setOnClickListener { saveChanges() }
     }

@@ -6,18 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
+import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private val authService by lazy { (application as JustJavaApp).authService }
-    private val preferencesRepository by lazy { (application as JustJavaApp).preferencesRepo }
+    private val authService: AuthService by inject()
+    private val preferencesRepository: PreferencesRepository by inject()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

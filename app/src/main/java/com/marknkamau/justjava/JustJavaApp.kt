@@ -7,8 +7,6 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknkamau.justjava.data.local.CartDatabase
-import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.utils.NotificationHelper
 import timber.log.Timber
 import io.fabric.sdk.android.Fabric
@@ -18,16 +16,15 @@ import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
 import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknjunge.core.mpesa.MpesaInteractorImpl
+import com.marknkamau.justjava.di.appModule
 import com.squareup.leakcanary.LeakCanary
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 class JustJavaApp : Application() {
-    lateinit var preferencesRepo: PreferencesRepository
-    lateinit var authService: AuthService
-    lateinit var databaseService: ClientDatabaseService
-    lateinit var cartDatabase: CartDatabase
-    lateinit var notificationHelper: NotificationHelper
-    lateinit var mpesaInteractor: MpesaInteractor
-    lateinit var broadcastManager: androidx.localbroadcastmanager.content.LocalBroadcastManager
+    private val authService: AuthService by inject()
+    private val databaseService: ClientDatabaseService by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -40,23 +37,17 @@ class JustJavaApp : Application() {
                     return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
                 }
             })
-        }else{
+        } else {
             val fabric = Fabric.Builder(this)
                     .kits(Crashlytics())
                     .build()
             Fabric.with(fabric)
         }
 
-        preferencesRepo = PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(this))
-        authService = AuthServiceImpl()
-        databaseService = ClientDatabaseImpl()
-        mpesaInteractor = MpesaInteractorImpl()
-
-        cartDatabase = Room.databaseBuilder(this, CartDatabase::class.java, "cart-db").build()
-
-        notificationHelper = NotificationHelper(this)
-
-        broadcastManager = androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(this)
+        startKoin {
+            androidContext(this@JustJavaApp)
+            modules(appModule)
+        }
 
         if (authService.isSignedIn()) {
             val user = authService.getCurrentUser()

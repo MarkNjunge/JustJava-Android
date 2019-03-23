@@ -1,10 +1,16 @@
 package com.marknkamau.justjava.data.network
 
 import android.content.Intent
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.JustJavaApp
+import com.marknkamau.justjava.utils.NotificationHelper
+import org.koin.android.ext.android.inject
+import org.koin.core.KoinComponent
 import timber.log.Timber
 
 /**
@@ -13,11 +19,11 @@ import timber.log.Timber
  * https://github.com/MarkNjunge
  */
 
-class MyFirebaseMessagingService : FirebaseMessagingService() {
-    private val notificationHelper by lazy { (application as JustJavaApp).notificationHelper }
-    private val broadcastManager by lazy { (application as JustJavaApp).broadcastManager }
-    private val authService by lazy { (application as JustJavaApp).authService }
-    private val databaseService by lazy { (application as JustJavaApp).databaseService }
+class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
+    private val notificationHelper: NotificationHelper by inject()
+    private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
+    private val authService: AuthService by inject()
+    private val databaseService: ClientDatabaseService by inject()
 
     companion object {
         const val MPESA_ORDER_PAID_ACTION = "mpesa"

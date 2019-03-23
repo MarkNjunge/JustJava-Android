@@ -7,12 +7,14 @@ import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.CoffeeDrink
+import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_drink_details.*
 import kotlinx.android.synthetic.main.content_drink_details.*
+import org.koin.android.ext.android.inject
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
 
@@ -23,12 +25,11 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     private lateinit var drink: CoffeeDrink
     private var quantity: Int = 0
     private lateinit var presenter: DrinkDetailsPresenter
+    private val cartDao: CartDao by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_details)
-
-        val cartDao = (application as JustJavaApp).cartDatabase.cartDao()
 
         presenter = DrinkDetailsPresenter(this, cartDao)
 

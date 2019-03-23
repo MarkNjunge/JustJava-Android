@@ -62,6 +62,7 @@ dependencies {
     implementation deps.crashlytics
     debugImplementation deps.leakCanary
     releaseImplementation deps.leakCanaryNoOp
+    implementation deps.koin
 
     // Test libraries
     testImplementation deps.junit
