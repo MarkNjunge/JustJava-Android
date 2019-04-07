@@ -2,6 +2,8 @@ package com.marknkamau.justjava.ui.login
 
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.model.AuthUser
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.nhaarman.mockito_kotlin.any
@@ -56,6 +58,13 @@ class LogInPresenterTest {
             userDetailsListener.onSuccess(UserDetails("", "", "", "", ""))
         }.`when`(database).getUserDefaults(Mockito.anyString(), any())
 
+        Mockito.`when`(auth.getCurrentUser()).thenReturn(AuthUser("", "",""))
+        // Succeed updating FCM token
+        Mockito.doAnswer { invocation ->
+            val writeListener = invocation.arguments[1] as WriteListener
+            writeListener.onSuccess()
+        }.`when`(database).updateUserFcmToken(Mockito.anyString(), any())
+
         presenter.signIn("", "")
 
         Mockito.verify(view).finishSignIn()
@@ -87,6 +96,14 @@ class LogInPresenterTest {
             val userDetailsListener = invocation.arguments[1] as ClientDatabaseService.UserDetailsListener
             userDetailsListener.onError("")
         }.`when`(database).getUserDefaults(Mockito.anyString(), any())
+
+
+        Mockito.`when`(auth.getCurrentUser()).thenReturn(AuthUser("", "",""))
+        // Succeed updating FCM token
+        Mockito.doAnswer { invocation ->
+            val writeListener = invocation.arguments[1] as WriteListener
+            writeListener.onSuccess()
+        }.`when`(database).updateUserFcmToken(Mockito.anyString(), any())
 
         presenter.signIn("", "")
 
