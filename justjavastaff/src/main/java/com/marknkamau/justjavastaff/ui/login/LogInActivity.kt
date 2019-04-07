@@ -24,6 +24,7 @@ class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
         setContentView(R.layout.activity_log_in)
 
         val auth = (application as JustJavaStaffApp).auth
+        val db = (application as JustJavaStaffApp).databaseService
 
         if (auth.isSignedIn()) {
             startActivity(Intent(this@LogInActivity, MainActivity::class.java))

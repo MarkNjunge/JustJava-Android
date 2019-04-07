@@ -4,6 +4,8 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.WriteListener
+import timber.log.Timber
 
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,
@@ -21,6 +23,7 @@ internal class LogInPresenter(private val activityView: LogInView,
         auth.signIn(email, password, object : AuthService.AuthActionListener {
             override fun actionSuccessful(response: String) {
                 getUserDefaults(response)
+                setFcmToken()
             }
 
             override fun actionFailed(response: String) {
@@ -43,6 +46,19 @@ internal class LogInPresenter(private val activityView: LogInView,
             }
         })
     }
+
+    private fun setFcmToken() {
+        database.updateUserFcmToken(auth.getCurrentUser().userId, object : WriteListener {
+            override fun onError(reason: String) {
+                Timber.e(reason)
+            }
+
+            override fun onSuccess() {
+                Timber.i("FCM token saved")
+            }
+        })
+    }
+
 
     fun resetUserPassword(email: String) {
         auth.sendPasswordResetEmail(email, object : AuthService.AuthActionListener {
