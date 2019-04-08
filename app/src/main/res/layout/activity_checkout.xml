@@ -16,12 +16,13 @@
 
         <TextView
             android:id="@+id/textView2"
-            style="@style/AppTheme.HeaderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:alpha=".87"
             android:text="@string/customer_details"
+            android:textColor="#000000"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,9 +31,9 @@
             style="@style/AppTheme.InputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -42,9 +43,9 @@
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="14sp"
                 android:hint="@string/name"
-                android:inputType="textPersonName"/>
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -52,9 +53,9 @@
             style="@style/AppTheme.InputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilName">
@@ -73,9 +74,9 @@
             style="@style/AppTheme.InputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tilPhone">
@@ -94,9 +95,9 @@
             style="@style/AppTheme.InputField"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="16dp"
             android:hint="@string/additional_comments"
             app:helperText="Optional"
             app:layout_constraintHorizontal_bias="0.0"
@@ -130,9 +131,9 @@
             style="@style/AppTheme.PrimaryButton"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="9dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:text="@string/place_order"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -141,10 +142,9 @@
 
         <TextView
             android:id="@+id/textView"
-            style="@style/AppTheme.HeaderText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/payment"
             app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +154,7 @@
             android:id="@+id/rgPayment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
