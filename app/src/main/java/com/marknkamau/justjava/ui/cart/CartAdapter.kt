@@ -45,6 +45,7 @@ class CartAdapter(private val context: Context, private val onEditClick: (CartIt
 
             if (toppings.isNotEmpty()) {
                 itemView.tvToppings.text = toppings.toString().replace("[", "").replace("]", "")
+                itemView.tvToppings.visibility = View.VISIBLE
             } else {
                 itemView.tvToppings.visibility = View.GONE
             }

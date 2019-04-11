@@ -2,44 +2,39 @@ package com.marknkamau.justjava.ui.cart
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.core.content.ContextCompat
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.DialogFragment
 
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.CartDao
 import com.marknjunge.core.data.local.DrinksProvider
 import com.marknkamau.justjava.data.models.CartItem
 
-class EditCartDialog : androidx.fragment.app.DialogFragment(), View.OnClickListener {
+class EditCartDialog : DialogFragment(), View.OnClickListener {
     private lateinit var tvDrinkName: TextView
     private lateinit var tvQuantity: TextView
-    private lateinit var tvChocolate: TextView
-    private lateinit var tvMarshmallows: TextView
+    private lateinit var cbCinnamon: CheckBox
+    private lateinit var cbChocolate: CheckBox
+    private lateinit var cbMarshmallows: CheckBox
     private lateinit var tvTotal: TextView
-    private lateinit var tvCinnamon: TextView
     private lateinit var imgMinusQty: ImageView
-    private lateinit var imgDelete: ImageView
     private lateinit var imgAddQty: ImageView
-    private lateinit var imgSave: ImageView
+    private lateinit var btnDelete: Button
+    private lateinit var btnSave: Button
 
     private var quantity: Int = 0
-    private lateinit var item: CartItem
-    private var withCinnamon = false
-    private var withChocolate = false
-    private var withMarshmallow = false
-
-    lateinit var cartDao: CartDao
+    private lateinit var cartItem: CartItem
 
     lateinit var onComplete: (EditType, CartItem) -> Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.edit_fragment, container, false)
+            = inflater.inflate(R.layout.dialog_edit_cart_item, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,98 +45,60 @@ class EditCartDialog : androidx.fragment.app.DialogFragment(), View.OnClickListe
             return
         }
 
-        item = args.getParcelable(CART_ITEM) as CartItem
+        cartItem = args.getParcelable(CART_ITEM) as CartItem
 
         tvDrinkName = view.findViewById(R.id.tvDrinkName) as TextView
         tvQuantity = view.findViewById(R.id.tvQuantity) as TextView
-        tvChocolate = view.findViewById(R.id.tvChocolate) as TextView
-        tvMarshmallows = view.findViewById(R.id.tvMarshmallows) as TextView
-        tvTotal = view.findViewById(R.id.tv_total) as TextView
-        tvCinnamon = view.findViewById(R.id.tvToppings) as TextView
+        cbCinnamon = view.findViewById(R.id.cbCinnamon) as CheckBox
+        cbChocolate = view.findViewById(R.id.cbChocolate) as CheckBox
+        cbMarshmallows = view.findViewById(R.id.cbMarshmallows) as CheckBox
         imgMinusQty = view.findViewById(R.id.imgMinusQty) as ImageView
-        imgDelete = view.findViewById(R.id.img_delete) as ImageView
         imgAddQty = view.findViewById(R.id.imgAddQty) as ImageView
-        imgSave = view.findViewById(R.id.img_save) as ImageView
+        tvTotal = view.findViewById(R.id.tvTotal) as TextView
+        btnDelete = view.findViewById(R.id.btnDelete) as Button
+        btnSave = view.findViewById(R.id.btnSave) as Button
 
-        tvCinnamon.setPadding(PADDING, PADDING, PADDING, PADDING)
-        tvChocolate.setPadding(PADDING, PADDING, PADDING, PADDING)
-        tvMarshmallows.setPadding(PADDING, PADDING, PADDING, PADDING)
-
-        tvDrinkName.text = item.itemName
-        quantity = item.itemQty
+        tvDrinkName.text = cartItem.itemName
+        quantity = cartItem.itemQty
         tvQuantity.text = quantity.toString()
-        if (item.itemCinnamon) {
-            setToppingOn(tvCinnamon)
-            withCinnamon = true
-        }
-        if (item.itemChoc) {
-            setToppingOn(tvChocolate)
-            withChocolate = true
-        }
-        if (item.itemMarshmallow) {
-            setToppingOn(tvMarshmallows)
-            withMarshmallow = true
-        }
-        tvTotal.text = getString(R.string.price_listing, item.itemPrice)
+        cbCinnamon.isChecked = cartItem.itemCinnamon
+        cbChocolate.isChecked = cartItem.itemChoc
+        cbMarshmallows.isChecked = cartItem.itemMarshmallow
+        tvTotal.text = getString(R.string.price_listing, cartItem.itemPrice)
 
         imgMinusQty.setOnClickListener(this)
         imgAddQty.setOnClickListener(this)
-        tvCinnamon.setOnClickListener(this)
-        tvChocolate.setOnClickListener(this)
-        tvMarshmallows.setOnClickListener(this)
-        imgDelete.setOnClickListener(this)
-        imgSave.setOnClickListener(this)
+        cbCinnamon.setOnClickListener(this)
+        cbChocolate.setOnClickListener(this)
+        cbMarshmallows.setOnClickListener(this)
+        btnDelete.setOnClickListener(this)
+        btnSave.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
         when (view) {
             imgMinusQty -> minusQty()
             imgAddQty -> addQty()
-            tvCinnamon -> {
-                switchCinnamon(withCinnamon)
-                updateSubtotal()
-            }
-            tvChocolate -> {
-                switchChocolate(withChocolate)
-                updateSubtotal()
-            }
-            tvMarshmallows -> {
-                switchMarshmallow(withMarshmallow)
-                updateSubtotal()
-            }
-            imgDelete -> {
-                onComplete(EditType.DELETE, item)
-            }
-            imgSave -> {
-                saveChanges()
-            }
+            cbCinnamon -> updateSubtotal()
+            cbChocolate -> updateSubtotal()
+            cbMarshmallows -> updateSubtotal()
+            btnDelete -> onComplete(EditType.DELETE, cartItem)
+            btnSave -> saveChanges()
         }
     }
 
     private fun saveChanges() {
         val newItem = CartItem(
-                item.id,
-                item.itemName,
+                cartItem.id,
+                cartItem.itemName,
                 quantity,
-                withCinnamon,
-                withChocolate,
-                withMarshmallow,
+                cbCinnamon.isChecked,
+                cbChocolate.isChecked,
+                cbMarshmallows.isChecked,
                 updateSubtotal()
         )
 
         onComplete(EditType.SAVE, newItem)
-    }
-
-    private fun setToppingOn(textView: TextView) {
-        textView.setBackgroundResource(R.drawable.topping_on)
-        textView.setPadding(PADDING, PADDING, PADDING, PADDING)
-        textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorToppingOnText))
-    }
-
-    private fun setToppingOff(textView: TextView) {
-        textView.setBackgroundResource(R.drawable.topping_off)
-        textView.setPadding(PADDING, PADDING, PADDING, PADDING)
-        textView.setTextColor(ContextCompat.getColor(context!!, R.color.colorToppingOffText))
     }
 
     private fun minusQty() {
@@ -158,60 +115,29 @@ class EditCartDialog : androidx.fragment.app.DialogFragment(), View.OnClickListe
         updateSubtotal()
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun updateSubtotal(): Int {
         val drinks = DrinksProvider.drinksList
 
         var base = 0
         for (drink in drinks) {
-            if (TextUtils.equals(drink.drinkName, item.itemName)) {
+            if (TextUtils.equals(drink.drinkName, cartItem.itemName)) {
                 base = Integer.parseInt(drink.drinkPrice)
             }
         }
 
         base *= quantity
-        if (withCinnamon) {
+        if (cbCinnamon.isChecked) {
             base += quantity * 100
         }
-        if (withChocolate) {
+        if (cbChocolate.isChecked) {
             base += quantity * 100
         }
-        if (withMarshmallow) {
+        if (cbMarshmallows.isChecked) {
             base += quantity * 100
         }
         tvTotal.text = resources.getString(R.string.price_listing, base)
         return base
-    }
-
-    private fun switchCinnamon(selected: Boolean) {
-        withCinnamon = if (selected) {
-            setToppingOff(tvCinnamon)
-            false
-        } else {
-            setToppingOn(tvCinnamon)
-            true
-        }
-    }
-
-    private fun switchChocolate(selected: Boolean) {
-        withChocolate = if (selected) {
-            setToppingOff(tvChocolate)
-            false
-        } else {
-            setToppingOn(tvChocolate)
-            true
-        }
-    }
-
-    private fun switchMarshmallow(selected: Boolean) {
-        withMarshmallow = if (selected) {
-            setToppingOff(tvMarshmallows)
-            false
-        } else {
-            setToppingOn(tvMarshmallows)
-            true
-        }
     }
 
     enum class EditType {
@@ -221,6 +147,5 @@ class EditCartDialog : androidx.fragment.app.DialogFragment(), View.OnClickListe
 
     companion object {
         const val CART_ITEM = "item_cart"
-        private const val PADDING = 24
     }
 }

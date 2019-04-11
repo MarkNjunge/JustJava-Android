@@ -30,7 +30,6 @@ class CartActivity : BaseActivity(), CartView {
         presenter.loadItems()
 
         val editCartDialog = EditCartDialog().apply {
-            cartDao = this@CartActivity.cartDao
             onComplete = { editType, cartItem ->
                 dismiss()
                 if (editType == EditCartDialog.EditType.DELETE) {
