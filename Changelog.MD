@@ -1,5 +1,12 @@
 # JustJava changelog
 
+## 1.6.0
+* Fix input field colors
+* Save notification token to user's profile
+* Update notifications
+* Match edit cart item dialog to match rest of app
+* Numerous UI changes
+
 ## 1.5.0
 * Move open source libraries list to separate page.
 * Dialog to edit the cart shows up when an item is clicked.
