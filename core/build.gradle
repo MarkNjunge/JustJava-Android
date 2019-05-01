@@ -57,6 +57,7 @@ dependencies {
 
     // Other
     implementation deps.gson
+    api deps.koin
 
     testImplementation deps.junit
     androidTestImplementation deps.testRunner

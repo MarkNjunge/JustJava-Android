@@ -8,7 +8,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.model.*
 import java.util.*
 
-class ClientDatabaseImpl : ClientDatabaseService {
+internal class ClientDatabaseImpl : ClientDatabaseService {
     private val firestore by lazy { FirebaseFirestore.getInstance() }
 
     override fun saveUserDetails(userDetails: UserDetails, listener: WriteListener) {

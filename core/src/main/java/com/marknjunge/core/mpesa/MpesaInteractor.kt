@@ -12,7 +12,7 @@ interface MpesaInteractor {
     fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): Single<LNMPaymentResponse>
 }
 
-class MpesaInteractorImpl : MpesaInteractor {
+internal class MpesaInteractorImpl : MpesaInteractor {
     private val consumerKey: String = BuildConfig.safaricomConsumerKey
     private val consumerSecret: String = BuildConfig.safaricomConsumerSecret
     private val mpesaService: MpesaService by lazy {

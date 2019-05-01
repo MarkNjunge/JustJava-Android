@@ -4,7 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.marknjunge.core.model.AuthUser
 
-class AuthServiceImpl : AuthService {
+internal class AuthServiceImpl : AuthService {
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
     override fun addStateListener(listener: FirebaseAuth.AuthStateListener) {

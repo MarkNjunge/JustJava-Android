@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.marknjunge.core.model.*
 import java.util.*
 
-class StaffDatabaseImpl : StaffDatabaseService {
+internal class StaffDatabaseImpl : StaffDatabaseService {
     private val firestore by lazy { FirebaseFirestore.getInstance() }
 
     override fun getOrders(listener: StaffDatabaseService.OrdersListener) {
