@@ -5,16 +5,13 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.plugins.RxJavaPlugins
-import io.reactivex.schedulers.Schedulers
-import org.junit.After
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by Mark Njung'e.
@@ -22,54 +19,45 @@ import org.mockito.junit.MockitoJUnitRunner
  * https://github.com/MarkNjunge
  */
 
-@RunWith(MockitoJUnitRunner::class)
 class CheckoutPresenterTest {
 
-    @Mock
+    @MockK
     private lateinit var view: CheckoutView
-    @Mock
+    @MockK
     private lateinit var auth: AuthService
-    @Mock
+    @MockK
     private lateinit var preferences: PreferencesRepository
-    @Mock
+    @MockK
     private lateinit var database: ClientDatabaseService
-    @Mock
+    @MockK
     private lateinit var cartDao: CartDao
 
     private lateinit var presenter: CheckoutPresenter
 
     @Before
     fun setup() {
-        RxJavaPlugins.setIoSchedulerHandler { Schedulers.trampoline() }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
-
-        presenter = CheckoutPresenter(view, auth, preferences, database, cartDao)
-    }
-
-    @After
-    fun teardown() {
-        RxJavaPlugins.reset()
-        RxAndroidPlugins.reset()
+        MockKAnnotations.init(this, relaxUnitFun = true)
+        presenter = CheckoutPresenter(view, auth, preferences, database, cartDao, Dispatchers.Unconfined)
     }
 
     @Test
     fun getSignInStatus_signedIn() {
         val userDetails = UserDetails("", "", "", "", "")
-        Mockito.`when`(auth.isSignedIn()).thenReturn(true)
-        Mockito.`when`(preferences.getUserDetails()).thenReturn(userDetails)
+        every { auth.isSignedIn() } returns true
+        every { preferences.getUserDetails() } returns userDetails
 
         presenter.getSignInStatus()
 
-        Mockito.verify(view).setDisplayToLoggedIn(userDetails)
+        verify { view.setDisplayToLoggedIn(userDetails) }
     }
 
     @Test
     fun getSignInStatus_notSignedIn() {
-        Mockito.`when`(auth.isSignedIn()).thenReturn(false)
+        every { auth.isSignedIn() } returns false
 
         presenter.getSignInStatus()
 
-        Mockito.verify(view).setDisplayToLoggedOut()
+        verify { view.setDisplayToLoggedOut() }
     }
 
 }

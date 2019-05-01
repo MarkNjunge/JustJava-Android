@@ -10,17 +10,15 @@ import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.data.models.toOrderItem
 import com.marknkamau.justjava.ui.BasePresenter
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
-import timber.log.Timber
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 
 internal class CheckoutPresenter(private val activityView: CheckoutView,
                                  private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
                                  private val database: ClientDatabaseService,
-                                 private val cart: CartDao) : BasePresenter() {
+                                 private val cart: CartDao,
+                                 mainDispatcher: CoroutineDispatcher) : BasePresenter(mainDispatcher) {
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
             activityView.setDisplayToLoggedIn(preferences.getUserDetails())
@@ -34,18 +32,10 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
         val order = Order(orderId, auth.getCurrentUser().userId, 0, 0, address, comments, paymentMethod = paymentMethod)
         activityView.showUploadBar()
 
-        disposables.add(cart.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onSuccess = { items: MutableList<CartItem> ->
-                            placeOrderInternal(items, order)
-                        },
-                        onError = { t: Throwable? ->
-                            Timber.e(t)
-                        }
-                ))
-
+        uiScope.launch {
+            val items = cart.getAll()
+            placeOrderInternal(items, order)
+        }
     }
 
     private fun placeOrderInternal(items: MutableList<CartItem>, order: Order) {
@@ -63,22 +53,12 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
 
         database.placeNewOrder(order, orderItems, object : WriteListener {
             override fun onSuccess() {
-                disposables.add(Completable.fromCallable { cart.deleteAll() }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeBy(
-                                onComplete = {
-                                    activityView.hideUploadBar()
-                                    activityView.displayMessage("Order placed")
-                                    activityView.finishActivity(order)
-                                },
-                                onError = { t: Throwable? ->
-                                    Timber.e(t)
-                                    activityView.hideUploadBar()
-                                    activityView.displayMessage(t?.message)
-                                }
-                        ))
-
+                uiScope.launch {
+                    cart.deleteAll()
+                    activityView.hideUploadBar()
+                    activityView.displayMessage("Order placed")
+                    activityView.finishActivity(order)
+                }
             }
 
             override fun onError(reason: String) {

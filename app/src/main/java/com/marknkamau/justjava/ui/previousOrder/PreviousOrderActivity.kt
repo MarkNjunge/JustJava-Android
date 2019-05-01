@@ -24,6 +24,7 @@ import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_previous_order.*
 import kotlinx.android.synthetic.main.include_order_details.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 
@@ -56,7 +57,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
 
         order = intent.getParcelableExtra(ORDER_KEY)
 
-        presenter = PreviousOrderPresenter(this, databaseService, mpesaInteractor, authService)
+        presenter = PreviousOrderPresenter(this, databaseService, mpesaInteractor, authService, Dispatchers.Main)
 
         updateViews(order)
 

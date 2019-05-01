@@ -50,8 +50,7 @@ dependencies {
 
     // Test libraries
     testImplementation deps.junit
-    testImplementation deps.mockitoCore
-    testImplementation deps.mockitoKotlin
+    testImplementation deps.mockk
     androidTestImplementation deps.testRunner
     androidTestImplementation deps.espressoCore
     androidTestImplementation deps.espressoContrib

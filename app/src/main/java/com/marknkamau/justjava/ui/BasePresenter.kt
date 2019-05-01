@@ -1,11 +1,14 @@
 package com.marknkamau.justjava.ui
 
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 
-abstract class BasePresenter{
-    val disposables = CompositeDisposable()
+abstract class BasePresenter(mainDispatcher: CoroutineDispatcher) {
+    private val job = Job()
+    protected val uiScope = CoroutineScope(job + mainDispatcher)
 
-    fun unSubscribe(){
-        disposables.clear()
+    fun unSubscribe() {
+        job.cancel()
     }
 }

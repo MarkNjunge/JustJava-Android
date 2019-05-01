@@ -15,6 +15,7 @@ import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 
 class CartActivity : BaseActivity(), CartView {
@@ -26,7 +27,7 @@ class CartActivity : BaseActivity(), CartView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        presenter = CartPresenter(this, cartDao)
+        presenter = CartPresenter(this, cartDao, Dispatchers.Main)
         presenter.loadItems()
 
         val editCartDialog = EditCartDialog().apply {

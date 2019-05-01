@@ -1,11 +1,10 @@
 package com.marknkamau.justjava.ui.main
 
+import io.mockk.MockKAnnotations
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by Mark Njung'e.
@@ -13,15 +12,16 @@ import org.mockito.junit.MockitoJUnitRunner
  * https://github.com/MarkNjunge
  */
 
-@RunWith(MockitoJUnitRunner::class)
 class MainPresenterTest {
 
-    @Mock private lateinit var view: MainView
+    @MockK
+    private lateinit var view: MainView
 
     private lateinit var presenter: MainPresenter
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this, relaxUnitFun = true)
         presenter = MainPresenter(view)
     }
 
@@ -29,7 +29,7 @@ class MainPresenterTest {
     fun should_displayCatalogItems() {
         presenter.getCatalogItems()
 
-        Mockito.verify(view).displayCatalog(Mockito.anyList())
+        verify { view.displayCatalog(any()) }
     }
 
 }

@@ -2,25 +2,24 @@ package com.marknkamau.justjava.data.local
 
 import androidx.room.*
 import com.marknkamau.justjava.data.models.CartItem
-import io.reactivex.Single
 
 @Dao
-interface CartDao{
+interface CartDao {
     @Insert
-    fun addItem(orderItem: CartItem)
+    suspend fun addItem(orderItem: CartItem)
 
     @Query("SELECT * FROM cart")
-    fun getAll() : Single<MutableList<CartItem>>
+    suspend fun getAll(): MutableList<CartItem>
 
     @Query("SELECT SUM(itemPrice) from cart")
-    fun getTotal() : Single<String>
+    suspend fun getTotal(): String
 
     @Delete
-    fun deleteItem(item: CartItem)
+    suspend fun deleteItem(item: CartItem)
 
     @Query("DELETE FROM cart")
-    fun deleteAll()
+    suspend fun deleteAll()
 
     @Update
-    fun updateItem(item: CartItem)
+    suspend fun updateItem(item: CartItem)
 }

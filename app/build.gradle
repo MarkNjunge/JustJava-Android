@@ -46,15 +46,8 @@ dependencies {
 
     // Room
     implementation deps.roomRuntime
-    implementation deps.roomRxJava
-    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation deps.roomKotlin
     kapt deps.roomCompiler
-
-    // Rx
-    implementation deps.rxAndroid
-    implementation deps.rxJava
-    implementation deps.rxKotlin
 
     // Other libraries
     implementation deps.picasso
@@ -65,8 +58,7 @@ dependencies {
 
     // Test libraries
     testImplementation deps.junit
-    testImplementation deps.mockitoCore
-    testImplementation deps.mockitoKotlin
+    testImplementation deps.mockk
     androidTestImplementation deps.testRunner
     androidTestImplementation deps.testRules
     androidTestImplementation deps.espressoCore

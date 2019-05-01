@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_drink_details.*
 import kotlinx.android.synthetic.main.content_drink_details.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
@@ -31,7 +32,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_details)
 
-        presenter = DrinkDetailsPresenter(this, cartDao)
+        presenter = DrinkDetailsPresenter(this, cartDao, Dispatchers.Main)
 
         drink = intent.extras.getParcelable(DRINK_KEY) as CoffeeDrink
 

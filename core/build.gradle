@@ -36,6 +36,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.kotlinStdlib
+    api deps.coroutines
+    api deps.coroutinesAndroid
+    api deps.corouinesPlayServices
 
     implementation deps.appcompat
 
@@ -46,14 +49,9 @@ dependencies {
 
     // REST
     implementation deps.retrofit
-    implementation deps.retrofitRxJava
     implementation deps.retrofitGson
     implementation deps.okhttpLogging
-
-    // Rx
-    implementation deps.rxAndroid
-    implementation deps.rxJava
-    implementation deps.rxKotlin
+    implementation deps.retrofitCoroutinesAdapter
 
     // Other
     implementation deps.gson

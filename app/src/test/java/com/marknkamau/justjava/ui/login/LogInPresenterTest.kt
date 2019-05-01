@@ -4,15 +4,14 @@ import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
 import com.marknjunge.core.model.AuthUser
-import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
-import com.nhaarman.mockito_kotlin.any
+import com.marknkamau.justjava.data.local.PreferencesRepository
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by Mark Njung'e.
@@ -20,117 +19,144 @@ import org.mockito.junit.MockitoJUnitRunner
  * https://github.com/MarkNjunge
  */
 
-@RunWith(MockitoJUnitRunner::class)
 class LogInPresenterTest {
 
-    @Mock private lateinit var view: LogInView
-    @Mock private lateinit var preferences: PreferencesRepository
-    @Mock private lateinit var auth: AuthService
-    @Mock private lateinit var database: ClientDatabaseService
+    @MockK
+    private lateinit var view: LogInView
+    @MockK
+    private lateinit var preferences: PreferencesRepository
+    @MockK
+    private lateinit var auth: AuthService
+    @MockK
+    private lateinit var database: ClientDatabaseService
 
     private lateinit var presenter: LogInPresenter
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this, relaxUnitFun = true)
         presenter = LogInPresenter(view, preferences, auth, database)
     }
 
     @Test
     fun should_closeActivity_when_signedIn() {
-        Mockito.`when`(auth.isSignedIn()).thenReturn(true)
+        every { auth.isSignedIn() } returns true
 
         presenter.checkSignInStatus()
 
-        Mockito.verify(view).closeActivity()
+        verify { view.closeActivity() }
     }
 
     @Test
     fun should_finishSignIn_when_signInAndUserDefaults_success() {
         // Succeed in signing in
-        Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
-            authActionListener.actionSuccessful("")
-        }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
+        every {
+            auth.signIn(any(), any(), any())
+        } answers {
+            val listener = thirdArg<AuthService.AuthActionListener>()
+            listener.actionSuccessful("")
+        }
 
         // Succeed in getting user defaults
-        Mockito.doAnswer { invocation ->
-            val userDetailsListener = invocation.arguments[1] as ClientDatabaseService.UserDetailsListener
-            userDetailsListener.onSuccess(UserDetails("", "", "", "", ""))
-        }.`when`(database).getUserDefaults(Mockito.anyString(), any())
+        every {
+            database.getUserDefaults(any(), any())
+        } answers {
+            val listener = secondArg<ClientDatabaseService.UserDetailsListener>()
+            listener.onSuccess(UserDetails("", "", "", "", ""))
+        }
 
-        Mockito.`when`(auth.getCurrentUser()).thenReturn(AuthUser("", "",""))
+        every { auth.getCurrentUser() } returns AuthUser("", "", "")
+
         // Succeed updating FCM token
-        Mockito.doAnswer { invocation ->
-            val writeListener = invocation.arguments[1] as WriteListener
-            writeListener.onSuccess()
-        }.`when`(database).updateUserFcmToken(Mockito.anyString(), any())
+        every {
+            database.updateUserFcmToken(any(), any())
+        } answers {
+            val listener = secondArg<WriteListener>()
+            listener.onSuccess()
+        }
 
         presenter.signIn("", "")
 
-        Mockito.verify(view).finishSignIn()
+        verify { view.finishSignIn() }
     }
 
     @Test
     fun should_displayMessage_when_signIn_failed() {
         // Fail in signing in
-        Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
-            authActionListener.actionFailed("")
-        }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
+        every {
+            auth.signIn(any(), any(), any())
+        } answers {
+            val listener = thirdArg<AuthService.AuthActionListener>()
+            listener.actionFailed("")
+        }
 
         presenter.signIn("", "")
 
-        Mockito.verify(view).displayMessage(Mockito.any())
+        verify { view.displayMessage(any()) }
     }
 
     @Test
     fun should_displayMessage_when_getUserDefaults_failed() {
         // Succeed in signing in
-        Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[2] as AuthService.AuthActionListener
-            authActionListener.actionSuccessful("")
-        }.`when`(auth).signIn(Mockito.anyString(), Mockito.anyString(), any())
+        every {
+            auth.signIn(any(), any(), any())
+        } answers {
+            val listener = thirdArg<AuthService.AuthActionListener>()
+            listener.actionSuccessful("")
+        }
 
         // Fail in getting user defaults
-        Mockito.doAnswer { invocation ->
-            val userDetailsListener = invocation.arguments[1] as ClientDatabaseService.UserDetailsListener
-            userDetailsListener.onError("")
-        }.`when`(database).getUserDefaults(Mockito.anyString(), any())
+        every {
+            database.getUserDefaults(any(), any())
+        } answers {
+            val listener = secondArg<ClientDatabaseService.UserDetailsListener>()
+            listener.onError("")
+        }
 
-
-        Mockito.`when`(auth.getCurrentUser()).thenReturn(AuthUser("", "",""))
+        every { auth.getCurrentUser() } returns AuthUser("", "", "")
         // Succeed updating FCM token
-        Mockito.doAnswer { invocation ->
-            val writeListener = invocation.arguments[1] as WriteListener
-            writeListener.onSuccess()
-        }.`when`(database).updateUserFcmToken(Mockito.anyString(), any())
+        every {
+            database.updateUserFcmToken(any(), any())
+        } answers {
+            val listener = secondArg<WriteListener>()
+            listener.onSuccess()
+        }
 
         presenter.signIn("", "")
 
-        Mockito.verify(view).displayMessage(Mockito.any())
+        verify { view.displayMessage(any()) }
     }
 
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_success() {
-        Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[1] as AuthService.AuthActionListener
-            authActionListener.actionSuccessful("")
-        }.`when`(auth).sendPasswordResetEmail(Mockito.anyString(), any())
+        // Succeed sending email
+        every {
+            auth.sendPasswordResetEmail(any(), any())
+        } answers {
+            val listener = secondArg<AuthService.AuthActionListener>()
+            listener.actionSuccessful("")
+        }
 
         presenter.resetUserPassword("")
 
-        Mockito.verify(view).displayMessage(Mockito.any())
+        verify {
+            view.displayMessage(any())
+        }
     }
 
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_failed() {
-        Mockito.doAnswer { invocation ->
-            val authActionListener = invocation.arguments[1] as AuthService.AuthActionListener
-            authActionListener.actionFailed("")
-        }.`when`(auth).sendPasswordResetEmail(Mockito.anyString(), any())
+        // Fail sending email
+        every {
+            auth.sendPasswordResetEmail(any(), any())
+        } answers {
+            val listener = secondArg<AuthService.AuthActionListener>()
+            listener.actionFailed("")
+        }
 
         presenter.resetUserPassword("")
 
-        Mockito.verify(view).displayMessage(Mockito.any())
+        verify { view.displayMessage(any()) }
     }
+
 }

@@ -23,6 +23,7 @@ import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import java.util.*
 
@@ -46,7 +47,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         setContentView(R.layout.activity_checkout)
         supportActionBar?.title = "Checkout"
 
-        presenter = CheckoutPresenter(this, authService, preferencesRepository, databaseService, cartDao)
+        presenter = CheckoutPresenter(this, authService, preferencesRepository, databaseService, cartDao, Dispatchers.Main)
 
         rgPayment.setOnCheckedChangeListener { _, checkedId ->
             val text = findViewById<RadioButton>(checkedId).text

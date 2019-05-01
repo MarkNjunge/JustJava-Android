@@ -4,84 +4,55 @@ import android.annotation.SuppressLint
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BasePresenter
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class CartPresenter(private val activityView: CartView, private val cart: CartDao)
-    : BasePresenter() {
+internal class CartPresenter(private val activityView: CartView, private val cart: CartDao, mainDispatcher: CoroutineDispatcher)
+    : BasePresenter(mainDispatcher) {
 
     fun loadItems() {
-        disposables.add(cart.getAll()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onSuccess = { items: MutableList<CartItem>? ->
-                            if (items != null && items.size > 0) {
-                                activityView.displayCart(items)
-                                var total = 0
-                                items.forEach { item -> total += item.itemPrice }
-                                activityView.displayCartTotal(total)
-                            } else {
-                                activityView.displayEmptyCart()
-                            }
-                        },
-                        onError = { t: Throwable? ->
-                            Timber.e(t)
-                            activityView.displayMessage(t?.message)
-                        }
-                ))
+        uiScope.launch {
+            try {
+                val items = cart.getAll()
+                if (items.size > 0) {
+                    activityView.displayCart(items)
+                    var total = 0
+                    items.forEach { item -> total += item.itemPrice }
+                    activityView.displayCartTotal(total)
+                } else {
+                    activityView.displayEmptyCart()
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+                activityView.displayMessage(e.message)
+            }
+        }
     }
 
     fun clearCart() {
-        disposables.add(Completable.fromCallable { cart.deleteAll() }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onComplete = {
-                            activityView.displayEmptyCart()
-                        },
-                        onError = { t: Throwable? ->
-                            Timber.e(t)
-                            activityView.displayMessage(t?.message)
-                        }
-                ))
+        uiScope.launch {
+            cart.deleteAll()
+            activityView.displayEmptyCart()
+        }
     }
 
     @SuppressLint("CheckResult")
-    fun deleteItem(item: CartItem){
-        Completable.fromCallable { cart.deleteItem(item) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy (
-                        onComplete = {
-                            activityView.displayMessage("Item deleted")
-                            loadItems()
-                        },
-                        onError = {throwable ->
-                            Timber.e(throwable)
-                            activityView.displayMessage(throwable.message)
-                        }
-                )
+    fun deleteItem(item: CartItem) {
+        uiScope.launch {
+            cart.deleteItem(item)
+            activityView.displayMessage("Item deleted")
+            loadItems()
+        }
     }
 
     @SuppressLint("CheckResult")
-    fun updateItem(item: CartItem){
-        Completable.fromCallable { cart.updateItem(item) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy (
-                        onComplete = {
-                            activityView.displayMessage("Cart updated")
-                            loadItems()
-                        },
-                        onError = {throwable ->
-                            Timber.e(throwable)
-                            activityView.displayMessage(throwable.message)
-                        }
-                )
+    fun updateItem(item: CartItem) {
+        uiScope.launch {
+            cart.updateItem(item)
+            activityView.displayMessage("Cart updated")
+            loadItems()
+        }
     }
 }
 

@@ -6,10 +6,9 @@ import com.marknjunge.core.model.LNMPaymentResponse
 import com.marknjunge.core.model.OAuthAccess
 import com.marknjunge.core.model.STKPush
 import com.marknjunge.core.utils.Utils
-import io.reactivex.Single
 
 interface MpesaInteractor {
-    fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): Single<LNMPaymentResponse>
+    suspend fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): LNMPaymentResponse
 }
 
 internal class MpesaInteractorImpl : MpesaInteractor {
@@ -27,14 +26,14 @@ internal class MpesaInteractorImpl : MpesaInteractor {
         const val CALLBACK_URL = "https://us-central1-justjava-android.cloudfunctions.net/callback_url/"
     }
 
-    private fun getAccessToken(): Single<OAuthAccess> {
+    private suspend fun getAccessToken(): OAuthAccess {
         val key = "$consumerKey:$consumerSecret"
         val accessTokenHeader = "Basic ${Base64.encodeToString(key.toByteArray(), Base64.NO_WRAP)}"
 
-        return mpesaService.getAccessToken(accessTokenHeader)
+        return mpesaService.getAccessToken(accessTokenHeader).await()
     }
 
-    override fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): Single<LNMPaymentResponse> {
+    override suspend fun sendStkPush(amount: Int, phoneNumber: String, accountRef: String, fcmToken: String): LNMPaymentResponse {
         val timestamp = Utils.timestamp
         val sanitizedPhoneNumber = Utils.sanitizePhoneNumber(phoneNumber)
         val password = Utils.getPassword(Config.BUSINESS_SHORT_CODE, Config.PASSKEY, timestamp)
@@ -52,10 +51,8 @@ internal class MpesaInteractorImpl : MpesaInteractor {
                 accountRef,
                 "Payment for order: $accountRef")
 
-        return getAccessToken()
-                .flatMap { oAuthAccess ->
-                    val lnmHeader = "Bearer ${oAuthAccess.accessToken}"
-                    mpesaService.sendPush(lnmHeader, stkPush)
-                }
+        val oAuthAccess = getAccessToken()
+        val lnmHeader = "Bearer ${oAuthAccess.accessToken}"
+        return mpesaService.sendPush(lnmHeader, stkPush).await()
     }
 }

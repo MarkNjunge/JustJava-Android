@@ -7,9 +7,8 @@ import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknkamau.justjava.ui.BasePresenter
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 /**
@@ -21,8 +20,9 @@ import timber.log.Timber
 class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val databaseService: ClientDatabaseService,
                              private val mpesaInteractor: MpesaInteractor,
-                             private val authService: AuthService)
-    : BasePresenter() {
+                             private val authService: AuthService,
+                             mainDispatcher: CoroutineDispatcher)
+    : BasePresenter(mainDispatcher) {
 
     fun getOrderDetails(orderId: String) {
         databaseService.getOrder(orderId, object : ClientDatabaseService.OrderListener {
@@ -51,41 +51,24 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
     }
 
     fun makeMpesaPayment(total: Int, phoneNumber: String, orderId: String) {
-        fun getFcmToken(): Single<String> {
-            return Single.create<String> { emitter ->
-                FirebaseInstanceId.getInstance().instanceId
-                        .addOnSuccessListener { emitter.onSuccess(it.token) }
-                        .addOnFailureListener {
-                            Timber.e(it)
-                            emitter.onError(it)
-                        }
+        uiScope.launch {
+            try {
+                val fcmToken = FirebaseInstanceId.getInstance().instanceId.await().token
+
+                val lnmPaymentResponse = mpesaInteractor.sendStkPush(total, phoneNumber, orderId, fcmToken)
+                view.displayMessage(lnmPaymentResponse.customerMessage)
+                if (lnmPaymentResponse.responseCode == "0") {
+                    databaseService.savePaymentRequest(
+                            lnmPaymentResponse.merchantRequestId,
+                            lnmPaymentResponse.checkoutRequestId,
+                            orderId, authService.getCurrentUser().userId
+                    )
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+                view.displayMessage(e.message)
             }
         }
-
-        val disposable = getFcmToken().flatMap { token ->
-            mpesaInteractor.sendStkPush(total, phoneNumber, orderId, token)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-        }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { lnmPaymentResponse ->
-                            view.displayMessage(lnmPaymentResponse.customerMessage)
-                            if (lnmPaymentResponse.responseCode == "0") {
-                                databaseService.savePaymentRequest(
-                                        lnmPaymentResponse.merchantRequestId,
-                                        lnmPaymentResponse.checkoutRequestId,
-                                        orderId, authService.getCurrentUser().userId
-                                )
-                            }
-                        },
-                        { t ->
-                            Timber.e(t)
-                            view.displayMessage(t.message)
-                        }
-                )
-
-        disposables.add(disposable)
     }
+
 }
