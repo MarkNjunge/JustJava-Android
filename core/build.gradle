@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.kotlinStdlib
+    api deps.kotlinStdlib
     api deps.coroutines
     api deps.coroutinesAndroid
     api deps.corouinesPlayServices

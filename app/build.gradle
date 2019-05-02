@@ -32,7 +32,6 @@ dependencies {
     implementation project(':core')
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation deps.kotlinStdlib
 
     //Android libraries
     implementation deps.material
