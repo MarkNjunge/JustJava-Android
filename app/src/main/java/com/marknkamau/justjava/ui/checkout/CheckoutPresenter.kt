@@ -8,7 +8,6 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.data.models.CartItem
-import com.marknkamau.justjava.data.models.toOrderItem
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch

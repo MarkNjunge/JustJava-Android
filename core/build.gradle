@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 // A properties file is located at projectFolder/keys.properties
 def keysPropertiesFile = rootProject.file("keys.properties")
@@ -30,6 +31,10 @@ android {
         }
     }
 
+    // Required for @Parcelize
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {

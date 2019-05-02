@@ -26,6 +26,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    // Required for @Parcelize
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
