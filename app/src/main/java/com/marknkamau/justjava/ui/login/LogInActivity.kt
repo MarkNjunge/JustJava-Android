@@ -14,6 +14,7 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_log_in.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 
 class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
@@ -28,7 +29,7 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_log_in)
 
-        presenter = LogInPresenter(this, preferencesRepository, authService, databaseService)
+        presenter = LogInPresenter(this, preferencesRepository, authService, databaseService, Dispatchers.Main)
         presenter.checkSignInStatus()
 
         btnLogin.setOnClickListener(this)
@@ -39,6 +40,11 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     override fun onResume() {
         super.onResume()
         presenter.checkSignInStatus()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.cancel()
     }
 
     override fun onClick(view: View) {

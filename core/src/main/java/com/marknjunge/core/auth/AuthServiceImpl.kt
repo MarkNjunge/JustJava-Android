@@ -3,6 +3,7 @@ package com.marknjunge.core.auth
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.marknjunge.core.model.AuthUser
+import kotlinx.coroutines.tasks.await
 
 internal class AuthServiceImpl : AuthService {
     private val firebaseAuth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
@@ -11,38 +12,21 @@ internal class AuthServiceImpl : AuthService {
         firebaseAuth.addAuthStateListener(listener)
     }
 
-    override fun createUser(email: String, password: String, listener: AuthService.AuthActionListener) {
-        firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener.actionSuccessful("Account created") }
-                .addOnFailureListener { exception ->
-                    listener.actionFailed(exception.message ?: "Unable to create account")
-                }
+    override suspend fun createUser(email: String, password: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).await()
     }
 
-    override fun signIn(email: String, password: String, listener: AuthService.AuthActionListener) {
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener { listener.actionSuccessful(it.user.uid) }
-                .addOnFailureListener { exception ->
-                    listener.actionFailed(exception.message ?: "Unable to sign in")
-                }
+    override suspend fun signIn(email: String, password: String): String {
+        return firebaseAuth.signInWithEmailAndPassword(email, password).await().user.uid
     }
 
-    override fun sendPasswordResetEmail(email: String, listener: AuthService.AuthActionListener) {
-        firebaseAuth.sendPasswordResetEmail(email)
-                .addOnSuccessListener { listener.actionSuccessful("Password reset email sent") }
-                .addOnFailureListener { exception ->
-                    listener.actionFailed(exception.message ?: "Unable to send email")
-                }
+    override suspend fun sendPasswordResetEmail(email: String) {
+        firebaseAuth.sendPasswordResetEmail(email).await()
     }
 
-    override fun setUserDisplayName(name: String, listener: AuthService.AuthActionListener) {
+    override suspend fun setUserDisplayName(name: String) {
         val profileUpdate = UserProfileChangeRequest.Builder().setDisplayName(name).build()
-
-        firebaseAuth.currentUser?.updateProfile(profileUpdate)
-                ?.addOnSuccessListener { listener.actionSuccessful("User's name set") }
-                ?.addOnFailureListener { exception ->
-                    listener.actionFailed(exception.message ?: "Unable to update name")
-                }
+        firebaseAuth.currentUser?.updateProfile(profileUpdate)?.await()
     }
 
     override fun getCurrentUser(): AuthUser {

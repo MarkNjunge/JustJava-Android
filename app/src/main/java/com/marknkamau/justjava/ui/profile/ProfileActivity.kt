@@ -20,6 +20,7 @@ import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 
 class ProfileActivity : BaseActivity(), ProfileView {
@@ -45,7 +46,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
         rvPreviousOrders.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvPreviousOrders.adapter = adapter
 
-        presenter = ProfilePresenter(this, preferencesRepository, authService, databaseService)
+        presenter = ProfilePresenter(this, preferencesRepository, authService, databaseService, Dispatchers.Main)
 
         btnUpdateProfile.setOnClickListener { saveChanges() }
     }

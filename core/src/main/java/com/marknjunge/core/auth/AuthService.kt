@@ -6,13 +6,13 @@ import com.marknjunge.core.model.AuthUser
 interface AuthService {
     fun addStateListener(listener: FirebaseAuth.AuthStateListener)
 
-    fun createUser(email: String, password: String, listener: AuthActionListener)
+    suspend fun createUser(email: String, password: String)
 
-    fun signIn(email: String, password: String, listener: AuthActionListener)
+    suspend fun signIn(email: String, password: String): String
 
-    fun sendPasswordResetEmail(email: String, listener: AuthActionListener)
+    suspend fun sendPasswordResetEmail(email: String)
 
-    fun setUserDisplayName(name: String, listener: AuthActionListener)
+    suspend fun setUserDisplayName(name: String)
 
     fun getCurrentUser(): AuthUser
 

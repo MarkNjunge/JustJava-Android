@@ -6,12 +6,20 @@ import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
                                 private val authenticationService: AuthService,
-                                private val databaseService: ClientDatabaseService) {
+                                private val databaseService: ClientDatabaseService,
+                                mainDispatcher: CoroutineDispatcher) {
+
+    private val job = Job()
+    private val uiScope = CoroutineScope(job + mainDispatcher)
 
     init {
         getUserDetails()
@@ -47,8 +55,9 @@ internal class ProfilePresenter(private val view: ProfileView,
 
     fun updateUserDetails(name: String, phone: String, address: String) {
         view.showProfileProgressBar()
-        authenticationService.setUserDisplayName(name, object : AuthService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
+        uiScope.launch {
+            try {
+                authenticationService.setUserDisplayName(name)
                 databaseService.updateUserDetails(userDetails.id, name, phone, address, object : WriteListener {
                     override fun onSuccess() {
                         val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
@@ -64,12 +73,12 @@ internal class ProfilePresenter(private val view: ProfileView,
                         view.displayMessage(reason)
                     }
                 })
+            } catch (e: Exception) {
+                Timber.e(e)
+                view.hideProfileProgressBar()
+                view.displayMessage(e.message)
             }
-
-            override fun actionFailed(response: String) {
-                view.displayMessage(response)
-            }
-        })
+        }
     }
 
 }

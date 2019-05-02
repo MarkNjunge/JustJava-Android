@@ -5,12 +5,24 @@ import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class LogInPresenter(private val activityView: LogInView,
                               private val preferences: PreferencesRepository,
                               private val auth: AuthService,
-                              private val database: ClientDatabaseService) {
+                              private val database: ClientDatabaseService,
+                              mainDispatcher: CoroutineDispatcher) {
+
+    private val job = Job()
+    private val uiScope = CoroutineScope(job + mainDispatcher)
+
+    fun cancel() {
+        job.cancel()
+    }
 
     fun checkSignInStatus() {
         if (auth.isSignedIn()) {
@@ -20,16 +32,16 @@ internal class LogInPresenter(private val activityView: LogInView,
 
     fun signIn(email: String, password: String) {
         activityView.showDialog()
-        auth.signIn(email, password, object : AuthService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
-                getUserDefaults(response)
+        uiScope.launch {
+            try {
+                val uid = auth.signIn(email, password)
+                getUserDefaults(uid)
                 setFcmToken()
+            } catch (e: Exception) {
+                Timber.e(e)
+                activityView.displayMessage(e.message)
             }
-
-            override fun actionFailed(response: String) {
-                activityView.displayMessage(response)
-            }
-        })
+        }
     }
 
     private fun getUserDefaults(id: String) {
@@ -61,14 +73,14 @@ internal class LogInPresenter(private val activityView: LogInView,
 
 
     fun resetUserPassword(email: String) {
-        auth.sendPasswordResetEmail(email, object : AuthService.AuthActionListener {
-            override fun actionSuccessful(response: String) {
-                activityView.displayMessage(response)
+        uiScope.launch {
+            try {
+                auth.sendPasswordResetEmail(email)
+                activityView.displayMessage("Password reset email sent")
+            } catch (e: Exception) {
+                Timber.e(e)
+                activityView.displayMessage(e.message)
             }
-
-            override fun actionFailed(response: String) {
-                activityView.displayMessage(response)
-            }
-        })
+        }
     }
 }

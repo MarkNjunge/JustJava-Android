@@ -13,6 +13,7 @@ import com.marknkamau.justjavastaff.R
 import com.marknkamau.justjavastaff.ui.main.MainActivity
 
 import kotlinx.android.synthetic.main.activity_log_in.*
+import kotlinx.coroutines.Dispatchers
 
 class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
 
@@ -31,10 +32,15 @@ class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
             finish()
         }
 
-        presenter = LoginPresenter(auth, this)
+        presenter = LoginPresenter(auth, this, Dispatchers.Main)
 
         btnLogIn.setOnClickListener(this)
         imgVisibility.setOnClickListener(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.cancel()
     }
 
     override fun onClick(view: View) {

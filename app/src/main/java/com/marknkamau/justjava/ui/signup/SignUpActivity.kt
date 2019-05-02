@@ -12,6 +12,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import java.util.regex.Pattern
 
@@ -31,7 +32,7 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        presenter = SignUpPresenter(this, preferencesRepository, authService, databaseService)
+        presenter = SignUpPresenter(this, preferencesRepository, authService, databaseService, Dispatchers.Main)
 
         btnSignup.setOnClickListener(this)
         tvLogin.setOnClickListener(this)
