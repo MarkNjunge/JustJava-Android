@@ -7,9 +7,11 @@ import com.marknjunge.core.model.AuthUser
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Test
 
@@ -35,7 +37,7 @@ class LogInPresenterTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        presenter = LogInPresenter(view, preferences, auth, database)
+        presenter = LogInPresenter(view, preferences, auth, database, Dispatchers.Unconfined)
     }
 
     @Test
@@ -50,12 +52,9 @@ class LogInPresenterTest {
     @Test
     fun should_finishSignIn_when_signInAndUserDefaults_success() {
         // Succeed in signing in
-        every {
-            auth.signIn(any(), any(), any())
-        } answers {
-            val listener = thirdArg<AuthService.AuthActionListener>()
-            listener.actionSuccessful("")
-        }
+        coEvery {
+            auth.signIn(any(), any())
+        } returns ""
 
         // Succeed in getting user defaults
         every {
@@ -83,12 +82,9 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_signIn_failed() {
         // Fail in signing in
-        every {
-            auth.signIn(any(), any(), any())
-        } answers {
-            val listener = thirdArg<AuthService.AuthActionListener>()
-            listener.actionFailed("")
-        }
+        coEvery {
+            auth.signIn(any(), any())
+        } throws Exception("")
 
         presenter.signIn("", "")
 
@@ -98,12 +94,9 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_getUserDefaults_failed() {
         // Succeed in signing in
-        every {
-            auth.signIn(any(), any(), any())
-        } answers {
-            val listener = thirdArg<AuthService.AuthActionListener>()
-            listener.actionSuccessful("")
-        }
+        coEvery {
+            auth.signIn(any(), any())
+        } returns ""
 
         // Fail in getting user defaults
         every {
@@ -130,12 +123,9 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_success() {
         // Succeed sending email
-        every {
-            auth.sendPasswordResetEmail(any(), any())
-        } answers {
-            val listener = secondArg<AuthService.AuthActionListener>()
-            listener.actionSuccessful("")
-        }
+        coEvery {
+            auth.sendPasswordResetEmail(any())
+        } returns Unit
 
         presenter.resetUserPassword("")
 
@@ -147,12 +137,9 @@ class LogInPresenterTest {
     @Test
     fun should_displayMessage_when_sendPasswordRestEmail_failed() {
         // Fail sending email
-        every {
-            auth.sendPasswordResetEmail(any(), any())
-        } answers {
-            val listener = secondArg<AuthService.AuthActionListener>()
-            listener.actionFailed("")
-        }
+        coEvery {
+            auth.sendPasswordResetEmail(any())
+        } throws Exception("")
 
         presenter.resetUserPassword("")
 
