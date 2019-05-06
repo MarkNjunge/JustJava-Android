@@ -56,8 +56,6 @@ dependencies {
     implementation deps.picasso
     implementation deps.timber
     implementation deps.crashlytics
-    debugImplementation deps.leakCanary
-    releaseImplementation deps.leakCanaryNoOp
 
     // Test libraries
     testImplementation deps.junit

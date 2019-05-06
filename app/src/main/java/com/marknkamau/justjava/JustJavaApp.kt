@@ -11,7 +11,6 @@ import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 import com.marknjunge.core.di.mpesaModule
 import com.marknkamau.justjava.di.appModule
-import com.squareup.leakcanary.LeakCanary
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -22,8 +21,6 @@ class JustJavaApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
-        LeakCanary.install(this)
 
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
