@@ -21,8 +21,8 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
                              private val databaseService: ClientDatabaseService,
                              private val mpesaInteractor: MpesaInteractor,
                              private val authService: AuthService,
-                             mainDispatcher: CoroutineDispatcher)
-    : BasePresenter(mainDispatcher) {
+                             mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
     fun getOrderDetails(orderId: String) {
         databaseService.getOrder(orderId, object : ClientDatabaseService.OrderListener {

@@ -8,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
@@ -26,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_previous_order.*
 import kotlinx.android.synthetic.main.include_order_details.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
@@ -41,23 +40,18 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     }
 
     private lateinit var orderItemsAdapter: OrderItemsAdapter
-    private lateinit var presenter: PreviousOrderPresenter
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var order: Order
 
     private val preferencesRepository: PreferencesRepository by inject()
-    private val authService: AuthService by inject()
-    private val databaseService: ClientDatabaseService by inject()
-    private val mpesaInteractor: MpesaInteractor by inject()
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
+    private val presenter: PreviousOrderPresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_order)
 
         order = intent.getParcelableExtra(ORDER_KEY)
-
-        presenter = PreviousOrderPresenter(this, databaseService, mpesaInteractor, authService, Dispatchers.Main)
 
         updateViews(order)
 
@@ -99,7 +93,7 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     override fun onStop() {
         super.onStop()
         broadcastManager.unregisterReceiver(broadcastReceiver)
-        presenter.unSubscribe()
+        presenter.cancel()
     }
 
     override fun displayOrderItems(orderItems: List<OrderItem>) {

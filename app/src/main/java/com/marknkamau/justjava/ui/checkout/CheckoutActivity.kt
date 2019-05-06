@@ -11,7 +11,6 @@ import android.widget.RadioButton
 import android.widget.Toast
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
@@ -25,6 +24,7 @@ import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import java.util.*
 
 class CheckoutActivity : BaseActivity(), CheckoutView {
@@ -32,12 +32,8 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
     private lateinit var phone: String
     private lateinit var address: String
     private lateinit var comments: String
-    private lateinit var presenter: CheckoutPresenter
 
-    private val preferencesRepository: PreferencesRepository by inject()
-    private val authService: AuthService by inject()
-    private val databaseService: ClientDatabaseService by inject()
-    private val cartDao: CartDao by inject()
+    private val presenter: CheckoutPresenter by inject { parametersOf(this) }
 
     private var payCash = true
     private val orderId = UUID.randomUUID().toString().replace("-", "").subSequence(0, 10).toString()
@@ -46,8 +42,6 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
         supportActionBar?.title = "Checkout"
-
-        presenter = CheckoutPresenter(this, authService, preferencesRepository, databaseService, cartDao, Dispatchers.Main)
 
         rgPayment.setOnCheckedChangeListener { _, checkedId ->
             val text = findViewById<RadioButton>(checkedId).text
@@ -71,7 +65,7 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
 
     override fun onStop() {
         super.onStop()
-        presenter.unSubscribe()
+        presenter.cancel()
     }
 
     private fun placeOder() {

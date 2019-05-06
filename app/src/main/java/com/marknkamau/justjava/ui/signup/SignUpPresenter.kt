@@ -5,23 +5,22 @@ import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
+import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class SignUpPresenter(private val activityView: SignUpView,
+internal class SignUpPresenter(private val view: SignUpView,
                                private val preferences: PreferencesRepository,
                                private val auth: AuthService,
                                private val database: ClientDatabaseService,
-                               mainDispatcher: CoroutineDispatcher) {
-
-    private val job = Job()
-    private val uiScope = CoroutineScope(job + mainDispatcher)
+                               mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
     fun createUser(email: String, password: String, name: String, phone: String, address: String) {
-        activityView.disableUserInteraction()
+        view.disableUserInteraction()
 
         uiScope.launch {
             try {
@@ -29,8 +28,8 @@ internal class SignUpPresenter(private val activityView: SignUpView,
                 signInUser(email, password, name, phone, address)
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.enableUserInteraction()
-                activityView.displayMessage(e.message ?: "Unable to sign up")
+                view.enableUserInteraction()
+                view.displayMessage(e.message ?: "Unable to sign up")
             }
         }
     }
@@ -42,8 +41,8 @@ internal class SignUpPresenter(private val activityView: SignUpView,
                 setUserDisplayName(uid, email, name, phone, address)
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.enableUserInteraction()
-                activityView.displayMessage(e.message ?: "Unable to sign in")
+                view.enableUserInteraction()
+                view.displayMessage(e.message ?: "Unable to sign in")
             }
         }
     }
@@ -56,22 +55,22 @@ internal class SignUpPresenter(private val activityView: SignUpView,
 
                 database.saveUserDetails(userDetails, object : WriteListener {
                     override fun onSuccess() {
-                        activityView.enableUserInteraction()
+                        view.enableUserInteraction()
                         preferences.saveUserDetails(userDetails)
-                        activityView.displayMessage("Sign up successfully")
-                        activityView.finishActivity()
+                        view.displayMessage("Sign up successfully")
+                        view.finishActivity()
                         setFcmToken()
                     }
 
                     override fun onError(reason: String) {
-                        activityView.enableUserInteraction()
-                        activityView.displayMessage(reason)
+                        view.enableUserInteraction()
+                        view.displayMessage(reason)
                     }
                 })
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.enableUserInteraction()
-                activityView.displayMessage(e.message ?: "Unable to create account")
+                view.enableUserInteraction()
+                view.displayMessage(e.message ?: "Unable to create account")
             }
         }
     }

@@ -5,33 +5,26 @@ import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 import com.marknjunge.core.data.firebase.WriteListener
+import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class LogInPresenter(private val activityView: LogInView,
+internal class LogInPresenter(private val view: LogInView,
                               private val preferences: PreferencesRepository,
                               private val auth: AuthService,
                               private val database: ClientDatabaseService,
-                              mainDispatcher: CoroutineDispatcher) {
-
-    private val job = Job()
-    private val uiScope = CoroutineScope(job + mainDispatcher)
-
-    fun cancel() {
-        job.cancel()
-    }
+                              mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
     fun checkSignInStatus() {
         if (auth.isSignedIn()) {
-            activityView.closeActivity()
+            view.closeActivity()
         }
     }
 
     fun signIn(email: String, password: String) {
-        activityView.showDialog()
+        view.showDialog()
         uiScope.launch {
             try {
                 val uid = auth.signIn(email, password)
@@ -39,7 +32,7 @@ internal class LogInPresenter(private val activityView: LogInView,
                 setFcmToken()
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.displayMessage(e.message)
+                view.displayMessage(e.message)
             }
         }
     }
@@ -48,13 +41,13 @@ internal class LogInPresenter(private val activityView: LogInView,
         database.getUserDefaults(id, object : ClientDatabaseService.UserDetailsListener {
             override fun onSuccess(userDetails: UserDetails) {
                 preferences.saveUserDetails(userDetails)
-                activityView.dismissDialog()
-                activityView.displayMessage("Sign in successful")
-                activityView.finishSignIn()
+                view.dismissDialog()
+                view.displayMessage("Sign in successful")
+                view.finishSignIn()
             }
 
             override fun onError(reason: String) {
-                activityView.displayMessage(reason)
+                view.displayMessage(reason)
             }
         })
     }
@@ -76,10 +69,10 @@ internal class LogInPresenter(private val activityView: LogInView,
         uiScope.launch {
             try {
                 auth.sendPasswordResetEmail(email)
-                activityView.displayMessage("Password reset email sent")
+                view.displayMessage("Password reset email sent")
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.displayMessage(e.message)
+                view.displayMessage(e.message)
             }
         }
     }

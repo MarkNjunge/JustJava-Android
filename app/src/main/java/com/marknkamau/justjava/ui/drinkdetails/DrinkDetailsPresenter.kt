@@ -7,20 +7,20 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class DrinkDetailsPresenter(private val activityView: DrinkDetailsView,
+internal class DrinkDetailsPresenter(private val view: DrinkDetailsView,
                                      private val cart: CartDao,
-                                     mainDispatcher: CoroutineDispatcher)
-    : BasePresenter(mainDispatcher) {
+                                     mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
     fun addToCart(item: CartItem) {
         uiScope.launch {
             try {
                 cart.addItem(item)
-                activityView.displayMessage("Item added to cart")
-                activityView.finishActivity()
+                view.displayMessage("Item added to cart")
+                view.finishActivity()
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.displayMessage(e.message)
+                view.displayMessage(e.message)
             }
         }
     }
