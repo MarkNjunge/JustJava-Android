@@ -39,7 +39,7 @@ ext {
     ]
 
     deps = [
-            androidGradlePlugin      : "com.android.tools.build:gradle:3.3.0",
+            androidGradlePlugin      : "com.android.tools.build:gradle:3.4.0",
             kotlinGradlePlugin       : "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}",
             googleServices           : "com.google.gms:google-services:4.2.0",
             fabric                   : "io.fabric.tools:gradle:1.28.0",
