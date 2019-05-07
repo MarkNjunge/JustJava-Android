@@ -31,7 +31,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_details)
 
-        drink = intent.extras.getParcelable(DRINK_KEY) as CoffeeDrink
+        drink = intent.extras!!.getParcelable(DRINK_KEY) as CoffeeDrink
 
         tvDrinkName.text = drink.drinkName
         tvDrinkContents.text = drink.drinkContents
