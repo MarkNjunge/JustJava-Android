@@ -6,15 +6,10 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_log_in.*
-import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 

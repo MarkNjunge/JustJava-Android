@@ -1,10 +1,12 @@
 package com.marknkamau.justjavastaff.ui.orderdetails
 
-import com.marknjunge.core.data.firebase.StaffDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
-import com.marknjunge.core.model.OrderItem
+import com.marknjunge.core.data.firebase.OrderService
+import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.model.OrderStatus
-import com.marknjunge.core.model.UserDetails
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 /**
  * Created by Mark Njung'e.
@@ -12,43 +14,42 @@ import com.marknjunge.core.model.UserDetails
  * https://github.com/MarkNjunge
  */
 
-class OrderDetailsPresenter(private val view: OrderDetailsView, private val databaseService: StaffDatabaseService) {
+class OrderDetailsPresenter(private val view: OrderDetailsView, private val orderService: OrderService, private val userService: UserService) {
+
+    private val uiScope = CoroutineScope(Dispatchers.Main + Job())
 
     fun getOrderItems(orderId: String) {
-        databaseService.getOrderItems(orderId, object : StaffDatabaseService.OrderItemsListener {
-            override fun onSuccess(items: List<OrderItem>) {
-                view.displayOrderItems(items.toMutableList())
+        uiScope.launch {
+            try {
+                val orderItems = orderService.getOrderItems(orderId)
+                view.displayOrderItems(orderItems.toMutableList())
+            } catch (e: Exception) {
+                view.displayMessage(e.message ?: "Error getting order items")
             }
-
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
-            }
-        })
+        }
     }
 
     fun getUserDetails(userId: String) {
-        databaseService.getCustomerDetails(userId, object : StaffDatabaseService.UserListener {
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
-            }
+        uiScope.launch {
+            try {
+                val userDetails = userService.getUserDetails(userId)
+                view.setUserDetails(userDetails)
+            } catch (e: Exception) {
+                view.displayMessage(e.message ?: "Error getting user details")
 
-            override fun onSuccess(user: UserDetails) {
-                view.setUserDetails(user)
             }
-
-        })
+        }
     }
 
     fun updateOrderStatus(orderId: String, status: OrderStatus) {
-        databaseService.updateOrderStatus(orderId, status, object : WriteListener {
-            override fun onSuccess() {
+        uiScope.launch {
+            try {
+                orderService.updateOrderStatus(orderId, status)
                 view.displayMessage("Updated!")
                 view.setOrderStatus(status)
+            } catch (e: Exception) {
+                view.displayMessage(e.message ?: "Error updating status")
             }
-
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
-            }
-        })
+        }
     }
 }

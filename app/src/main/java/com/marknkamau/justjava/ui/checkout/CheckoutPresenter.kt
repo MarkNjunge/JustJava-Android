@@ -1,8 +1,7 @@
 package com.marknkamau.justjava.ui.checkout
 
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.data.firebase.OrderService
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.OrderItem
@@ -15,7 +14,7 @@ import kotlinx.coroutines.launch
 internal class CheckoutPresenter(private val view: CheckoutView,
                                  private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
-                                 private val database: ClientDatabaseService,
+                                 private val orderService: OrderService,
                                  private val cart: CartDao,
                                  mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
@@ -52,21 +51,18 @@ internal class CheckoutPresenter(private val view: CheckoutView,
             orderItems.add(it.toOrderItem())
         }
 
-        database.placeNewOrder(order, orderItems, object : WriteListener {
-            override fun onSuccess() {
-                uiScope.launch {
-                    cart.deleteAll()
-                    view.hideUploadBar()
-                    view.displayMessage("Order placed")
-                    view.finishActivity(order)
-                }
-            }
+        uiScope.launch {
+            try {
+                orderService.placeNewOrder(order, orderItems)
 
-            override fun onError(reason: String) {
+                cart.deleteAll()
                 view.hideUploadBar()
-                view.displayMessage(reason)
+                view.displayMessage("Order placed")
+                view.finishActivity(order)
+            } catch (e: Exception) {
+                view.hideUploadBar()
+                view.displayMessage(e.message)
             }
-        })
-
+        }
     }
 }

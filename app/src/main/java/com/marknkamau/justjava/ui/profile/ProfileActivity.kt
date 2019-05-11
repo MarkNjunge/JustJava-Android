@@ -1,27 +1,20 @@
 package com.marknkamau.justjava.ui.profile
 
 import android.os.Bundle
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
 
-import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
-import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 

@@ -4,7 +4,7 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.OrderService
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -28,7 +28,7 @@ class CheckoutPresenterTest {
     @MockK
     private lateinit var preferences: PreferencesRepository
     @MockK
-    private lateinit var database: ClientDatabaseService
+    private lateinit var orderService: OrderService
     @MockK
     private lateinit var cartDao: CartDao
 
@@ -37,7 +37,7 @@ class CheckoutPresenterTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        presenter = CheckoutPresenter(view, auth, preferences, database, cartDao, Dispatchers.Unconfined)
+        presenter = CheckoutPresenter(view, auth, preferences, orderService, cartDao, Dispatchers.Unconfined)
     }
 
     @Test

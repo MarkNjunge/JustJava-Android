@@ -2,7 +2,9 @@ package com.marknkamau.justjavastaff
 
 import android.app.Application
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.StaffDatabaseService
+import com.marknjunge.core.data.firebase.OrderService
+import com.marknjunge.core.data.firebase.PaymentService
+import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 
@@ -18,7 +20,9 @@ class JustJavaStaffApp : Application() {
     val auth: AuthService by inject()
     val settingsRepository: SettingsRespository by inject()
     val colorUtils: ColorUtils by inject()
-    val databaseService: StaffDatabaseService by inject()
+    val paymentService: PaymentService by inject()
+    val orderService:OrderService by inject()
+    val userService: UserService by inject()
 
     override fun onCreate() {
         super.onCreate()

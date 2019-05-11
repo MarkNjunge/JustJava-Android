@@ -38,5 +38,5 @@ val appModule = module {
     factory { (view: CartView) -> CartPresenter(view, get(), Dispatchers.Main) }
     factory { (view: CheckoutView) -> CheckoutPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
     factory { (view: PreviousOrderView) -> PreviousOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
-    factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), Dispatchers.Main) }
+    factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
 }

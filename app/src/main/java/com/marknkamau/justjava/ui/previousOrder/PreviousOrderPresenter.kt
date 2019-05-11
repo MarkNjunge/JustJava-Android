@@ -2,10 +2,8 @@ package com.marknkamau.justjava.ui.previousOrder
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.mpesa.MpesaInteractor
-import com.marknjunge.core.model.Order
-import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
+import com.marknjunge.core.data.firebase.OrderService
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
@@ -18,36 +16,36 @@ import timber.log.Timber
  */
 
 class PreviousOrderPresenter(private val view: PreviousOrderView,
-                             private val databaseService: ClientDatabaseService,
+                             private val orderService: OrderService,
                              private val mpesaInteractor: MpesaInteractor,
                              private val authService: AuthService,
                              mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
     fun getOrderDetails(orderId: String) {
-        databaseService.getOrder(orderId, object : ClientDatabaseService.OrderListener {
-            override fun onSuccess(order: Order) {
-                view.displayOrder(order)
-            }
+        uiScope.launch {
+            try {
+                val order = orderService.getOrder(orderId)
 
-            override fun onError(reason: String) {
-                Timber.e(reason)
-                view.displayMessage(reason)
+                view.displayOrder(order)
+            } catch (e: Exception) {
+                Timber.e(e)
+                view.displayMessage(e.message)
             }
-        })
+        }
     }
 
     fun getOrderItems(orderId: String) {
-        databaseService.getOrderItems(orderId, object : ClientDatabaseService.OrderItemsListener {
-            override fun onSuccess(items: List<OrderItem>) {
-                view.displayOrderItems(items)
-            }
+        uiScope.launch {
+            try {
+                val orderItems = orderService.getOrderItems(orderId)
+                view.displayOrderItems(orderItems)
+            } catch (e: Exception) {
+                Timber.e(e)
+                view.displayMessage(e.message)
 
-            override fun onError(reason: String) {
-                Timber.e(reason)
-                view.displayMessage(reason)
             }
-        })
+        }
     }
 
     fun makeMpesaPayment(total: Int, phoneNumber: String, orderId: String) {

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
 import com.marknjunge.core.model.OrderStatus
@@ -39,11 +40,13 @@ class OrderDetailsActivity : BaseActivity(), OrderDetailsView {
 
         order = intent.getParcelableExtra(ORDER)
 
-        presenter = OrderDetailsPresenter(this, (application as JustJavaStaffApp).databaseService)
+        val userService = (application as JustJavaStaffApp).userService
+        val orderService = (application as JustJavaStaffApp).orderService
+        presenter = OrderDetailsPresenter(this, orderService, userService)
         presenter.getOrderItems(order.orderId)
         presenter.getUserDetails(order.customerId)
 
-        rvOrderItems.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvOrderItems.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         orderItemsAdapter = OrderItemsAdapter()
         rvOrderItems.adapter = orderItemsAdapter
 

@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.model.Order
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 
@@ -28,10 +29,10 @@ class OrdersFragment : androidx.fragment.app.Fragment(), OrdersView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val settings = (requireActivity().application as JustJavaStaffApp).settingsRepository
-        val databaseService = (requireActivity().application as JustJavaStaffApp).databaseService
-        presenter = OrdersFragmentPresenter(this, settings, databaseService)
+        val orderService = (requireActivity().application as JustJavaStaffApp).orderService
+        presenter = OrdersFragmentPresenter(this, settings, orderService)
 
-        rvOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(requireContext(), androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+        rvOrders.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         adapter = OrdersAdapter(requireContext()) { order ->
             Timber.d(order.toString())

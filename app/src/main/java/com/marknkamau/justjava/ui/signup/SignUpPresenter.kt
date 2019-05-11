@@ -1,21 +1,18 @@
 package com.marknkamau.justjava.ui.signup
 
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class SignUpPresenter(private val view: SignUpView,
                                private val preferences: PreferencesRepository,
                                private val auth: AuthService,
-                               private val database: ClientDatabaseService,
+                               private val userService: UserService,
                                mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
@@ -52,21 +49,13 @@ internal class SignUpPresenter(private val view: SignUpView,
             try {
                 auth.setUserDisplayName(name)
                 val userDetails = UserDetails(id, email, name, phone, address)
+                userService.saveUserDetails(userDetails)
 
-                database.saveUserDetails(userDetails, object : WriteListener {
-                    override fun onSuccess() {
-                        view.enableUserInteraction()
-                        preferences.saveUserDetails(userDetails)
-                        view.displayMessage("Sign up successfully")
-                        view.finishActivity()
-                        setFcmToken()
-                    }
-
-                    override fun onError(reason: String) {
-                        view.enableUserInteraction()
-                        view.displayMessage(reason)
-                    }
-                })
+                view.enableUserInteraction()
+                preferences.saveUserDetails(userDetails)
+                view.displayMessage("Sign up successfully")
+                view.finishActivity()
+                setFcmToken()
             } catch (e: Exception) {
                 Timber.e(e)
                 view.enableUserInteraction()
@@ -76,14 +65,14 @@ internal class SignUpPresenter(private val view: SignUpView,
     }
 
     private fun setFcmToken() {
-        database.updateUserFcmToken(auth.getCurrentUser().userId, object : WriteListener {
-            override fun onError(reason: String) {
-                Timber.e(reason)
-            }
-
-            override fun onSuccess() {
+        uiScope.launch {
+            try {
+                userService.updateUserFcmToken(auth.getCurrentUser().userId)
                 Timber.i("FCM token saved")
+            } catch (e: Exception) {
+                Timber.e(e)
+
             }
-        })
+        }
     }
 }

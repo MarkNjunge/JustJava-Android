@@ -1,22 +1,20 @@
 package com.marknkamau.justjava.ui.profile
 
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.data.firebase.OrderService
+import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
                                 private val authenticationService: AuthService,
-                                private val databaseService: ClientDatabaseService,
+                                private val orderService: OrderService,
+                                private val userService: UserService,
                                 mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
@@ -29,8 +27,9 @@ internal class ProfilePresenter(private val view: ProfileView,
 
     fun getPreviousOrders() {
         view.showOrdersProgressBar()
-        databaseService.getPreviousOrders(authenticationService.getCurrentUser().userId, object : ClientDatabaseService.PreviousOrdersListener {
-            override fun onSuccess(previousOrders: MutableList<Order>) {
+        uiScope.launch {
+            try {
+                val previousOrders = orderService.getPreviousOrders(authenticationService.getCurrentUser().userId)
                 view.hideOrdersProgressBar()
                 if (previousOrders.isEmpty()) {
                     view.displayNoPreviousOrders()
@@ -38,13 +37,11 @@ internal class ProfilePresenter(private val view: ProfileView,
                     val sorted = previousOrders.sortedBy { it.date }.reversed().toMutableList()
                     view.displayPreviousOrders(sorted)
                 }
-            }
-
-            override fun onError(reason: String) {
+            } catch (e: Exception) {
                 view.hideOrdersProgressBar()
-                view.displayMessage(reason)
+                view.displayMessage(e.message)
             }
-        })
+        }
     }
 
     fun updateUserDetails(name: String, phone: String, address: String) {
@@ -52,21 +49,12 @@ internal class ProfilePresenter(private val view: ProfileView,
         uiScope.launch {
             try {
                 authenticationService.setUserDisplayName(name)
-                databaseService.updateUserDetails(userDetails.id, name, phone, address, object : WriteListener {
-                    override fun onSuccess() {
-                        val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
+                userService.updateUserDetails(userDetails.id, name, phone, address)
+                val newUserDetails = UserDetails(userDetails.id, userDetails.email, name, phone, address)
 
-                        preferencesRepository.saveUserDetails(newUserDetails)
-                        view.hideProfileProgressBar()
-                        view.displayMessage("Profile updated")
-                    }
-
-                    override fun onError(reason: String) {
-                        Timber.e(reason)
-                        view.hideProfileProgressBar()
-                        view.displayMessage(reason)
-                    }
-                })
+                preferencesRepository.saveUserDetails(newUserDetails)
+                view.hideProfileProgressBar()
+                view.displayMessage("Profile updated")
             } catch (e: Exception) {
                 Timber.e(e)
                 view.hideProfileProgressBar()

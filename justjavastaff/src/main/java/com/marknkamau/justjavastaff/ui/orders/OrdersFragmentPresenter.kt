@@ -1,43 +1,41 @@
 package com.marknkamau.justjavastaff.ui.orders
 
-import com.marknjunge.core.data.firebase.StaffDatabaseService
-import com.marknjunge.core.model.Order
+import com.marknjunge.core.data.firebase.OrderService
 import com.marknjunge.core.model.OrderStatus
 import com.marknkamau.justjavastaff.data.local.SettingsRespository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-import timber.log.Timber
+internal class OrdersFragmentPresenter(private val view: OrdersView,
+                                       private val settings: SettingsRespository,
+                                       private val orderService: OrderService
+) {
 
-internal class OrdersFragmentPresenter(private val view: OrdersView, private val settings: SettingsRespository, private val databaseService: StaffDatabaseService) {
+    private val uiScope = CoroutineScope(Dispatchers.Main + Job())
 
     fun getOrders() {
-        databaseService.getOrders(object : StaffDatabaseService.OrdersListener {
-            override fun onSuccess(orders: List<Order>) {
+        uiScope.launch {
+            try {
+                val orders = orderService.getAllOrders()
                 if (orders.isEmpty()) {
                     view.displayNoOrders()
                 } else {
                     val statusSettings = settings.getStatusSettings()
-                    val filteredOrders = mutableListOf<Order>()
-                    orders.forEach {
-                        if (it.status == OrderStatus.PENDING && statusSettings.pending)
-                            filteredOrders.add(it)
-                        if (it.status == OrderStatus.INPROGRESS && statusSettings.inProgress)
-                            filteredOrders.add(it)
-                        if (it.status == OrderStatus.COMPLETED && statusSettings.completed)
-                            filteredOrders.add(it)
-                        if (it.status == OrderStatus.DELIVERED && statusSettings.delivered)
-                            filteredOrders.add(it)
-                        if (it.status == OrderStatus.CANCELLED && statusSettings.cancelled)
-                            filteredOrders.add(it)
-                    }
-                    view.displayAvailableOrders(filteredOrders)
+                    val filteredList = orders.filter {
+                        it.status == OrderStatus.PENDING && statusSettings.pending ||
+                                it.status == OrderStatus.INPROGRESS && statusSettings.inProgress ||
+                                it.status == OrderStatus.COMPLETED && statusSettings.completed ||
+                                it.status == OrderStatus.DELIVERED && statusSettings.delivered ||
+                                it.status == OrderStatus.CANCELLED && statusSettings.cancelled
+                    }.sortedBy { it.date }.reversed()
+
+                    view.displayAvailableOrders(filteredList.toMutableList())
                 }
+            } catch (e: Exception) {
+                view.displayMessage(e.message ?: "Error getting orders")
             }
-
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
-            }
-
-        })
-
+        }
     }
 }

@@ -1,8 +1,7 @@
 package com.marknkamau.justjava.ui.login
 
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.model.AuthUser
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.data.local.PreferencesRepository
@@ -30,14 +29,14 @@ class LogInPresenterTest {
     @MockK
     private lateinit var auth: AuthService
     @MockK
-    private lateinit var database: ClientDatabaseService
+    private lateinit var userService: UserService
 
     private lateinit var presenter: LogInPresenter
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        presenter = LogInPresenter(view, preferences, auth, database, Dispatchers.Unconfined)
+        presenter = LogInPresenter(view, preferences, auth, userService, Dispatchers.Unconfined)
     }
 
     @Test
@@ -57,22 +56,16 @@ class LogInPresenterTest {
         } returns ""
 
         // Succeed in getting user defaults
-        every {
-            database.getUserDefaults(any(), any())
-        } answers {
-            val listener = secondArg<ClientDatabaseService.UserDetailsListener>()
-            listener.onSuccess(UserDetails("", "", "", "", ""))
-        }
+        coEvery {
+            userService.getUserDetails(any())
+        } returns UserDetails("", "", "", "", "")
 
         every { auth.getCurrentUser() } returns AuthUser("", "", "")
 
         // Succeed updating FCM token
-        every {
-            database.updateUserFcmToken(any(), any())
-        } answers {
-            val listener = secondArg<WriteListener>()
-            listener.onSuccess()
-        }
+        coEvery{
+            userService.updateUserFcmToken(any())
+        }  returns Unit
 
         presenter.signIn("", "")
 
@@ -99,21 +92,16 @@ class LogInPresenterTest {
         } returns ""
 
         // Fail in getting user defaults
-        every {
-            database.getUserDefaults(any(), any())
-        } answers {
-            val listener = secondArg<ClientDatabaseService.UserDetailsListener>()
-            listener.onError("")
-        }
+        coEvery{
+            userService.getUserDetails(any())
+        } throws Exception("")
+
 
         every { auth.getCurrentUser() } returns AuthUser("", "", "")
         // Succeed updating FCM token
-        every {
-            database.updateUserFcmToken(any(), any())
-        } answers {
-            val listener = secondArg<WriteListener>()
-            listener.onSuccess()
-        }
+        coEvery {
+            userService.updateUserFcmToken(any())
+        } returns Unit
 
         presenter.signIn("", "")
 

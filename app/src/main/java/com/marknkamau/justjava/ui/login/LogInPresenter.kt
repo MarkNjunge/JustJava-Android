@@ -1,10 +1,8 @@
 package com.marknkamau.justjava.ui.login
 
 import com.marknkamau.justjava.data.local.PreferencesRepository
-import com.marknjunge.core.model.UserDetails
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
+import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -13,7 +11,7 @@ import timber.log.Timber
 internal class LogInPresenter(private val view: LogInView,
                               private val preferences: PreferencesRepository,
                               private val auth: AuthService,
-                              private val database: ClientDatabaseService,
+                              private val userService: UserService,
                               mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
@@ -38,30 +36,29 @@ internal class LogInPresenter(private val view: LogInView,
     }
 
     private fun getUserDefaults(id: String) {
-        database.getUserDefaults(id, object : ClientDatabaseService.UserDetailsListener {
-            override fun onSuccess(userDetails: UserDetails) {
+        uiScope.launch {
+            try {
+                val userDetails = userService.getUserDetails(id)
+
                 preferences.saveUserDetails(userDetails)
                 view.dismissDialog()
                 view.displayMessage("Sign in successful")
                 view.finishSignIn()
+            } catch (e: Exception) {
+                view.displayMessage(e.message)
             }
-
-            override fun onError(reason: String) {
-                view.displayMessage(reason)
-            }
-        })
+        }
     }
 
     private fun setFcmToken() {
-        database.updateUserFcmToken(auth.getCurrentUser().userId, object : WriteListener {
-            override fun onError(reason: String) {
-                Timber.e(reason)
-            }
-
-            override fun onSuccess() {
+        uiScope.launch {
+            try {
+                userService.updateUserFcmToken(auth.getCurrentUser().userId)
                 Timber.i("FCM token saved")
+            } catch (e: Exception) {
+                Timber.e(e)
             }
-        })
+        }
     }
 
 

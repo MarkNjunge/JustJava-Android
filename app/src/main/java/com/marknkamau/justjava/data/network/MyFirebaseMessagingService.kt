@@ -5,13 +5,16 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.data.firebase.ClientDatabaseService
-import com.marknjunge.core.data.firebase.WriteListener
-import com.marknkamau.justjava.JustJavaApp
+import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.utils.NotificationHelper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import timber.log.Timber
+import java.lang.Exception
 
 /**
  * Created by Mark Njung'e.
@@ -23,7 +26,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     private val notificationHelper: NotificationHelper by inject()
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
     private val authService: AuthService by inject()
-    private val databaseService: ClientDatabaseService by inject()
+    private val userService: UserService by inject()
+
+    private val scope = CoroutineScope(Dispatchers.IO + Job())
 
     companion object {
         const val MPESA_ORDER_PAID_ACTION = "mpesa"
@@ -37,7 +42,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
 
         remoteMessage.data?.let {
             Timber.d(it.toString())
-            when(it["reason"]){
+            when (it["reason"]) {
                 "completed-order" -> {
                     notificationHelper.showCompletedOrderNotification()
                 }
@@ -48,7 +53,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
                     // Send local broadcast so that if the user is on the order's page, the status updates
                     if (it["status"] == "completed") {
                         val intent = Intent(MPESA_ORDER_PAID_ACTION)
-                        intent.putExtra(ORDER_ID,  it["orderId"])
+                        intent.putExtra(ORDER_ID, it["orderId"])
                         broadcastManager.sendBroadcast(intent)
                     }
                 }
@@ -57,19 +62,17 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     override fun onNewToken(token: String) {
-        if (authService.isSignedIn()){
+        if (authService.isSignedIn()) {
             val user = authService.getCurrentUser()
 
-            databaseService.updateUserFcmToken(user.userId, object : WriteListener {
-                override fun onError(reason: String) {
-                    Timber.e(reason)
-                }
-
-                override fun onSuccess() {
+            scope.launch {
+                try {
+                    userService.updateUserFcmToken(user.userId)
                     Timber.i("FCM token saved")
+                } catch (e: Exception) {
+                    Timber.e(e)
                 }
-
-            })
+            }
         }
     }
 }
