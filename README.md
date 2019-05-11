@@ -29,9 +29,10 @@ A sample food delivery application for a coffee shop.
 
 ## Cloning
 1. Clone the repository
-2. Create a `keys.properties` file based on`keys.properties.sample`. You can get the credentials 
-from [Safaricom developer portal](https://developer.safaricom.co.ke/). 
-- If you don't want to use M-Pesa, you can put random values.
+2. Create a `keys.properties` file based on`keys.properties.sample`.   
+- Follow the deploy instructions for [JustJava-CloudFunctions](https://github.com/MarkNjunge/JustJava-CloudFunctions)
+to get an api Key. 
+- If you don't want to use M-Pesa, you can leave the `API_KEY` as is.
 3. Create a Firebase project and enable Email/Password sign in. Add two applications `com.marknkamau.justjavastaff` 
 and `com.marknkamau.justjava`. Add the `google-service.json` files to their respective folders.
 4. Open and build in Android Studio.
