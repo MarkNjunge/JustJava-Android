@@ -51,6 +51,11 @@ class ProfileActivity : BaseActivity(), ProfileView {
         btnUpdateProfile.setOnClickListener { saveChanges() }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.cancel()
+    }
+
     override fun showOrdersProgressBar() {
         pbLoadingOrders.visibility = View.VISIBLE
     }

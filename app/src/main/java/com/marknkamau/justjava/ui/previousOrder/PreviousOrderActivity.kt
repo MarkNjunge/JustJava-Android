@@ -90,10 +90,10 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
         presenter.getOrderDetails(order.orderId)
     }
 
-    override fun onStop() {
-        super.onStop()
-        broadcastManager.unregisterReceiver(broadcastReceiver)
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.cancel()
+        broadcastManager.unregisterReceiver(broadcastReceiver)
     }
 
     override fun displayOrderItems(orderItems: List<OrderItem>) {

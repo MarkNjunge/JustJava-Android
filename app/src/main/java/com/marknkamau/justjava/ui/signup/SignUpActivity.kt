@@ -34,6 +34,11 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         tvLogin.setOnClickListener(this)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.cancel()
+    }
+
     override fun onClick(view: View) {
         when (view) {
             btnSignup -> createUser()

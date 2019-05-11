@@ -38,8 +38,8 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         presenter.checkSignInStatus()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.cancel()
     }
 

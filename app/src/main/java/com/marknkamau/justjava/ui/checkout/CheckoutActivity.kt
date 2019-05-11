@@ -63,8 +63,8 @@ class CheckoutActivity : BaseActivity(), CheckoutView {
         presenter.getSignInStatus()
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         presenter.cancel()
     }
 
