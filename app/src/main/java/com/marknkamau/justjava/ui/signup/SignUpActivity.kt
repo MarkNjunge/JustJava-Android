@@ -14,6 +14,7 @@ import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import java.util.regex.Pattern
 
 class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
@@ -22,17 +23,12 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     private lateinit var email: String
     private lateinit var address: String
     private lateinit var password: String
-    private lateinit var presenter: SignUpPresenter
 
-    private val preferencesRepository: PreferencesRepository by inject()
-    private val authService: AuthService by inject()
-    private val databaseService: ClientDatabaseService by inject()
+    private val presenter: SignUpPresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-
-        presenter = SignUpPresenter(this, preferencesRepository, authService, databaseService, Dispatchers.Main)
 
         btnSignup.setOnClickListener(this)
         tvLogin.setOnClickListener(this)

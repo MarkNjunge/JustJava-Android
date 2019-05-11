@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.ClientDatabaseService
 
@@ -22,17 +23,15 @@ import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class ProfileActivity : BaseActivity(), ProfileView {
     private var name: String? = null
     private var phone: String? = null
     private var address: String? = null
-    private lateinit var presenter: ProfilePresenter
     private lateinit var adapter: PreviousOrderAdapter
 
-    private val preferencesRepository: PreferencesRepository by inject()
-    private val authService: AuthService by inject()
-    private val databaseService: ClientDatabaseService by inject()
+    private val presenter: ProfilePresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +41,12 @@ class ProfileActivity : BaseActivity(), ProfileView {
             PreviousOrderActivity.start(this, order)
         }
 
-        rvPreviousOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        rvPreviousOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvPreviousOrders.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
         rvPreviousOrders.adapter = adapter
 
-        presenter = ProfilePresenter(this, preferencesRepository, authService, databaseService, Dispatchers.Main)
+        presenter.getUserDetails()
+        presenter.getPreviousOrders()
 
         btnUpdateProfile.setOnClickListener { saveChanges() }
     }

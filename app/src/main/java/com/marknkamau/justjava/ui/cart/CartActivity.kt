@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
@@ -17,17 +16,16 @@ import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class CartActivity : BaseActivity(), CartView {
-    private lateinit var presenter: CartPresenter
+    private val presenter: CartPresenter by inject { parametersOf(this) }
     private lateinit var adapter: CartAdapter
-    private val cartDao: CartDao by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        presenter = CartPresenter(this, cartDao, Dispatchers.Main)
         presenter.loadItems()
 
         val editCartDialog = EditCartDialog().apply {
@@ -62,7 +60,7 @@ class CartActivity : BaseActivity(), CartView {
 
     override fun onStop() {
         super.onStop()
-        presenter.unSubscribe()
+        presenter.cancel()
     }
 
     override fun displayCart(orderItems: MutableList<CartItem>) {

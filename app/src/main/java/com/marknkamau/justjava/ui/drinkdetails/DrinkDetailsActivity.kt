@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui.drinkdetails
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.marknkamau.justjava.JustJavaApp
 
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.CoffeeDrink
@@ -16,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_drink_details.*
 import kotlinx.android.synthetic.main.content_drink_details.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
 
@@ -25,14 +25,11 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
 
     private lateinit var drink: CoffeeDrink
     private var quantity: Int = 0
-    private lateinit var presenter: DrinkDetailsPresenter
-    private val cartDao: CartDao by inject()
+    private val presenter: DrinkDetailsPresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_drink_details)
-
-        presenter = DrinkDetailsPresenter(this, cartDao, Dispatchers.Main)
 
         drink = intent.extras.getParcelable(DRINK_KEY) as CoffeeDrink
 
@@ -58,7 +55,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
 
     override fun onStop() {
         super.onStop()
-        presenter.unSubscribe()
+        presenter.cancel()
     }
 
     override fun onClick(view: View) {

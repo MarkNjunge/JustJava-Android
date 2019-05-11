@@ -26,7 +26,6 @@ ext {
             'junit'                  : '4.12',
             'testRunner'             : '1.1.0-alpha4',
             'espresso'               : '3.1.0-alpha4',
-            'leakCanary'             : '1.6.2',
             'testRules'              : '1.1.0-alpha4',
             'koin'                   : '2.0.0-rc-1',
             'firebase'               : [
@@ -82,8 +81,6 @@ ext {
             picasso                  : "com.squareup.picasso:picasso:${versions.picasso}",
             gson                     : "com.google.code.gson:gson:${versions.gson}",
             timber                   : "com.jakewharton.timber:timber:${versions.timber}",
-            leakCanary               : "com.squareup.leakcanary:leakcanary-android:${versions.leakCanary}",
-            leakCanaryNoOp           : "com.squareup.leakcanary:leakcanary-android-no-op:${versions.leakCanary}",
             koin                     : "org.koin:koin-android:${versions.koin}",
 
             // Test

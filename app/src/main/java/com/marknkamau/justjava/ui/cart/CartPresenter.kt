@@ -8,24 +8,26 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-internal class CartPresenter(private val activityView: CartView, private val cart: CartDao, mainDispatcher: CoroutineDispatcher)
-    : BasePresenter(mainDispatcher) {
+internal class CartPresenter(private val view: CartView,
+                             private val cart: CartDao,
+                             mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
     fun loadItems() {
         uiScope.launch {
             try {
                 val items = cart.getAll()
                 if (items.size > 0) {
-                    activityView.displayCart(items)
+                    view.displayCart(items)
                     var total = 0
                     items.forEach { item -> total += item.itemPrice }
-                    activityView.displayCartTotal(total)
+                    view.displayCartTotal(total)
                 } else {
-                    activityView.displayEmptyCart()
+                    view.displayEmptyCart()
                 }
             } catch (e: Exception) {
                 Timber.e(e)
-                activityView.displayMessage(e.message)
+                view.displayMessage(e.message)
             }
         }
     }
@@ -33,7 +35,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
     fun clearCart() {
         uiScope.launch {
             cart.deleteAll()
-            activityView.displayEmptyCart()
+            view.displayEmptyCart()
         }
     }
 
@@ -41,7 +43,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
     fun deleteItem(item: CartItem) {
         uiScope.launch {
             cart.deleteItem(item)
-            activityView.displayMessage("Item deleted")
+            view.displayMessage("Item deleted")
             loadItems()
         }
     }
@@ -50,7 +52,7 @@ internal class CartPresenter(private val activityView: CartView, private val car
     fun updateItem(item: CartItem) {
         uiScope.launch {
             cart.updateItem(item)
-            activityView.displayMessage("Cart updated")
+            view.displayMessage("Cart updated")
             loadItems()
         }
     }

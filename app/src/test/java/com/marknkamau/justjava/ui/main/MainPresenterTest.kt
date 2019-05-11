@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.main
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Test
 
@@ -22,7 +23,7 @@ class MainPresenterTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        presenter = MainPresenter(view)
+        presenter = MainPresenter(view, Dispatchers.Unconfined)
     }
 
     @Test

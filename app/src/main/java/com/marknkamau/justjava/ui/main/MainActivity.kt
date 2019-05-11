@@ -3,15 +3,18 @@ package com.marknkamau.justjava.ui.main
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.CoffeeDrink
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : BaseActivity(), MainView {
-    private lateinit var presenter: MainPresenter
+    private val presenter: MainPresenter by inject { parametersOf(this) }
     private lateinit var catalogAdapter: CatalogAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +27,9 @@ class MainActivity : BaseActivity(), MainView {
             startActivity(i)
         }
 
-        rvCatalog.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
+        rvCatalog.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvCatalog.adapter = catalogAdapter
 
-        presenter = MainPresenter(this)
         presenter.getCatalogItems()
     }
 

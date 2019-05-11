@@ -12,24 +12,26 @@ import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
-internal class CheckoutPresenter(private val activityView: CheckoutView,
+internal class CheckoutPresenter(private val view: CheckoutView,
                                  private val auth: AuthService,
                                  private val preferences: PreferencesRepository,
                                  private val database: ClientDatabaseService,
                                  private val cart: CartDao,
-                                 mainDispatcher: CoroutineDispatcher) : BasePresenter(mainDispatcher) {
+                                 mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
+
     fun getSignInStatus() {
         if (auth.isSignedIn()) {
-            activityView.setDisplayToLoggedIn(preferences.getUserDetails())
+            view.setDisplayToLoggedIn(preferences.getUserDetails())
         } else {
-            activityView.setDisplayToLoggedOut()
+            view.setDisplayToLoggedOut()
         }
     }
 
     fun placeOrder(orderId: String, address: String, comments: String, payCash: Boolean) {
         val paymentMethod = if (payCash) "cash" else "mpesa"
         val order = Order(orderId, auth.getCurrentUser().userId, 0, 0, address, comments, paymentMethod = paymentMethod)
-        activityView.showUploadBar()
+        view.showUploadBar()
 
         uiScope.launch {
             val items = cart.getAll()
@@ -54,15 +56,15 @@ internal class CheckoutPresenter(private val activityView: CheckoutView,
             override fun onSuccess() {
                 uiScope.launch {
                     cart.deleteAll()
-                    activityView.hideUploadBar()
-                    activityView.displayMessage("Order placed")
-                    activityView.finishActivity(order)
+                    view.hideUploadBar()
+                    view.displayMessage("Order placed")
+                    view.finishActivity(order)
                 }
             }
 
             override fun onError(reason: String) {
-                activityView.hideUploadBar()
-                activityView.displayMessage(reason)
+                view.hideUploadBar()
+                view.displayMessage(reason)
             }
         })
 

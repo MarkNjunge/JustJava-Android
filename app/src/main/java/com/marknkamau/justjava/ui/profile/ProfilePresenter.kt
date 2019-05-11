@@ -6,6 +6,7 @@ import com.marknjunge.core.data.firebase.WriteListener
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
+import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -16,24 +17,17 @@ internal class ProfilePresenter(private val view: ProfileView,
                                 private val preferencesRepository: PreferencesRepository,
                                 private val authenticationService: AuthService,
                                 private val databaseService: ClientDatabaseService,
-                                mainDispatcher: CoroutineDispatcher) {
+                                mainDispatcher: CoroutineDispatcher
+) : BasePresenter(mainDispatcher) {
 
-    private val job = Job()
-    private val uiScope = CoroutineScope(job + mainDispatcher)
+    private lateinit var userDetails: UserDetails
 
-    init {
-        getUserDetails()
-        getPreviousOrders()
-    }
-
-    lateinit var userDetails: UserDetails
-
-    private fun getUserDetails() {
+    fun getUserDetails() {
         userDetails = preferencesRepository.getUserDetails()
         view.displayUserDetails(userDetails)
     }
 
-    private fun getPreviousOrders() {
+    fun getPreviousOrders() {
         view.showOrdersProgressBar()
         databaseService.getPreviousOrders(authenticationService.getCurrentUser().userId, object : ClientDatabaseService.PreviousOrdersListener {
             override fun onSuccess(previousOrders: MutableList<Order>) {
