@@ -19,8 +19,6 @@ interface ClientDatabaseService {
 
     fun getOrderItems(orderId: String, listener: OrderItemsListener)
 
-    fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String)
-
     fun getOrder(orderId: String, listener: OrderListener)
 
     interface UserDetailsListener : DatabaseListener {

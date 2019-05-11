@@ -55,18 +55,11 @@ class PreviousOrderPresenter(private val view: PreviousOrderView,
             try {
                 val fcmToken = FirebaseInstanceId.getInstance().instanceId.await().token
 
-                val lnmPaymentResponse = mpesaInteractor.sendStkPush(total, phoneNumber, orderId, fcmToken)
-                view.displayMessage(lnmPaymentResponse.customerMessage)
-                if (lnmPaymentResponse.responseCode == "0") {
-                    databaseService.savePaymentRequest(
-                            lnmPaymentResponse.merchantRequestId,
-                            lnmPaymentResponse.checkoutRequestId,
-                            orderId, authService.getCurrentUser().userId
-                    )
-                }
+                mpesaInteractor.makeLnmoRequest(total, phoneNumber, authService.getCurrentUser().userId, orderId, fcmToken)
+                view.displayMessage("Success!")
             } catch (e: Exception) {
                 Timber.e(e)
-                view.displayMessage(e.message)
+                view.displayMessage("Failed to initiate request")
             }
         }
     }

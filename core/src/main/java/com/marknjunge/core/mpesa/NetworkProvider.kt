@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 internal class NetworkProvider {
-    private val apiUrl = "https://sandbox.safaricom.co.ke/"
+    private val apiUrl = "https://us-central1-justjava-android.cloudfunctions.net/mpesa/"
 
     val mpesaService: MpesaService
 

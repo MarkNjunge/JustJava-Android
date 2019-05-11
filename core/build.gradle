@@ -19,9 +19,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // Safaricom API credentials
-        buildConfigField("String", "safaricomConsumerKey", keys['SAFARICOM_CONSUMER_KEY'])
-        buildConfigField("String", "safaricomConsumerSecret", keys['SAFARICOM_CONSUMER_SECRET'])
+        // Function credentials
+        buildConfigField("String", "FunctionsApiKey", keys['API_KEY'])
     }
 
     buildTypes {

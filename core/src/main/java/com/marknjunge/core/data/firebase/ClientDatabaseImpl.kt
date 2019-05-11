@@ -160,22 +160,6 @@ internal class ClientDatabaseImpl : ClientDatabaseService {
                 }
     }
 
-    override fun savePaymentRequest(merchantRequestId: String, checkoutRequestId: String, orderId: String, customerId: String) {
-        val map = mapOf(
-                DatabaseKeys.Payment.checkoutRequestId to checkoutRequestId,
-                DatabaseKeys.Payment.merchantRequestId to merchantRequestId,
-                DatabaseKeys.Payment.orderId to orderId,
-                DatabaseKeys.Payment.customerId to customerId,
-                DatabaseKeys.Payment.status to "pending"
-        )
-
-        firestore.collection("payments")
-                .document()
-                .set(map)
-                .addOnFailureListener {
-                }
-    }
-
     override fun getOrder(orderId: String, listener: ClientDatabaseService.OrderListener) {
         firestore.collection("orders").document(orderId)
                 .get()
