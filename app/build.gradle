@@ -15,6 +15,13 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        android.applicationVariants.all { variant ->
+            variant.outputs.all {
+                def date = new Date()
+                def formattedDate = date.format('YYYYMMddHHmm')
+                outputFileName = "justjava-${variant.name}-${formattedDate}.apk"
+            }
+        }
     }
     buildTypes {
         debug {
