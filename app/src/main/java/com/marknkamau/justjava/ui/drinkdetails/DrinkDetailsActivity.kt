@@ -40,8 +40,7 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         tvSubtotal.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
 
         val drinkImage = "file:///android_asset/" + drink.drinkImage
-        val picasso = Picasso.with(this)
-        picasso.load(drinkImage).noFade().into(imgDrinkImage)
+        Picasso.get().load(drinkImage).noFade().into(imgDrinkImage)
 
         quantity = 1
 

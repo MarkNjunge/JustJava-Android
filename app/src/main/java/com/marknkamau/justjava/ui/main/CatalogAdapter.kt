@@ -33,7 +33,7 @@ class CatalogAdapter(private val context: Context, private val onClick: (CoffeeD
             itemView.tvDrinkName.text = context.resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
 
             val drinkImage = "file:///android_asset/" + drink.drinkImage
-            Picasso.with(context).load(drinkImage).placeholder(R.drawable.plain_brown).into(itemView.imgDrinkImage)
+            Picasso.get().load(drinkImage).placeholder(R.drawable.plain_brown).into(itemView.imgDrinkImage)
 
             itemView.catalogItem.setOnClickListener {
                 onClick(drink)

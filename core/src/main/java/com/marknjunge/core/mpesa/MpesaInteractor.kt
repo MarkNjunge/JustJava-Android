@@ -20,6 +20,6 @@ internal class MpesaInteractorImpl : MpesaInteractor {
 
     override suspend fun makeLnmoRequest(amount: Int, phoneNumber: String, customerId: String, accountRef: String, fcmToken: String): ApiResponse {
         val lnmoRequest = LnmoRequest(amount.toString(), Utils.sanitizePhoneNumber(phoneNumber), customerId, accountRef, fcmToken)
-        return mpesaService.makeRequest(BuildConfig.FunctionsApiKey, lnmoRequest).await()
+        return mpesaService.makeRequest(BuildConfig.FunctionsApiKey, lnmoRequest)
     }
 }
