@@ -6,164 +6,76 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tvDrinkName"
+        android:id="@+id/tvDrinkNameDetail"
+        style="@style/AppTheme.Text.18PrimaryBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:alpha=".87"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Espresso" />
 
     <TextView
-        android:id="@+id/tvDrinkPrice"
+        android:id="@+id/tvDrinkPriceDetail"
+        style="@style/AppTheme.Text.14Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Ksh. 450" />
+        tools:text="Ksh. 100" />
 
     <TextView
-        android:id="@+id/tvDrinkDescription"
-        style="@style/secondary_text"
+        android:id="@+id/tvDrinkDescriptionDetail"
+        style="@style/AppTheme.Text.14Primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:alpha=".87"
-        android:text="@string/description_of_the_drink"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDrinkName" />
-
-    <TextView
-        android:id="@+id/tvDrinkContents"
-        style="@style/secondary_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/contents_of_the_drink"
-        android:textAlignment="textStart"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDrinkDescription" />
-
-    <ImageView
-        android:id="@+id/imgMinusQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:alpha=".87"
-        android:clickable="true"
-        android:contentDescription="@string/minus_quantity_button_content_desc"
-        android:focusable="true"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tvQuantity"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_minus" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkNameDetail"
+        tools:text="Our beans are deeply roasted, out shots hand pulled. Taste the finest, freshly ground espresso shot in town." />
 
     <TextView
-        android:id="@+id/tvQuantity"
-        style="@style/main_text"
+        android:id="@+id/tvDrinkContentsDetail"
+        style="@style/AppTheme.Text.14Secondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="1"
-        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
-        app:layout_constraintEnd_toStartOf="@+id/imgAddQty"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imgMinusQty"
-        app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
-        tools:ignore="HardcodedText" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkDescriptionDetail"
+        tools:text="Just a shot of espresso" />
 
-    <ImageView
-        android:id="@+id/imgAddQty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/view2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:alpha=".87"
-        android:clickable="true"
-        android:contentDescription="@string/add_quantity_button_content_desc"
-        android:focusable="true"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQty"
-        app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvQuantity"
-        app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
-        app:srcCompat="@drawable/ic_add" />
+        android:background="@color/colorTextTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkContentsDetail" />
 
     <TextView
-        android:id="@+id/textView6"
-        style="@style/main_text"
+        android:id="@+id/textView29"
+        style="@style/AppTheme.Text.14PrimaryBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="@string/toppings"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDrinkContents" />
-
-    <TextView
-        android:id="@+id/tvSubtotal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:alpha=".87"
-        android:text="@string/total"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
-
-    <TextView
-        android:id="@+id/textView3"
-        style="@style/main_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/total"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbMarshmallow" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnAddToCart"
-        style="@style/AppTheme.PrimaryButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:padding="8dp"
-        android:text="@string/add_to_cart"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
 
     <CheckBox
-        android:id="@+id/cbCinnamon"
+        android:id="@+id/cbCinnamonDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -171,10 +83,10 @@
         android:text="@string/cinnamon_sprinkles_ksh_xx"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
 
     <CheckBox
-        android:id="@+id/cbChocolate"
+        android:id="@+id/cbChocolateDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -182,10 +94,10 @@
         android:text="@string/chocolate_curls_ksh_xx"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbCinnamon" />
+        app:layout_constraintTop_toBottomOf="@+id/cbCinnamonDetail" />
 
     <CheckBox
-        android:id="@+id/cbMarshmallow"
+        android:id="@+id/cbMarshmallowDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -193,13 +105,110 @@
         android:text="@string/mini_marshmallows_ksh_xx"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbChocolate" />
+        app:layout_constraintTop_toBottomOf="@+id/cbChocolateDetail" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
+    <View
+        android:id="@+id/view3"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorTextTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbMarshmallowDetail" />
+
+    <TextView
+        android:id="@+id/textView25"
+        style="@style/AppTheme.Text.14PrimaryBold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/quantity"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+    <TextView
+        android:id="@+id/tvQuantityDetail"
+        style="@style/AppTheme.Text.18PrimaryBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQtyDetail"
+        app:layout_constraintStart_toEndOf="@+id/imgMinusQtyDetail"
+        app:layout_constraintTop_toTopOf="@+id/imgMinusQtyDetail"
+        tools:text="1" />
+
+    <ImageView
+        android:id="@+id/imgMinusQtyDetail"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/add_quantity_button_content_desc"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView25"
+        app:srcCompat="@drawable/ic_minus" />
+
+    <ImageView
+        android:id="@+id/imgAddQtyDetail"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/minus_quantity_button_content_desc"
+        android:padding="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgMinusQtyDetail"
+        app:layout_constraintStart_toEndOf="@+id/tvQuantityDetail"
+        app:layout_constraintTop_toTopOf="@+id/imgMinusQtyDetail"
+        app:srcCompat="@drawable/ic_add" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorTextTertiary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgMinusQtyDetail" />
+
+    <TextView
+        android:id="@+id/textView30"
+        style="@style/AppTheme.Text.18PrimaryBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/total"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4" />
+
+    <TextView
+        android:id="@+id/tvSubtotalDetail"
+        style="@style/AppTheme.Text.18PrimaryBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view4"
+        tools:text="Ksh 200" />
+
+    <Button
+        android:id="@+id/btnAddToCart"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/add_to_cart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView30" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,17 +18,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgDrinkImage"
+            android:id="@+id/imgDrinkImageCatalog"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:contentDescription="@string/drink_image_content_desc"
             android:scaleType="centerCrop"
+            android:transitionName="drinkImage"
             app:srcCompat="@drawable/plain_brown" />
 
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/tvItemName"
+        android:id="@+id/tvDrinkNameCatalog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -41,18 +42,18 @@
         tools:text="Cappuccino" />
 
     <TextView
-        android:id="@+id/tvShortDesc"
+        android:id="@+id/tvDrinkContentsCatalog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:alpha=".54"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/tvItemName"
+        app:layout_constraintTop_toBottomOf="@+id/tvDrinkNameCatalog"
         tools:text="Foam, milk and espresso" />
 
     <TextView
-        android:id="@+id/tvDrinkName"
+        android:id="@+id/tvDrinkPriceCatalog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

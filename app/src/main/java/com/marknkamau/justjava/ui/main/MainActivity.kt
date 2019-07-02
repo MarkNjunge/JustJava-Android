@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.ui.main
 
-import android.content.Intent
 import android.os.Bundle
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,17 +27,19 @@ class MainActivity : BaseActivity(), MainView {
         setSupportActionBar(toolbar)
 
         catalogAdapter = BaseRecyclerViewAdapter(R.layout.item_catalog) { drink ->
-            tvItemName.text = drink.drinkName
-            tvShortDesc.text = drink.drinkContents
-            tvDrinkName.text = context.resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
+            tvDrinkNameCatalog.text = drink.drinkName
+            tvDrinkContentsCatalog.text = drink.drinkContents
+            tvDrinkPriceCatalog.text = context.resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
 
             val drinkImage = "file:///android_asset/" + drink.drinkImage
-            Picasso.get().load(drinkImage).placeholder(R.drawable.plain_brown).into(imgDrinkImage)
+            Picasso.get().load(drinkImage).placeholder(R.drawable.plain_brown).into(imgDrinkImageCatalog)
 
             catalogItem.setOnClickListener {
-                val i = Intent(this@MainActivity, DrinkDetailsActivity::class.java)
-                i.putExtra(DrinkDetailsActivity.DRINK_KEY, drink)
-                startActivity(i)
+                DrinkDetailsActivity.start(
+                        this@MainActivity,
+                        drink,
+                        Pair(imgDrinkImageCatalog, "drinkImage")
+                )
             }
         }
 

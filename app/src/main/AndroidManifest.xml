@@ -32,7 +32,7 @@
             android:name=".ui.drinkdetails.DrinkDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".ui.main.MainActivity"
-            android:theme="@style/AppTheme.NoBar"
+            android:theme="@style/AppTheme.TranslucentStatus"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cart.CartActivity"

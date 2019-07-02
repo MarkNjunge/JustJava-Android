@@ -30,6 +30,39 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="AppTheme.TranslucentStatus" parent="AppTheme.NoBar">
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.Text" />
+
+    <style name="AppTheme.Text.18PrimaryBold">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Text.14Primary">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
+    <style name="AppTheme.Text.14PrimaryBold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.Text.14Secondary">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+    </style>
+
+    <style name="AppTheme.Text.14Accent">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="main_text">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@android:color/black</item>

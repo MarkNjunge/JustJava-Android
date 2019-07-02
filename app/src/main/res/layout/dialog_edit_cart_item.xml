@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
-        android:id="@+id/cbCinnamon"
+        android:id="@+id/cbCinnamonDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,14 +31,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tvDrinkName" />
 
     <CheckBox
-        android:id="@+id/cbChocolate"
+        android:id="@+id/cbChocolateDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/chocolate_curls_ksh_xx"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbCinnamon" />
+        app:layout_constraintTop_toBottomOf="@+id/cbCinnamonDetail" />
 
     <CheckBox
         android:id="@+id/cbMarshmallows"
@@ -48,7 +48,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/mini_marshmallows_ksh_xx"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbChocolate" />
+        app:layout_constraintTop_toBottomOf="@+id/cbChocolateDetail" />
 
     <ImageView
         android:id="@+id/imgMinusQty"

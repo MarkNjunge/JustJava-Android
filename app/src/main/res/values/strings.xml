@@ -6,8 +6,8 @@
     <string name="already_have_an_account">Already have an account?</string>
 
     <string name="contents_of_the_drink">Contents of the drink</string>
-    <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 100)</string>
-    <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 100)</string>
+    <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 50)</string>
+    <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 50)</string>
     <string name="clear_cart">Clear cart</string>
     <string name="cinnamon">Cinnamon</string>
     <string name="create_an_account">Create an account</string>
@@ -33,7 +33,7 @@
     <string name="logout">Logout</string>
     <string name="log_in">Log in</string>
 
-    <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 100)</string>
+    <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 50)</string>
     <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
     <string name="m_pesa">M-Pesa</string>
 
@@ -91,6 +91,8 @@
     <string name="additional_comments">Additional comments</string>
     <string name="total_price">Total price</string>
     <string name="profile_details">Profile details</string>
+    <string name="back_button">Back button</string>
+    <string name="quantity">Quantity</string>
 
     <plurals name="order_info">
         <item quantity="one">%1$d item for Ksh. %2$d</item>
