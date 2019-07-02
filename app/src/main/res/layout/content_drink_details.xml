@@ -75,7 +75,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/ic_remove" />
+        app:srcCompat="@drawable/ic_minus" />
 
     <TextView
         android:id="@+id/tvQuantity"

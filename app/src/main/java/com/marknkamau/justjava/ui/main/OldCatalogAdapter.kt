@@ -1,7 +1,6 @@
 package com.marknkamau.justjava.ui.main
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import com.marknjunge.core.model.CoffeeDrink
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_catalog.view.*
 
-class CatalogAdapter(private val context: Context, private val onClick: (CoffeeDrink) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<CatalogAdapter.ViewHolder>() {
+class OldCatalogAdapter(private val context: Context, private val onClick: (CoffeeDrink) -> Unit) : androidx.recyclerview.widget.RecyclerView.Adapter<OldCatalogAdapter.ViewHolder>() {
 
     private val items by lazy { mutableListOf<CoffeeDrink>() }
 

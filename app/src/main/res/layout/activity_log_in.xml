@@ -132,7 +132,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:fontFamily="@font/arimo"
+            android:fontFamily="@font/bree_serif"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
             android:textSize="48sp"

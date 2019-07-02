@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,39 +26,44 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.drinkdetails.DrinkDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.cart.CartActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.checkout.CheckoutActivity"
             android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".ui.cart.CartActivity"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.login.LogInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar"
+            android:theme="@style/AppTheme.NoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar" />
+            android:theme="@style/AppTheme.NoBar" />
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
-            android:theme="@style/AppThemeNoBar" />
+            android:theme="@style/AppTheme.NoBar" />
         <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
         <activity
             android:name=".ui.libraries.LibrariesActivity"

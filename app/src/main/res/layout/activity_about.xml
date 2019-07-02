@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:fontFamily="@font/arimo"
+            android:fontFamily="@font/bree_serif"
             android:text="@string/app_name"
             android:textColor="@android:color/white"
             android:textSize="48sp"
@@ -147,7 +147,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/imgMail"
             app:layout_constraintTop_toBottomOf="@+id/textView10"
-            app:srcCompat="@drawable/ic_linkedin_tm" />
+            app:srcCompat="@drawable/ic_linkedin" />
 
         <ImageView
             android:id="@+id/imgGithub"

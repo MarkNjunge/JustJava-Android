@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.drinkdetails
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 import com.marknkamau.justjava.R
 import com.marknjunge.core.model.CoffeeDrink
@@ -13,11 +14,12 @@ import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_drink_details.*
 import kotlinx.android.synthetic.main.content_drink_details.*
+import kotlinx.android.synthetic.main.content_toolbar.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
+class DrinkDetailsActivity : AppCompatActivity(), DrinkDetailsView, View.OnClickListener {
 
     companion object {
         const val DRINK_KEY = "drink_key"

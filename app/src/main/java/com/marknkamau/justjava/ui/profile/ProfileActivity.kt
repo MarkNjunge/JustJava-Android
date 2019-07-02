@@ -15,6 +15,7 @@ import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.content_toolbar.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
@@ -29,6 +30,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        setSupportActionBar(toolbar)
 
         adapter = PreviousOrderAdapter(this) { order ->
             PreviousOrderActivity.start(this, order)

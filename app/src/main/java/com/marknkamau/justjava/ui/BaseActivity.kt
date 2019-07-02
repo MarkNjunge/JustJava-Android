@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.ui
 
 import android.content.Intent
+import android.os.Bundle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -15,6 +16,7 @@ import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
+import kotlinx.android.synthetic.main.content_toolbar.*
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -37,15 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
             menu?.findItem(R.id.menu_profile)?.isVisible = false
         }
 
-        if (authService.isSignedIn()) {
-            menu?.findItem(R.id.menu_login)?.isVisible = false
-//            menu?.findItem(R.id.menu_profile)?.isVisible = true
-            menu?.findItem(R.id.menu_logout)?.isVisible = true
-        } else {
-            menu?.findItem(R.id.menu_login)?.isVisible = true
-//            menu?.findItem(R.id.menu_profile)?.isVisible = false
-            menu?.findItem(R.id.menu_logout)?.isVisible = false
-        }
+        menu?.findItem(R.id.menu_logout)?.isVisible = authService.isSignedIn()
         return true
     }
 
@@ -53,10 +47,6 @@ abstract class BaseActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_cart -> {
                 startActivity(Intent(this, CartActivity::class.java))
-                return true
-            }
-            R.id.menu_login -> {
-                startActivity(Intent(this, LogInActivity::class.java))
                 return true
             }
             R.id.menu_profile -> {
@@ -71,7 +61,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 invalidateOptionsMenu()
                 preferencesRepository.clearUserDetails()
                 authService.logOut()
-                // If this is ProfileActivity
+                // If this is ProfileActivity, leave it
                 (this as? ProfileActivity)?.finish()
                 Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
                 return true

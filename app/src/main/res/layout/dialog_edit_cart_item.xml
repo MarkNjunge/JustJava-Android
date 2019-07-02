@@ -61,7 +61,7 @@
         android:contentDescription="@string/minus_quantity_button_content_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbMarshmallows"
-        app:srcCompat="@drawable/ic_remove" />
+        app:srcCompat="@drawable/ic_minus" />
 
     <TextView
         android:id="@+id/tvQuantity"
