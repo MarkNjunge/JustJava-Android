@@ -42,6 +42,11 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AppTheme.Text.18Primary">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+    </style>
+
     <style name="AppTheme.Text.14Primary">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
@@ -58,9 +63,21 @@
         <item name="android:textColor">@color/colorTextSecondary</item>
     </style>
 
+    <style name="AppTheme.Text.14SecondaryBold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorTextSecondary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="AppTheme.Text.14Accent">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Text.14AccentBold">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="main_text">
@@ -86,6 +103,21 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Button" />
+
+    <style name="AppTheme.Button.FilledAccent" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.Button.OutlinedAccent" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
     <style name="AppTheme.PrimaryButton" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="android:textColor">@android:color/white</item>
@@ -96,7 +128,7 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
 
     </style>
 

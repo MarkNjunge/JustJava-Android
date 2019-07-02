@@ -40,12 +40,6 @@
             android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.checkout.CheckoutActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".ui.cart.CartActivity"
-            android:theme="@style/AppTheme.NoBar"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.login.LogInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

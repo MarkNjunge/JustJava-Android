@@ -93,6 +93,9 @@
     <string name="profile_details">Profile details</string>
     <string name="back_button">Back button</string>
     <string name="quantity">Quantity</string>
+    <string name="change_payment_method">Change</string>
+    <string name="order_details">Order details</string>
+    <string name="cart_require_login">You need to log in to continue</string>
 
     <plurals name="order_info">
         <item quantity="one">%1$d item for Ksh. %2$d</item>
