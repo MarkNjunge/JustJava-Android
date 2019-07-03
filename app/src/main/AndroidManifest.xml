@@ -57,12 +57,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
-            android:theme="@style/AppTheme.NoBar" />
+            android:theme="@style/AppTheme.NoBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
-        <activity
-            android:name=".ui.libraries.LibrariesActivity"
-            android:parentActivityName=".ui.about.AboutActivity" />
-
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

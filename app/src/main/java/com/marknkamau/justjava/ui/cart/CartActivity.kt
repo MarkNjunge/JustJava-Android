@@ -31,7 +31,6 @@ import org.koin.core.parameter.parametersOf
 
 class CartActivity : BaseActivity(), CartView {
 
-
     private val presenter: CartPresenter by inject { parametersOf(this) }
     private lateinit var adapter: BaseRecyclerViewAdapter<CartItem>
     private var payMpesa = true

@@ -96,6 +96,14 @@
     <string name="change_payment_method">Change</string>
     <string name="order_details">Order details</string>
     <string name="cart_require_login">You need to log in to continue</string>
+    <string name="about_contact_email_content_desc">Contact via email</string>
+    <string name="about_view_linkedin_content_desc">View LinkedIn</string>
+    <string name="about_view_website_content_desc">View website</string>
+    <string name="about_view_github_content_desc">View Github profile</string>
+    <string name="app_icon">App Icon</string>
+    <string name="app_icon_attribution">Coffee by Nitikta from The Noun Project</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="open_source_licenses">Open Source Licenses</string>
 
     <plurals name="order_info">
         <item quantity="one">%1$d item for Ksh. %2$d</item>
