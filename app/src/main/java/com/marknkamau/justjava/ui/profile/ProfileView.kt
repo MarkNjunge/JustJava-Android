@@ -5,11 +5,9 @@ import com.marknjunge.core.model.UserDetails
 
 internal interface ProfileView {
     fun displayUserDetails(userDetails: UserDetails)
-    fun showOrdersProgressBar()
-    fun hideOrdersProgressBar()
     fun showProfileProgressBar()
     fun hideProfileProgressBar()
     fun displayNoPreviousOrders()
     fun displayPreviousOrders(orderList: MutableList<Order>)
-    fun displayMessage(message: String?)
+    fun displayMessage(message: String)
 }

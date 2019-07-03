@@ -26,20 +26,17 @@ internal class ProfilePresenter(private val view: ProfileView,
     }
 
     fun getPreviousOrders() {
-        view.showOrdersProgressBar()
         uiScope.launch {
             try {
                 val previousOrders = orderService.getPreviousOrders(authenticationService.getCurrentUser().userId)
-                view.hideOrdersProgressBar()
                 if (previousOrders.isEmpty()) {
                     view.displayNoPreviousOrders()
                 } else {
-                    val sorted = previousOrders.sortedBy { it.date }.reversed().toMutableList()
+                    val sorted = previousOrders.take(3).sortedBy { it.date }.reversed().toMutableList()
                     view.displayPreviousOrders(sorted)
                 }
             } catch (e: Exception) {
-                view.hideOrdersProgressBar()
-                view.displayMessage(e.message)
+                view.displayMessage(e.message ?: "Error getting previous orders")
             }
         }
     }
@@ -58,7 +55,7 @@ internal class ProfilePresenter(private val view: ProfileView,
             } catch (e: Exception) {
                 Timber.e(e)
                 view.hideProfileProgressBar()
-                view.displayMessage(e.message)
+                view.displayMessage(e.message ?: "Error upating profile")
             }
         }
     }

@@ -1,29 +1,24 @@
 package com.marknkamau.justjava.ui.profile
 
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
-import com.marknkamau.justjava.R
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
+import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
-
-import com.marknkamau.justjava.utils.trimmedText
+import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.content_toolbar.*
+import kotlinx.android.synthetic.main.item_previous_order.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
 class ProfileActivity : BaseActivity(), ProfileView {
-    private var name: String? = null
-    private var phone: String? = null
-    private var address: String? = null
-    private lateinit var adapter: PreviousOrderAdapter
+    private lateinit var previousOrdersAdapter: BaseRecyclerViewAdapter<Order>
 
     private val presenter: ProfilePresenter by inject { parametersOf(this) }
 
@@ -32,18 +27,30 @@ class ProfileActivity : BaseActivity(), ProfileView {
         setContentView(R.layout.activity_profile)
         setSupportActionBar(toolbar)
 
-        adapter = PreviousOrderAdapter(this) { order ->
-            PreviousOrderActivity.start(this, order)
+        previousOrdersAdapter = BaseRecyclerViewAdapter(R.layout.item_previous_order) { order ->
+            tvOrderTimeItem.text = order.date.formatForApp()
+            tvOrderStatusItem.text = order.status.name.toLowerCase().capitalize()
+            tvOrderQtyItem.text = order.itemsCount.toString()
+            tvOrderCountItem.text = resources.getQuantityString(R.plurals.order_info, order.itemsCount)
+            tvOrderTotalItem.text = resources.getString(R.string.price_listing, order.totalPrice)
+
+            previousOrderItemRootLayout.setOnClickListener {
+                PreviousOrderActivity.start(this@ProfileActivity, order)
+            }
         }
 
-        rvPreviousOrders.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvPreviousOrders.addItemDecoration(androidx.recyclerview.widget.DividerItemDecoration(this, LinearLayout.VERTICAL))
-        rvPreviousOrders.adapter = adapter
+        rvPreviousOrdersProfile.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rvPreviousOrdersProfile.addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.custom_item_divider)!!))
+        rvPreviousOrdersProfile.adapter = previousOrdersAdapter
 
         presenter.getUserDetails()
         presenter.getPreviousOrders()
 
         btnUpdateProfile.setOnClickListener { saveChanges() }
+
+        etNameProfile.onTextChanged { tilNameProfile.error = null }
+        etPhoneProfile.onTextChanged { tilPhoneProfile.error = null }
+        etAddressProfile.onTextChanged { tilAddressProfile.error = null }
     }
 
     override fun onDestroy() {
@@ -51,56 +58,62 @@ class ProfileActivity : BaseActivity(), ProfileView {
         presenter.cancel()
     }
 
-    override fun showOrdersProgressBar() {
-        pbLoadingOrders.visibility = View.VISIBLE
-    }
-
-    override fun hideOrdersProgressBar() {
-        pbLoadingOrders.visibility = View.GONE
-    }
-
     override fun showProfileProgressBar() {
-        pbUpdatingProject.visibility = View.VISIBLE
+        pbUpdatingProfile.visibility = View.VISIBLE
     }
 
     override fun hideProfileProgressBar() {
-        pbUpdatingProject.visibility = View.GONE
+        pbUpdatingProfile.visibility = View.GONE
     }
 
     override fun displayNoPreviousOrders() {
-        tvNoOrders.visibility = View.VISIBLE
-        rvPreviousOrders.visibility = View.GONE
+        pbLoadingOrdersProfile.visibility = View.GONE
+        contentNoOrdersProfile.visibility = View.VISIBLE
+        rvPreviousOrdersProfile.visibility = View.GONE
     }
 
     override fun displayPreviousOrders(orderList: MutableList<Order>) {
-        adapter.setItems(orderList)
+        pbLoadingOrdersProfile.visibility = View.GONE
+        contentNoOrdersProfile.visibility = View.GONE
+        rvPreviousOrdersProfile.visibility = View.VISIBLE
+        previousOrdersAdapter.setItems(orderList)
     }
 
-    override fun displayMessage(message: String?) {
+    override fun displayMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun saveChanges() {
         if (fieldsOk()) {
-            presenter.updateUserDetails(name!!, phone!!, address!!)
+            hideKeyboard()
+            presenter.updateUserDetails(etNameProfile.trimmedText, etPhoneProfile.trimmedText, etAddressProfile.trimmedText)
         }
     }
 
     private fun fieldsOk(): Boolean {
-        name = etName.trimmedText
-        phone = etPhone.trimmedText
-        address = etDeliveryAddress.trimmedText
+        var isValid = true
 
-        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(address)) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
-            return false
+        if (etNameProfile.trimmedText.isEmpty()) {
+            isValid = false
+            tilNameProfile.error = getString(R.string.required)
         }
-        return true
+
+        if (etPhoneProfile.trimmedText.isEmpty()) {
+            isValid = false
+            tilPhoneProfile.error = getString(R.string.required)
+        }
+
+        if (etAddressProfile.trimmedText.isEmpty()) {
+            isValid = false
+            tilAddressProfile.error = getString(R.string.required)
+        }
+
+        return isValid
     }
 
     override fun displayUserDetails(userDetails: UserDetails) {
-        etName.setText(userDetails.name)
-        etPhone.setText(userDetails.phone)
-        etDeliveryAddress.setText(userDetails.address)
+        etNameProfile.setText(userDetails.name)
+        etPhoneProfile.setText(userDetails.phone)
+        etAddressProfile.setText(userDetails.address)
     }
 }

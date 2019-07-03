@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.utils
 
 import android.graphics.Canvas
-import androidx.recyclerview.widget.RecyclerView
 import android.graphics.drawable.Drawable
+import androidx.recyclerview.widget.RecyclerView
 
 class DividerItemDecorator(private val mDivider: Drawable) : RecyclerView.ItemDecoration() {
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {

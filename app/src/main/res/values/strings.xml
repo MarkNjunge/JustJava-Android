@@ -104,9 +104,11 @@
     <string name="app_icon_attribution">Coffee by Nitikta from The Noun Project</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="open_source_licenses">Open Source Licenses</string>
+    <string name="account_details">Account details</string>
+    <string name="item_for">item for</string>
 
     <plurals name="order_info">
-        <item quantity="one">%1$d item for Ksh. %2$d</item>
-        <item quantity="other">%1$d items for Ksh. %2$d</item>
+        <item quantity="one">item for</item>
+        <item quantity="other">items for</item>
     </plurals>
 </resources>
