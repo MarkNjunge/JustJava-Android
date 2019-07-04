@@ -106,6 +106,7 @@
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="account_details">Account details</string>
     <string name="item_for">item for</string>
+    <string name="see_more">See more...</string>
 
     <plurals name="order_info">
         <item quantity="one">item for</item>

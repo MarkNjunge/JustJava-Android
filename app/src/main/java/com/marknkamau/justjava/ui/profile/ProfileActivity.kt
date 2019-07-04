@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
+import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.content_toolbar.*
@@ -47,6 +49,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
         presenter.getPreviousOrders()
 
         btnUpdateProfile.setOnClickListener { saveChanges() }
+        tvSeeMoreProfile.setOnClickListener { startActivity(Intent(this, PreviousOrdersActivity::class.java)) }
 
         etNameProfile.onTextChanged { tilNameProfile.error = null }
         etPhoneProfile.onTextChanged { tilPhoneProfile.error = null }
@@ -76,6 +79,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
         pbLoadingOrdersProfile.visibility = View.GONE
         contentNoOrdersProfile.visibility = View.GONE
         rvPreviousOrdersProfile.visibility = View.VISIBLE
+        tvSeeMoreProfile.visibility = View.VISIBLE
         previousOrdersAdapter.setItems(orderList)
     }
 

@@ -126,12 +126,11 @@
         android:indeterminate="true" />
 
     <LinearLayout
+        android:id="@+id/contentNoOrdersProfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
-
-        android:id="@+id/contentNoOrdersProfile"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -158,6 +157,19 @@
         android:visibility="gone"
         tools:itemCount="3"
         tools:listitem="@layout/item_previous_order"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tvSeeMoreProfile"
+        style="@style/AppTheme.Text.14PrimaryBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="8dp"
+        android:text="@string/see_more"
+        android:visibility="gone"
         tools:visibility="visible" />
 
 </LinearLayout>

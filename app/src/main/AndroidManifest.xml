@@ -53,8 +53,13 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.previousOrders.PreviousOrdersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ui.profile.ProfileActivity"/>
         <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
+
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
