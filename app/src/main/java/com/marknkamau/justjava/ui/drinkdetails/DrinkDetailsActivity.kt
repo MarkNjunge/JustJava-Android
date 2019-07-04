@@ -99,6 +99,7 @@ class DrinkDetailsActivity : AppCompatActivity(), DrinkDetailsView {
 
         quantity -= 1
         updateSubtotal()
+        tvQuantityDetail.text = quantity.toString()
     }
 
     private fun addQty() {
