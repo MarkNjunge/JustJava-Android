@@ -13,8 +13,8 @@ import com.marknkamau.justjava.ui.login.LogInPresenter
 import com.marknkamau.justjava.ui.login.LogInView
 import com.marknkamau.justjava.ui.main.MainPresenter
 import com.marknkamau.justjava.ui.main.MainView
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderPresenter
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderView
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderPresenter
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderView
 import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersPresenter
 import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersView
 import com.marknkamau.justjava.ui.profile.ProfilePresenter
@@ -36,7 +36,7 @@ val appModule = module {
     factory { (view: MainView) -> MainPresenter(view, Dispatchers.Main) }
     factory { (view: DrinkDetailsView) -> DrinkDetailsPresenter(view, get(), Dispatchers.Main) }
     factory { (view: CartView) -> CartPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
-    factory { (view: PreviousOrderView) -> PreviousOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
+    factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
     factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
     factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), get(), Dispatchers.Main) }
 }

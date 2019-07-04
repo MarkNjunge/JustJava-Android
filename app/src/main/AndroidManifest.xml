@@ -58,7 +58,8 @@
             android:name=".ui.previousOrders.PreviousOrdersActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".ui.profile.ProfileActivity"/>
-        <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
+        <activity android:name=".ui.viewOrder.ViewOrderActivity"
+            android:parentActivityName=".ui.profile.ProfileActivity"/>
 
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>

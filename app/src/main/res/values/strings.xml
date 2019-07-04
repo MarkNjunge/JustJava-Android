@@ -107,6 +107,7 @@
     <string name="account_details">Account details</string>
     <string name="item_for">item for</string>
     <string name="see_more">See more...</string>
+    <string name="payment_details">Payment Details</string>
 
     <plurals name="order_info">
         <item quantity="one">item for</item>

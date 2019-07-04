@@ -10,7 +10,7 @@ import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderActivity
 import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -37,7 +37,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
             tvOrderTotalItem.text = resources.getString(R.string.price_listing, order.totalPrice)
 
             previousOrderItemRootLayout.setOnClickListener {
-                PreviousOrderActivity.start(this@ProfileActivity, order)
+                ViewOrderActivity.start(this@ProfileActivity, order)
             }
         }
 

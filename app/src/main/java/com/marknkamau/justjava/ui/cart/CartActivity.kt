@@ -17,15 +17,15 @@ import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.DividerItemDecorator
 import com.marknkamau.justjava.utils.onTextChanged
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.content_toolbar.*
-import kotlinx.android.synthetic.main.item_cart.view.*
+import kotlinx.android.synthetic.main.item_order_item.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
@@ -55,10 +55,10 @@ class CartActivity : BaseActivity(), CartView {
             }
         }
 
-        adapter = BaseRecyclerViewAdapter(R.layout.item_cart) { cartItem ->
-            tvItemNameCart.text = cartItem.itemName
-            tvItemQtyCart.text = "${cartItem.itemQty}x"
-            tvItemPriceCart.text = context.getString(R.string.price_listing, cartItem.itemPrice)
+        adapter = BaseRecyclerViewAdapter(R.layout.item_order_item) { cartItem ->
+            tvItemNameItem.text = cartItem.itemName
+            tvItemQtyItem.text = "${cartItem.itemQty}x"
+            tvItemPriceItem.text = context.getString(R.string.price_listing, cartItem.itemPrice)
 
             val toppings = mutableListOf<String>()
 
@@ -67,12 +67,12 @@ class CartActivity : BaseActivity(), CartView {
             if (cartItem.itemMarshmallow) toppings.add("Marshmallows")
 
             if (toppings.isNotEmpty()) {
-                tvToppingsCart.visibility = View.VISIBLE
-                tvToppingsCart.text = toppings.joinToString(", ")
+                tvToppingsItem.visibility = View.VISIBLE
+                tvToppingsItem.text = toppings.joinToString(", ")
             } else {
-                tvToppingsCart.visibility = View.GONE
+                tvToppingsItem.visibility = View.GONE
             }
-            cartItemRootLayout.setOnClickListener {
+            orderItemRootLayout.setOnClickListener {
                 editCartDialog.arguments = Bundle().apply {
                     putParcelable(EditCartDialog.CART_ITEM, cartItem)
                 }
@@ -177,8 +177,8 @@ class CartActivity : BaseActivity(), CartView {
     }
 
     override fun finishActivity(order: Order) {
-        val i = Intent(this, PreviousOrderActivity::class.java)
-        i.putExtra(PreviousOrderActivity.ORDER_KEY, order)
+        val i = Intent(this, ViewOrderActivity::class.java)
+        i.putExtra(ViewOrderActivity.ORDER_KEY, order)
 
         TaskStackBuilder.create(this)
                 .addNextIntentWithParentStack(Intent(this, MainActivity::class.java))

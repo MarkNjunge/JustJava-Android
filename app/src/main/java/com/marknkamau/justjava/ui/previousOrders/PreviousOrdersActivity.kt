@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderActivity
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.DividerItemDecorator
 import com.marknkamau.justjava.utils.formatForApp
@@ -38,7 +38,7 @@ class PreviousOrdersActivity : AppCompatActivity(), PreviousOrdersView {
             tvOrderTotalItem.text = resources.getString(R.string.price_listing, order.totalPrice)
 
             previousOrderItemRootLayout.setOnClickListener {
-                PreviousOrderActivity.start(this@PreviousOrdersActivity, order)
+                ViewOrderActivity.start(this@PreviousOrdersActivity, order)
             }
         }
 
