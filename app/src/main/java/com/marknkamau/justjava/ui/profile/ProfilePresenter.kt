@@ -32,7 +32,7 @@ internal class ProfilePresenter(private val view: ProfileView,
                 if (previousOrders.isEmpty()) {
                     view.displayNoPreviousOrders()
                 } else {
-                    val sorted = previousOrders.take(3).sortedBy { it.date }.reversed().toMutableList()
+                    val sorted = previousOrders.sortedBy { it.date }.reversed().take(3).toMutableList()
                     view.displayPreviousOrders(sorted)
                 }
             } catch (e: Exception) {
