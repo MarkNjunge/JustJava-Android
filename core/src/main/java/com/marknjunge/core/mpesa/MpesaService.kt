@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 internal interface MpesaService {
     @POST("request")
-    fun makeRequest(@Header("ApiKey") apiKeyHeader: String,
+    suspend fun makeRequest(@Header("ApiKey") apiKeyHeader: String,
                     @Body lnmoRequest: LnmoRequest
-    ): Deferred<ApiResponse>
+    ): ApiResponse
 }

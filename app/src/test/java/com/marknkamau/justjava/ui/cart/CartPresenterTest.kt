@@ -1,9 +1,14 @@
 package com.marknkamau.justjava.ui.cart
 
+import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.firebase.OrderService
+import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.data.local.CartDao
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.models.CartItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +28,12 @@ class CartPresenterTest {
     private lateinit var view: CartView
     @MockK
     private lateinit var cartDao: CartDao
+    @MockK
+    private lateinit var auth: AuthService
+    @MockK
+    private lateinit var preferences: PreferencesRepository
+    @MockK
+    private lateinit var orderService: OrderService
 
     private lateinit var presenter: CartPresenter
     private val cartItem = CartItem(1, "itemName", 1, false, false, false, 10)
@@ -32,7 +43,27 @@ class CartPresenterTest {
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        presenter = CartPresenter(view, cartDao, Dispatchers.Unconfined)
+        presenter = CartPresenter(view, auth, preferences, cartDao, orderService, Dispatchers.Unconfined)
+    }
+
+    @Test
+    fun getSignInStatus_signedIn() {
+        val userDetails = UserDetails("", "", "", "", "")
+        every { auth.isSignedIn() } returns true
+        every { preferences.getUserDetails() } returns userDetails
+
+        presenter.getSignInStatus()
+
+        verify { view.setDisplayToLoggedIn(userDetails) }
+    }
+
+    @Test
+    fun getSignInStatus_notSignedIn() {
+        every { auth.isSignedIn() } returns false
+
+        presenter.getSignInStatus()
+
+        verify { view.setDisplayToLoggedOut() }
     }
 
     @Test

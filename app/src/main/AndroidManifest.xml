@@ -14,9 +14,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity
             android:name=".ui.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/AppTheme.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,38 +32,34 @@
             android:name=".ui.drinkdetails.DrinkDetailsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".ui.main.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".ui.cart.CartActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.checkout.CheckoutActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:parentActivityName=".ui.cart.CartActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.login.LogInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppThemeNoBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
-            android:theme="@style/AppThemeNoBar" />
-        <activity android:name=".ui.previousOrder.PreviousOrderActivity" />
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.libraries.LibrariesActivity"
-            android:parentActivityName=".ui.about.AboutActivity" />
+            android:name=".ui.previousOrders.PreviousOrdersActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".ui.profile.ProfileActivity"/>
+        <activity android:name=".ui.viewOrder.ViewOrderActivity"
+            android:parentActivityName=".ui.profile.ProfileActivity"/>
 
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>

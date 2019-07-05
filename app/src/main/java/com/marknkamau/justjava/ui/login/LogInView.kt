@@ -5,7 +5,7 @@ interface LogInView {
     fun signIn()
     fun resetUserPassword()
     fun displayMessage(message: String?)
-    fun showDialog()
-    fun dismissDialog()
+    fun showLoading()
+    fun dismissLoading()
     fun finishSignIn()
 }

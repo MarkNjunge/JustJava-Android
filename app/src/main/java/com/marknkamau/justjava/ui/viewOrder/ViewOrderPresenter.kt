@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.ui.previousOrder
+package com.marknkamau.justjava.ui.viewOrder
 
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.mpesa.MpesaInteractor
@@ -15,11 +15,11 @@ import timber.log.Timber
  * https://github.com/MarkNjunge
  */
 
-class PreviousOrderPresenter(private val view: PreviousOrderView,
-                             private val orderService: OrderService,
-                             private val mpesaInteractor: MpesaInteractor,
-                             private val authService: AuthService,
-                             mainDispatcher: CoroutineDispatcher
+class ViewOrderPresenter(private val view: ViewOrderView,
+                         private val orderService: OrderService,
+                         private val mpesaInteractor: MpesaInteractor,
+                         private val authService: AuthService,
+                         mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
     fun getOrderDetails(orderId: String) {

@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.ui.previousOrder
+package com.marknkamau.justjava.ui.viewOrder
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,53 +11,75 @@ import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
+import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.formatForApp
-import kotlinx.android.synthetic.main.activity_previous_order.*
-import kotlinx.android.synthetic.main.include_order_details.*
+import kotlinx.android.synthetic.main.activity_view_order.*
+import kotlinx.android.synthetic.main.content_toolbar.*
+import kotlinx.android.synthetic.main.item_order_item.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
-class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
+class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
 
     companion object {
         const val ORDER_KEY = "order_key"
         fun start(context: Context, order: Order) {
-            val i = Intent(context, PreviousOrderActivity::class.java)
+            val i = Intent(context, ViewOrderActivity::class.java)
             i.putExtra(ORDER_KEY, order)
             context.startActivity(i)
         }
 
     }
 
-    private lateinit var orderItemsAdapter: OrderItemsAdapter
+    private lateinit var orderItemsAdapter: BaseRecyclerViewAdapter<OrderItem>
     private lateinit var broadcastReceiver: BroadcastReceiver
     private lateinit var order: Order
 
     private val preferencesRepository: PreferencesRepository by inject()
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
-    private val presenter: PreviousOrderPresenter by inject { parametersOf(this) }
+    private val presenter: ViewOrderPresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_previous_order)
+        setContentView(R.layout.activity_view_order)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = "Order"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         order = intent.getParcelableExtra(ORDER_KEY)
 
         updateViews(order)
 
-        orderItemsAdapter = OrderItemsAdapter()
-        rvOrderItems.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, LinearLayout.VERTICAL, false)
-        rvOrderItems.adapter = orderItemsAdapter
+        orderItemsAdapter = BaseRecyclerViewAdapter(R.layout.item_order_item){orderItem ->
+            tvItemNameItem.text = orderItem.itemName
+            tvItemQtyItem.text = "${orderItem.itemQty}x"
+            tvItemPriceItem.text = context.getString(R.string.price_listing, orderItem.itemPrice)
 
+            val toppings = mutableListOf<String>()
+
+            if (orderItem.itemCinnamon) toppings.add("Cinnamon")
+            if (orderItem.itemChoc) toppings.add("Chocolate")
+            if (orderItem.itemMarshmallow) toppings.add("Marshmallows")
+
+            if (toppings.isNotEmpty()) {
+                tvToppingsItem.visibility = View.VISIBLE
+                tvToppingsItem.text = toppings.joinToString(", ")
+            } else {
+                tvToppingsItem.visibility = View.GONE
+            }
+        }
+
+        rvOrderItemsOrder.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        rvOrderItemsOrder.adapter = orderItemsAdapter
 
         presenter.getOrderItems(order.orderId)
-
     }
 
     override fun onStart() {
@@ -70,8 +92,8 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
                     Timber.d("Payment received for order $orderId")
                     if (order.orderId == orderId) {
                         Timber.d("The current order has been paid for!")
-                        btnPay.visibility = View.GONE
-                        tvPaymentStatus.text = "Paid"
+                        btnPayOrder.visibility = View.GONE
+                        tvPaymentStatusOrder .text = "Paid"
                         displayMessage("Payment received!")
                     }
                 }
@@ -93,7 +115,8 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     }
 
     override fun displayOrderItems(orderItems: List<OrderItem>) {
-        cardOrderItems.visibility = View.VISIBLE
+        pbLoadingOrderItemsOrder.visibility = View.GONE
+        rvOrderItemsOrder.visibility = View.VISIBLE
         orderItemsAdapter.setItems(orderItems)
     }
 
@@ -107,26 +130,26 @@ class PreviousOrderActivity : AppCompatActivity(), PreviousOrderView {
     }
 
     private fun updateViews(order: Order) {
-        tvOrderId.text = order.orderId
-        tvOrderStatus.text = order.status.name.toLowerCase().capitalize()
-        tvOrderDate.text = order.date.formatForApp()
-        tvDeliveryAddress.text = order.deliveryAddress
-        tvTotalPrice.text = getString(R.string.ksh, order.totalPrice)
+        tvOrderIdOrder.text = order.orderId
+        tvOrderStatusOrder.text = order.status.name.toLowerCase().capitalize()
+        tvOrderDateOrder.text = order.date.formatForApp()
+        tvOrderAddressOrder.text = order.deliveryAddress
+        tvOrderTotalOrder .text = getString(R.string.ksh, order.totalPrice)
         if (order.additionalComments.isEmpty()) {
-            tvComments.visibility = View.GONE
-            tvCommentsLabel.visibility = View.GONE
+            tvOrderCommentsOrder.visibility = View.GONE
+            tvCommentsLabelOrder.visibility = View.GONE
         } else {
-            tvComments.text = order.additionalComments
+            tvOrderCommentsOrder.text = order.additionalComments
         }
 
-        tvPaymentMethod.text = order.paymentMethod.capitalize()
-        tvPaymentStatus.text = order.paymentStatus.capitalize()
+        tvPaymentMethodOrder.text = order.paymentMethod.capitalize()
+        tvPaymentStatusOrder.text = order.paymentStatus.capitalize()
 
         if (order.paymentMethod != "mpesa" || order.paymentStatus == "paid") {
-            btnPay.visibility = View.GONE
+            btnPayOrder.visibility = View.GONE
         }
 
-        btnPay.setOnClickListener {
+        btnPayOrder.setOnClickListener {
             val phoneNumber = preferencesRepository.getUserDetails().phone
             val dialog = AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?\nThe money will be automatically refunded by Safaricom the following day.")

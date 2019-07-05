@@ -1,43 +1,33 @@
 package com.marknkamau.justjava.ui.about
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.libraries.LibrariesActivity
 import kotlinx.android.synthetic.main.activity_about.*
 
-class AboutActivity : AppCompatActivity(), View.OnClickListener {
+class AboutActivity : AppCompatActivity() {
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        tvVersion.text = "v${BuildConfig.VERSION_NAME}"
+        imgBackAbout.setOnClickListener { finish() }
+        tvAppVersionAbout.text = "v${BuildConfig.VERSION_NAME} ${if (BuildConfig.BUILD_TYPE == "debug") "(debug)" else ""}"
+        tvSourceCodeAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge/JustJava-Android") }
+        imgEmailAbout.setOnClickListener { sendEmail() }
+        imgLinkedInAbout.setOnClickListener { openUrl("https://linkedin.com/in/marknjunge") }
+        imgWebsiteAbout.setOnClickListener { openUrl("https://marknjunge.com") }
+        imgGithubAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge") }
+        tvPrivacyPolicyAbout.setOnClickListener { openUrl("https://marknjunge.com/justjava/privacy") }
 
-        tvSource.setOnClickListener(this)
-        imgBack.setOnClickListener(this)
-        imgMail.setOnClickListener(this)
-        imgLinkedin.setOnClickListener(this)
-        imgGithub.setOnClickListener(this)
-        imgWebsite.setOnClickListener(this)
-        tvPrivacyPolicy.setOnClickListener(this)
-        tvLibraries.setOnClickListener { startActivity(Intent(this, LibrariesActivity::class.java)) }
-    }
-
-    override fun onClick(view: View) {
-        when (view) {
-            tvSource -> openUrl("https://github.com/MarkNjunge/JustJava-Android")
-            imgBack -> finish()
-            imgMail -> sendEmail()
-            imgLinkedin -> openUrl("https://linkedin.com/in/marknjunge")
-            imgGithub -> openUrl("https://github.com/MarkNjunge")
-            imgWebsite -> openUrl("https://marknjunge.com")
-            tvPrivacyPolicy -> openUrl("https://marknjunge.com/justjava/privacy")
-        }
+        // See https://github.com/google/play-services-plugins/pull/62
+        tvLicensesAbout.visibility = View.GONE
     }
 
     private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))

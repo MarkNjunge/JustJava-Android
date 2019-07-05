@@ -49,8 +49,8 @@ class EditCartDialog : DialogFragment(), View.OnClickListener {
 
         tvDrinkName = view.findViewById(R.id.tvDrinkName) as TextView
         tvQuantity = view.findViewById(R.id.tvQuantity) as TextView
-        cbCinnamon = view.findViewById(R.id.cbCinnamon) as CheckBox
-        cbChocolate = view.findViewById(R.id.cbChocolate) as CheckBox
+        cbCinnamon = view.findViewById(R.id.cbCinnamonDetail) as CheckBox
+        cbChocolate = view.findViewById(R.id.cbChocolateDetail) as CheckBox
         cbMarshmallows = view.findViewById(R.id.cbMarshmallows) as CheckBox
         imgMinusQty = view.findViewById(R.id.imgMinusQty) as ImageView
         imgAddQty = view.findViewById(R.id.imgAddQty) as ImageView

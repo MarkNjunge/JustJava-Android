@@ -7,16 +7,16 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.ui.cart.CartPresenter
 import com.marknkamau.justjava.ui.cart.CartView
-import com.marknkamau.justjava.ui.checkout.CheckoutPresenter
-import com.marknkamau.justjava.ui.checkout.CheckoutView
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsPresenter
 import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsView
 import com.marknkamau.justjava.ui.login.LogInPresenter
 import com.marknkamau.justjava.ui.login.LogInView
 import com.marknkamau.justjava.ui.main.MainPresenter
 import com.marknkamau.justjava.ui.main.MainView
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderPresenter
-import com.marknkamau.justjava.ui.previousOrder.PreviousOrderView
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderPresenter
+import com.marknkamau.justjava.ui.viewOrder.ViewOrderView
+import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersPresenter
+import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersView
 import com.marknkamau.justjava.ui.profile.ProfilePresenter
 import com.marknkamau.justjava.ui.profile.ProfileView
 import com.marknkamau.justjava.ui.signup.SignUpPresenter
@@ -35,8 +35,8 @@ val appModule = module {
     factory { (view: SignUpView) -> SignUpPresenter(view, get(), get(), get(), Dispatchers.Main) }
     factory { (view: MainView) -> MainPresenter(view, Dispatchers.Main) }
     factory { (view: DrinkDetailsView) -> DrinkDetailsPresenter(view, get(), Dispatchers.Main) }
-    factory { (view: CartView) -> CartPresenter(view, get(), Dispatchers.Main) }
-    factory { (view: CheckoutView) -> CheckoutPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
-    factory { (view: PreviousOrderView) -> PreviousOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
+    factory { (view: CartView) -> CartPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
+    factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
     factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
+    factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), get(), Dispatchers.Main) }
 }

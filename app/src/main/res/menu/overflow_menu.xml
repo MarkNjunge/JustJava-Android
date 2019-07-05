@@ -4,17 +4,14 @@
 
     <item
         android:id="@+id/menu_cart"
-        android:icon="@drawable/ic_cart"
+        android:icon="@drawable/ic_cart_light"
         android:title="@string/cart"
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/ic_profile_light"
         android:title="@string/profile"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/menu_login"
-        android:title="@string/login" />
     <item
         android:id="@+id/menu_logout"
         android:title="@string/logout"

@@ -6,7 +6,7 @@ package com.marknjunge.core.model
  * https://github.com/MarkNjunge
  */
 
-object DatabaseKeys {
+internal object DatabaseKeys {
     object User {
         const val userId = "id"
         const val name = "name"

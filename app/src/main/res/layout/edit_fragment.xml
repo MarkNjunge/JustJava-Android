@@ -34,7 +34,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/tvQuantity"
         app:layout_constraintTop_toBottomOf="@+id/tvDrinkName"
-        app:srcCompat="@drawable/ic_minus_circle" />
+        app:srcCompat="@drawable/ic_minus" />
 
     <TextView
         android:id="@+id/tvQuantity"
@@ -60,7 +60,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tvQuantity"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgMinusQty"
-        app:srcCompat="@drawable/ic_add_circle" />
+        app:srcCompat="@drawable/ic_add" />
 
     <TextView
         android:id="@+id/tvToppings"

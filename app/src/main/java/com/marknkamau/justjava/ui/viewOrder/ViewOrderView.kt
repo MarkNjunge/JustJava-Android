@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.ui.previousOrder
+package com.marknkamau.justjava.ui.viewOrder
 
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
@@ -10,7 +10,7 @@ import com.marknkamau.justjava.ui.BaseView
  * https://github.com/MarkNjunge
  */
 
-interface PreviousOrderView : BaseView {
+interface ViewOrderView : BaseView {
     fun displayOrder(order: Order)
     fun displayOrderItems(orderItems: List<OrderItem>)
 }

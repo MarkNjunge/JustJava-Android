@@ -1,26 +1,41 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.PropertyValuesHolder
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
-
-import com.marknkamau.justjava.R
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import com.marknjunge.core.data.local.DrinksProvider
 import com.marknjunge.core.model.CoffeeDrink
-import com.marknkamau.justjava.data.local.CartDao
+import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
-import com.marknkamau.justjava.ui.BaseActivity
 import com.squareup.picasso.Picasso
-
 import kotlinx.android.synthetic.main.activity_drink_details.*
 import kotlinx.android.synthetic.main.content_drink_details.*
-import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListener {
+class DrinkDetailsActivity : AppCompatActivity(), DrinkDetailsView {
 
     companion object {
-        const val DRINK_KEY = "drink_key"
+        private const val DRINK_KEY = "drink_key"
+
+        fun start(context: Context, drink: CoffeeDrink, vararg sharedElements: Pair<View, String>) {
+            val intent = Intent(context, DrinkDetailsActivity::class.java)
+            intent.putExtra(DRINK_KEY, drink)
+
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *sharedElements)
+
+            context.startActivity(intent, options.toBundle())
+        }
     }
 
     private lateinit var drink: CoffeeDrink
@@ -33,40 +48,29 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
 
         drink = intent.extras!!.getParcelable(DRINK_KEY) as CoffeeDrink
 
-        tvDrinkName.text = drink.drinkName
-        tvDrinkContents.text = drink.drinkContents
-        tvDrinkDescription.text = drink.drinkDescription
-        tvDrinkPrice.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
-        tvSubtotal.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
-
-        val drinkImage = "file:///android_asset/" + drink.drinkImage
-        val picasso = Picasso.with(this)
-        picasso.load(drinkImage).noFade().into(imgDrinkImage)
-
         quantity = 1
 
-        imgMinusQty.setOnClickListener(this)
-        imgAddQty.setOnClickListener(this)
-        btnAddToCart.setOnClickListener(this)
-        cbChocolate.setOnClickListener(this)
-        cbCinnamon.setOnClickListener(this)
-        cbMarshmallow.setOnClickListener(this)
+        tvDrinkNameDetail.text = drink.drinkName
+        tvDrinkContentsDetail.text = drink.drinkContents
+        tvDrinkDescriptionDetail.text = drink.drinkDescription
+        tvDrinkPriceDetail.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
+        tvSubtotalDetail.text = resources.getString(R.string.price_listing, drink.drinkPrice.toInt())
+        tvQuantityDetail.text = quantity.toString()
+        val drinkImage = "file:///android_asset/" + drink.drinkImage
+        Picasso.get().load(drinkImage).noFade().into(imgDrinkImageDetail)
+
+        imgBackDetail.setOnClickListener { finish() }
+        imgMinusQtyDetail.setOnClickListener { minusQty() }
+        imgAddQtyDetail.setOnClickListener { addQty() }
+        btnAddToCart.setOnClickListener { addToCart() }
+        cbChocolateDetail.setOnClickListener { updateSubtotal() }
+        cbCinnamonDetail.setOnClickListener { updateSubtotal() }
+        cbMarshmallowDetail.setOnClickListener { updateSubtotal() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.cancel()
-    }
-
-    override fun onClick(view: View) {
-        when (view) {
-            imgMinusQty -> minusQty()
-            imgAddQty -> addQty()
-            btnAddToCart -> addToCart()
-            cbCinnamon -> updateSubtotal()
-            cbChocolate -> updateSubtotal()
-            cbMarshmallow -> updateSubtotal()
-        }
     }
 
     override fun displayMessage(message: String?) {
@@ -81,9 +85,9 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
         val itemRm = CartItem(0,
                 drink.drinkName,
                 quantity,
-                cbCinnamon.isChecked,
-                cbChocolate.isChecked,
-                cbMarshmallow.isChecked,
+                cbCinnamonDetail.isChecked,
+                cbChocolateDetail.isChecked,
+                cbMarshmallowDetail.isChecked,
                 updateSubtotal()
         )
 
@@ -91,32 +95,23 @@ class DrinkDetailsActivity : BaseActivity(), DrinkDetailsView, View.OnClickListe
     }
 
     private fun minusQty() {
-        if (quantity > 1) {
-            quantity -= 1
-        }
-        tvQuantity.text = quantity.toString()
+        if (quantity == 1) return
+
+        quantity -= 1
         updateSubtotal()
+        tvQuantityDetail.text = quantity.toString()
     }
 
     private fun addQty() {
         quantity += 1
-        tvQuantity.text = quantity.toString()
         updateSubtotal()
+        tvQuantityDetail.text = quantity.toString()
     }
 
     private fun updateSubtotal(): Int {
-        var base = Integer.parseInt(drink.drinkPrice)
-        base *= quantity
-        if (cbCinnamon.isChecked) {
-            base += quantity * 100
-        }
-        if (cbChocolate.isChecked) {
-            base += quantity * 100
-        }
-        if (cbMarshmallow.isChecked) {
-            base += quantity * 100
-        }
-        tvSubtotal.text = resources.getString(R.string.price_listing, base)
-        return base
+        val total = DrinksProvider.calculateTotal(drink, quantity, cbCinnamonDetail.isChecked, cbChocolateDetail.isChecked, cbMarshmallowDetail.isChecked)
+        tvSubtotalDetail.text = resources.getString(R.string.price_listing, total)
+        return total
     }
+
 }
