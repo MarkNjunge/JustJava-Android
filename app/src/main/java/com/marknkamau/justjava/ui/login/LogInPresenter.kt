@@ -22,7 +22,7 @@ internal class LogInPresenter(private val view: LogInView,
     }
 
     fun signIn(email: String, password: String) {
-        view.showDialog()
+        view.showLoading()
         uiScope.launch {
             try {
                 val uid = auth.signIn(email, password)
@@ -41,7 +41,7 @@ internal class LogInPresenter(private val view: LogInView,
                 val userDetails = userService.getUserDetails(id)
 
                 preferences.saveUserDetails(userDetails)
-                view.dismissDialog()
+                view.dismissLoading()
                 view.displayMessage("Sign in successful")
                 view.finishSignIn()
             } catch (e: Exception) {

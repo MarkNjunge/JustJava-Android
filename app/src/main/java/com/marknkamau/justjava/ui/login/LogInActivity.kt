@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.signup.SignUpActivity
+import com.marknkamau.justjava.utils.hideKeyboard
+import com.marknkamau.justjava.utils.onTextChanged
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_log_in.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 
-class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
+class LogInActivity : AppCompatActivity(), LogInView {
     private lateinit var email: String
     private val presenter: LogInPresenter by inject { parametersOf(this) }
 
@@ -23,9 +25,19 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
 
         presenter.checkSignInStatus()
 
-        btnLogin.setOnClickListener(this)
-        tvForgotPass.setOnClickListener(this)
-        btnSignUp.setOnClickListener(this)
+        btnLoginLogin.setOnClickListener { signIn() }
+        tvForgotPassLogin.setOnClickListener { resetUserPassword() }
+        btnSignUpLogin.setOnClickListener {
+            startActivity(Intent(this@LogInActivity, SignUpActivity::class.java))
+            finish()
+        }
+
+        etEmailLogin.onTextChanged {
+            tilEmailLogin.error = null
+        }
+        etPasswordLogin.onTextChanged {
+            tilPasswordLogin.error = null
+        }
     }
 
     override fun onResume() {
@@ -38,50 +50,40 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
         presenter.cancel()
     }
 
-    override fun onClick(view: View) {
-        when (view) {
-            btnLogin -> signIn()
-            tvForgotPass -> resetUserPassword()
-            btnSignUp -> {
-                startActivity(Intent(this@LogInActivity, SignUpActivity::class.java))
-            }
-        }
-    }
-
     override fun closeActivity() {
         finish()
     }
 
     override fun signIn() {
         if (validateFields()) {
+            hideKeyboard()
             disableButtons()
-            presenter.signIn(etEmail.text.toString().trim { it <= ' ' }, etPassword.text.toString().trim { it <= ' ' })
+            presenter.signIn(etEmailLogin.trimmedText, etPasswordLogin.trimmedText)
         }
     }
 
     override fun resetUserPassword() {
-        disableButtons()
-        email = etEmail.trimmedText
+        email = etEmailLogin.trimmedText
 
         if (TextUtils.isEmpty(email)) {
-            etEmail.error = "Enter your email address"
-            enableButtons()
+            tilEmailLogin.error = "Enter your email address"
         } else {
+            disableButtons()
             presenter.resetUserPassword(email)
         }
     }
 
     override fun displayMessage(message: String?) {
         enableButtons()
-        dismissDialog()
+        dismissLoading()
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showDialog() {
+    override fun showLoading() {
         pbLoading.visibility = View.VISIBLE
     }
 
-    override fun dismissDialog() {
+    override fun dismissLoading() {
         pbLoading.visibility = View.GONE
     }
 
@@ -90,31 +92,30 @@ class LogInActivity : AppCompatActivity(), LogInView, View.OnClickListener {
     }
 
     private fun disableButtons() {
-        btnLogin.isEnabled = false
-        btnSignUp.isEnabled = false
-        tvForgotPass.isEnabled = false
+        btnLoginLogin.isEnabled = false
+        btnSignUpLogin.isEnabled = false
+        tvForgotPassLogin.isEnabled = false
     }
 
     private fun enableButtons() {
-        btnLogin.isEnabled = true
-        btnSignUp.isEnabled = true
-        tvForgotPass.isEnabled = true
+        btnLoginLogin.isEnabled = true
+        btnSignUpLogin.isEnabled = true
+        tvForgotPassLogin.isEnabled = true
     }
 
     private fun validateFields(): Boolean {
-        email = etEmail.trimmedText
-        val password = etPassword.trimmedText
+        var isValid = true
 
-        if (TextUtils.isEmpty(email)) {
-            etEmail.error = "Required"
-            return false
+        if (etEmailLogin.trimmedText.isEmpty()) {
+            tilEmailLogin.error = "Required"
+            isValid = false
         }
-        if (TextUtils.isEmpty(password)) {
-            etPassword.error = "Required"
-            return false
+        if (etPasswordLogin.trimmedText.isEmpty()) {
+            tilPasswordLogin.error = "Required"
+            isValid = false
         }
 
-        return true
+        return isValid
     }
 
 }

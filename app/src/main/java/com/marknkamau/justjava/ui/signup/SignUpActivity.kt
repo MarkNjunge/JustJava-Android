@@ -1,32 +1,38 @@
 package com.marknkamau.justjava.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.login.LogInActivity
+import com.marknkamau.justjava.utils.onTextChanged
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import java.util.regex.Pattern
 
-class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
-    private lateinit var name: String
-    private lateinit var phone: String
-    private lateinit var email: String
-    private lateinit var address: String
-    private lateinit var password: String
-
+class SignUpActivity : AppCompatActivity(), SignUpView {
     private val presenter: SignUpPresenter by inject { parametersOf(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        btnSignup.setOnClickListener(this)
-        tvLogin.setOnClickListener(this)
+        btnSignupSignUp.setOnClickListener { createUser() }
+        btnLoginSignUp.setOnClickListener {
+            startActivity(Intent(this@SignUpActivity, LogInActivity::class.java))
+            finish()
+        }
+
+        etEmailAddressSignUp.onTextChanged { tilEmailAddressSignUp.error = null }
+        etPasswordSignUp.onTextChanged { tilPasswordSignUp.error = null }
+        etNameSignUp.onTextChanged { tilNameSignUp.error = null }
+        etPhoneSignUp.onTextChanged { tilPhoneSignUp.error = null }
+        etDeliveryAddressSignUp.onTextChanged { tilDeliveryAddressSignUp.error = null }
     }
 
     override fun onDestroy() {
@@ -34,25 +40,16 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
         presenter.cancel()
     }
 
-    override fun onClick(view: View) {
-        when (view) {
-            btnSignup -> createUser()
-            tvLogin -> {
-                finish()
-            }
-        }
-    }
-
     override fun enableUserInteraction() {
-        btnSignup.setBackgroundResource(R.drawable.large_button)
-        btnSignup.isEnabled = true
-        pbLoading.visibility = View.GONE
+        btnSignupSignUp.isEnabled = true
+        btnLoginSignUp.isEnabled = true
+        pbLoadingSignUp.visibility = View.GONE
     }
 
     override fun disableUserInteraction() {
-        pbLoading.visibility = View.VISIBLE
-        btnSignup.setBackgroundResource(R.drawable.large_button_disabled)
-        btnSignup.isEnabled = false
+        btnSignupSignUp.isEnabled = false
+        btnLoginSignUp.isEnabled = false
+        pbLoadingSignUp.visibility = View.VISIBLE
     }
 
     override fun displayMessage(message: String) {
@@ -62,41 +59,51 @@ class SignUpActivity : AppCompatActivity(), SignUpView, View.OnClickListener {
     override fun finishActivity() = finish()
 
     private fun createUser() {
-        if (fieldsOk()) {
-            presenter.createUser(email, password, name, phone, address)
+        if (isValid()) {
+            presenter.createUser(etEmailAddressSignUp.trimmedText, etPasswordSignUp.trimmedText, etNameSignUp.trimmedText, etPhoneSignUp.trimmedText, etDeliveryAddressSignUp.trimmedText)
         }
     }
 
-    private fun fieldsOk(): Boolean {
-        email = etEmailAddress.trimmedText
-        password = etPassword.trimmedText
+    private fun isValid(): Boolean {
+        var isValid = true
 
-        name = etName.trimmedText
-        phone = etPhone.trimmedText
-        address = etDeliveryAddress.trimmedText
+        val justJavaEmailPattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
+        val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmailAddressSignUp.trimmedText)
 
-        val pattern1 = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
-        val matcher1 = pattern1.matcher(email)
+        if (etEmailAddressSignUp.trimmedText.isEmpty()) {
+            tilEmailAddressSignUp.error = getString(R.string.required)
+            isValid = false
+        } else if (justJavaEmailMatcher.matches()) {
+            tilEmailAddressSignUp.error = "Can not use @justjava.com"
+            isValid = false
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmailAddressSignUp.trimmedText).matches()) {
+            tilEmailAddressSignUp.error = "Incorrect email"
+            isValid = false
+        }
 
-        if (matcher1.matches()) {
-            etEmailAddress.error = "Can not use @justjava.com"
-            return false
+        if (etPasswordSignUp.trimmedText.isEmpty()) {
+            tilPasswordSignUp.error = getString(R.string.required)
+            isValid = false
+        } else if (etPasswordSignUp.trimmedText.length < 6) {
+            tilPasswordSignUp.error = "At least 6 characters"
+            isValid = false
         }
-        if (email.isEmpty() || password.isEmpty()
-                || name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
-            Toast.makeText(this, "All fields are required", Toast.LENGTH_SHORT).show()
-            return false
+
+        if (etNameSignUp.trimmedText.isEmpty()) {
+            tilNameSignUp.error = getString(R.string.required)
+            isValid = false
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show()
-            etEmailAddress.error = "Incorrect format"
-            return false
+
+        if (etPhoneSignUp.trimmedText.isEmpty()) {
+            tilPhoneSignUp.error = getString(R.string.required)
+            isValid = false
         }
-        if (password.length < 6) {
-            Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_LONG).show()
-            etPassword.error = "At least 6 characters"
-            return false
+
+        if (etDeliveryAddressSignUp.trimmedText.isEmpty()) {
+            tilDeliveryAddressSignUp.error = getString(R.string.required)
+            isValid = false
         }
-        return true
+
+        return isValid
     }
 }
