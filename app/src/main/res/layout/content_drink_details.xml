@@ -21,10 +21,9 @@
         style="@style/AppTheme.Text.14Accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tvDrinkNameDetail"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:text="Ksh. 100" />
 
     <TextView
