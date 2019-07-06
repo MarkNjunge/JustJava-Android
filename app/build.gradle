@@ -27,6 +27,7 @@ android {
         debug {
             ext.alwaysUpdateBuildId = false
             ext.enableCrashlytics = false
+            applicationIdSuffix ".debug"
         }
         release {
             minifyEnabled true
