@@ -3,7 +3,7 @@ package com.marknjunge.core.data.local
 import com.marknjunge.core.model.CoffeeDrink
 
 object DrinksProvider {
-    val drinksList: MutableList<CoffeeDrink> = mutableListOf(
+    val drinksList: List<CoffeeDrink> = listOf(
             CoffeeDrink("0", "Cappuccino", "Foam, milk and espresso.",
                     "A single, perfectly extracted shot of espresso is marbled with freshly steamed " + "milk to create this coffeehouse staple.",
                     "150", "cappuccino.jpg"),
@@ -28,7 +28,7 @@ object DrinksProvider {
             CoffeeDrink("7", "Cafe frappe", "Ice cream, espresso and whipped cream.",
                     "Rich espresso and Dutch Cocoa are pulled, then poured over ice cream for true " + "refreshment. Topped with whipped cream.",
                     "180", "cafe-frappe.jpg")
-    )
+    ).sortedBy { it.drinkName }
 
     fun calculateTotal(coffeeDrink: CoffeeDrink, quantity: Int, cinnamon: Boolean, chocolate: Boolean, marshmallow: Boolean): Int {
         var base = Integer.parseInt(coffeeDrink.drinkPrice)
