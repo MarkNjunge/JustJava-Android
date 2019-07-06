@@ -63,7 +63,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLoginLogin"
-            style="@style/AppTheme.PrimaryButton"
+            style="@style/AppTheme.Button.FilledAccent"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginLeft="32dp"
@@ -90,7 +90,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignUpLogin"
-            style="@style/AppTheme.SecondaryButton"
+            style="@style/AppTheme.Button.OutlinedAccent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"

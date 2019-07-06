@@ -44,7 +44,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmailAddressSignUp"
-            style="@style/AppTheme.InputField"
+            style="@style/AppTheme.InputField.OnDark"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -163,7 +163,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignupSignUp"
-            style="@style/AppTheme.PrimaryButton"
+            style="@style/AppTheme.Button.FilledAccent"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginStart="32dp"

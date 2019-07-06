@@ -52,7 +52,7 @@ class MainActivity : BaseActivity(), MainView {
         presenter.getCatalogItems()
     }
 
-    override fun displayCatalog(drinkList: MutableList<CoffeeDrink>) {
+    override fun displayCatalog(drinkList: List<CoffeeDrink>) {
         catalogAdapter.setItems(drinkList)
     }
 }

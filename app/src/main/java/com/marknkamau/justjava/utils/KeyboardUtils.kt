@@ -10,8 +10,3 @@ fun AppCompatActivity.hideKeyboard() {
         manager.hideSoftInputFromWindow(it.windowToken, 0)
     }
 }
-
-fun AppCompatActivity.showKeyboard() {
-    val manager = this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-}

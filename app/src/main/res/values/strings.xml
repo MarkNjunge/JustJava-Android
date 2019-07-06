@@ -2,22 +2,14 @@
     <string name="app_name">JustJava</string>
     <string name="add_to_cart">Add to cart</string>
     <string name="about">About</string>
-    <string name="additional_comments_optional">Additional comments (optional)</string>
-    <string name="already_have_an_account">Already have an account?</string>
 
-    <string name="contents_of_the_drink">Contents of the drink</string>
     <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 50)</string>
     <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 50)</string>
     <string name="clear_cart">Clear cart</string>
-    <string name="cinnamon">Cinnamon</string>
     <string name="create_an_account">Create an account</string>
-    <string name="chocolate">Chocolate</string>
-    <string name="check_your_internet_connection">Check your internet connection</string>
     <string name="cart">Cart</string>
-    <string name="cash_on_delivery">Cash on delivery</string>
 
     <string name="drink_name">Drink name</string>
-    <string name="description_of_the_drink">Description of the drink.</string>
     <string name="default_address">Default address</string>
     <string name="delivery_address">Delivery Address</string>
     <string name="developer">Developer</string>
@@ -34,23 +26,16 @@
     <string name="log_in">Log in</string>
 
     <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 50)</string>
-    <string name="mark_kamau_outlook_com">mark.kamau@outlook.com</string>
-    <string name="m_pesa">M-Pesa</string>
 
     <string name="name">Name</string>
 
     <string name="price_listing">Ksh. %d</string>
-    <string name="proceed_to_checkout">Proceed to checkout</string>
     <string name="profile">Profile</string>
     <string name="place_order">Place order</string>
     <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
     <string name="previous_orders">Previous orders</string>
-    <string name="payment">Payment</string>
 
-    <string name="quantity_listing">Quantity: %d</string>
-
-    <string name="repeat_password">Repeat Password</string>
     <string name="required">Required</string>
 
     <string name="sign_up">Sign up</string>
@@ -59,38 +44,24 @@
     <string name="toppings">Toppings</string>
     <string name="total">Total</string>
     <string name="there_are_no_items_in_your_cart">There are no items in your cart.</string>
-    <string name="timestamp">Timestamp</string>
-
-    <string name="status">Status</string>
 
     <string name="update_profile">Update Profile</string>
 
     <string name="you_do_not_have_any_previous_orders">You do not have any previous orders</string>
 
-
-    <!--Because "Render problem caused by TextInputLayout-->
-    <item name="visible" type="id" />
-    <item name="masked" type="id" />
-
-    <!--Notifications-->
     <string name="drink_image_content_desc">Drink Image</string>
-    <string name="visibility_icon_content_desc">Visibility icon</string>
     <string name="app_icon_content_desc">App icon</string>
     <string name="minus_quantity_button_content_desc">Minus quantity button</string>
     <string name="add_quantity_button_content_desc">Add quantity button</string>
-    <string name="customer_details">Customer details</string>
     <string name="payment_method">Payment method</string>
     <string name="payment_status">Payment status</string>
     <string name="pay_now">Pay now</string>
     <string name="order_items">Order items</string>
-    <string name="delete_from_cart_content_desc">Delete item from cart</string>
-    <string name="save_cart_update_content_desc">Save cart update</string>
     <string name="order_id">Order ID</string>
     <string name="order_status">Order status</string>
     <string name="order_date">Order date</string>
     <string name="additional_comments">Additional comments</string>
     <string name="total_price">Total price</string>
-    <string name="profile_details">Profile details</string>
     <string name="back_button">Back button</string>
     <string name="quantity">Quantity</string>
     <string name="change_payment_method">Change</string>
@@ -106,10 +77,13 @@
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="account_details">Account details</string>
     <string name="item_for">item for</string>
-    <string name="see_more">See more...</string>
+    <string name="see_more">See more…</string>
     <string name="payment_details">Payment Details</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="developer_name">Mark Njung\'e</string>
+    <string name="developer_contact">contact@marknjunge.com</string>
+    <string name="paid">Paid</string>
 
     <plurals name="order_info">
         <item quantity="one">item for</item>
