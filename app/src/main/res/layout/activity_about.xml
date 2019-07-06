@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:contentDescription="@string/back_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_arrow_back" />
@@ -93,7 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Mark Njung'e"
+        android:text="@string/developer_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
@@ -103,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="contact@marknjunge.com"
+        android:text="@string/developer_contact"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 

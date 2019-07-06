@@ -1,21 +1,21 @@
 package com.marknkamau.justjava.ui.viewOrder
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
-import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
+import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.formatForApp
@@ -46,6 +46,7 @@ class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
     private val presenter: ViewOrderPresenter by inject { parametersOf(this) }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_order)
@@ -93,7 +94,7 @@ class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
                     if (order.orderId == orderId) {
                         Timber.d("The current order has been paid for!")
                         btnPayOrder.visibility = View.GONE
-                        tvPaymentStatusOrder .text = "Paid"
+                        tvPaymentStatusOrder .text = getString(R.string.paid)
                         displayMessage("Payment received!")
                     }
                 }

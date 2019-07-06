@@ -4,7 +4,6 @@ import com.marknkamau.justjava.data.local.CartDao
 import com.marknkamau.justjava.data.models.CartItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers

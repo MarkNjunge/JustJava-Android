@@ -24,6 +24,7 @@
             android:layout_width="172dp"
             android:layout_height="172dp"
             android:layout_gravity="center"
+            android:contentDescription="@null"
             app:srcCompat="@drawable/il_empty_cart" />
 
         <TextView
@@ -46,7 +47,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context="com.marknkamau.justjava.ui.cart.CartActivity">
 
@@ -64,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:itemCount="2"
-                tools:listitem="@layout/item_cart" />
+                tools:listitem="@layout/item_order_item" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnClearCart"

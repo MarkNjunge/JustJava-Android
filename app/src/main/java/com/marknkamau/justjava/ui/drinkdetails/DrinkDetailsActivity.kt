@@ -1,13 +1,9 @@
 package com.marknkamau.justjava.ui.drinkdetails
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
