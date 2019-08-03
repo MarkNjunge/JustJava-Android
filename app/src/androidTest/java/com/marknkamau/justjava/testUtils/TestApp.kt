@@ -37,7 +37,6 @@ class TestApp : JustJavaApp() {
         single { Room.inMemoryDatabaseBuilder(context, CartDatabase::class.java).build() }
         single { get<CartDatabase>().cartDao() }
         single { mockNotificationHelper }
-        single(named("Main")) { Dispatchers.Unconfined }
     }
 
     private val mockAuthModule = module {
