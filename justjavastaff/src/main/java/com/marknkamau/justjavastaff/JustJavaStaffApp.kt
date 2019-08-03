@@ -37,7 +37,7 @@ class JustJavaStaffApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaStaffApp)
-            modules(appModule, databaseModule, authModule)
+            modules(listOf(appModule, databaseModule, authModule))
         }
     }
 }
