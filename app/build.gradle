@@ -5,16 +5,17 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion androidConfig.compileSdk
     defaultConfig {
         applicationId "com.marknkamau.justjava"
-        minSdkVersion androidConfig.minSdk
-        targetSdkVersion androidConfig.targetSdk
+
         versionCode 10
         versionName "1.7.0"
+
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         android.applicationVariants.all { variant ->
             variant.outputs.all {
                 def date = new Date()
@@ -34,10 +35,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // Required for @Parcelize
-    androidExtensions {
-        experimental = true
-    }
 }
 
 dependencies {
@@ -46,32 +43,32 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //Android libraries
-    implementation deps.material
-    implementation deps.cardview
-    implementation deps.appcompat
-    implementation deps.recycerview
-    implementation deps.constraintLayout
+    implementation Dependencies.material
+    implementation Dependencies.cardview
+    implementation Dependencies.appcompat
+    implementation Dependencies.recycerview
+    implementation Dependencies.constraintLayout
 
-    //Firebase libraries
-    implementation deps.firebaseMessaging
+    // Firebase libraries
+    implementation Dependencies.firebaseMessaging
 
     // Room
-    implementation deps.roomRuntime
-    implementation deps.roomKotlin
-    kapt deps.roomCompiler
+    implementation Dependencies.roomRuntime
+    implementation Dependencies.roomKotlin
+    kapt Dependencies.roomCompiler
 
     // Other libraries
-    implementation deps.picasso
-    implementation deps.timber
-    implementation deps.crashlytics
+    implementation Dependencies.picasso
+    implementation Dependencies.timber
+    implementation Dependencies.crashlytics
 
     // Test libraries
-    testImplementation deps.junit
-    testImplementation deps.mockk
-    androidTestImplementation deps.testRunner
-    androidTestImplementation deps.testRules
-    androidTestImplementation deps.espressoCore
-    androidTestImplementation deps.espressoContrib
+    testImplementation Dependencies.junit
+    testImplementation Dependencies.mockk
+    androidTestImplementation Dependencies.testRunner
+    androidTestImplementation Dependencies.testRules
+    androidTestImplementation Dependencies.espressoCore
+    androidTestImplementation Dependencies.espressoContrib
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -9,16 +9,8 @@ def keys = new Properties()
 keys.load(new FileInputStream(keysPropertiesFile))
 
 android {
-    compileSdkVersion androidConfig.compileSdk
 
     defaultConfig {
-        minSdkVersion androidConfig.minSdk
-        targetSdkVersion androidConfig.targetSdk
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
         // Function credentials
         buildConfigField("String", "FunctionsApiKey", keys['API_KEY'])
     }
@@ -29,39 +21,34 @@ android {
             consumerProguardFiles 'proguard-rules.pro'
         }
     }
-
-    // Required for @Parcelize
-    androidExtensions {
-        experimental = true
-    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    api deps.kotlinStdlib
-    api deps.coroutines
-    api deps.coroutinesAndroid
-    api deps.corouinesPlayServices
+    api Dependencies.kotlinStdlib
+    api Dependencies.coroutines
+    api Dependencies.coroutinesAndroid
+    api Dependencies.corouinesPlayServices
 
-    implementation deps.appcompat
+    implementation Dependencies.appcompat
 
     // Firebase
-    api deps.firebaseCore
-    api deps.firebaseAuth
-    api deps.firebaseFirestore
+    api Dependencies.firebaseCore
+    api Dependencies.firebaseAuth
+    api Dependencies.firebaseFirestore
 
     // REST
-    implementation deps.retrofit
-    implementation deps.retrofitGson
-    implementation deps.okhttpLogging
-    implementation deps.retrofitCoroutinesAdapter
+    implementation Dependencies.retrofit
+    implementation Dependencies.retrofitGson
+    implementation Dependencies.okhttpLogging
+    implementation Dependencies.retrofitCoroutinesAdapter
 
     // Other
-    implementation deps.gson
-    api deps.koin
+    implementation Dependencies.gson
+    api Dependencies.koin
 
-    testImplementation deps.junit
-    androidTestImplementation deps.testRunner
-    androidTestImplementation deps.espressoCore
+    testImplementation Dependencies.junit
+    androidTestImplementation Dependencies.testRunner
+    androidTestImplementation Dependencies.espressoCore
 }

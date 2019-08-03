@@ -1,7 +1,5 @@
 buildscript {
 
-    apply from: 'dependencies.gradle'
-
     repositories {
         google()
         jcenter()
@@ -15,10 +13,10 @@ buildscript {
 
     }
     dependencies {
-        classpath deps.androidGradlePlugin
-        classpath deps.googleServices
-        classpath deps.kotlinGradlePlugin
-        classpath deps.fabric
+        classpath Dependencies.androidGradlePlugin
+        classpath Dependencies.googleServices
+        classpath Dependencies.kotlinGradlePlugin
+        classpath Dependencies.fabric
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -41,4 +39,24 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty('android')) {
+            android {
+                compileSdkVersion AndroidConfig.compiledSdk
+
+                defaultConfig {
+                    minSdkVersion AndroidConfig.minSdk
+                    targetSdkVersion AndroidConfig.targetSdk
+                }
+
+                // Required for @Parcelize
+                androidExtensions {
+                    experimental = true
+                }
+            }
+        }
+    }
 }
