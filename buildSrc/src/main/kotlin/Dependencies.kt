@@ -25,13 +25,13 @@ object Versions {
     val testRunner = "1.3.0-alpha01"
     val espresso = "3.3.0-alpha01"
     val testRules = "1.3.0-alpha01"
-    val koin = "2.0.0-rc-1"
+    val koin = "2.0.1"
     val firebaseCore = "17.0.0"
     val firebaseAuth = "18.0.0"
     val firebaseFirestore = "20.1.0"
     val firebaseMessaging = "19.0.1"
     val firebaseDatabase = "18.0.0"
-    val mockk = "1.9.3"
+    val mockk = "1.9.2"
 }
 
 object Dependencies {
@@ -79,9 +79,10 @@ object Dependencies {
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     val koin = "org.koin:koin-android:${Versions.koin}"
 
+    val mockk = "io.mockk:mockk:${Versions.mockk}"
+    val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"
 
     val junit = "junit:junit:${Versions.junit}"
-    val mockk = "io.mockk:mockk:${Versions.mockk}"
     val testRunner = "androidx.test:runner:${Versions.testRunner}"
     val testRules = "androidx.test:rules:${Versions.testRules}"
     val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"

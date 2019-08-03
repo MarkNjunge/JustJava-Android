@@ -20,7 +20,7 @@ import org.koin.core.context.startKoin
 import java.lang.Exception
 
 @Suppress("unused")
-class JustJavaApp : Application() {
+open class JustJavaApp : Application() {
     private val authService: AuthService by inject()
     private val userService: UserService by inject()
 
@@ -45,7 +45,7 @@ class JustJavaApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaApp)
-            modules(appModule, databaseModule, mpesaModule, authModule)
+            modules(listOf(appModule, databaseModule, mpesaModule, authModule))
         }
 
         if (authService.isSignedIn()) {

@@ -16,11 +16,20 @@ import kotlin.random.Random
  * https://github.com/MarkNjunge
  */
 
-class NotificationHelper(private val context: Context) {
+interface NotificationHelper {
+    val defaultChannelId: String
+    val ordersChannelId: String
+    val paymentsChannelId: String
 
-    private val defaultChannelId = "defaultNotificationChannel"
-    private val ordersChannelId = "ordersNotificationChannel"
-    private val paymentsChannelId = "ordersNotificationChannel"
+    fun showCompletedOrderNotification()
+    fun showPaymentNotification(body: String)
+    fun showNotification(title: String, body: String, channelId: String = defaultChannelId)
+}
+
+class NotificationHelperImpl(private val context: Context) : NotificationHelper {
+    override val defaultChannelId = "defaultNotificationChannel"
+    override val ordersChannelId = "ordersNotificationChannel"
+    override val paymentsChannelId = "ordersNotificationChannel"
 
     private val notificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -45,15 +54,15 @@ class NotificationHelper(private val context: Context) {
         notificationManager.createNotificationChannel(channel)
     }
 
-    fun showCompletedOrderNotification() {
+    override fun showCompletedOrderNotification() {
         showNotification("Completed Order", "Your order has been completed.", ordersChannelId)
     }
 
-    fun showPaymentNotification(body: String) {
+    override fun showPaymentNotification(body: String) {
         showNotification("Order Payment", body, paymentsChannelId)
     }
 
-    fun showNotification(title: String, body: String, channelId: String = defaultChannelId) {
+    override fun showNotification(title: String, body: String, channelId: String) {
         val notification = NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_just_java_logo_black)
                 .setContentTitle(title)

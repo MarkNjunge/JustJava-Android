@@ -22,21 +22,25 @@ import com.marknkamau.justjava.ui.profile.ProfileView
 import com.marknkamau.justjava.ui.signup.SignUpPresenter
 import com.marknkamau.justjava.ui.signup.SignUpView
 import com.marknkamau.justjava.utils.NotificationHelper
+import com.marknkamau.justjava.utils.NotificationHelperImpl
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val appModule = module {
     single<PreferencesRepository> { PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) }
     single { Room.databaseBuilder(androidContext(), CartDatabase::class.java, "cart-db").build() }
     single { get<CartDatabase>().cartDao() }
-    single { NotificationHelper(androidContext()) }
-    factory { (view: LogInView) -> LogInPresenter(view, get(), get(), get(), Dispatchers.Main) }
-    factory { (view: SignUpView) -> SignUpPresenter(view, get(), get(), get(), Dispatchers.Main) }
-    factory { (view: MainView) -> MainPresenter(view, Dispatchers.Main) }
-    factory { (view: DrinkDetailsView) -> DrinkDetailsPresenter(view, get(), Dispatchers.Main) }
-    factory { (view: CartView) -> CartPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
-    factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
-    factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
-    factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), get(), Dispatchers.Main) }
+    single<NotificationHelper> { NotificationHelperImpl(androidContext()) }
+    single<CoroutineDispatcher>(named("Main")) { Dispatchers.Main }
+    factory { (view: LogInView) -> LogInPresenter(view, get(), get(), get(), get(named("Main"))) }
+    factory { (view: SignUpView) -> SignUpPresenter(view, get(), get(), get(), get(named("Main"))) }
+    factory { (view: MainView) -> MainPresenter(view, get(named("Main"))) }
+    factory { (view: DrinkDetailsView) -> DrinkDetailsPresenter(view, get(), get(named("Main"))) }
+    factory { (view: CartView) -> CartPresenter(view, get(), get(), get(), get(), get(named("Main"))) }
+    factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), get(), get(named("Main"))) }
+    factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), get(named("Main"))) }
+    factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), get(), get(named("Main"))) }
 }

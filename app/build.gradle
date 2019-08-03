@@ -14,7 +14,7 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
         android.applicationVariants.all { variant ->
             variant.outputs.all {
@@ -65,6 +65,8 @@ dependencies {
     // Test libraries
     testImplementation Dependencies.junit
     testImplementation Dependencies.mockk
+    androidTestImplementation Dependencies.mockk
+    androidTestImplementation Dependencies.mockAndroid
     androidTestImplementation Dependencies.testRunner
     androidTestImplementation Dependencies.testRules
     androidTestImplementation Dependencies.espressoCore
