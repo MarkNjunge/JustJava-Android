@@ -35,6 +35,9 @@ val appModule = module {
     single { get<CartDatabase>().cartDao() }
     single<NotificationHelper> { NotificationHelperImpl(androidContext()) }
     single<CoroutineDispatcher>(named("Main")) { Dispatchers.Main }
+}
+
+val presentersModule = module {
     factory { (view: LogInView) -> LogInPresenter(view, get(), get(), get(), get(named("Main"))) }
     factory { (view: SignUpView) -> SignUpPresenter(view, get(), get(), get(), get(named("Main"))) }
     factory { (view: MainView) -> MainPresenter(view, get(named("Main"))) }

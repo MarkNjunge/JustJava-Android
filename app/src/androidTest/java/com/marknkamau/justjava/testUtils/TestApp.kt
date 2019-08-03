@@ -4,6 +4,7 @@ import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.data.local.CartDatabase
+import com.marknkamau.justjava.di.presentersModule
 import com.marknkamau.justjava.testUtils.mocks.*
 import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.startKoin
@@ -27,7 +28,7 @@ class TestApp : JustJavaApp() {
     override fun onCreate() {
 
         startKoin {
-            modules(listOf(mockAppModule, mockAuthModule, mockDatabaseModule, mockMpesaModule))
+            modules(listOf(mockAppModule, presentersModule, mockAuthModule, mockDatabaseModule, mockMpesaModule))
         }
     }
 
@@ -39,11 +40,11 @@ class TestApp : JustJavaApp() {
         single(named("Main")) { Dispatchers.Unconfined }
     }
 
-    val mockAuthModule = module {
+    private val mockAuthModule = module {
         single { mockAuthService }
     }
 
-    val mockDatabaseModule = module {
+    private val mockDatabaseModule = module {
         single { mockUserService }
         single { mockOrderService }
         single { mockPaymentsService }

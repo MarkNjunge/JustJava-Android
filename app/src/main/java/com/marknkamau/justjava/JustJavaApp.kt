@@ -1,15 +1,15 @@
 package com.marknkamau.justjava
 
 import android.app.Application
-import com.marknjunge.core.auth.AuthService
-import timber.log.Timber
-import io.fabric.sdk.android.Fabric
 import com.crashlytics.android.Crashlytics
+import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 import com.marknjunge.core.di.mpesaModule
 import com.marknkamau.justjava.di.appModule
+import com.marknkamau.justjava.di.presentersModule
+import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import java.lang.Exception
+import timber.log.Timber
 
 @Suppress("unused")
 open class JustJavaApp : Application() {
@@ -45,7 +45,7 @@ open class JustJavaApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaApp)
-            modules(listOf(appModule, databaseModule, mpesaModule, authModule))
+            modules(listOf(appModule, presentersModule,databaseModule, mpesaModule, authModule))
         }
 
         if (authService.isSignedIn()) {

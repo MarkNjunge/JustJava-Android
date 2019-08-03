@@ -32,6 +32,7 @@ object Versions {
     val firebaseMessaging = "19.0.1"
     val firebaseDatabase = "18.0.0"
     val mockk = "1.9.2"
+    val androidXTestCore = "1.0.0"
 }
 
 object Dependencies {
@@ -83,8 +84,10 @@ object Dependencies {
     val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"
 
     val junit = "junit:junit:${Versions.junit}"
+    val androidXTestCore = "androidx.test:core:${Versions.androidXTestCore}"
     val testRunner = "androidx.test:runner:${Versions.testRunner}"
     val testRules = "androidx.test:rules:${Versions.testRules}"
     val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    val espressoIntents = "androidx.test.espresso:espresso-intents:${Versions.espresso}"
     val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
 }
