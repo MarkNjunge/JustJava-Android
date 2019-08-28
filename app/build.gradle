@@ -70,7 +70,9 @@ dependencies {
     androidTestImplementation Dependencies.testRunner
     androidTestImplementation Dependencies.testRules
     androidTestImplementation Dependencies.espressoCore
+    androidTestImplementation Dependencies.espressoIntents
     androidTestImplementation Dependencies.espressoContrib
+    androidTestImplementation Dependencies.androidXTestCore
 }
 
 apply plugin: 'com.google.gms.google-services'
