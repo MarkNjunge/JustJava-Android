@@ -6,7 +6,7 @@ import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
-import com.marknjunge.core.di.mpesaModule
+import com.marknjunge.core.di.paymentsModule
 import com.marknkamau.justjava.di.appModule
 import com.marknkamau.justjava.di.presentersModule
 import io.fabric.sdk.android.Fabric
@@ -45,7 +45,7 @@ open class JustJavaApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaApp)
-            modules(listOf(appModule, presentersModule,databaseModule, mpesaModule, authModule))
+            modules(listOf(appModule, presentersModule,databaseModule, paymentsModule, authModule))
         }
 
         if (authService.isSignedIn()) {

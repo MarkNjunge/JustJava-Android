@@ -10,7 +10,5 @@ data class LnmoRequest(
         @SerializedName("customerId")
         val customerId: String,
         @SerializedName("orderId")
-        val orderId: String,
-        @SerializedName("fcmToken")
-        val fcmToken: String
+        val orderId: String
 )

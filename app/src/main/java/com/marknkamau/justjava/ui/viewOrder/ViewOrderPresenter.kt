@@ -1,12 +1,11 @@
 package com.marknkamau.justjava.ui.viewOrder
 
-import com.google.firebase.iid.FirebaseInstanceId
-import com.marknjunge.core.mpesa.MpesaInteractor
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.OrderService
+import com.marknjunge.core.payments.PaymentsRepository
 import com.marknkamau.justjava.ui.BasePresenter
-import kotlinx.coroutines.*
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
@@ -17,7 +16,7 @@ import timber.log.Timber
 
 class ViewOrderPresenter(private val view: ViewOrderView,
                          private val orderService: OrderService,
-                         private val mpesaInteractor: MpesaInteractor,
+                         private val paymentsRepository: PaymentsRepository,
                          private val authService: AuthService,
                          mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
@@ -51,9 +50,7 @@ class ViewOrderPresenter(private val view: ViewOrderView,
     fun makeMpesaPayment(total: Int, phoneNumber: String, orderId: String) {
         uiScope.launch {
             try {
-                val fcmToken = FirebaseInstanceId.getInstance().instanceId.await().token
-
-                mpesaInteractor.makeLnmoRequest(total, phoneNumber, authService.getCurrentUser().userId, orderId, fcmToken)
+                paymentsRepository.makeLnmoRequest(total, phoneNumber, authService.getCurrentUser().userId, orderId)
                 view.displayMessage("Success!")
             } catch (e: Exception) {
                 Timber.e(e)

@@ -4,8 +4,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknjunge.core.data.firebase.*
-import com.marknjunge.core.mpesa.MpesaInteractor
-import com.marknjunge.core.mpesa.MpesaInteractorImpl
+import com.marknjunge.core.payments.PaymentsRepository
+import com.marknjunge.core.payments.PaymentsRepositoryImpl
 import org.koin.dsl.module
 
 val authModule = module {
@@ -20,6 +20,6 @@ val databaseModule = module {
     single<PaymentService> { PaymentServiceImpl(firestore) }
 }
 
-val mpesaModule = module {
-    single<MpesaInteractor> { MpesaInteractorImpl() }
+val paymentsModule = module {
+    single<PaymentsRepository> { PaymentsRepositoryImpl() }
 }

@@ -1,4 +1,4 @@
-package com.marknjunge.core.mpesa
+package com.marknjunge.core.payments
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
@@ -7,18 +7,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 internal class NetworkProvider {
-    private val apiUrl = "https://us-central1-justjava-android.cloudfunctions.net/mpesa/"
+    private val apiUrl = "https://us-central1-justjava-android.cloudfunctions.net/payments/"
 
-    val mpesaService: MpesaService
+    val paymentsService: PaymentsService
 
     init {
-        val retrofit = provideRetrofit(apiUrl)
-        mpesaService = retrofit.create<MpesaService>(MpesaService::class.java)
+        val retrofit = provideRetrofit()
+        paymentsService = retrofit.create(PaymentsService::class.java)
     }
 
-    private fun provideRetrofit(url: String): Retrofit {
+    private fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(apiUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(provideLoggingCapableHttpClient())
