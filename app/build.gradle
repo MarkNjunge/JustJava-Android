@@ -16,13 +16,6 @@ android {
 
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
-        android.applicationVariants.all { variant ->
-            variant.outputs.all {
-                def date = new Date()
-                def formattedDate = date.format('YYYYMMddHHmm')
-                outputFileName = "justjava-${variant.name}-${formattedDate}.apk"
-            }
-        }
     }
     buildTypes {
         debug {
