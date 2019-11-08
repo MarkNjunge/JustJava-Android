@@ -1,0 +1,35 @@
+File: justjava-debug.jks
+Password: justjava-debug
+
+keytool -list -v -keystore justjava-debug -alias key0 -storepass justjava-debug -keypass justjava-debug
+
+======================================
+========== KEYSTORE DETAILS ==========
+======================================
+
+Alias name: key0
+Creation date: Nov 8, 2019
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=JustJava, OU=JustJava, O=JustJava, L=Nairobi, ST=Nairobi, C=KE
+Issuer: CN=JustJava, OU=JustJava, O=JustJava, L=Nairobi, ST=Nairobi, C=KE
+Serial number: 69f77420
+Valid from: Fri Nov 08 18:06:04 EAT 2019 until: Tue Nov 01 18:06:04 EAT 2044
+Certificate fingerprints:
+         MD5:  21:7D:CE:3B:96:5C:E0:53:FF:6F:6B:5D:90:C9:7F:DF
+         SHA1: 38:A2:0A:A1:73:79:57:70:00:A9:F7:55:26:35:23:B3:3E:43:1E:BA
+         SHA256: 39:0F:CC:5E:AF:AF:76:C2:47:08:3F:16:1C:54:89:FA:89:90:98:2F:D3:61:F2:89:44:85:E6:36:61:64:DF:39
+Signature algorithm name: SHA256withRSA
+Subject Public Key Algorithm: 2048-bit RSA key
+Version: 3
+
+Extensions:
+
+#1: ObjectId: 2.5.29.14 Criticality=false
+SubjectKeyIdentifier [
+KeyIdentifier [
+0000: CF AC 55 AC F7 CF 5D E7   E9 40 6C EE AE E5 AA BB  ..U...]..@l.....
+0010: 7E 8E 26 F1                                        ..&.
+]
+]
