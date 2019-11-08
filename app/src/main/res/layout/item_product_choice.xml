@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvChoiceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        style="@style/AppTheme.Text.14PrimaryBold"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/colorTextPrimary"
+        android:textStyle="bold"
+        tools:text="@string/toppings" />
+
+    <TextView
+        android:id="@+id/tvChoiceRequired"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/required"
+        style="@style/AppTheme.Text.12Secondary"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChoiceOptions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_product_choice_option" />
+</LinearLayout>

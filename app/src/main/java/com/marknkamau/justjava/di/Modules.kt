@@ -7,12 +7,9 @@ import com.marknkamau.justjava.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.local.PreferencesRepositoryImpl
 import com.marknkamau.justjava.ui.cart.CartPresenter
 import com.marknkamau.justjava.ui.cart.CartView
-import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsPresenter
-import com.marknkamau.justjava.ui.drinkdetails.DrinkDetailsView
 import com.marknkamau.justjava.ui.login.LogInPresenter
 import com.marknkamau.justjava.ui.login.LogInView
-import com.marknkamau.justjava.ui.main.MainPresenter
-import com.marknkamau.justjava.ui.main.MainView
+import com.marknkamau.justjava.ui.main.MainViewModel
 import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersPresenter
 import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersView
 import com.marknkamau.justjava.ui.profile.ProfilePresenter
@@ -25,10 +22,17 @@ import com.marknkamau.justjava.utils.NotificationHelper
 import com.marknkamau.justjava.utils.NotificationHelperImpl
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    single<PreferencesRepository> { PreferencesRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) }
+    single<PreferencesRepository> {
+        PreferencesRepositoryImpl(
+            PreferenceManager.getDefaultSharedPreferences(
+                androidContext()
+            )
+        )
+    }
     single { Room.databaseBuilder(androidContext(), CartDatabase::class.java, "cart-db").build() }
     single { get<CartDatabase>().cartDao() }
     single<NotificationHelper> { NotificationHelperImpl(androidContext()) }
@@ -37,10 +41,12 @@ val appModule = module {
 val presentersModule = module {
     factory { (view: LogInView) -> LogInPresenter(view, get(), get(), get(), Dispatchers.Main) }
     factory { (view: SignUpView) -> SignUpPresenter(view, get(), get(), get(), Dispatchers.Main) }
-    factory { (view: MainView) -> MainPresenter(view, Dispatchers.Main) }
-    factory { (view: DrinkDetailsView) -> DrinkDetailsPresenter(view, get(), Dispatchers.Main) }
     factory { (view: CartView) -> CartPresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
     factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), get(), Dispatchers.Main) }
     factory { (view: ProfileView) -> ProfilePresenter(view, get(), get(), get(), get(), Dispatchers.Main) }
     factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), get(), Dispatchers.Main) }
+}
+
+val viewModelModule = module {
+    viewModel { MainViewModel(get()) }
 }

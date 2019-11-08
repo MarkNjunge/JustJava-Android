@@ -4,6 +4,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.auth.AuthServiceImpl
 import com.marknjunge.core.data.firebase.*
+import com.marknjunge.core.data.repository.ApiProductsRepository
+import com.marknjunge.core.data.repository.ProductsRepository
+import com.marknjunge.core.data.api.NetworkProvider
 import com.marknjunge.core.payments.PaymentsRepository
 import com.marknjunge.core.payments.PaymentsRepositoryImpl
 import org.koin.dsl.module
@@ -22,4 +25,10 @@ val databaseModule = module {
 
 val paymentsModule = module {
     single<PaymentsRepository> { PaymentsRepositoryImpl() }
+}
+
+val repositoriesModule = module {
+    val networkProvider = NetworkProvider()
+
+    single<ProductsRepository> { ApiProductsRepository(networkProvider.apiService) }
 }

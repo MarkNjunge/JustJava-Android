@@ -10,7 +10,7 @@ object Versions {
     val material = "1.0.0"
     val cardview = "1.0.0"
     val legacySupport = "1.0.0"
-    val appCompat = "1.0.2"
+    val appCompat = "1.1.0"
     val recyclerview = "1.1.0-alpha06"
     val retrofit = "2.6.0"
     val retrofitCoroutinesAdapter = "0.9.2"
@@ -21,7 +21,7 @@ object Versions {
     val constraintLayout = "2.0.0-beta2"
     val picasso = "2.71828"
     val crashlytics = "2.10.1"
-    val junit = "4.13-beta-3"
+    val junit = "4.12"
     val testRunner = "1.3.0-alpha01"
     val espresso = "3.3.0-alpha01"
     val testRules = "1.3.0-alpha01"
@@ -33,6 +33,10 @@ object Versions {
     val firebaseDatabase = "18.0.0"
     val mockk = "1.9.2"
     val androidXTestCore = "1.0.0"
+
+    const val viewModelKtx = "2.1.0"
+    const val shimmer = "0.5.0"
+    const val archCoreTesting = "2.1.0"
 }
 
 object Dependencies {
@@ -46,7 +50,9 @@ object Dependencies {
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     val corouinesPlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutines}"
+    val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
 
+    const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
 
     val material = "com.google.android.material:material:${Versions.material}"
     val cardview = "androidx.cardview:cardview:${Versions.cardview}"
@@ -79,12 +85,15 @@ object Dependencies {
     val gson = "com.google.code.gson:gson:${Versions.gson}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     val koin = "org.koin:koin-android:${Versions.koin}"
+    val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
+    val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmer}"
 
     val mockk = "io.mockk:mockk:${Versions.mockk}"
     val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"
 
     val junit = "junit:junit:${Versions.junit}"
     val androidXTestCore = "androidx.test:core:${Versions.androidXTestCore}"
+    val archCoreTesting = "androidx.arch.core:core-testing:${Versions.archCoreTesting}"
     val testRunner = "androidx.test:runner:${Versions.testRunner}"
     val testRules = "androidx.test:rules:${Versions.testRules}"
     val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"

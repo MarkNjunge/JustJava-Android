@@ -7,8 +7,10 @@ import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 import com.marknjunge.core.di.paymentsModule
+import com.marknjunge.core.di.repositoriesModule
 import com.marknkamau.justjava.di.appModule
 import com.marknkamau.justjava.di.presentersModule
+import com.marknkamau.justjava.di.viewModelModule
 import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +35,8 @@ open class JustJavaApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String {
-                    return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
+                    return "Timber"
+//                    return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
                 }
             })
         } else {
@@ -45,7 +48,7 @@ open class JustJavaApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaApp)
-            modules(listOf(appModule, presentersModule,databaseModule, paymentsModule, authModule))
+            modules(listOf(appModule, presentersModule,databaseModule, paymentsModule, authModule, repositoriesModule, viewModelModule))
         }
 
         if (authService.isSignedIn()) {

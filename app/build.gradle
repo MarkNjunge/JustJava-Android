@@ -45,19 +45,29 @@ dependencies {
     // Firebase libraries
     implementation Dependencies.firebaseMessaging
 
+    // ViewModel
+    implementation Dependencies.viewModelKtx
+
     // Room
     implementation Dependencies.roomRuntime
     implementation Dependencies.roomKotlin
     kapt Dependencies.roomCompiler
 
+    // DI
+    implementation Dependencies.koin
+    implementation Dependencies.koinViewModel
+
     // Other libraries
     implementation Dependencies.picasso
     implementation Dependencies.timber
     implementation Dependencies.crashlytics
+    implementation Dependencies.shimmer
 
     // Test libraries
     testImplementation Dependencies.junit
     testImplementation Dependencies.mockk
+    testImplementation Dependencies.coroutinesTest
+    testImplementation Dependencies.archCoreTesting
     androidTestImplementation Dependencies.mockk
     androidTestImplementation Dependencies.mockAndroid
     androidTestImplementation Dependencies.testRunner
