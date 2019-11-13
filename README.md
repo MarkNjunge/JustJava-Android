@@ -4,18 +4,15 @@
 		alt="Logo"
 		src="/images/just_java_logo.png">
 </p>
-<h1 align="center">
-	JustJava
-</h1>
-<p align="center">
-A sample food delivery application for a coffee shop.
-</p>
 
-## Status
-
+# JustJava
 [![Build Status](https://app.bitrise.io/app/c373b1aa540acc1c/status.svg?token=u-KpJIBnS_0TQUtBtYNEJQ&branch=master)](https://app.bitrise.io/app/c373b1aa540acc1c)
 [![Playstore](https://img.shields.io/badge/Download-Playstore-brightgreen.svg)](https://play.google.com/store/apps/details?id=com.marknkamau.justjava)
-[![latest build](https://img.shields.io/badge/Download-Latest%20build-brightgreen.svg)](https://skyll.marknjunge.com/justjava?redirect=true)
+[![latest build](https://img.shields.io/badge/Download-Latest%20build-brightgreen.svg)](https://skyll.marknjunge.com/justjava?redirect=true)  
+
+A sample food delivery application for a coffee shop.
+
+🚧 I'm currently updating it to MVVM and using my own API instead of Firebase. 🚧
 
 ## Features
 
