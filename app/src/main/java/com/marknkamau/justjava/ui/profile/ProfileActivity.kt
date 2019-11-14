@@ -34,7 +34,7 @@ class ProfileActivity : BaseActivity(), ProfileView {
             tvOrderStatusItem.text = order.status.name.toLowerCase().capitalize()
             tvOrderQtyItem.text = order.itemsCount.toString()
             tvOrderCountItem.text = resources.getQuantityString(R.plurals.order_info, order.itemsCount)
-            tvOrderTotalItem.text = resources.getString(R.string.price_listing, order.totalPrice)
+            tvOrderTotalItem.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice.toDouble()))
 
             previousOrderItemRootLayout.setOnClickListener {
                 ViewOrderActivity.start(this@ProfileActivity, order)

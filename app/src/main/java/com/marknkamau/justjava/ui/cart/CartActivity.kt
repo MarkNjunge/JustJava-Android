@@ -16,6 +16,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
+import com.marknkamau.justjava.utils.CurrencyFormatter
 import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.content_toolbar.*
 import kotlinx.android.synthetic.main.item_cart_item.view.*
@@ -43,7 +44,8 @@ class CartActivity : BaseActivity() {
         val adapter = BaseRecyclerViewAdapter<CartItem>(R.layout.item_cart_item) { item ->
             tv_cartItem_productName.text = item.cartItem.productName
             tv_cartItem_quantity.text = "${item.cartItem.quantity}x"
-            tv_cartItem_totalPrice.text = getString(R.string.price_listing, item.cartItem.totalPrice.toInt())
+
+            tv_cartItem_totalPrice.text = getString(R.string.price_listing, CurrencyFormatter.format(item.cartItem.totalPrice))
             tv_cartItem_options.text = item.options.joinToString(", ") { it.optionName }
 
             rootCartItem.setOnLongClickListener {
@@ -71,7 +73,7 @@ class CartActivity : BaseActivity() {
 
                 adapter.setItems(items)
                 val cartTotal = items.map { it.cartItem.totalPrice }.foldRight(0.0, { total, acc -> total + acc })
-                tvCartTotal.text = getString(R.string.price_listing, cartTotal.toInt())
+                tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(cartTotal))
             }
         })
     }

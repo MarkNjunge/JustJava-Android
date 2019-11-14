@@ -44,8 +44,7 @@ class MainActivity : BaseActivity() {
     private fun initializeRecyclerView() {
         val adapter: BaseRecyclerViewAdapter<Product> = BaseRecyclerViewAdapter(R.layout.item_product) { product ->
             tvProductName.text = product.name
-            val formattedPrice = CurrencyFormatter.format(product.price)
-            tvProductPrice.text = context.resources.getString(R.string.price_listing, formattedPrice.toInt())
+            tvProductPrice.text = context.resources.getString(R.string.price_listing, CurrencyFormatter.format(product.price))
 
             Picasso.get().load(product.image).placeholder(R.drawable.plain_brown).into(imgProductImage)
 

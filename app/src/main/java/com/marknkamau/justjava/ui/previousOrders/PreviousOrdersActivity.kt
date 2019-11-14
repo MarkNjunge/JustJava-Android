@@ -10,6 +10,7 @@ import com.marknjunge.core.model.Order
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.viewOrder.ViewOrderActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
+import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DividerItemDecorator
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_previous_orders.*
@@ -35,7 +36,7 @@ class PreviousOrdersActivity : AppCompatActivity(), PreviousOrdersView {
             tvOrderStatusItem.text = order.status.name.toLowerCase().capitalize()
             tvOrderQtyItem.text = order.itemsCount.toString()
             tvOrderCountItem.text = resources.getQuantityString(R.plurals.order_info, order.itemsCount)
-            tvOrderTotalItem.text = resources.getString(R.string.price_listing, order.totalPrice)
+            tvOrderTotalItem.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice.toDouble()))
 
             previousOrderItemRootLayout.setOnClickListener {
                 ViewOrderActivity.start(this@PreviousOrdersActivity, order)

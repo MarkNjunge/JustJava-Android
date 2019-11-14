@@ -61,9 +61,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     private fun setProductDetails() {
         tvProductName.text = appProduct.name
         tvProductDescription.text = appProduct.description
-        val formattedPrice = CurrencyFormatter.format(appProduct.price)
-        tvProductPrice.text = resources.getString(R.string.price_listing, formattedPrice.toInt())
-        tvSubtotalDetail.text = resources.getString(R.string.price_listing, formattedPrice.toInt())
+        tvProductPrice.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
+        tvSubtotalDetail.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
         tvQuantityDetail.text = quantity.toString()
         Picasso.get().load(appProduct.image).noFade().into(imgProductImage)
 
@@ -119,6 +118,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun updateTotal() {
         val total = appProduct.calculateTotal(quantity)
-        tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total).toInt())
+        tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
     }
 }
