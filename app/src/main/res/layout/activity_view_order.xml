@@ -235,7 +235,7 @@
                 android:nestedScrollingEnabled="false"
                 android:visibility="gone"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_order_item"
+                tools:listitem="@layout/item_cart_item"
                 tools:visibility="visible" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

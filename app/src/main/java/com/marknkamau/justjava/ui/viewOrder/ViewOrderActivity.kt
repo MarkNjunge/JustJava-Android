@@ -21,7 +21,7 @@ import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_view_order.*
 import kotlinx.android.synthetic.main.content_toolbar.*
-import kotlinx.android.synthetic.main.item_order_item.view.*
+import kotlinx.android.synthetic.main.item_cart_item.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
@@ -58,24 +58,6 @@ class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
 
         updateViews(order)
 
-        orderItemsAdapter = BaseRecyclerViewAdapter(R.layout.item_order_item){orderItem ->
-            tvItemNameItem.text = orderItem.itemName
-            tvItemQtyItem.text = "${orderItem.itemQty}x"
-            tvItemPriceItem.text = context.getString(R.string.price_listing, orderItem.itemPrice)
-
-            val toppings = mutableListOf<String>()
-
-            if (orderItem.itemCinnamon) toppings.add("Cinnamon")
-            if (orderItem.itemChoc) toppings.add("Chocolate")
-            if (orderItem.itemMarshmallow) toppings.add("Marshmallows")
-
-            if (toppings.isNotEmpty()) {
-                tvToppingsItem.visibility = View.VISIBLE
-                tvToppingsItem.text = toppings.joinToString(", ")
-            } else {
-                tvToppingsItem.visibility = View.GONE
-            }
-        }
 
         rvOrderItemsOrder.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         rvOrderItemsOrder.adapter = orderItemsAdapter

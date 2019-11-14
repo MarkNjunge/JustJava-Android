@@ -86,6 +86,7 @@
     <string name="developer_name">Mark Njung\'e</string>
     <string name="developer_contact">contact@marknjunge.com</string>
     <string name="paid">Paid</string>
+    <string name="checkout">Checkout</string>
 
     <plurals name="order_info">
         <item quantity="one">item for</item>

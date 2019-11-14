@@ -20,7 +20,6 @@
                 android:id="@+id/imgProductImage"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:contentDescription="@string/drink_image_content_desc"
                 android:scaleType="centerCrop"
                 android:transitionName="drinkImage"
                 tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />

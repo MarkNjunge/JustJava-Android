@@ -60,4 +60,5 @@ val presentersModule = module {
 val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { ProductDetailsViewModel(get()) }
+    viewModel { CartViewModel(get()) }
 }

@@ -4,16 +4,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-open class BaseRecyclerViewAdapter<T>(
-        @LayoutRes
-        private val layoutRes: Int,
-        private val bind: View.(item: T) -> Unit
+ class BaseRecyclerViewAdapter<T>(
+    @LayoutRes
+    private val layoutRes: Int,
+    private val bind: View.(item: T) -> Unit
 ) : RecyclerView.Adapter<BaseRecyclerViewAdapter<T>.ViewHolder>() {
     private val items by lazy { mutableListOf<T>() }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(layoutRes))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        ViewHolder(parent.inflate(layoutRes))
 
     override fun getItemCount() = items.size
 
@@ -21,10 +23,18 @@ open class BaseRecyclerViewAdapter<T>(
         holder.bind(items[position])
     }
 
-    fun setItems(newItems: List<T>) {
-        items.clear()
-        items.addAll(newItems)
-        notifyDataSetChanged()
+    fun setItems(newItems: List<T>, animated: Boolean = true) {
+        if (animated) {
+            val result = DiffUtil.calculateDiff(ItemDiffCallback(items, newItems.toMutableList()))
+
+            items.clear()
+            items.addAll(newItems)
+            result.dispatchUpdatesTo(this)
+        } else {
+            items.clear()
+            items.addAll(newItems)
+            notifyDataSetChanged()
+        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

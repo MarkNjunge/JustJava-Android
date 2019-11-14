@@ -5,7 +5,8 @@
     android:id="@+id/rootCartActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.marknkamau.justjava.ui.cart.CartActivity">
 
     <include layout="@layout/content_toolbar" />
 
@@ -17,7 +18,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -34,55 +35,66 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
-            android:text="@string/there_are_no_items_in_your_cart" />
+            android:text="Your cart is empty" />
     </LinearLayout>
 
-    <ScrollView
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutCartContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCart"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnClearCart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_cart_item">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClearCart"
+            style="@style/AppTheme.Button.Text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            tools:context="com.marknkamau.justjava.ui.cart.CartActivity">
+            android:layout_gravity="end"
+            android:layout_marginStart="16dp"
+            android:text="@string/clear_cart"
+            app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                style="@style/AppTheme.Text.14PrimaryBold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/order_items" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCheckout"
+            style="@style/AppTheme.Button.FilledAccent"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/checkout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvCart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                tools:itemCount="2"
-                tools:listitem="@layout/item_order_item" />
+        <TextView
+            android:id="@+id/tvCartTotal"
+            style="@style/AppTheme.Text.18PrimaryBold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnCheckout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvCart"
+            tools:text="Ksh. 800" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnClearCart"
-                style="@style/AppTheme.Button.Text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:text="@string/clear_cart" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@color/colorTextTertiary" />
-
-        </LinearLayout>
-    </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
