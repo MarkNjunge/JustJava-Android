@@ -4,7 +4,7 @@ import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
 import com.marknjunge.core.model.AuthUser
 import com.marknjunge.core.model.UserDetails
-import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.preferences.PreferencesRepository
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every

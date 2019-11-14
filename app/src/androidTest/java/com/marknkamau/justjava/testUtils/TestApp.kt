@@ -3,12 +3,10 @@ package com.marknkamau.justjava.testUtils
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.marknkamau.justjava.JustJavaApp
-import com.marknkamau.justjava.data.local.CartDatabase
+import com.marknkamau.justjava.data.db.AppDatabase
 import com.marknkamau.justjava.di.presentersModule
 import com.marknkamau.justjava.testUtils.mocks.*
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.context.startKoin
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 class TestApp : JustJavaApp() {
@@ -34,8 +32,8 @@ class TestApp : JustJavaApp() {
 
     private val mockAppModule = module {
         single { mockPreferencesRepository }
-        single { Room.inMemoryDatabaseBuilder(context, CartDatabase::class.java).build() }
-        single { get<CartDatabase>().cartDao() }
+        single { Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build() }
+        single { get<AppDatabase>().cartDao() }
         single { mockNotificationHelper }
     }
 

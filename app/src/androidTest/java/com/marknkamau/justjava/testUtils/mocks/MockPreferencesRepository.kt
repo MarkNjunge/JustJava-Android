@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.testUtils.mocks
 
-import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.preferences.PreferencesRepository
 import com.marknkamau.justjava.testUtils.TestData
 import io.mockk.every
 import io.mockk.just

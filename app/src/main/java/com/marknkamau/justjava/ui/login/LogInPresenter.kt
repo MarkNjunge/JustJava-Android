@@ -1,6 +1,6 @@
 package com.marknkamau.justjava.ui.login
 
-import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.preferences.PreferencesRepository
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.ui.BasePresenter

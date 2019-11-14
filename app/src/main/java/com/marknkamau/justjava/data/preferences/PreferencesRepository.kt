@@ -1,4 +1,4 @@
-package com.marknkamau.justjava.data.local
+package com.marknkamau.justjava.data.preferences
 
 import com.marknjunge.core.model.UserDetails
 

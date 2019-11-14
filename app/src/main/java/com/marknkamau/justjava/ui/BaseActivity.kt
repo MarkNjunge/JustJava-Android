@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.marknjunge.core.auth.AuthService
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.preferences.PreferencesRepository
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.LogInActivity

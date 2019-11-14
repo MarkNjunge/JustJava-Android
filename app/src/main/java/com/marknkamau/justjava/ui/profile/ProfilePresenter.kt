@@ -3,7 +3,7 @@ package com.marknkamau.justjava.ui.profile
 import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.OrderService
 import com.marknjunge.core.data.firebase.UserService
-import com.marknkamau.justjava.data.local.PreferencesRepository
+import com.marknkamau.justjava.data.preferences.PreferencesRepository
 import com.marknjunge.core.model.UserDetails
 import com.marknkamau.justjava.ui.BasePresenter
 import kotlinx.coroutines.CoroutineDispatcher

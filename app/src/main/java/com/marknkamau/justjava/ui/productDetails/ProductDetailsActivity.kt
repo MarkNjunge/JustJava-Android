@@ -9,17 +9,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProduct
 import com.marknkamau.justjava.data.models.toAppModel
+import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.replace
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.content_product_details.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductDetailsActivity : AppCompatActivity() {
 
@@ -37,7 +40,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private lateinit var appProduct: AppProduct
-    private var quantity: Int = 0
+    private var quantity = 1
+    private val productDetailsViewModel: ProductDetailsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,8 +49,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         val product = intent.extras!!.getParcelable(PRODUCT_KEY) as Product
         appProduct = product.toAppModel()
-
-        quantity = 1
 
         setProductDetails()
 
@@ -90,8 +92,15 @@ class ProductDetailsActivity : AppCompatActivity() {
         val errors = appProduct.validate()
 
         if (errors.isNotEmpty()) {
-            Toast.makeText(this, "You have not selected a choice for: ${errors.joinToString(", ")}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "You have not selected a choice for: ${errors.joinToString(", ")}", Toast.LENGTH_LONG)
+                .show()
+            return
         }
+
+        productDetailsViewModel.addItemToCart(appProduct, quantity).observe(this, Observer {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        })
     }
 
     private fun addQty() {
