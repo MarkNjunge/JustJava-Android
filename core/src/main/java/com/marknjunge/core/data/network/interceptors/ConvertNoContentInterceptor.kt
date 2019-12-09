@@ -15,13 +15,7 @@ class ConvertNoContentInterceptor : Interceptor {
     private val mediaType = "application/json".toMediaType()
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        chain.request().headers.forEach {
-
-            Timber.d("${it.first}: ${it.second}")
-
-
-        }
-        val response = chain.proceed(chain.request())
+         val response = chain.proceed(chain.request())
 
         return if (response.code == 204 || response.body?.contentLength() == 0L) {
 

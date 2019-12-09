@@ -57,12 +57,11 @@ internal class NetworkProvider(private val sessionId: String? = null) {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val builder = OkHttpClient.Builder()
-        builder.addInterceptor(loggingInterceptor)
         if (sessionId != null) {
             builder.addNetworkInterceptor(SessionIdInterceptor(sessionId))
         }
-
         builder.addNetworkInterceptor(ConvertNoContentInterceptor())
+        builder.addNetworkInterceptor(loggingInterceptor)
 
         return builder
             .build()
