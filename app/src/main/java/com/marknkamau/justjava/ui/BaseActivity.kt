@@ -49,8 +49,7 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             R.id.menu_profile -> {
                 if (preferencesRepository.isSignedIn) {
-                    // TODO go to profile
-                    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, ProfileActivity::class.java))
                 } else {
                     startActivity(Intent(this, LogInActivity::class.java))
                 }

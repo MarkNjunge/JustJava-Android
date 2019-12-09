@@ -1,122 +1,139 @@
 package com.marknkamau.justjava.ui.profile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.marknjunge.core.model.Order
-import com.marknjunge.core.model.UserDetails
+import androidx.lifecycle.Observer
+import androidx.transition.TransitionManager
+import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
-import com.marknkamau.justjava.ui.viewOrder.ViewOrderActivity
-import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
-import kotlinx.android.synthetic.main.content_toolbar.*
-import kotlinx.android.synthetic.main.item_previous_order.view.*
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ProfileActivity : BaseActivity(), ProfileView {
-    private lateinit var previousOrdersAdapter: BaseRecyclerViewAdapter<Order>
+class ProfileActivity : BaseActivity() {
 
-    private val presenter: ProfilePresenter by inject { parametersOf(this) }
+    private var isInEditMode = false
+    private val profileViewModel: ProfileViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        supportActionBar?.title = "Profile"
 
-        previousOrdersAdapter = BaseRecyclerViewAdapter(R.layout.item_previous_order) { order ->
-            tvOrderTimeItem.text = order.date.formatForApp()
-            tvOrderStatusItem.text = order.status.name.toLowerCase().capitalize()
-            tvOrderQtyItem.text = order.itemsCount.toString()
-            tvOrderCountItem.text = resources.getQuantityString(R.plurals.order_info, order.itemsCount)
-            tvOrderTotalItem.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice.toDouble()))
+        observeLoading()
+        observeUser()
 
-            previousOrderItemRootLayout.setOnClickListener {
-                ViewOrderActivity.start(this@ProfileActivity, order)
+        tilFirstName.resetErrorOnChange(etFirstName)
+        tilLastName.resetErrorOnChange(etLastName)
+        tilEmail.resetErrorOnChange(etEmail)
+        tilMobile.resetErrorOnChange(etMobile)
+
+        btnEdit.setOnClickListener {
+            if (isInEditMode) {
+                exitEditMode()
+            } else {
+                enterEditMode()
+            }
+        }
+        btnUpdate.setOnClickListener {
+            if (isValid()) {
+                hideKeyboard()
+                updateUser()
             }
         }
 
-        rvPreviousOrdersProfile.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvPreviousOrdersProfile.addItemDecoration(DividerItemDecorator(getDrawable(R.drawable.custom_item_divider)!!))
-        rvPreviousOrdersProfile.adapter = previousOrdersAdapter
-
-        presenter.getUserDetails()
-        presenter.getPreviousOrders()
-
-        btnUpdateProfile.setOnClickListener { saveChanges() }
-        tvSeeMoreProfile.setOnClickListener { startActivity(Intent(this, PreviousOrdersActivity::class.java)) }
-
-        etNameProfile.onTextChanged { tilNameProfile.error = null }
-        etPhoneProfile.onTextChanged { tilPhoneProfile.error = null }
-        etAddressProfile.onTextChanged { tilAddressProfile.error = null }
+        profileViewModel.getCurrentUser()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.cancel()
+    private fun observeLoading() {
+        profileViewModel.loading.observe(this, Observer { loading ->
+            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+        })
     }
 
-    override fun showProfileProgressBar() {
-        pbUpdatingProfile.visibility = View.VISIBLE
+    private fun observeUser() {
+        profileViewModel.user.observe(this, Observer { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    etFirstName.setText(resource.data.firstName)
+                    etLastName.setText(resource.data.lastName)
+                    etEmail.setText(resource.data.email)
+                    etMobile.setText(resource.data.mobileNumber)
+                }
+                is Resource.Failure -> {
+                    toast(resource.message)
+                }
+            }
+        })
     }
 
-    override fun hideProfileProgressBar() {
-        pbUpdatingProfile.visibility = View.GONE
+    private fun enterEditMode() {
+        TransitionManager.beginDelayedTransition(rootProfileActivity)
+        etFirstName.isEnabled = true
+        etLastName.isEnabled = true
+        etEmail.isEnabled = true
+        etMobile.isEnabled = true
+        btnEdit.text = "Cancel"
+        isInEditMode = true
+        btnUpdate.visibility = View.VISIBLE
     }
 
-    override fun displayNoPreviousOrders() {
-        pbLoadingOrdersProfile.visibility = View.GONE
-        contentNoOrdersProfile.visibility = View.VISIBLE
-        rvPreviousOrdersProfile.visibility = View.GONE
+    private fun exitEditMode() {
+        TransitionManager.beginDelayedTransition(rootProfileActivity)
+        etFirstName.isEnabled = false
+        etLastName.isEnabled = false
+        etEmail.isEnabled = false
+        etMobile.isEnabled = false
+        btnEdit.text = "Edit"
+        isInEditMode = false
+        btnUpdate.visibility = View.GONE
     }
 
-    override fun displayPreviousOrders(orderList: MutableList<Order>) {
-        pbLoadingOrdersProfile.visibility = View.GONE
-        contentNoOrdersProfile.visibility = View.GONE
-        rvPreviousOrdersProfile.visibility = View.VISIBLE
-        tvSeeMoreProfile.visibility = View.VISIBLE
-        previousOrdersAdapter.setItems(orderList)
+    private fun updateUser() {
+        profileViewModel.updateUser(
+            etFirstName.trimmedText,
+            etLastName.trimmedText,
+            etMobile.trimmedText,
+            etEmail.trimmedText
+        ).observe(this, Observer { resource ->
+            when (resource) {
+                is Resource.Success -> toast("Profile updated")
+                is Resource.Failure -> toast(resource.message)
+            }
+            exitEditMode()
+        })
     }
 
-    override fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+    private fun isValid(): Boolean {
+        var valid = true
 
-    private fun saveChanges() {
-        if (fieldsOk()) {
-            hideKeyboard()
-            presenter.updateUserDetails(etNameProfile.trimmedText, etPhoneProfile.trimmedText, etAddressProfile.trimmedText)
+        if (etFirstName.trimmedText.isEmpty()) {
+            tilFirstName.error = "Required"
+            valid = false
         }
-    }
 
-    private fun fieldsOk(): Boolean {
-        var isValid = true
-
-        if (etNameProfile.trimmedText.isEmpty()) {
-            isValid = false
-            tilNameProfile.error = getString(R.string.required)
+        if (etLastName.trimmedText.isEmpty()) {
+            tilLastName.error = "Required"
+            valid = false
         }
 
-        if (etPhoneProfile.trimmedText.isEmpty()) {
-            isValid = false
-            tilPhoneProfile.error = getString(R.string.required)
+        if (etMobile.trimmedText.isEmpty()) {
+            tilMobile.error = "Required"
+            valid = false
+        } else if (etMobile.trimmedText.length != 12) {
+            tilMobile.error = "A valid mobile number is required"
+            valid = false
         }
 
-        if (etAddressProfile.trimmedText.isEmpty()) {
-            isValid = false
-            tilAddressProfile.error = getString(R.string.required)
+        if (etEmail.trimmedText.isEmpty()) {
+            tilEmail.error = "Required"
+            valid = false
+        } else if (!etEmail.trimmedText.isValidEmail()) {
+            tilEmail.error = "A valid email is required"
+            valid = false
         }
 
-        return isValid
-    }
-
-    override fun displayUserDetails(userDetails: UserDetails) {
-        etNameProfile.setText(userDetails.name)
-        etPhoneProfile.setText(userDetails.phone)
-        etAddressProfile.setText(userDetails.address)
+        return valid
     }
 }

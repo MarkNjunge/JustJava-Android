@@ -5,8 +5,8 @@ object AndroidConfig {
 }
 
 object Versions {
-    val kotlin = "1.3.40"
-    val coroutines = "1.3.0-M2"
+    val kotlin = "1.3.50"
+    val coroutines = "1.3.1"
     val material = "1.0.0"
     val cardview = "1.0.0"
     val legacySupport = "1.0.0"
