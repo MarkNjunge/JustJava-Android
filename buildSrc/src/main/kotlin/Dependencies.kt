@@ -39,6 +39,7 @@ object Versions {
     const val playServices = "17.0.0"
     const val serialization = "0.13.0"
     const val retrofitSerialization = "0.4.0"
+    const val mapbox = "8.5.0"
 }
 
 object Dependencies {
@@ -91,6 +92,7 @@ object Dependencies {
     val koin = "org.koin:koin-android:${Versions.koin}"
     val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
     val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmer}"
+    val mapbox = "com.mapbox.mapboxsdk:mapbox-android-sdk:${Versions.mapbox}"
 
     val mockk = "io.mockk:mockk:${Versions.mockk}"
     val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"

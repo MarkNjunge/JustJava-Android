@@ -1,10 +1,9 @@
 package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.model.Resource
+import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.model.UpdateFcmTokenDto
 import com.marknjunge.core.data.model.UpdateUserDto
-import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.network.UsersService
 import com.marknjunge.core.utils.call
 import com.marknjunge.core.utils.parseException
@@ -17,6 +16,10 @@ interface UsersRepository {
     suspend fun getCurrentUser(): Flow<Resource<User>>
 
     suspend fun updateUser(firstName: String, lastName: String, mobile: String, email: String): Resource<Unit>
+
+    suspend fun addAddress(address: Address): Resource<Address>
+
+    suspend fun deleteAddress(address: Address): Resource<Unit>
 
     suspend fun updateFcmToken(token: String): Resource<Unit>
 
@@ -56,6 +59,32 @@ internal class ApiUsersRepository(
                 Resource.Success(Unit)
             }
         }
+
+    override suspend fun addAddress(address: Address): Resource<Address> = withContext(Dispatchers.IO) {
+        call {
+            val saveAddress = usersService.saveAddress(
+                SaveAddressDto(
+                    address.streetAddress,
+                    address.deliveryInstructions,
+                    address.latLng
+                )
+            )
+            val addresses = preferencesRepository.user!!.address.toMutableList()
+            addresses.add(saveAddress)
+            preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
+            Resource.Success(saveAddress)
+        }
+    }
+
+    override suspend fun deleteAddress(address: Address): Resource<Unit> = withContext(Dispatchers.IO) {
+        call {
+            usersService.deleteAddress(address.id)
+            val addresses = preferencesRepository.user!!.address.toMutableList()
+            addresses.remove(address)
+            preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
+            Resource.Success(Unit)
+        }
+    }
 
     override suspend fun updateFcmToken(token: String) = withContext(Dispatchers.IO) {
         call {

@@ -1,5 +1,6 @@
 package com.marknkamau.justjava.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -7,6 +8,7 @@ import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.addressBook.AddressBookActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -41,6 +43,9 @@ class ProfileActivity : BaseActivity() {
                 hideKeyboard()
                 updateUser()
             }
+        }
+        llAddressBook.setOnClickListener {
+            startActivity(Intent(this, AddressBookActivity::class.java))
         }
 
         profileViewModel.getCurrentUser()

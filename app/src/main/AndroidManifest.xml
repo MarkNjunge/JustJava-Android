@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
         android:name=".JustJavaApp"
@@ -14,6 +15,12 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.addAddress.AddAddressActivity"
+            android:parentActivityName=".ui.addressBook.AddressBookActivity" />
+        <activity
+            android:name=".ui.addressBook.AddressBookActivity"
+            android:parentActivityName=".ui.profile.ProfileActivity" />
         <activity android:name=".ui.completeSignUp.CompleteSignUpActivity" />
         <activity
             android:name=".ui.SplashActivity"
@@ -47,16 +54,16 @@
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/AppTheme.NoBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoBar" />
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
-            android:theme="@style/AppTheme.NoBar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoBar" />
         <activity
             android:name=".ui.previousOrders.PreviousOrdersActivity"
             android:parentActivityName=".ui.profile.ProfileActivity"

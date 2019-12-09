@@ -10,6 +10,7 @@ import com.marknkamau.justjava.data.db.AppDatabase
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.db.DbRepositoryImpl
 import com.marknkamau.justjava.data.preferences.PreferencesRepositoryImpl
+import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import com.marknkamau.justjava.ui.cart.CartViewModel
 import com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpViewModel
 import com.marknkamau.justjava.ui.login.SignInViewModel
@@ -65,4 +66,5 @@ val viewModelModule = module {
     viewModel { CompleteSignUpViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { AddressBookViewModel(get()) }
 }

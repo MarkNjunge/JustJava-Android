@@ -4,6 +4,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
+// A properties file is located at projectFolder/keys.properties
+def keysPropertiesFile = rootProject.file("keys.properties")
+def keys = new Properties()
+keys.load(new FileInputStream(keysPropertiesFile))
+
 android {
     defaultConfig {
         applicationId "com.marknkamau.justjava"
@@ -17,6 +22,7 @@ android {
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
         buildConfigField("String", "googleClientId", '"565628649475-4vp8dm790n2kuuhqpu3o662e9odht703.apps.googleusercontent.com"')
+        buildConfigField("String", "mapboxToken", keys['MAPBOX_TOKEN'])
     }
     signingConfigs {
         debug {
@@ -73,6 +79,7 @@ dependencies {
     implementation Dependencies.crashlytics
     implementation Dependencies.shimmer
     implementation Dependencies.playServicesAuth
+    implementation Dependencies.mapbox
 
     // Test libraries
     testImplementation Dependencies.junit

@@ -7,32 +7,34 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
- class BaseRecyclerViewAdapter<T>(
+class BaseRecyclerViewAdapter<T>(
     @LayoutRes
     private val layoutRes: Int,
     private val bind: View.(item: T) -> Unit
 ) : RecyclerView.Adapter<BaseRecyclerViewAdapter<T>.ViewHolder>() {
-    private val items by lazy { mutableListOf<T>() }
+    private val _items by lazy { mutableListOf<T>() }
+    val items: List<T>
+        get() = _items.toList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(parent.inflate(layoutRes))
 
-    override fun getItemCount() = items.size
+    override fun getItemCount() = _items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(_items[position])
     }
 
     fun setItems(newItems: List<T>, animated: Boolean = true) {
         if (animated) {
-            val result = DiffUtil.calculateDiff(ItemDiffCallback(items, newItems.toMutableList()))
+            val result = DiffUtil.calculateDiff(ItemDiffCallback(_items, newItems.toMutableList()))
 
-            items.clear()
-            items.addAll(newItems)
+            _items.clear()
+            _items.addAll(newItems)
             result.dispatchUpdatesTo(this)
         } else {
-            items.clear()
-            items.addAll(newItems)
+            _items.clear()
+            _items.addAll(newItems)
             notifyDataSetChanged()
         }
     }
