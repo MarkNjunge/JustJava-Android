@@ -42,10 +42,12 @@
             android:name=".ui.login.LogInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.profile.ProfileActivity"
@@ -53,6 +55,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.about.AboutActivity"
+            android:theme="@style/AppTheme.NoBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.previousOrders.PreviousOrdersActivity"

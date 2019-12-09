@@ -1,90 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootMainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rootMainActivity"
-    android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
 
-    <include layout="@layout/content_toolbar" />
-
-    <FrameLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvProducts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:itemCount="8"
+        tools:listitem="@layout/item_product" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvProducts"
+    <!-- Loading indicator -->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        tools:visibility="gone">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:itemCount="8"
-            tools:listitem="@layout/item_product" />
+            android:orientation="vertical">
 
-        <!-- Loading indicator -->
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:layout_width="wrap_content"
-            android:id="@+id/shimmerLayout"
-            android:layout_height="wrap_content">
+            <include layout="@layout/item_main_activity_shimmer" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include layout="@layout/item_main_activity_shimmer" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
+            <include
+                layout="@layout/item_main_activity_shimmer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
 
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-
-                <include
-                    layout="@layout/item_main_activity_shimmer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </com.facebook.shimmer.ShimmerFrameLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
-    </FrameLayout>
-</LinearLayout>
+</FrameLayout>

@@ -48,7 +48,6 @@ class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_order)
-        setSupportActionBar(toolbar)
         supportActionBar?.title = "Order"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

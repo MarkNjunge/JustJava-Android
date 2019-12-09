@@ -1,5 +1,26 @@
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:fontFamily">@font/lato</item>
+        <item name="actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+    </style>
+
+    <style name="AppTheme.ActionBarStyle" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="titleTextStyle">@style/AppTheme.Toolbar.TitleTextStyle</item>
+    </style>
+
+    <style name="AppTheme.Toolbar" />
+
+    <style name="AppTheme.Toolbar.TitleTextStyle" parent="Theme.AppCompat.Light">
+        <item name="android:fontFamily">@font/bree_serif</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.NoBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -13,12 +34,7 @@
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 
-    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light">
-        <item name="android:fontFamily">@font/bree_serif</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="AppTheme.TranslucentStatus" parent="AppTheme">
+    <style name="AppTheme.TranslucentStatus" parent="AppTheme.NoBar">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 

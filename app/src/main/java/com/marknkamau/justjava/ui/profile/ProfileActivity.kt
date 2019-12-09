@@ -27,7 +27,6 @@ class ProfileActivity : BaseActivity(), ProfileView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        setSupportActionBar(toolbar)
 
         previousOrdersAdapter = BaseRecyclerViewAdapter(R.layout.item_previous_order) { order ->
             tvOrderTimeItem.text = order.date.formatForApp()

@@ -27,7 +27,6 @@ class PreviousOrdersActivity : AppCompatActivity(), PreviousOrdersView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_previous_orders)
-        setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.previous_orders)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

@@ -18,7 +18,6 @@ import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_toolbar.*
 import kotlinx.android.synthetic.main.item_product.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +27,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         initializeLoadingIndicator()
         initializeRecyclerView()

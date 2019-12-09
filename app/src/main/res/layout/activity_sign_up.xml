@@ -152,13 +152,14 @@
             android:textColor="@android:color/white" />
 
         <LinearLayout
+            android:id="@+id/llSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="8dp"
-            android:id="@+id/llSignIn"
             android:layout_marginTop="32dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <TextView
                 android:id="@+id/textView29"

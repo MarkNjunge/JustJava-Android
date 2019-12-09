@@ -8,8 +8,6 @@
     android:orientation="vertical"
     tools:context="com.marknkamau.justjava.ui.cart.CartActivity">
 
-    <include layout="@layout/content_toolbar" />
-
     <LinearLayout
         android:id="@+id/layoutCartEmpty"
         android:layout_width="match_parent"
@@ -37,7 +35,6 @@
             android:layout_marginTop="32dp"
             android:text="Your cart is empty" />
     </LinearLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutCartContent"
