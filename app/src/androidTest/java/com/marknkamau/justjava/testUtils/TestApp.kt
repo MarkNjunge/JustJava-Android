@@ -14,7 +14,6 @@ class TestApp : JustJavaApp() {
     companion object {
         val mockPreferencesRepository = MockPreferencesRepository.create()
         val mockNotificationHelper = MockNotificationHelper.create()
-        val mockAuthService = MockAuthService.create()
         val mockUserService = MockUserService.create()
         val mockOrderService = MockOrderService.create()
         val mockPaymentsService = MockPaymentsService.create()
@@ -26,7 +25,7 @@ class TestApp : JustJavaApp() {
     override fun onCreate() {
 
         startKoin {
-            modules(listOf(mockAppModule, presentersModule, mockAuthModule, mockDatabaseModule, mockMpesaModule))
+            modules(listOf(mockAppModule, presentersModule, mockDatabaseModule, mockMpesaModule))
         }
     }
 
@@ -35,10 +34,6 @@ class TestApp : JustJavaApp() {
         single { Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build() }
         single { get<AppDatabase>().cartDao() }
         single { mockNotificationHelper }
-    }
-
-    private val mockAuthModule = module {
-        single { mockAuthService }
     }
 
     private val mockDatabaseModule = module {

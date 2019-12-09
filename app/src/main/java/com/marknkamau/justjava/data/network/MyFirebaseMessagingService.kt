@@ -4,17 +4,14 @@ import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
 import com.marknkamau.justjava.utils.NotificationHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import timber.log.Timber
-import java.lang.Exception
 
 /**
  * Created by Mark Njung'e.
@@ -25,7 +22,7 @@ import java.lang.Exception
 class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     private val notificationHelper: NotificationHelper by inject()
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
-    private val authService: AuthService by inject()
+//    private val authService: AuthService by inject()
     private val userService: UserService by inject()
 
     private val scope = CoroutineScope(Dispatchers.IO + Job())
@@ -62,17 +59,18 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     }
 
     override fun onNewToken(token: String) {
-        if (authService.isSignedIn()) {
-            val user = authService.getCurrentUser()
-
-            scope.launch {
-                try {
-                    userService.updateUserFcmToken(user.userId)
-                    Timber.i("FCM token saved")
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
-            }
-        }
+        // TODO Update token
+//        if (authService.isSignedIn()) {
+//            val user = authService.getCurrentUser()
+//
+//            scope.launch {
+//                try {
+//                    userService.updateUserFcmToken(user.userId)
+//                    Timber.i("FCM token saved")
+//                } catch (e: Exception) {
+//                    Timber.e(e)
+//                }
+//            }
+//        }
     }
 }

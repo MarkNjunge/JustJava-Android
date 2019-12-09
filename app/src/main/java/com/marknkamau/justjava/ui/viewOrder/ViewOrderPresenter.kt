@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.viewOrder
 
-import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.OrderService
 import com.marknjunge.core.payments.PaymentsRepository
 import com.marknkamau.justjava.ui.BasePresenter
@@ -17,7 +16,6 @@ import timber.log.Timber
 class ViewOrderPresenter(private val view: ViewOrderView,
                          private val orderService: OrderService,
                          private val paymentsRepository: PaymentsRepository,
-                         private val authService: AuthService,
                          mainDispatcher: CoroutineDispatcher
 ) : BasePresenter(mainDispatcher) {
 
@@ -50,7 +48,7 @@ class ViewOrderPresenter(private val view: ViewOrderView,
     fun makeMpesaPayment(total: Int, phoneNumber: String, orderId: String) {
         uiScope.launch {
             try {
-                paymentsRepository.makeLnmoRequest(total, phoneNumber, authService.getCurrentUser().userId, orderId)
+//                paymentsRepository.makeLnmoRequest(total, phoneNumber, authService.getCurrentUser().userId, orderId)
                 view.displayMessage("Success!")
             } catch (e: Exception) {
                 Timber.e(e)

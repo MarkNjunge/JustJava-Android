@@ -1,19 +1,16 @@
 package com.marknjunge.core.di
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.marknjunge.core.auth.AuthService
-import com.marknjunge.core.auth.AuthServiceImpl
+import com.marknjunge.core.data.network.NetworkProvider
 import com.marknjunge.core.data.firebase.*
+import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.repository.*
 import com.marknjunge.core.data.repository.ApiProductsRepository
-import com.marknjunge.core.data.repository.ProductsRepository
-import com.marknjunge.core.data.api.NetworkProvider
+import com.marknjunge.core.data.repository.ApiAuthRepository
 import com.marknjunge.core.payments.PaymentsRepository
 import com.marknjunge.core.payments.PaymentsRepositoryImpl
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
-
-val authModule = module {
-    single<AuthService> { AuthServiceImpl() }
-}
 
 val databaseModule = module {
     val firestore = FirebaseFirestore.getInstance()
@@ -28,7 +25,15 @@ val paymentsModule = module {
 }
 
 val repositoriesModule = module {
-    val networkProvider = NetworkProvider()
+    single(named("no-auth")){
+        NetworkProvider()
+    }
+    single(named("auth")){
+        val preferencesRepository = get<PreferencesRepository>()
+        NetworkProvider(preferencesRepository.sessionId)
+    }
 
-    single<ProductsRepository> { ApiProductsRepository(networkProvider.apiService) }
+    single<AuthRepository> { ApiAuthRepository(get<NetworkProvider>(named("no-auth")).authService, get()) }
+    single<ProductsRepository> { ApiProductsRepository(get<NetworkProvider>(named("no-auth")).apiService) }
+    single<UsersRepository>{ApiUsersRepository(get<NetworkProvider>(named("auth")).usersService, get())}
 }

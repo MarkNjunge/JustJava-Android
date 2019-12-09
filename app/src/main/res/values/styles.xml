@@ -88,7 +88,7 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+    <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     </style>
 

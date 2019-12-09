@@ -14,7 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".ui.completeSignUp.CompleteSignUpActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/AppTheme.SplashTheme">
@@ -56,10 +56,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.previousOrders.PreviousOrdersActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".ui.profile.ProfileActivity"/>
-        <activity android:name=".ui.viewOrder.ViewOrderActivity"
-            android:parentActivityName=".ui.profile.ProfileActivity"/>
+            android:parentActivityName=".ui.profile.ProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.viewOrder.ViewOrderActivity"
+            android:parentActivityName=".ui.profile.ProfileActivity" />
 
         <service android:name=".data.network.MyFirebaseMessagingService">
             <intent-filter>

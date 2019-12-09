@@ -1,7 +1,7 @@
 package com.marknjunge.core.payments
 
 import com.marknjunge.core.BuildConfig
-import com.marknjunge.core.data.api.NetworkProvider
+import com.marknjunge.core.data.network.NetworkProvider
 import com.marknjunge.core.model.*
 import com.marknjunge.core.utils.Utils
 

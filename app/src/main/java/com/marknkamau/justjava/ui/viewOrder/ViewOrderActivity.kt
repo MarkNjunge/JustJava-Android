@@ -8,20 +8,18 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.model.Order
 import com.marknjunge.core.model.OrderItem
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.preferences.PreferencesRepository
+import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknkamau.justjava.data.network.MyFirebaseMessagingService
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.formatForApp
 import kotlinx.android.synthetic.main.activity_view_order.*
 import kotlinx.android.synthetic.main.content_toolbar.*
-import kotlinx.android.synthetic.main.item_cart_item.view.*
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
@@ -133,17 +131,17 @@ class ViewOrderActivity : AppCompatActivity(), ViewOrderView {
         }
 
         btnPayOrder.setOnClickListener {
-            val phoneNumber = preferencesRepository.getUserDetails().phone
-            val dialog = AlertDialog.Builder(this)
-                    .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?\nThe money will be automatically refunded by Safaricom the following day.")
-                    .setTitle("Confirm payment")
-                    .setPositiveButton("Ok") { _, _ ->
-                        presenter.makeMpesaPayment(1, phoneNumber, order.orderId)
-                    }
-                    .setNegativeButton("cancel") { dialogInterface, _ -> dialogInterface.dismiss() }
-                    .create()
+//            val phoneNumber = preferencesRepository.getUserDetails().phone
+//            val dialog = AlertDialog.Builder(this)
+//                    .setMessage("Are you sure you want to pay Ksh. 1 using $phoneNumber?\nThe money will be automatically refunded by Safaricom the following day.")
+//                    .setTitle("Confirm payment")
+//                    .setPositiveButton("Ok") { _, _ ->
+//                        presenter.makeMpesaPayment(1, phoneNumber, order.orderId)
+//                    }
+//                    .setNegativeButton("cancel") { dialogInterface, _ -> dialogInterface.dismiss() }
+//                    .create()
 
-            dialog.show()
+//            dialog.show()
         }
     }
 }

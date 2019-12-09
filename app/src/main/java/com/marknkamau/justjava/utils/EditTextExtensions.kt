@@ -3,6 +3,7 @@ package com.marknkamau.justjava.utils
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.google.android.material.textfield.TextInputLayout
 
 fun EditText.onTextChanged(onChange: () -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
@@ -22,3 +23,7 @@ fun EditText.onTextChanged(onChange: () -> Unit) {
 
 val EditText.trimmedText: String
     get() =  this.text.trim().toString()
+
+fun TextInputLayout.resetErrorOnChange(editText: EditText){
+    editText.onTextChanged { this.error = null }
+}

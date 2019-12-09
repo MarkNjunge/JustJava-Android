@@ -1,11 +1,10 @@
 package com.marknkamau.justjavastaff
 
 import android.app.Application
-import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.network.AuthService
 import com.marknjunge.core.data.firebase.OrderService
 import com.marknjunge.core.data.firebase.PaymentService
 import com.marknjunge.core.data.firebase.UserService
-import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 
 import com.marknkamau.justjavastaff.data.local.SettingsRespository
@@ -37,7 +36,7 @@ class JustJavaStaffApp : Application() {
 
         startKoin {
             androidContext(this@JustJavaStaffApp)
-            modules(listOf(appModule, databaseModule, authModule))
+            modules(listOf(appModule, databaseModule))
         }
     }
 }

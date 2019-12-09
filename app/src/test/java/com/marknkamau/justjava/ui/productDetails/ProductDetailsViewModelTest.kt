@@ -44,7 +44,7 @@ class ProductDetailsViewModelTest {
         coEvery { dbRepository.saveItemToCart(any(), any()) } just runs
 
         val observer = spyk<Observer<Unit>>()
-        viewModel.addItemToCart(AppProduct("", "", "", "", "", 0.0, "", "", null, ""), 1).observeForever(observer)
+        viewModel.addItemToCart(AppProduct(0L, "", "", "", 0L, 0.0, "", "", null, ""), 1).observeForever(observer)
 
         verify { observer.onChanged(Unit) }
         coVerify(exactly = 1) { dbRepository.saveItemToCart(any(), any()) }

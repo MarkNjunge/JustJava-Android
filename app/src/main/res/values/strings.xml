@@ -29,7 +29,6 @@
 
     <string name="name">Name</string>
 
-    <!-- TODO Change to string -->
     <string name="price_listing">Ksh. %s</string>
     <string name="price_listing_w_add">+ Ksh. %s</string>
     <string name="profile">Profile</string>

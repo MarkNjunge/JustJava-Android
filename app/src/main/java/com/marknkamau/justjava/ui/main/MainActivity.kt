@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
+import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
+import com.marknkamau.justjava.utils.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_toolbar.*
@@ -63,8 +65,12 @@ class MainActivity : BaseActivity() {
         rvProducts.addItemDecoration(dividerItemDecoration)
         rvProducts.adapter = adapter
 
-        viewModel.products.observe(this, Observer { products ->
-            adapter.setItems(products)
+        viewModel.products.observe(this, Observer { resource ->
+            when(resource){
+                is Resource.Success -> adapter.setItems(resource.data)
+                is Resource.Failure -> toast(resource.message)
+            }
+
         })
     }
 }

@@ -1,43 +1,34 @@
 package com.marknkamau.justjava.data.preferences
 
-import android.content.SharedPreferences
-import com.marknjunge.core.model.UserDetails
+import android.content.Context
+import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.model.User
+import com.marknjunge.core.utils.appConfig
+import com.marknkamau.justjava.utils.PreferenceUtils
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 
-class PreferencesRepositoryImpl(private val sharedPreferences: SharedPreferences) : PreferencesRepository {
-    private val id = "user_id"
-    private val email = "user_email"
-    private val name = "user_name"
-    private val phone = "user_phone"
-    private val address = "user_address"
-
-    override fun saveUserDetails(userDetails: UserDetails) {
-        val editor = sharedPreferences.edit()
-        editor.putString(id, userDetails.id)
-        editor.putString(email, userDetails.email)
-        editor.putString(name, userDetails.name)
-        editor.putString(phone, userDetails.phone)
-        editor.putString(address, userDetails.address)
-
-        editor.apply()
+class PreferencesRepositoryImpl(private val context: Context) : PreferencesRepository {
+    companion object {
+        const val USER_KEY = "user"
+        const val SESSION_ID_KEY = "session_id"
     }
 
-    override fun getUserDetails(): UserDetails {
-        return UserDetails(
-                sharedPreferences.getString(id, "") as String,
-                sharedPreferences.getString(email, "") as String,
-                sharedPreferences.getString(name, "") as String,
-                sharedPreferences.getString(phone, "") as String,
-                sharedPreferences.getString(address, "") as String
+    private val prefUtils by lazy {
+        PreferenceUtils(
+            context.getSharedPreferences("justjava_prefs", Context.MODE_PRIVATE),
+            JsonConfiguration.appConfig
         )
     }
 
-    override fun clearUserDetails() {
-        val editor = sharedPreferences.edit()
-        editor.remove(id)
-        editor.remove(email)
-        editor.remove(name)
-        editor.remove(phone)
-        editor.remove(address)
-        editor.apply()
-    }
+    override val isSignedIn: Boolean
+        get() = prefUtils.getObject(USER_KEY, User.serializer()) != null
+
+    override var sessionId: String
+        get() = prefUtils.get(SESSION_ID_KEY)
+        set(value) = prefUtils.set(SESSION_ID_KEY, value)
+
+    override var user: User?
+        get() = prefUtils.getObject(USER_KEY, User.serializer())!!
+        set(value) = prefUtils.setObject(USER_KEY, value, User.serializer())
 }

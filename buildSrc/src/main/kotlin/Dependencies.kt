@@ -15,7 +15,6 @@ object Versions {
     val retrofit = "2.6.0"
     val retrofitCoroutinesAdapter = "0.9.2"
     val okhttpLogging = "4.0.0"
-    val gson = "2.8.5"
     val timber = "4.7.1"
     val room = "2.1.0"
     val constraintLayout = "2.0.0-beta2"
@@ -37,6 +36,9 @@ object Versions {
     const val viewModelKtx = "2.1.0"
     const val shimmer = "0.5.0"
     const val archCoreTesting = "2.1.0"
+    const val playServices = "17.0.0"
+    const val serialization = "0.13.0"
+    const val retrofitSerialization = "0.4.0"
 }
 
 object Dependencies {
@@ -51,6 +53,8 @@ object Dependencies {
     val coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     val corouinesPlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutines}"
     val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.serialization}"
+    val serializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
 
     const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
 
@@ -69,6 +73,7 @@ object Dependencies {
     val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
     val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 
+    const val playServicesAuth = "com.google.android.gms:play-services-auth:${Versions.playServices}"
 
     val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
     val roomKotlin = "androidx.room:room-ktx:${Versions.room}"
@@ -77,12 +82,11 @@ object Dependencies {
 
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     val retrofitCoroutinesAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.retrofitCoroutinesAdapter}"
-    val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    val retrofitSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.retrofitSerialization}"
     val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
 
 
     val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
-    val gson = "com.google.code.gson:gson:${Versions.gson}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
     val koin = "org.koin:koin-android:${Versions.koin}"
     val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"

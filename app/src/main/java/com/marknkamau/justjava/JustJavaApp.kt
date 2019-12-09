@@ -2,9 +2,7 @@ package com.marknkamau.justjava
 
 import android.app.Application
 import com.crashlytics.android.Crashlytics
-import com.marknjunge.core.auth.AuthService
 import com.marknjunge.core.data.firebase.UserService
-import com.marknjunge.core.di.authModule
 import com.marknjunge.core.di.databaseModule
 import com.marknjunge.core.di.paymentsModule
 import com.marknjunge.core.di.repositoriesModule
@@ -16,15 +14,16 @@ import io.fabric.sdk.android.Fabric
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
+import org.koin.core.context.unloadKoinModules
 import timber.log.Timber
 
 @Suppress("unused")
 open class JustJavaApp : Application() {
-    private val authService: AuthService by inject()
+//    private val authService: AuthService by inject()
     private val userService: UserService by inject()
 
     private val job = Job()
@@ -54,7 +53,6 @@ open class JustJavaApp : Application() {
                     presentersModule,
                     databaseModule,
                     paymentsModule,
-                    authModule,
                     repositoriesModule,
                     viewModelModule,
                     dbModule
@@ -62,19 +60,20 @@ open class JustJavaApp : Application() {
             )
         }
 
-        if (authService.isSignedIn()) {
-            val user = authService.getCurrentUser()
 
-            scope.launch {
-                try {
-                    userService.updateUserFcmToken(user.userId)
-                    Timber.i("FCM token saved")
-                } catch (e: Exception) {
-                    Timber.e(e)
-                }
-            }
-
-        }
+//        if (authService.isSignedIn()) {
+//            val user = authService.getCurrentUser()
+//
+//            scope.launch {
+//                try {
+//                    userService.updateUserFcmToken(user.userId)
+//                    Timber.i("FCM token saved")
+//                } catch (e: Exception) {
+//                    Timber.e(e)
+//                }
+//            }
+//
+//        }
     }
 
 }

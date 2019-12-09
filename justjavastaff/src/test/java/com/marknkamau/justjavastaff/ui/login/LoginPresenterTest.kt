@@ -1,6 +1,6 @@
 package com.marknkamau.justjavastaff.ui.login
 
-import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.network.AuthService
 import com.nhaarman.mockito_kotlin.any
 
 import org.junit.Before

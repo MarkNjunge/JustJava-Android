@@ -25,10 +25,10 @@ class MainActivity : BaseActivity() {
         setSupportActionBar(toolbar)
 
         val auth = (application as JustJavaStaffApp).auth
-        if (!auth.isSignedIn()) {
-            startActivity(Intent(this@MainActivity, LogInActivity::class.java))
-            finish()
-        }
+//        if (!auth.isSignedIn()) {
+//            startActivity(Intent(this@MainActivity, LogInActivity::class.java))
+//            finish()
+//        }
 
         val sectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         container.adapter = sectionsPagerAdapter

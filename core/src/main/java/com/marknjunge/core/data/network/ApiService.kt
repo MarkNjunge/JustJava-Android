@@ -1,4 +1,4 @@
-package com.marknjunge.core.data.api
+package com.marknjunge.core.data.network
 
 import com.marknjunge.core.model.Product
 import retrofit2.http.GET

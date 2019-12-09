@@ -3,36 +3,39 @@ package com.marknjunge.core.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class Product(
-    @SerializedName("id")
-	val id: String,
+    @SerialName("id")
+	val id: Long,
 
-    @SerializedName("name")
+    @SerialName("name")
 	val name: String,
 
-    @SerializedName("slug")
+    @SerialName("slug")
 	val slug: String,
 
-    @SerializedName("image")
+    @SerialName("image")
 	val image: String,
 
-    @SerializedName("createdAt")
-	val createdAt: String,
+    @SerialName("createdAt")
+	val createdAt: Long,
 
-    @SerializedName("price")
+    @SerialName("price")
 	val price: Double,
 
-    @SerializedName("description")
+    @SerialName("description")
 	val description: String,
 
-    @SerializedName("type")
+    @SerialName("type")
 	val type: String,
 
-    @SerializedName("choices")
+    @SerialName("choices")
 	val choices: List<ProductChoice>?,
 
-    @SerializedName("status")
+    @SerialName("status")
 	val status: String
 ) : Parcelable

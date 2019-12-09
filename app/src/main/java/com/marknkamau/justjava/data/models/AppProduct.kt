@@ -5,11 +5,11 @@ import com.marknjunge.core.model.ProductChoice
 import com.marknjunge.core.model.ProductChoiceOption
 
 data class AppProduct(
-    val id: String,
+    val id: Long,
     val name: String,
     val slug: String,
     val image: String,
-    val createdAt: String,
+    val createdAt: Long,
     val price: Double,
     val description: String,
     val type: String,

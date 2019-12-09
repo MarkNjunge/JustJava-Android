@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 // A properties file is located at projectFolder/keys.properties
 def keysPropertiesFile = rootProject.file("keys.properties")
@@ -33,6 +34,7 @@ dependencies {
 
     api Dependencies.kotlinStdlib
     api Dependencies.coroutines
+    api Dependencies.serialization
     api Dependencies.coroutinesAndroid
     api Dependencies.corouinesPlayServices
 
@@ -45,15 +47,16 @@ dependencies {
 
     // REST
     implementation Dependencies.retrofit
-    implementation Dependencies.retrofitGson
+    implementation Dependencies.retrofitSerialization
     implementation Dependencies.okhttpLogging
     implementation Dependencies.retrofitCoroutinesAdapter
 
     // Other
-    implementation Dependencies.gson
     api Dependencies.koin
+    implementation Dependencies.timber
 
     testImplementation Dependencies.junit
     androidTestImplementation Dependencies.testRunner
     androidTestImplementation Dependencies.espressoCore
+    testImplementation Dependencies.mockk
 }

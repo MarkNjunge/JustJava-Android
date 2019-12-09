@@ -1,8 +1,10 @@
 package com.marknjunge.core.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ApiResponse(
-        @SerializedName("message")
+        @SerialName("message")
         val message: String
 )

@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.network.AuthService
 import com.marknkamau.justjavastaff.JustJavaStaffApp
 
 import com.marknkamau.justjavastaff.R
@@ -40,7 +40,7 @@ open class BaseActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_log_out ->{
-                auth.logOut()
+//                auth.logOut()
                 val intent = Intent(this, LogInActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

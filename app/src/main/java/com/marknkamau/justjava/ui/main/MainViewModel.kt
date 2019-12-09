@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.ProductsRepository
 import com.marknjunge.core.model.Product
 import kotlinx.coroutines.launch
@@ -12,8 +13,8 @@ class MainViewModel(private val productsRepository: ProductsRepository) : ViewMo
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
+    private val _products = MutableLiveData<Resource<List<Product>>>()
+    val products: LiveData<Resource<List<Product>>> = _products
 
     fun getProducts() {
         viewModelScope.launch {

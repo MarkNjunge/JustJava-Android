@@ -1,6 +1,6 @@
 package com.marknkamau.justjavastaff.ui.login
 
-import com.marknjunge.core.auth.AuthService
+import com.marknjunge.core.data.network.AuthService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -30,7 +30,7 @@ class LoginPresenter(private val auth: AuthService, private val view: LoginView,
 
         uiScope.launch {
             try {
-                auth.signIn(email, password)
+//                auth.signIn(email, password)
                 view.onSignedIn()
             } catch (e: Exception) {
                 Timber.e(e)

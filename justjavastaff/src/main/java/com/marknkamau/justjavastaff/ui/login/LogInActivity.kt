@@ -26,10 +26,10 @@ class LogInActivity : AppCompatActivity(), LoginView, View.OnClickListener {
 
         val auth = (application as JustJavaStaffApp).auth
 
-        if (auth.isSignedIn()) {
-            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
-            finish()
-        }
+//        if (auth.isSignedIn()) {
+//            startActivity(Intent(this@LogInActivity, MainActivity::class.java))
+//            finish()
+//        }
 
         presenter = LoginPresenter(auth, this, Dispatchers.Main)
 

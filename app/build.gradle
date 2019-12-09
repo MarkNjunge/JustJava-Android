@@ -16,12 +16,22 @@ android {
 
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
+        buildConfigField("String", "googleClientId", '"565628649475-4vp8dm790n2kuuhqpu3o662e9odht703.apps.googleusercontent.com"')
+    }
+    signingConfigs {
+        debug {
+            storeFile file("../keystore/justjava-debug.jks")
+            storePassword "justjava-debug"
+            keyAlias "key0"
+            keyPassword "justjava-debug"
+        }
     }
     buildTypes {
         debug {
             ext.alwaysUpdateBuildId = false
             ext.enableCrashlytics = false
             applicationIdSuffix ".debug"
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled true
@@ -62,6 +72,7 @@ dependencies {
     implementation Dependencies.timber
     implementation Dependencies.crashlytics
     implementation Dependencies.shimmer
+    implementation Dependencies.playServicesAuth
 
     // Test libraries
     testImplementation Dependencies.junit

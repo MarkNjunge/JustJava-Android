@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
+import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.ProductsRepository
 import com.marknjunge.core.model.Product
 import io.mockk.MockKAnnotations
@@ -45,12 +46,13 @@ class MainViewModelTest{
     @Test
     fun `can load products`(){
         val products = listOf<Product>()
-        coEvery { productsRepository.getProducts() } returns products
+        val resource = Resource.Success(products)
+        coEvery { productsRepository.getProducts() } returns resource
 
-        val observer = spyk<Observer<List<Product>>>()
+        val observer = spyk<Observer<Resource<List<Product>>>>()
         viewModel.products.observeForever(observer)
         viewModel.getProducts()
 
-        verify { observer.onChanged(products) }
+        verify { observer.onChanged(resource) }
     }
 }

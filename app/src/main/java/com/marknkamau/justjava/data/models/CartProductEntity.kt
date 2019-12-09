@@ -11,7 +11,7 @@ data class CartProductEntity(
     val id: Long,
 
     @ColumnInfo(name = "product_id")
-    var productId: String,
+    var productId: Long,
 
     @ColumnInfo(name = "product_name")
     var productName: String,

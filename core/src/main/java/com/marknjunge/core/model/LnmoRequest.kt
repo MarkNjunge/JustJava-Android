@@ -1,14 +1,16 @@
 package com.marknjunge.core.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LnmoRequest(
-        @SerializedName("amount")
+        @SerialName("amount")
         val amount: String,
-        @SerializedName("phone")
+        @SerialName("phone")
         val phone: String,
-        @SerializedName("customerId")
+        @SerialName("customerId")
         val customerId: String,
-        @SerializedName("orderId")
+        @SerialName("orderId")
         val orderId: String
 )

@@ -2,105 +2,106 @@ package com.marknkamau.justjava.ui.signup
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.login.LogInActivity
-import com.marknkamau.justjava.utils.onTextChanged
-import com.marknkamau.justjava.utils.trimmedText
+import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
-class SignUpActivity : AppCompatActivity(), SignUpView {
-    private val presenter: SignUpPresenter by inject { parametersOf(this) }
+class SignUpActivity : AppCompatActivity() {
+
+    private val signUpViewModel: SignUpViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        btnSignupSignUp.setOnClickListener { createUser() }
-        btnLoginSignUp.setOnClickListener {
-            startActivity(Intent(this@SignUpActivity, LogInActivity::class.java))
+        observeLoading()
+
+        tilEmail.resetErrorOnChange(etEmail)
+        tilPassword.resetErrorOnChange(etPassword)
+        tilFirstName.resetErrorOnChange(etFirstName)
+        tilLastName.resetErrorOnChange(etLastName)
+        tilMobileNumber.resetErrorOnChange(etMobileNumber)
+
+        btnSignup.setOnClickListener {
+            if (isValid()) {
+                hideKeyboard()
+                signUp()
+            }
+        }
+        llSignIn.setOnClickListener {
+            startActivity(Intent(this, LogInActivity::class.java))
             finish()
         }
-
-        etEmailAddressSignUp.onTextChanged { tilEmailAddressSignUp.error = null }
-        etPasswordSignUp.onTextChanged { tilPasswordSignUp.error = null }
-        etNameSignUp.onTextChanged { tilNameSignUp.error = null }
-        etPhoneSignUp.onTextChanged { tilPhoneSignUp.error = null }
-        etDeliveryAddressSignUp.onTextChanged { tilDeliveryAddressSignUp.error = null }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.cancel()
+    private fun observeLoading() {
+        signUpViewModel.loading.observe(this, Observer { loading ->
+            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+        })
     }
 
-    override fun enableUserInteraction() {
-        btnSignupSignUp.isEnabled = true
-        btnLoginSignUp.isEnabled = true
-        pbLoadingSignUp.visibility = View.GONE
-    }
-
-    override fun disableUserInteraction() {
-        btnSignupSignUp.isEnabled = false
-        btnLoginSignUp.isEnabled = false
-        pbLoadingSignUp.visibility = View.VISIBLE
-    }
-
-    override fun displayMessage(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun finishActivity() = finish()
-
-    private fun createUser() {
-        if (isValid()) {
-            presenter.createUser(etEmailAddressSignUp.trimmedText, etPasswordSignUp.trimmedText, etNameSignUp.trimmedText, etPhoneSignUp.trimmedText, etDeliveryAddressSignUp.trimmedText)
-        }
+    private fun signUp() {
+        signUpViewModel.signUp(
+            etFirstName.trimmedText,
+            etLastName.trimmedText,
+            etMobileNumber.trimmedText,
+            etEmail.trimmedText,
+            etPassword.trimmedText
+        ).observe(this, Observer { resource ->
+            when(resource){
+                is Resource.Success -> finish()
+                is Resource.Failure -> toast(resource.message)
+            }
+        })
     }
 
     private fun isValid(): Boolean {
         var isValid = true
 
         val justJavaEmailPattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
-        val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmailAddressSignUp.trimmedText)
+        val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmail.trimmedText)
 
-        if (etEmailAddressSignUp.trimmedText.isEmpty()) {
-            tilEmailAddressSignUp.error = getString(R.string.required)
+        if (etEmail.trimmedText.isEmpty()) {
+            tilEmail.error = getString(R.string.required)
             isValid = false
         } else if (justJavaEmailMatcher.matches()) {
-            tilEmailAddressSignUp.error = "Can not use @justjava.com"
+            tilEmail.error = "Can not use @justjava.com"
             isValid = false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmailAddressSignUp.trimmedText).matches()) {
-            tilEmailAddressSignUp.error = "Incorrect email"
-            isValid = false
-        }
-
-        if (etPasswordSignUp.trimmedText.isEmpty()) {
-            tilPasswordSignUp.error = getString(R.string.required)
-            isValid = false
-        } else if (etPasswordSignUp.trimmedText.length < 6) {
-            tilPasswordSignUp.error = "At least 6 characters"
+        } else if (!etEmail.trimmedText.isValidEmail()) {
+            tilEmail.error = "Incorrect email"
             isValid = false
         }
 
-        if (etNameSignUp.trimmedText.isEmpty()) {
-            tilNameSignUp.error = getString(R.string.required)
+        if (etPassword.trimmedText.isEmpty()) {
+            tilPassword.error = getString(R.string.required)
+            isValid = false
+        } else if (etPassword.trimmedText.length < 6) {
+            tilPassword.error = "At least 6 characters"
             isValid = false
         }
 
-        if (etPhoneSignUp.trimmedText.isEmpty()) {
-            tilPhoneSignUp.error = getString(R.string.required)
+        if (etFirstName.trimmedText.isEmpty()) {
+            tilFirstName.error = getString(R.string.required)
             isValid = false
         }
 
-        if (etDeliveryAddressSignUp.trimmedText.isEmpty()) {
-            tilDeliveryAddressSignUp.error = getString(R.string.required)
+        if (etLastName.trimmedText.isEmpty()) {
+            tilLastName.error = getString(R.string.required)
+            isValid = false
+        }
+
+        if (etMobileNumber.trimmedText.isEmpty()) {
+            tilMobileNumber.error = getString(R.string.required)
+            isValid = false
+        } else if (etMobileNumber.trimmedText.length != 12) {
+            tilMobileNumber.error = "Please enter a valid mobile number"
             isValid = false
         }
 
