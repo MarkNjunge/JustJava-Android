@@ -7,7 +7,6 @@ import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
 import com.marknjunge.core.data.network.interceptors.SessionIdInterceptor
 import com.marknjunge.core.payments.PaymentsService
 import com.marknjunge.core.utils.appConfig
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -23,6 +22,7 @@ internal class NetworkProvider(private val sessionId: String? = null) {
     val apiService: ApiService
     val authService: AuthService
     val usersService: UsersService
+    val cartService: CartService
 
     init {
         val legacyRetrofit = provideLegacyRetrofit()
@@ -32,6 +32,7 @@ internal class NetworkProvider(private val sessionId: String? = null) {
         apiService = retrofit.create(ApiService::class.java)
         authService = retrofit.create(AuthService::class.java)
         usersService = retrofit.create(UsersService::class.java)
+        cartService = retrofit.create(CartService::class.java)
     }
 
     private fun provideLegacyRetrofit(): Retrofit {

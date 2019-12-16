@@ -6,19 +6,20 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.content_toolbar.*
 import kotlinx.android.synthetic.main.item_cart_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -61,7 +62,7 @@ class CartActivity : BaseActivity() {
 
         handleRecyclerViewSwipe()
 
-        cartViewModel.products.observe(this, Observer { items ->
+        cartViewModel.items.observe(this, Observer { items ->
             this.items = items
             if (items.isEmpty()) {
                 layoutCartContent.visibility = View.GONE
@@ -73,6 +74,8 @@ class CartActivity : BaseActivity() {
                 adapter.setItems(items)
                 val cartTotal = items.map { it.cartItem.totalPrice }.foldRight(0.0, { total, acc -> total + acc })
                 tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(cartTotal))
+
+                verifyCartItems()
             }
         })
     }
@@ -160,5 +163,18 @@ class CartActivity : BaseActivity() {
 
         val itemTouchHelper = ItemTouchHelper(touchHelperCallback)
         itemTouchHelper.attachToRecyclerView(rvCart)
+    }
+
+    private fun verifyCartItems(){
+        cartViewModel.verifyOrder(items).observe(this, Observer { resource ->
+            when(resource){
+                is Resource.Success -> {
+                    if (resource.data.isNotEmpty()){
+                        // TODO Handle changed products
+                    }
+                }
+                is Resource.Failure-> Toast.makeText(this@CartActivity, resource.message, Toast.LENGTH_SHORT).show();
+            }
+        })
     }
 }

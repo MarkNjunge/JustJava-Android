@@ -13,7 +13,7 @@ class PreviousOrdersPresenter(private val view: PreviousOrdersView,
     fun getPreviousOrders() {
         uiScope.launch {
 //            try {
-//                val previousOrders = orderService.getPreviousOrders(authenticationService.getCurrentUser().userId)
+//                val previousOrders = cartService.getPreviousOrders(authenticationService.getCurrentUser().userId)
 //                if (previousOrders.isEmpty()) {
 //                    view.displayNoOrders()
 //                } else {

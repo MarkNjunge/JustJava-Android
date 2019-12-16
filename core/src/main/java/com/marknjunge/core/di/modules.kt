@@ -25,15 +25,16 @@ val paymentsModule = module {
 }
 
 val repositoriesModule = module {
-    single(named("no-auth")){
+    single(named("no-auth")) {
         NetworkProvider()
     }
-    single(named("auth")){
+    single(named("auth")) {
         val preferencesRepository = get<PreferencesRepository>()
         NetworkProvider(preferencesRepository.sessionId)
     }
 
     single<AuthRepository> { ApiAuthRepository(get<NetworkProvider>(named("no-auth")).authService, get()) }
     single<ProductsRepository> { ApiProductsRepository(get<NetworkProvider>(named("no-auth")).apiService) }
-    single<UsersRepository>{ApiUsersRepository(get<NetworkProvider>(named("auth")).usersService, get())}
+    single<UsersRepository> { ApiUsersRepository(get<NetworkProvider>(named("auth")).usersService, get()) }
+    single<CartRepository> { ApiCartRepository(get<NetworkProvider>(named("no-auth")).cartService) }
 }
