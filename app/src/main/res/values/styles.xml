@@ -92,16 +92,17 @@
     <style name="AppTheme.Button" />
 
     <style name="AppTheme.Button.FilledAccent" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/colorAccent</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="backgroundTint">@color/color_states_button</item>
+        <item name="android:textColor">@color/color_states_button_filled</item>
     </style>
 
     <style name="AppTheme.Button.OutlinedAccent" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">@color/colorAccent</item>
+        <item name="strokeColor">@color/color_states_button</item>
+        <item name="android:textColor">@color/color_states_button_outline_text</item>
     </style>
 
     <style name="AppTheme.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">@color/color_states_button</item>
     </style>
 
     <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

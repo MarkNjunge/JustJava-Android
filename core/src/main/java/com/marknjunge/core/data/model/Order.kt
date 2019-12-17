@@ -7,13 +7,13 @@ import kotlinx.serialization.Serializable
 data class Order(
 
 	@SerialName("additionalComments")
-	val additionalComments: String,
+	val additionalComments: String?,
 
 	@SerialName("datePlaced")
 	val datePlaced: Int,
 
 	@SerialName("totalPrice")
-	val totalPrice: Int,
+	val totalPrice: Double,
 
 	@SerialName("paymentMethod")
 	val paymentMethod: String,

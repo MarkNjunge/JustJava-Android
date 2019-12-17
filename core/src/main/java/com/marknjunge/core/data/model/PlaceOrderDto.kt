@@ -12,7 +12,7 @@ data class PlaceOrderDto(
 	val items: List<PlaceOrderItemDto>,
 
 	@SerialName("addressId")
-	val addressId: Int,
+	val addressId: Long,
 
 	@SerialName("additionalComments")
 	val additionalComments: String? = null

@@ -23,6 +23,7 @@ internal class NetworkProvider(private val sessionId: String? = null) {
     val authService: AuthService
     val usersService: UsersService
     val cartService: CartService
+    val ordersService: OrdersService
 
     init {
         val legacyRetrofit = provideLegacyRetrofit()
@@ -33,6 +34,7 @@ internal class NetworkProvider(private val sessionId: String? = null) {
         authService = retrofit.create(AuthService::class.java)
         usersService = retrofit.create(UsersService::class.java)
         cartService = retrofit.create(CartService::class.java)
+        ordersService = retrofit.create(OrdersService::class.java)
     }
 
     private fun provideLegacyRetrofit(): Retrofit {

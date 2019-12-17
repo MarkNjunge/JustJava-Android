@@ -91,4 +91,9 @@
         <item quantity="one">item for</item>
         <item quantity="other">items for</item>
     </plurals>
+
+    <plurals name="item_s">
+        <item quantity="one">%d item</item>
+        <item quantity="other">%d items</item>
+    </plurals>
 </resources>

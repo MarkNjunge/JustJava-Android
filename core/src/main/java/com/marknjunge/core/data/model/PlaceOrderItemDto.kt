@@ -9,7 +9,7 @@ data class PlaceOrderItemDto(
 	val quantity: Int,
 
 	@SerialName("productId")
-	val productId: Int,
+	val productId: Long,
 
 	@SerialName("options")
 	val options: List<PlaceOrderItemOptionsDto>

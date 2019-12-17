@@ -12,6 +12,7 @@ import com.marknkamau.justjava.data.db.DbRepositoryImpl
 import com.marknkamau.justjava.data.preferences.PreferencesRepositoryImpl
 import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import com.marknkamau.justjava.ui.cart.CartViewModel
+import com.marknkamau.justjava.ui.checkout.CheckoutViewModel
 import com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpViewModel
 import com.marknkamau.justjava.ui.login.SignInViewModel
 import com.marknkamau.justjava.ui.main.MainViewModel
@@ -61,10 +62,11 @@ val presentersModule = module {
 val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { ProductDetailsViewModel(get()) }
-    viewModel { CartViewModel(get(), get()) }
+    viewModel { CartViewModel(get(), get(), get()) }
     viewModel { SignInViewModel(get()) }
     viewModel { CompleteSignUpViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { AddressBookViewModel(get()) }
+    viewModel { CheckoutViewModel(get(), get(), get()) }
 }

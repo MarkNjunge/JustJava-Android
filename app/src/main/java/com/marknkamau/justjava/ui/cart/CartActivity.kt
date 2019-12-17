@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.ui.cart
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -17,6 +18,8 @@ import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.checkout.CheckoutActivity
+import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -34,9 +37,21 @@ class CartActivity : BaseActivity() {
         setContentView(R.layout.activity_cart)
         supportActionBar?.title = getString(R.string.cart)
 
+        observeLoading()
         initializeRecyclerView()
 
         cartViewModel.getCartItems()
+
+        btnCheckout.setOnClickListener {
+            val clz = if (cartViewModel.isSignedIn()) CheckoutActivity::class.java else LogInActivity::class.java
+            startActivity(Intent(this, clz))
+        }
+    }
+
+    private fun observeLoading() {
+        cartViewModel.loading.observe(this, Observer { loading ->
+            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+        })
     }
 
     @SuppressLint("SetTextI18n")
@@ -45,7 +60,8 @@ class CartActivity : BaseActivity() {
             tv_cartItem_productName.text = item.cartItem.productName
             tv_cartItem_quantity.text = "${item.cartItem.quantity}x"
 
-            tv_cartItem_totalPrice.text = getString(R.string.price_listing, CurrencyFormatter.format(item.cartItem.totalPrice))
+            tv_cartItem_totalPrice.text =
+                getString(R.string.price_listing, CurrencyFormatter.format(item.cartItem.totalPrice))
             tv_cartItem_options.text = item.options.joinToString(", ") { it.optionName }
 
             rootCartItem.setOnLongClickListener {
@@ -165,15 +181,18 @@ class CartActivity : BaseActivity() {
         itemTouchHelper.attachToRecyclerView(rvCart)
     }
 
-    private fun verifyCartItems(){
+    private fun verifyCartItems() {
         cartViewModel.verifyOrder(items).observe(this, Observer { resource ->
-            when(resource){
+            btnCheckout.isEnabled = true
+            when (resource) {
                 is Resource.Success -> {
-                    if (resource.data.isNotEmpty()){
+                    if (resource.data.isNotEmpty()) {
                         // TODO Handle changed products
                     }
                 }
-                is Resource.Failure-> Toast.makeText(this@CartActivity, resource.message, Toast.LENGTH_SHORT).show();
+                is Resource.Failure -> {
+                    Toast.makeText(this@CartActivity, resource.message, Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

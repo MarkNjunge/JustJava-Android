@@ -75,6 +75,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:enabled="false"
             android:layout_marginBottom="16dp"
             android:text="@string/checkout"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -91,6 +92,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvCart"
             tools:text="Ksh. 800" />
+
+        <ProgressBar
+            android:id="@+id/pbLoading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

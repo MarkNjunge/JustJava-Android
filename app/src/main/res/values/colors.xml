@@ -11,4 +11,6 @@
     <color name="colorToppingGrey">#E0E0E0</color>
     <color name="colorToppingOffText">#676767</color>
     <color name="colorToppingOnText">#FFFFFF</color>
+    <color name="colorDisabled">#CCCCCC</color>
+    <color name="colorDisabledText">#888888</color>
 </resources>

@@ -37,4 +37,5 @@ val repositoriesModule = module {
     single<ProductsRepository> { ApiProductsRepository(get<NetworkProvider>(named("no-auth")).apiService) }
     single<UsersRepository> { ApiUsersRepository(get<NetworkProvider>(named("auth")).usersService, get()) }
     single<CartRepository> { ApiCartRepository(get<NetworkProvider>(named("no-auth")).cartService) }
+    single<OrdersRepository>{ApiOrdersRepository(get<NetworkProvider>(named("auth")).ordersService)}
 }

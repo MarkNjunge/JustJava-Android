@@ -18,12 +18,9 @@ data class OrderItem(
 	@SerialName("productBasePrice")
 	val productBasePrice: Int,
 
-	@SerialName("id")
-	val id: Int,
-
 	@SerialName("productName")
 	val productName: String,
 
-	@SerialName("option")
-	val option: List<OrderItemOption>
+	@SerialName("options")
+	val options: List<OrderItemOption>
 )
