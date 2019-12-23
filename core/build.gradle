@@ -19,12 +19,12 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "API_BASE_URL", "\"https://api-dev.justjava.marknjunge.com/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://dev.justjava.store/\""
         }
         release {
             minifyEnabled true
             consumerProguardFiles 'proguard-rules.pro'
-            buildConfigField "String", "API_BASE_URL", "\"https://api.justjava.marknjunge.com/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://api.justjava.store/\""
         }
     }
 }
