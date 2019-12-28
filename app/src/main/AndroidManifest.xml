@@ -15,7 +15,10 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.checkout.CheckoutActivity"></activity>
+        <activity
+            android:name=".ui.orders.OrdersActivity"
+            android:parentActivityName=".ui.profile.ProfileActivity" />
+        <activity android:name=".ui.checkout.CheckoutActivity" />
         <activity
             android:name=".ui.addAddress.AddAddressActivity"
             android:parentActivityName=".ui.addressBook.AddressBookActivity" />

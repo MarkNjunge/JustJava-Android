@@ -10,7 +10,7 @@ data class Order(
 	val additionalComments: String?,
 
 	@SerialName("datePlaced")
-	val datePlaced: Int,
+	val datePlaced: Long,
 
 	@SerialName("totalPrice")
 	val totalPrice: Double,

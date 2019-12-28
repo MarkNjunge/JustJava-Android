@@ -10,12 +10,20 @@ import kotlinx.coroutines.withContext
 
 interface OrdersRepository {
     suspend fun placeOrder(dto: PlaceOrderDto): Resource<Order>
+
+    suspend fun getOrders(): Resource<List<Order>>
 }
 
 internal class ApiOrdersRepository(private val ordersService: OrdersService) : OrdersRepository {
     override suspend fun placeOrder(dto: PlaceOrderDto) = withContext(Dispatchers.IO) {
         call {
             Resource.Success(ordersService.placeOrder(dto))
+        }
+    }
+
+    override suspend fun getOrders(): Resource<List<Order>> = withContext(Dispatchers.IO) {
+        call {
+            Resource.Success(ordersService.getOrders())
         }
     }
 }

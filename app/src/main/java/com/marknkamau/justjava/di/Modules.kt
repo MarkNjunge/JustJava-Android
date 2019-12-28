@@ -16,8 +16,7 @@ import com.marknkamau.justjava.ui.checkout.CheckoutViewModel
 import com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpViewModel
 import com.marknkamau.justjava.ui.login.SignInViewModel
 import com.marknkamau.justjava.ui.main.MainViewModel
-import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersPresenter
-import com.marknkamau.justjava.ui.previousOrders.PreviousOrdersView
+import com.marknkamau.justjava.ui.orders.OrdersViewModel
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsViewModel
 import com.marknkamau.justjava.ui.profile.ProfileViewModel
 import com.marknkamau.justjava.ui.signup.SignUpViewModel
@@ -56,7 +55,6 @@ val dbModule = module {
 
 val presentersModule = module {
     factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), Dispatchers.Main) }
-    factory { (view: PreviousOrdersView) -> PreviousOrdersPresenter(view, get(), Dispatchers.Main) }
 }
 
 val viewModelModule = module {
@@ -69,4 +67,5 @@ val viewModelModule = module {
     viewModel { ProfileViewModel(get()) }
     viewModel { AddressBookViewModel(get()) }
     viewModel { CheckoutViewModel(get(), get(), get()) }
+    viewModel { OrdersViewModel(get()) }
 }
