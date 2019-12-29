@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Order
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DateTime
@@ -49,6 +50,9 @@ class OrdersActivity : AppCompatActivity() {
             tvOrderStatus.text = order.status.toLowerCase().capitalize().replace("_", " ")
             tvOrderItems.text = order.items.joinToString{ it.productName }
             tvOrderTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
+            rootOrderItem.setOnClickListener {
+                OrderDetailActivity.start(this@OrdersActivity, order.id)
+            }
         }
 
         rvOrders.stateListAnimator

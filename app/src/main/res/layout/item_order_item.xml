@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_orderDetail_quantity"
+        style="@style/AppTheme.Text.14PrimaryBold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1x" />
+
+    <TextView
+        android:id="@+id/tv_orderDetail_productName"
+        style="@style/AppTheme.Text.14Primary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_orderDetail_price"
+        app:layout_constraintStart_toEndOf="@+id/tv_orderDetail_quantity"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Cappuccino" />
+
+    <TextView
+        android:id="@+id/tv_orderDetail_options"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tv_orderDetail_price"
+        app:layout_constraintStart_toEndOf="@+id/tv_orderDetail_quantity"
+        app:layout_constraintTop_toBottomOf="@+id/tv_orderDetail_productName"
+        tools:text="Single, Soy Milk, Chocolate (curls)" />
+
+    <TextView
+        android:id="@+id/tv_orderDetail_price"
+        style="@style/AppTheme.Text.14Primary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Ksh. 200" />
+</androidx.constraintlayout.widget.ConstraintLayout>

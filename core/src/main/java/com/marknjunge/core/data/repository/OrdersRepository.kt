@@ -12,6 +12,8 @@ interface OrdersRepository {
     suspend fun placeOrder(dto: PlaceOrderDto): Resource<Order>
 
     suspend fun getOrders(): Resource<List<Order>>
+
+    suspend fun getOrderById(id: String): Resource<Order>
 }
 
 internal class ApiOrdersRepository(private val ordersService: OrdersService) : OrdersRepository {
@@ -24,6 +26,12 @@ internal class ApiOrdersRepository(private val ordersService: OrdersService) : O
     override suspend fun getOrders(): Resource<List<Order>> = withContext(Dispatchers.IO) {
         call {
             Resource.Success(ordersService.getOrders())
+        }
+    }
+
+    override suspend fun getOrderById(id: String): Resource<Order> = withContext(Dispatchers.IO) {
+        call {
+            Resource.Success(ordersService.getOrderById(id))
         }
     }
 }

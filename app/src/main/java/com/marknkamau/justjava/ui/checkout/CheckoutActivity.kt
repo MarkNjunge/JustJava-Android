@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.TaskStackBuilder
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Address
 import com.marknjunge.core.data.model.PaymentMethod
@@ -14,6 +15,7 @@ import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
+import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
@@ -120,11 +122,13 @@ class CheckoutActivity : AppCompatActivity() {
                     is Resource.Success -> {
                         checkoutViewModel.clearCart()
                         toast("Order placed")
-                        // TODO Go to order's activity instead
-                        val intent = Intent(this, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                        startActivity(intent)
-                        finish()
+                        val intent = Intent(this, OrderDetailActivity::class.java).apply {
+                            putExtra(OrderDetailActivity.ORDER_ID_KEY, resource.data.id)
+                        }
+                        TaskStackBuilder.create(this@CheckoutActivity)
+                            .addNextIntentWithParentStack(Intent(this, MainActivity::class.java))
+                            .addNextIntentWithParentStack(intent)
+                            .startActivities()
                     }
                     is Resource.Failure -> {
                         toast(resource.message)

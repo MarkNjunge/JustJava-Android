@@ -15,6 +15,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.orderDetail.OrderDetailActivity"></activity>
         <activity
             android:name=".ui.orders.OrdersActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />

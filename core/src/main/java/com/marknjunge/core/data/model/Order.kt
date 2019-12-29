@@ -16,10 +16,10 @@ data class Order(
 	val totalPrice: Double,
 
 	@SerialName("paymentMethod")
-	val paymentMethod: String,
+	val paymentMethod: PaymentMethod,
 
 	@SerialName("id")
-	val id: Int,
+	val id: String,
 
 	@SerialName("userId")
 	val userId: Int,
@@ -28,11 +28,11 @@ data class Order(
 	val items: List<OrderItem>,
 
 	@SerialName("paymentStatus")
-	val paymentStatus: String,
+	val paymentStatus: PaymentStatus,
 
 	@SerialName("status")
 	val status: String,
 
 	@SerialName("addressId")
-	val addressId: Int
+	val addressId: Long
 )
