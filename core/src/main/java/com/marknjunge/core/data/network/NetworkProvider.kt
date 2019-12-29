@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-internal class NetworkProvider(private val sessionId: String? = null) {
+internal class NetworkProvider {
     private val apiUrl = "https://us-central1-justjava-android.cloudfunctions.net/payments/"
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
@@ -60,9 +60,6 @@ internal class NetworkProvider(private val sessionId: String? = null) {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val builder = OkHttpClient.Builder()
-        if (sessionId != null) {
-            builder.addNetworkInterceptor(SessionIdInterceptor(sessionId))
-        }
         builder.addNetworkInterceptor(ConvertNoContentInterceptor())
         builder.addNetworkInterceptor(loggingInterceptor)
 

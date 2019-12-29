@@ -1,5 +1,6 @@
 package com.marknjunge.core.data.repository
 
+import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Order
 import com.marknjunge.core.data.model.PlaceOrderDto
 import com.marknjunge.core.data.model.Resource
@@ -16,22 +17,25 @@ interface OrdersRepository {
     suspend fun getOrderById(id: String): Resource<Order>
 }
 
-internal class ApiOrdersRepository(private val ordersService: OrdersService) : OrdersRepository {
+internal class ApiOrdersRepository(
+    private val ordersService: OrdersService,
+    private val preferencesRepository: PreferencesRepository
+) : OrdersRepository {
     override suspend fun placeOrder(dto: PlaceOrderDto) = withContext(Dispatchers.IO) {
         call {
-            Resource.Success(ordersService.placeOrder(dto))
+            Resource.Success(ordersService.placeOrder(preferencesRepository.sessionId, dto))
         }
     }
 
     override suspend fun getOrders(): Resource<List<Order>> = withContext(Dispatchers.IO) {
         call {
-            Resource.Success(ordersService.getOrders())
+            Resource.Success(ordersService.getOrders(preferencesRepository.sessionId))
         }
     }
 
     override suspend fun getOrderById(id: String): Resource<Order> = withContext(Dispatchers.IO) {
         call {
-            Resource.Success(ordersService.getOrderById(id))
+            Resource.Success(ordersService.getOrderById(preferencesRepository.sessionId, id))
         }
     }
 }

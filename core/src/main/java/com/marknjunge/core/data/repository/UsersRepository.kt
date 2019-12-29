@@ -35,7 +35,7 @@ internal class ApiUsersRepository(
 
 
         try {
-            val user = usersService.getCurrentUser()
+            val user = usersService.getCurrentUser(preferencesRepository.sessionId)
             preferencesRepository.user = user
             emit(Resource.Success(user))
         } catch (e: Exception) {
@@ -47,7 +47,15 @@ internal class ApiUsersRepository(
     override suspend fun updateUser(firstName: String, lastName: String, mobile: String, email: String) =
         withContext(Dispatchers.IO) {
             call {
-                usersService.updateUser(UpdateUserDto(firstName, lastName, mobile, email))
+                usersService.updateUser(
+                    preferencesRepository.sessionId,
+                    UpdateUserDto(
+                        firstName,
+                        lastName,
+                        mobile,
+                        email
+                    )
+                )
                 val updatedUser = preferencesRepository.user!!.copy(
                     firstName = firstName,
                     lastName = lastName,
@@ -63,6 +71,7 @@ internal class ApiUsersRepository(
     override suspend fun addAddress(address: Address): Resource<Address> = withContext(Dispatchers.IO) {
         call {
             val saveAddress = usersService.saveAddress(
+                preferencesRepository.sessionId,
                 SaveAddressDto(
                     address.streetAddress,
                     address.deliveryInstructions,
@@ -78,7 +87,7 @@ internal class ApiUsersRepository(
 
     override suspend fun deleteAddress(address: Address): Resource<Unit> = withContext(Dispatchers.IO) {
         call {
-            usersService.deleteAddress(address.id)
+            usersService.deleteAddress(preferencesRepository.sessionId, address.id)
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.remove(address)
             preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
@@ -88,7 +97,7 @@ internal class ApiUsersRepository(
 
     override suspend fun updateFcmToken(token: String) = withContext(Dispatchers.IO) {
         call {
-            usersService.updateFcmToken(UpdateFcmTokenDto(token))
+            usersService.updateFcmToken(preferencesRepository.sessionId, UpdateFcmTokenDto(token))
             val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
             preferencesRepository.user = updatedUser
             Resource.Success(Unit)
