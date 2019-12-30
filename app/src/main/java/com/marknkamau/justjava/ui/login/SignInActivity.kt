@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -14,12 +13,12 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.*
-import kotlinx.android.synthetic.main.activity_log_in.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class LogInActivity : AppCompatActivity() {
+class SignInActivity : AppCompatActivity() {
 
     private val RC_SIGN_IN = 99
     private val googleSignInClient: GoogleSignInClient by inject()
@@ -27,7 +26,7 @@ class LogInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_log_in)
+        setContentView(R.layout.activity_sign_in)
 
         initializeLoading()
 

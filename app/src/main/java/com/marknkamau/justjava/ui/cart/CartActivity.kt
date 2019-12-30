@@ -19,7 +19,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
-import com.marknkamau.justjava.ui.login.LogInActivity
+import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import kotlinx.android.synthetic.main.activity_cart.*
@@ -43,7 +43,7 @@ class CartActivity : BaseActivity() {
         cartViewModel.getCartItems()
 
         btnCheckout.setOnClickListener {
-            val clz = if (cartViewModel.isSignedIn()) CheckoutActivity::class.java else LogInActivity::class.java
+            val clz = if (cartViewModel.isSignedIn()) CheckoutActivity::class.java else SignInActivity::class.java
             startActivity(Intent(this, clz))
         }
     }

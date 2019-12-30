@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.login.LogInActivity
+import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,7 +36,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
         llSignIn.setOnClickListener {
-            startActivity(Intent(this, LogInActivity::class.java))
+            startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
     }

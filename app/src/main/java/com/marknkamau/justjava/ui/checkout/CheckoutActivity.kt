@@ -13,7 +13,7 @@ import com.marknjunge.core.data.model.PaymentMethod
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.login.LogInActivity
+import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
@@ -37,7 +37,7 @@ class CheckoutActivity : AppCompatActivity() {
 
         // Should already be checked before launching this activity
         if (!checkoutViewModel.isSignedIn()) {
-            startActivity(Intent(this, LogInActivity::class.java))
+            startActivity(Intent(this, SignInActivity::class.java))
         }
 
         // Set mpesa as the default payment method

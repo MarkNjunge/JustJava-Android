@@ -11,7 +11,7 @@ import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
-import com.marknkamau.justjava.ui.login.LogInActivity
+import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 import com.marknkamau.justjava.utils.toast
 import kotlinx.coroutines.CoroutineScope
@@ -56,7 +56,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 if (preferencesRepository.isSignedIn) {
                     startActivity(Intent(this, ProfileActivity::class.java))
                 } else {
-                    startActivity(Intent(this, LogInActivity::class.java))
+                    startActivity(Intent(this, SignInActivity::class.java))
                 }
                 return true
             }
