@@ -13,7 +13,7 @@ internal interface UsersService {
     @PATCH("users/current")
     suspend fun updateUser(@Header("session-id") sessionId: String, @Body body: UpdateUserDto): Unit
 
-    @PATCH("users/current")
+    @PATCH("users/current/fcm")
     suspend fun updateFcmToken(@Header("session-id") sessionId: String, @Body body: UpdateFcmTokenDto)
 
     @POST("users/current/addresses")
