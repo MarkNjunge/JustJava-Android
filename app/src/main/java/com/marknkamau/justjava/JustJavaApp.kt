@@ -1,6 +1,7 @@
 package com.marknkamau.justjava
 
 import android.app.Application
+import com.google.android.libraries.places.api.Places
 import com.marknjunge.core.di.repositoriesModule
 import com.marknkamau.justjava.di.appModule
 import com.marknkamau.justjava.di.dbModule
@@ -35,6 +36,7 @@ open class JustJavaApp : Application() {
             )
         }
 
+        Places.initialize(this, getString(R.string.google_api_key))
     }
 
 }

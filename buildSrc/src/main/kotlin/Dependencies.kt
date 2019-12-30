@@ -34,7 +34,7 @@ object Versions {
     const val playServices = "17.0.0"
     const val serialization = "0.13.0"
     const val retrofitSerialization = "0.4.0"
-    const val mapbox = "8.5.0"
+    const val places = "2.0.0"
 }
 
 object Dependencies {
@@ -61,7 +61,9 @@ object Dependencies {
 
     val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
 
-    const val playServicesAuth = "com.google.android.gms:play-services-auth:${Versions.playServices}"
+    val playServicesAuth = "com.google.android.gms:play-services-auth:${Versions.playServices}"
+    val playServicesMaps = "com.google.android.gms:play-services-maps:${Versions.playServices}"
+    val places = "com.google.android.libraries.places:places:${Versions.places}"
 
     val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
     val roomKotlin = "androidx.room:room-ktx:${Versions.room}"
@@ -79,7 +81,6 @@ object Dependencies {
     val koin = "org.koin:koin-android:${Versions.koin}"
     val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
     val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmer}"
-    val mapbox = "com.mapbox.mapboxsdk:mapbox-android-sdk:${Versions.mapbox}"
 
     val mockk = "io.mockk:mockk:${Versions.mockk}"
     val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"

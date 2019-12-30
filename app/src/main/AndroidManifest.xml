@@ -24,7 +24,10 @@
         <activity android:name=".ui.checkout.CheckoutActivity" />
         <activity
             android:name=".ui.addAddress.AddAddressActivity"
-            android:parentActivityName=".ui.addressBook.AddressBookActivity" />
+            android:parentActivityName=".ui.addressBook.AddressBookActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
+            android:theme="@style/AppTheme.TranslucentStatus"/>
         <activity
             android:name=".ui.addressBook.AddressBookActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />
@@ -87,6 +90,10 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

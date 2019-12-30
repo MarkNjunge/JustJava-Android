@@ -21,7 +21,7 @@ android {
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
         buildConfigField("String", "googleClientId", '"565628649475-4vp8dm790n2kuuhqpu3o662e9odht703.apps.googleusercontent.com"')
-        buildConfigField("String", "mapboxToken", keys['MAPBOX_TOKEN'])
+        resValue "string", "google_maps_key", keys['GOOGLE_MAPS_API_KEY'] // Generates @strings/google_maps_key
     }
     signingConfigs {
         debug {
@@ -75,7 +75,8 @@ dependencies {
     implementation Dependencies.timber
     implementation Dependencies.shimmer
     implementation Dependencies.playServicesAuth
-    implementation Dependencies.mapbox
+    implementation Dependencies.playServicesMaps
+    implementation Dependencies.places
 
     // Test libraries
     testImplementation Dependencies.junit

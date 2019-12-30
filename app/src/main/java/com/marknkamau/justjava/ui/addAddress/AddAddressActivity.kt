@@ -4,32 +4,52 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mapbox.mapboxsdk.Mapbox
-import com.mapbox.mapboxsdk.camera.CameraPosition
-import com.mapbox.mapboxsdk.geometry.LatLng
-import com.mapbox.mapboxsdk.maps.MapboxMap
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
-import com.mapbox.mapboxsdk.maps.Style
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.marknjunge.core.data.model.Address
-import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_add_address.*
+import timber.log.Timber
 
 class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
+
     companion object {
         const val ADDRESS_KEY = "address"
     }
 
+    private lateinit var googleMap: GoogleMap
     private lateinit var target: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Mapbox.getInstance(this, BuildConfig.mapboxToken)
-        Mapbox.getTelemetry()?.disableTelemetrySession()
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_address)
         supportActionBar?.title = "Add Address"
+
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        val placesAutoComplete = placeAutoCompleteFragment as AutocompleteSupportFragment
+        placesAutoComplete.setPlaceFields(listOf(Place.Field.LAT_LNG, Place.Field.NAME))
+        placesAutoComplete.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, 14f))
+                etAddress.setText(place.name)
+                target = place.latLng!!
+            }
+
+            override fun onError(status: Status) {
+                Timber.d(status.statusMessage)
+            }
+
+        })
 
         btnAddAddress.setOnClickListener {
             if (isValid()) {
@@ -42,51 +62,18 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
                 finish()
             }
         }
-
-        mapView.getMapAsync(this)
     }
 
-    override fun onMapReady(mapboxMap: MapboxMap) {
-        mapboxMap.setStyle(Style.MAPBOX_STREETS)
-        mapboxMap.cameraPosition = CameraPosition.Builder().target(LatLng(-1.286481, 36.817297)).build()
-        mapboxMap.addOnCameraIdleListener {
-            target = mapboxMap.cameraPosition.target
+    override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
+
+        val nrb = LatLng(-1.286481, 36.817297)
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nrb, 14f))
+        googleMap.uiSettings.isMyLocationButtonEnabled = true
+
+        googleMap.setOnCameraIdleListener {
+            target = googleMap.cameraPosition.target
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        mapView.onStart()
-    }
-
-    public override fun onResume() {
-        super.onResume()
-        mapView.onResume()
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        mapView.onPause()
-    }
-
-    public override fun onStop() {
-        super.onStop()
-        mapView.onStop()
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        mapView.onLowMemory()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mapView.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        mapView.onSaveInstanceState(outState)
     }
 
     private fun isValid(): Boolean {
