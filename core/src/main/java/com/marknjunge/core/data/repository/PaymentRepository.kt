@@ -14,7 +14,7 @@ interface PaymentsRepository {
     suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse>
 
     suspend fun initiateCardPayment(
-        orderId: Int,
+        orderId: String,
         cardNo: String,
         cvv: String,
         expiryMonth: String,
@@ -43,7 +43,7 @@ internal class ApiPaymentsRepository(
     }
 
     override suspend fun initiateCardPayment(
-        orderId: Int,
+        orderId: String,
         cardNo: String,
         cvv: String,
         expiryMonth: String,

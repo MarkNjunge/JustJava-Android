@@ -20,6 +20,7 @@ import com.marknkamau.justjava.ui.login.SignInViewModel
 import com.marknkamau.justjava.ui.main.MainViewModel
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailViewModel
 import com.marknkamau.justjava.ui.orders.OrdersViewModel
+import com.marknkamau.justjava.ui.payCard.PayCardViewModel
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaViewModel
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsViewModel
 import com.marknkamau.justjava.ui.profile.ProfileViewModel
@@ -69,4 +70,5 @@ val viewModelModule = module {
     viewModel { OrdersViewModel(get()) }
     viewModel { OrderDetailViewModel(get(), get()) }
     viewModel { PayMpesaViewModel(get(), get()) }
+    viewModel { PayCardViewModel(get()) }
 }

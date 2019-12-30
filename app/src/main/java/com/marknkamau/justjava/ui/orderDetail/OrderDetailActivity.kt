@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.*
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.network.JustJavaFirebaseMessagingService
+import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
@@ -59,7 +60,7 @@ class OrderDetailActivity : AppCompatActivity() {
         btnPayOrder.setOnClickListener {
             when(order.paymentMethod){
                 PaymentMethod.MPESA -> PayMpesaActivity.start(this, orderId)
-                PaymentMethod.CASH -> TODO()
+                PaymentMethod.CARD -> PayCardActivity.start(this, orderId)
                 else -> {}
             }
         }

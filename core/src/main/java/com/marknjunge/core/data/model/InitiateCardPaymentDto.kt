@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class InitiateCardPaymentDto(
     @SerialName("orderId")
-    var orderId: Int,
+    var orderId: String,
 
     @SerialName("cardNo")
     var cardNo: String,
