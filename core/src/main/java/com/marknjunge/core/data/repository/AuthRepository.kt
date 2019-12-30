@@ -20,6 +20,8 @@ interface AuthRepository {
     ): Resource<User>
 
     suspend fun signIn(email: String, password: String): Resource<User>
+
+    suspend fun signOut(): Resource<Unit>
 }
 
 internal class ApiAuthRepository(
@@ -63,6 +65,16 @@ internal class ApiAuthRepository(
             preferencesRepository.sessionId = response.session.sessionId
 
             Resource.Success(response.user)
+        }
+    }
+
+    override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO) {
+        call {
+            authService.signOut(preferencesRepository.sessionId)
+            preferencesRepository.user = null
+            preferencesRepository.sessionId = ""
+
+            Resource.Success(Unit)
         }
     }
 }

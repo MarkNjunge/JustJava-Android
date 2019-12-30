@@ -22,8 +22,6 @@ interface UsersRepository {
     suspend fun deleteAddress(address: Address): Resource<Unit>
 
     suspend fun updateFcmToken(token: String): Resource<Unit>
-
-    suspend fun logout(): Resource<Unit>
 }
 
 internal class ApiUsersRepository(
@@ -104,9 +102,4 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun logout(): Resource<Unit> {
-        preferencesRepository.user = null
-        preferencesRepository.sessionId = ""
-        return Resource.Success(Unit)
-    }
 }

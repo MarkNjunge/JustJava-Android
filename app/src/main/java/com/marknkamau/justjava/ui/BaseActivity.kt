@@ -3,24 +3,29 @@ package com.marknkamau.justjava.ui
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.repository.UsersRepository
+import com.marknjunge.core.data.model.Resource
+import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.LogInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
+import com.marknkamau.justjava.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private val usersRepository:UsersRepository by inject()
+    private val authRepository: AuthRepository by inject()
     private val preferencesRepository: PreferencesRepository by inject()
+    private val googleSignInClient: GoogleSignInClient by inject()
+    private val coroutineScope by lazy { CoroutineScope(Dispatchers.Main) }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -56,14 +61,7 @@ abstract class BaseActivity : AppCompatActivity() {
                 return true
             }
             R.id.menu_logout -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    usersRepository.logout()
-                }
-                // If this is ProfileActivity, leave it
-                (this as? ProfileActivity)?.finish()
-                Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show()
-
-                invalidateOptionsMenu()
+                logout()
                 return true
             }
             R.id.menu_about -> {
@@ -71,6 +69,28 @@ abstract class BaseActivity : AppCompatActivity() {
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun logout() {
+        val signedInWithGoogle = preferencesRepository.user!!.signInMethod == "GOOGLE"
+
+        coroutineScope.launch {
+            when (val resource = authRepository.signOut()) {
+                is Resource.Success -> {
+                    if (signedInWithGoogle) {
+                        googleSignInClient.signOut().await()
+                    }
+
+                    // If this is ProfileActivity, leave it
+                    (this@BaseActivity as? ProfileActivity)?.finish()
+                    toast("Logged out")
+
+                    invalidateOptionsMenu()
+                }
+                is Resource.Failure -> toast(resource.message)
+            }
+
         }
     }
 
