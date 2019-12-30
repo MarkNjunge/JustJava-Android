@@ -5,11 +5,10 @@ import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.AuthRepository
-import io.mockk.MockKAnnotations
-import io.mockk.coEvery
+import com.marknjunge.core.data.repository.UsersRepository
+import com.marknkamau.justjava.data.network.FirebaseService
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.resetMain
@@ -27,14 +26,23 @@ class SignInViewModelTest{
     @MockK
     private lateinit var authRepository: AuthRepository
 
+    @MockK
+    private lateinit var usersRepository: UsersRepository
+
+    @MockK
+    private lateinit var firebaseService: FirebaseService
+
     private lateinit var viewModel: SignInViewModel
 
     @ExperimentalCoroutinesApi
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        viewModel = SignInViewModel(authRepository)
+        viewModel = SignInViewModel(authRepository, usersRepository, firebaseService)
         Dispatchers.setMain(Dispatchers.Unconfined)
+
+        coEvery { firebaseService.getFcmToken() } returns ""
+        coEvery { usersRepository.updateFcmToken(any()) } returns Resource.Success(Unit)
     }
 
     @ExperimentalCoroutinesApi

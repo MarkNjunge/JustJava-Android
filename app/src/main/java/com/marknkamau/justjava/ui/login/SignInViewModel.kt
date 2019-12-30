@@ -4,16 +4,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.iid.FirebaseInstanceId
+import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.AuthRepository
-import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.UsersRepository
+import com.marknkamau.justjava.data.network.FirebaseService
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
-class SignInViewModel(private val authRepository: AuthRepository, private val usersRepository: UsersRepository) : ViewModel() {
+class SignInViewModel(
+    private val authRepository: AuthRepository,
+    private val usersRepository: UsersRepository,
+    private val firebaseService: FirebaseService
+) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -24,9 +26,7 @@ class SignInViewModel(private val authRepository: AuthRepository, private val us
             _loading.value = true
             liveData.value = authRepository.signInWithGoogle(idToken)
 
-            // Update FCM token
-            val idResult = FirebaseInstanceId.getInstance().instanceId.await()
-            usersRepository.updateFcmToken(idResult.token)
+            usersRepository.updateFcmToken(firebaseService.getFcmToken())
 
             _loading.value = false
         }
@@ -41,9 +41,7 @@ class SignInViewModel(private val authRepository: AuthRepository, private val us
             _loading.value = true
             liveData.value = authRepository.signIn(email, password)
 
-            // Update FCM token
-            val idResult = FirebaseInstanceId.getInstance().instanceId.await()
-            usersRepository.updateFcmToken(idResult.token)
+            usersRepository.updateFcmToken(firebaseService.getFcmToken())
 
             _loading.value = false
         }

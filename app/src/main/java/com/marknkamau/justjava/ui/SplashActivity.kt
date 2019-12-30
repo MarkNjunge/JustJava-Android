@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.repository.UsersRepository
+import com.marknkamau.justjava.data.network.FirebaseService
 import com.marknkamau.justjava.ui.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,7 @@ import org.koin.android.ext.android.inject
 class SplashActivity : AppCompatActivity() {
     private val preferencesRepository: PreferencesRepository by inject()
     private val usersRepository: UsersRepository by inject()
+    private val firebaseService:FirebaseService by inject()
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -41,8 +43,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private suspend fun updateFcmToken() {
-        val idResult = FirebaseInstanceId.getInstance().instanceId.await()
-        usersRepository.updateFcmToken(idResult.token)
+        usersRepository.updateFcmToken(firebaseService.getFcmToken())
     }
 
     private suspend fun updateLocalUser() {
