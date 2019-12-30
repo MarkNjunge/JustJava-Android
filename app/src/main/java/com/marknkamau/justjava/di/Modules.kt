@@ -18,14 +18,12 @@ import com.marknkamau.justjava.ui.login.SignInViewModel
 import com.marknkamau.justjava.ui.main.MainViewModel
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailViewModel
 import com.marknkamau.justjava.ui.orders.OrdersViewModel
+import com.marknkamau.justjava.ui.payMpesa.PayMpesaViewModel
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsViewModel
 import com.marknkamau.justjava.ui.profile.ProfileViewModel
 import com.marknkamau.justjava.ui.signup.SignUpViewModel
-import com.marknkamau.justjava.ui.viewOrder.ViewOrderPresenter
-import com.marknkamau.justjava.ui.viewOrder.ViewOrderView
 import com.marknkamau.justjava.utils.NotificationHelper
 import com.marknkamau.justjava.utils.NotificationHelperImpl
-import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -54,10 +52,6 @@ val dbModule = module {
     single<DbRepository> { DbRepositoryImpl(get()) }
 }
 
-val presentersModule = module {
-    factory { (view: ViewOrderView) -> ViewOrderPresenter(view, get(), get(), Dispatchers.Main) }
-}
-
 val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { ProductDetailsViewModel(get()) }
@@ -70,4 +64,5 @@ val viewModelModule = module {
     viewModel { CheckoutViewModel(get(), get(), get()) }
     viewModel { OrdersViewModel(get()) }
     viewModel { OrderDetailViewModel(get(), get()) }
+    viewModel { PayMpesaViewModel(get(), get()) }
 }

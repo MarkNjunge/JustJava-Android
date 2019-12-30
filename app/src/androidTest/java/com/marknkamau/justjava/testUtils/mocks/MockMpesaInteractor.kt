@@ -1,13 +1,13 @@
 package com.marknkamau.justjava.testUtils.mocks
 
 import com.marknjunge.core.model.ApiResponse
-import com.marknjunge.core.payments.PaymentsRepository
+import com.marknjunge.core.payments.LegacyPaymentsRepository
 import io.mockk.coEvery
 import io.mockk.mockk
 
 object MockMpesaInteractor {
-    fun create(): PaymentsRepository {
-        val mock = mockk<PaymentsRepository>()
+    fun create(): LegacyPaymentsRepository {
+        val mock = mockk<LegacyPaymentsRepository>()
 
         coEvery { mock.makeLnmoRequest(any(), any(), any(), any()) } returns ApiResponse("OK")
 

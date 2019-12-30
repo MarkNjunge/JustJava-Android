@@ -4,11 +4,8 @@ import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.marknjunge.core.data.firebase.UserService
+import com.marknkamau.justjava.data.models.NotificationReason
 import com.marknkamau.justjava.utils.NotificationHelper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import org.koin.android.ext.android.inject
 import org.koin.core.KoinComponent
 import timber.log.Timber
@@ -19,13 +16,9 @@ import timber.log.Timber
  * https://github.com/MarkNjunge
  */
 
-class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
+class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
     private val notificationHelper: NotificationHelper by inject()
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
-//    private val authService: AuthService by inject()
-    private val userService: UserService by inject()
-
-    private val scope = CoroutineScope(Dispatchers.IO + Job())
 
     companion object {
         const val MPESA_ORDER_PAID_ACTION = "mpesa"
@@ -37,22 +30,34 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
             notificationHelper.showNotification(it.title ?: "JustJava", it.body ?: "")
         }
 
-        remoteMessage.data?.let {
-            Timber.d(it.toString())
-            when (it["reason"]) {
-                "completed-order" -> {
-                    notificationHelper.showCompletedOrderNotification()
-                }
-                "mpesa" -> {
+        remoteMessage.data?.let { data ->
+            Timber.d(data.toString())
+            val reason = data["reason"]
+            if (reason == null) {
+                Timber.e("Invalid message received")
+                return@let
+            }
+
+            when (NotificationReason.valueOf(reason)) {
+                NotificationReason.PAYMENT_COMPLETED -> {
                     // Show notification
-                    notificationHelper.showPaymentNotification(it["body"]!!)
+                    notificationHelper.showPaymentNotification("Your payment has been received.")
+
+                    val orderId = data["orderId"]
+                    if (orderId == null) {
+                        Timber.e("Notification received without orderId")
+                        return@let
+                    }
+                    Timber.d("Payment received for order $orderId")
 
                     // Send local broadcast so that if the user is on the order's page, the status updates
-                    if (it["status"] == "completed") {
-                        val intent = Intent(MPESA_ORDER_PAID_ACTION)
-                        intent.putExtra(ORDER_ID, it["orderId"])
-                        broadcastManager.sendBroadcast(intent)
-                    }
+                    val intent = Intent(MPESA_ORDER_PAID_ACTION)
+                    intent.putExtra(ORDER_ID, orderId)
+                    broadcastManager.sendBroadcast(intent)
+                }
+                NotificationReason.PAYMENT_CANCELLED -> {
+                    // Show notification
+                    notificationHelper.showPaymentNotification("Your payment was not successful. Please try again.")
                 }
             }
         }

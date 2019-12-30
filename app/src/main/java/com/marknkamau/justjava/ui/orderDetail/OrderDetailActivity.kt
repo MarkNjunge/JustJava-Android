@@ -1,19 +1,21 @@
 package com.marknkamau.justjava.ui.orderDetail
 
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.marknjunge.core.data.model.Order
-import com.marknjunge.core.data.model.OrderItem
-import com.marknjunge.core.data.model.PaymentStatus
-import com.marknjunge.core.data.model.Resource
+import com.marknjunge.core.data.model.*
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.data.network.JustJavaFirebaseMessagingService
+import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DateTime
@@ -22,11 +24,14 @@ import kotlinx.android.synthetic.main.activity_order_detail.*
 import kotlinx.android.synthetic.main.incl_order_details.*
 import kotlinx.android.synthetic.main.item_order_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class OrderDetailActivity : AppCompatActivity() {
 
     private val orderDetailViewModel: OrderDetailViewModel by viewModel()
     private lateinit var order: Order
+    private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
+    private lateinit var broadcastReceiver: BroadcastReceiver
 
     companion object {
         const val ORDER_ID_KEY = "order_id"
@@ -50,6 +55,41 @@ class OrderDetailActivity : AppCompatActivity() {
         observeOrder()
 
         orderDetailViewModel.getOrder(orderId)
+
+        btnPayOrder.setOnClickListener {
+            when(order.paymentMethod){
+                PaymentMethod.MPESA -> PayMpesaActivity.start(this, orderId)
+                PaymentMethod.CASH -> TODO()
+                else -> {}
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        broadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.action == JustJavaFirebaseMessagingService.MPESA_ORDER_PAID_ACTION) {
+                    val orderId = intent.getStringExtra(JustJavaFirebaseMessagingService.ORDER_ID)
+
+                    if (orderId == orderId) {
+                        Timber.d("The current order has been paid for!")
+                        btnPayOrder.visibility = View.GONE
+                        tv_order_paymentStatus.text = PaymentStatus.PAID.s
+                        toast("Payment received")
+                    }
+                }
+            }
+        }
+
+        broadcastManager.registerReceiver(broadcastReceiver, IntentFilter(JustJavaFirebaseMessagingService.MPESA_ORDER_PAID_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        broadcastManager.unregisterReceiver(broadcastReceiver)
     }
 
     private fun observeLoading() {
@@ -98,7 +138,7 @@ class OrderDetailActivity : AppCompatActivity() {
 
         tv_order_paymentMethod.text = order.paymentMethod.toString()
         tv_order_paymentStatus.text = order.paymentStatus.toString()
-        if (order.paymentStatus == PaymentStatus.PAID) {
+        if (order.paymentStatus == PaymentStatus.PAID || order.paymentMethod == PaymentMethod.CASH) {
             btnPayOrder.visibility = View.GONE
         }
 

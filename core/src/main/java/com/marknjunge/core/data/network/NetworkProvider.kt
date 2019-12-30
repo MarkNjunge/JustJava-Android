@@ -4,8 +4,7 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
-import com.marknjunge.core.data.network.interceptors.SessionIdInterceptor
-import com.marknjunge.core.payments.PaymentsService
+import com.marknjunge.core.payments.LegacyPaymentsService
 import com.marknjunge.core.utils.appConfig
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -18,16 +17,17 @@ internal class NetworkProvider {
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
 
-    val paymentsService: PaymentsService
+    val legacyPaymentsService: LegacyPaymentsService
     val apiService: ApiService
     val authService: AuthService
     val usersService: UsersService
     val cartService: CartService
     val ordersService: OrdersService
+    val paymentsService: PaymentsService
 
     init {
         val legacyRetrofit = provideLegacyRetrofit()
-        paymentsService = legacyRetrofit.create(PaymentsService::class.java)
+        legacyPaymentsService = legacyRetrofit.create(LegacyPaymentsService::class.java)
 
         val retrofit = provideRetrofit()
         apiService = retrofit.create(ApiService::class.java)
@@ -35,6 +35,7 @@ internal class NetworkProvider {
         usersService = retrofit.create(UsersService::class.java)
         cartService = retrofit.create(CartService::class.java)
         ordersService = retrofit.create(OrdersService::class.java)
+        paymentsService = retrofit.create(PaymentsService::class.java)
     }
 
     private fun provideLegacyRetrofit(): Retrofit {

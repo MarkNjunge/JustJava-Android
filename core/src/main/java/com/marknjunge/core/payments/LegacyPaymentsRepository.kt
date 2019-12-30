@@ -5,7 +5,7 @@ import com.marknjunge.core.data.network.NetworkProvider
 import com.marknjunge.core.model.*
 import com.marknjunge.core.utils.Utils
 
-interface PaymentsRepository {
+interface LegacyPaymentsRepository {
     suspend fun makeLnmoRequest(
         amount: Int,
         phoneNumber: String,
@@ -14,9 +14,9 @@ interface PaymentsRepository {
     ): ApiResponse
 }
 
-internal class PaymentsRepositoryImpl : PaymentsRepository {
-    private val paymentsService: PaymentsService by lazy {
-        NetworkProvider().paymentsService
+internal class LegacyPaymentsRepositoryImpl : LegacyPaymentsRepository {
+    private val legacyPaymentsService: LegacyPaymentsService by lazy {
+        NetworkProvider().legacyPaymentsService
     }
 
     override suspend fun makeLnmoRequest(
@@ -31,6 +31,6 @@ internal class PaymentsRepositoryImpl : PaymentsRepository {
             customerId,
             accountRef
         )
-        return paymentsService.makeRequest(BuildConfig.FunctionsApiKey, lnmoRequest)
+        return legacyPaymentsService.makeRequest(BuildConfig.FunctionsApiKey, lnmoRequest)
     }
 }

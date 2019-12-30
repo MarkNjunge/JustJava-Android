@@ -15,7 +15,9 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.orderDetail.OrderDetailActivity"></activity>
+        <activity
+            android:name=".ui.payMpesa.PayMpesaActivity" />
+        <activity android:name=".ui.orderDetail.OrderDetailActivity" />
         <activity
             android:name=".ui.orders.OrdersActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />
@@ -70,14 +72,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoBar" />
         <activity
-            android:name=".ui.previousOrders.PreviousOrdersActivity"
-            android:parentActivityName=".ui.profile.ProfileActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.viewOrder.ViewOrderActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />
 
-        <service android:name=".data.network.MyFirebaseMessagingService">
+        <service android:name=".data.network.JustJavaFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
