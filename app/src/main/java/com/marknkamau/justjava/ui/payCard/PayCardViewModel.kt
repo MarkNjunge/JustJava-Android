@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.PaymentsRepository
-import com.marknjunge.core.model.ApiResponse
+import com.marknjunge.core.data.model.ApiResponse
 import kotlinx.coroutines.launch
 
 class PayCardViewModel(

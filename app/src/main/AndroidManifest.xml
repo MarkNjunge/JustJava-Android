@@ -15,7 +15,7 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.payCard.PayCardActivity"></activity>
+        <activity android:name=".ui.payCard.PayCardActivity" />
         <activity android:name=".ui.payMpesa.PayMpesaActivity" />
         <activity android:name=".ui.orderDetail.OrderDetailActivity" />
         <activity
@@ -71,9 +71,6 @@
             android:name=".ui.about.AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoBar" />
-        <activity
-            android:name=".ui.viewOrder.ViewOrderActivity"
-            android:parentActivityName=".ui.profile.ProfileActivity" />
 
         <service android:name=".data.network.JustJavaFirebaseMessagingService">
             <intent-filter>
@@ -90,9 +87,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data
-            android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" />
     </application>
 
 </manifest>

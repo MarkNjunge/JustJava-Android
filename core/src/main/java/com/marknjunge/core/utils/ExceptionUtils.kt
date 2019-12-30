@@ -1,7 +1,7 @@
 package com.marknjunge.core.utils
 
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.model.ApiResponse
+import com.marknjunge.core.data.model.ApiResponse
 import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.json.JsonDecodingException
 import retrofit2.HttpException

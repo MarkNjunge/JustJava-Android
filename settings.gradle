@@ -1,1 +1,1 @@
-include ':app', ':justjavastaff', ':core'
+include ':app', ':core'

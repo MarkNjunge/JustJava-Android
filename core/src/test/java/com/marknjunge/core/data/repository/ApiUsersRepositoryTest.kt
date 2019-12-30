@@ -32,55 +32,46 @@ class ApiUsersRepositoryTest {
     fun `verify updateUser runs and saves user`() = runBlocking {
         val user = SampleData.user
         val updatedUser = user.copy(firstName = "newFName")
-        coEvery { usersService.updateUser(any()) } just runs
+        coEvery { usersService.updateUser(any(), any()) } just runs
         coEvery { preferencesRepository.user } returns user
 
         val resource = repo.updateUser("newFName", user.lastName, user.mobileNumber!!, user.email)
 
-        coVerify { usersService.updateUser(any()) }
+        coVerify { usersService.updateUser(any(), any()) }
         coVerify { preferencesRepository.user = updatedUser }
         Assert.assertTrue(resource is Resource.Success)
     }
 
     @Test
     fun `verify updateUser handles error`() = runBlocking {
-        coEvery { usersService.updateUser(any()) } throws Exception("error")
+        coEvery { usersService.updateUser(any(), any()) } throws Exception("error")
 
         val resource = repo.updateUser("", "", "", "")
 
-        coVerify { usersService.updateUser(any()) }
+        coVerify { usersService.updateUser(any(), any()) }
         Assert.assertTrue(resource is Resource.Failure)
     }
 
     // updateFcmToken
     @Test
     fun `verify updateFcmToken runs and saves user`() = runBlocking {
-        coEvery { usersService.updateFcmToken(any()) } just runs
+        coEvery { usersService.updateFcmToken(any(), any()) } just runs
         coEvery { preferencesRepository.user } returns SampleData.user
 
         val resource = repo.updateFcmToken("new_token")
 
-        coVerify { usersService.updateFcmToken(any()) }
+        coVerify { usersService.updateFcmToken(any(), any()) }
         coVerify { preferencesRepository.user = SampleData.user.copy(fcmToken = "new_token") }
         Assert.assertTrue(resource is Resource.Success)
     }
 
     @Test
     fun `verify updateFcmToken handles error`() = runBlocking {
-        coEvery { usersService.updateFcmToken(any()) } throws Exception("")
+        coEvery { usersService.updateFcmToken(any(), any()) } throws Exception("")
 
         val resource = repo.updateFcmToken("")
 
-        coVerify { usersService.updateFcmToken(any()) }
+        coVerify { usersService.updateFcmToken(any(), any()) }
         Assert.assertTrue(resource is Resource.Failure)
-    }
-
-    // logout
-    @Test
-    fun `verify updateUser runs`() = runBlocking {
-        repo.logout()
-
-        coVerify { preferencesRepository.user = null }
-        coVerify { preferencesRepository.sessionId = "" }
     }
 }

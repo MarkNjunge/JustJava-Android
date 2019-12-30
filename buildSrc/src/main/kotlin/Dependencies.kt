@@ -19,17 +19,12 @@ object Versions {
     val room = "2.1.0"
     val constraintLayout = "2.0.0-beta2"
     val picasso = "2.71828"
-    val crashlytics = "2.10.1"
     val junit = "4.12"
     val testRunner = "1.3.0-alpha01"
     val espresso = "3.3.0-alpha01"
     val testRules = "1.3.0-alpha01"
     val koin = "2.0.1"
-    val firebaseCore = "17.0.0"
-    val firebaseAuth = "18.0.0"
-    val firebaseFirestore = "20.1.0"
     val firebaseMessaging = "19.0.1"
-    val firebaseDatabase = "18.0.0"
     val mockk = "1.9.2"
     val androidXTestCore = "1.0.0"
 
@@ -46,8 +41,6 @@ object Dependencies {
     val androidGradlePlugin = "com.android.tools.build:gradle:3.4.1"
     val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
     val googleServices = "com.google.gms:google-services:4.2.0"
-    val fabric = "io.fabric.tools:gradle:1.28.0"
-
 
     val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
@@ -66,13 +59,7 @@ object Dependencies {
     val recycerview = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
     val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
 
-
-    val firebaseCore = "com.google.firebase:firebase-core:${Versions.firebaseCore}"
-    val firebaseAuth = "com.google.firebase:firebase-auth:${Versions.firebaseAuth}"
-    val firebaseDatabase = "com.google.firebase:firebase-database:${Versions.firebaseDatabase}"
-    val firebaseFirestore = "com.google.firebase:firebase-firestore:${Versions.firebaseFirestore}"
     val firebaseMessaging = "com.google.firebase:firebase-messaging:${Versions.firebaseMessaging}"
-    val crashlytics = "com.crashlytics.sdk.android:crashlytics:${Versions.crashlytics}"
 
     const val playServicesAuth = "com.google.android.gms:play-services-auth:${Versions.playServices}"
 

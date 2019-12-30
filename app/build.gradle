@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'io.fabric'
 
 // A properties file is located at projectFolder/keys.properties
 def keysPropertiesFile = rootProject.file("keys.properties")
@@ -34,8 +33,6 @@ android {
     }
     buildTypes {
         debug {
-            ext.alwaysUpdateBuildId = false
-            ext.enableCrashlytics = false
             applicationIdSuffix ".debug"
             signingConfig signingConfigs.debug
         }
@@ -76,7 +73,6 @@ dependencies {
     // Other libraries
     implementation Dependencies.picasso
     implementation Dependencies.timber
-    implementation Dependencies.crashlytics
     implementation Dependencies.shimmer
     implementation Dependencies.playServicesAuth
     implementation Dependencies.mapbox

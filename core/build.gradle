@@ -4,17 +4,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 
-// A properties file is located at projectFolder/keys.properties
-def keysPropertiesFile = rootProject.file("keys.properties")
-def keys = new Properties()
-keys.load(new FileInputStream(keysPropertiesFile))
-
 android {
-
-    defaultConfig {
-        // Function credentials
-        buildConfigField("String", "FunctionsApiKey", keys['API_KEY'])
-    }
 
     buildTypes {
         debug {
@@ -39,11 +29,6 @@ dependencies {
     api Dependencies.corouinesPlayServices
 
     implementation Dependencies.appcompat
-
-    // Firebase
-    api Dependencies.firebaseCore
-    api Dependencies.firebaseAuth
-    api Dependencies.firebaseFirestore
 
     // REST
     implementation Dependencies.retrofit

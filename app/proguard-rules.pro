@@ -1,11 +1,4 @@
 ############################
-# App
-############################
--keep class com.marknjunge.core.model.OrderItem implements android.os.Parcelable {
-    *;
-}
-
-############################
 # Retrofit
 ############################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
@@ -49,20 +42,3 @@
 ############################
 # Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
 -dontwarn org.codehaus.mojo.animal_sniffer.*
-
-
-############################
-# Crashlytics
-############################
--keepattributes *Annotation*
--keepattributes SourceFile,LineNumberTable
--keep public class * extends java.lang.Exception
-
-############################
-# Other
-############################
--dontwarn com.google.gson.Gson$6
--dontnote okio.* # Prevents 'duplicate definition of library class'
--dontnote com.google.gson.**
--dontnote com.google.android.gms.**
--keep class com.google.android.gms.** { *; }

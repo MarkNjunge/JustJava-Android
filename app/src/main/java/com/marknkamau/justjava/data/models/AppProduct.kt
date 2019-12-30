@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.data.models
 
-import com.marknjunge.core.model.Product
-import com.marknjunge.core.model.ProductChoice
-import com.marknjunge.core.model.ProductChoiceOption
+import com.marknjunge.core.data.model.Product
+import com.marknjunge.core.data.model.ProductChoice
+import com.marknjunge.core.data.model.ProductChoiceOption
 
 data class AppProduct(
     val id: Long,

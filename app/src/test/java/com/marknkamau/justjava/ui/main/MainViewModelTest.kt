@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.ProductsRepository
-import com.marknjunge.core.model.Product
+import com.marknjunge.core.data.model.Product
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK

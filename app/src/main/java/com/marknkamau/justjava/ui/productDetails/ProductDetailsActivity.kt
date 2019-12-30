@@ -12,7 +12,7 @@ import androidx.core.util.Pair
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.marknjunge.core.model.Product
+import com.marknjunge.core.data.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProduct
 import com.marknkamau.justjava.data.models.toAppModel

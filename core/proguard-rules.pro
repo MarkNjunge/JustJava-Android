@@ -1,11 +1,4 @@
 ############################
-# App
-############################
--keep class com.marknjunge.core.model.** {
-    *;
-}
-
-############################
 # Retrofit
 ############################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and

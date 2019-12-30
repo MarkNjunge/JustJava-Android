@@ -2,7 +2,7 @@ package com.marknjunge.core.data.network
 
 import com.marknjunge.core.data.model.InitiateCardPaymentDto
 import com.marknjunge.core.data.model.RequestMpesaDto
-import com.marknjunge.core.model.ApiResponse
+import com.marknjunge.core.data.model.ApiResponse
 import retrofit2.http.Body
 import retrofit2.http.Header
 import retrofit2.http.POST

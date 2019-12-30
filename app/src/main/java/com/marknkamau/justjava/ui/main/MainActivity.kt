@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.model.Product
+import com.marknjunge.core.data.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.BaseActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity

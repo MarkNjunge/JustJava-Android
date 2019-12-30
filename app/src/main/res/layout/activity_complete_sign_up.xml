@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context="com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpActivity">
 
-    <include layout="@layout/content_toolbar" />
-
     <ProgressBar
         android:id="@+id/pbLoading"
         style="?android:attr/progressBarStyleHorizontal"

@@ -4,7 +4,6 @@ import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterF
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
-import com.marknjunge.core.payments.LegacyPaymentsService
 import com.marknjunge.core.utils.appConfig
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -13,11 +12,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
 internal class NetworkProvider {
-    private val apiUrl = "https://us-central1-justjava-android.cloudfunctions.net/payments/"
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
 
-    val legacyPaymentsService: LegacyPaymentsService
     val apiService: ApiService
     val authService: AuthService
     val usersService: UsersService
@@ -26,9 +23,6 @@ internal class NetworkProvider {
     val paymentsService: PaymentsService
 
     init {
-        val legacyRetrofit = provideLegacyRetrofit()
-        legacyPaymentsService = legacyRetrofit.create(LegacyPaymentsService::class.java)
-
         val retrofit = provideRetrofit()
         apiService = retrofit.create(ApiService::class.java)
         authService = retrofit.create(AuthService::class.java)
@@ -36,15 +30,6 @@ internal class NetworkProvider {
         cartService = retrofit.create(CartService::class.java)
         ordersService = retrofit.create(OrdersService::class.java)
         paymentsService = retrofit.create(PaymentsService::class.java)
-    }
-
-    private fun provideLegacyRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(apiUrl)
-            .addConverterFactory(JsonConfiguration.appConfig.asConverterFactory(mediaType))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
-            .client(provideOkHttpClient())
-            .build()
     }
 
     private fun provideRetrofit(): Retrofit {

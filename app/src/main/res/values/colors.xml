@@ -4,13 +4,9 @@
     <color name="colorPrimary">#4F332E</color>
     <color name="colorPrimaryDark">#3E2723</color>
     <color name="colorAccent">#F57C00</color>
-    <color name="colorAccentLight">#F4AF69</color>
     <color name="colorTextPrimary">#212121</color>
     <color name="colorTextSecondary">#757575</color>
     <color name="colorTextTertiary">#E0E0E0</color>
-    <color name="colorToppingGrey">#E0E0E0</color>
-    <color name="colorToppingOffText">#676767</color>
-    <color name="colorToppingOnText">#FFFFFF</color>
     <color name="colorDisabled">#CCCCCC</color>
     <color name="colorDisabledText">#888888</color>
 </resources>

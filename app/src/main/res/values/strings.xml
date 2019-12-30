@@ -3,52 +3,33 @@
     <string name="add_to_cart">Add to cart</string>
     <string name="about">About</string>
 
-    <string name="cinnamon_sprinkles_ksh_xx">Cinnamon Sprinkles (Ksh. 50)</string>
-    <string name="chocolate_curls_ksh_xx">Chocolate Curls (Ksh. 50)</string>
     <string name="clear_cart">Clear cart</string>
     <string name="create_an_account">Create an account</string>
     <string name="cart">Cart</string>
 
-    <string name="drink_name">Drink name</string>
-    <string name="default_address">Default address</string>
     <string name="delivery_address">Delivery Address</string>
     <string name="developer">Developer</string>
 
     <string name="email_address">Email Address</string>
 
-    <string name="forgot_password">Forgot password</string>
     <string name="full_name">Full name</string>
 
     <string name="ksh">Ksh. %d</string>
 
-    <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="log_in">Log in</string>
-
-    <string name="mini_marshmallows_ksh_xx">Mini marshmallows (Ksh. 50)</string>
-
-    <string name="name">Name</string>
 
     <string name="price_listing">Ksh. %s</string>
     <string name="price_listing_w_add">+ Ksh. %s</string>
     <string name="profile">Profile</string>
     <string name="place_order">Place order</string>
-    <string name="phone_number">Phone Number</string>
     <string name="password">Password</string>
-    <string name="previous_orders">Previous orders</string>
 
     <string name="required">Required</string>
 
     <string name="sign_up">Sign up</string>
     <string name="source_code">Source Code</string>
 
-    <string name="toppings">Toppings</string>
     <string name="total">Total</string>
-    <string name="there_are_no_items_in_your_cart">There are no items in your cart.</string>
-
-    <string name="update_profile">Update Profile</string>
-
-    <string name="you_do_not_have_any_previous_orders">You do not have any previous orders</string>
 
     <string name="drink_image_content_desc">Drink Image</string>
     <string name="app_icon_content_desc">App icon</string>
@@ -56,18 +37,12 @@
     <string name="add_quantity_button_content_desc">Add quantity button</string>
     <string name="payment_method">Payment method</string>
     <string name="payment_status">Payment status</string>
-    <string name="pay_now">Pay now</string>
     <string name="order_items">Order items</string>
     <string name="order_id">Order ID</string>
     <string name="order_status">Order status</string>
-    <string name="order_date">Order date</string>
     <string name="additional_comments">Additional comments</string>
-    <string name="total_price">Total price</string>
     <string name="back_button">Back button</string>
-    <string name="quantity">Quantity</string>
-    <string name="change_payment_method">Change</string>
     <string name="order_details">Order details</string>
-    <string name="cart_require_login">You need to log in to continue</string>
     <string name="about_contact_email_content_desc">Contact via email</string>
     <string name="about_view_linkedin_content_desc">View LinkedIn</string>
     <string name="about_view_website_content_desc">View website</string>
@@ -77,14 +52,9 @@
     <string name="privacy_policy">Privacy policy</string>
     <string name="open_source_licenses">Open Source Licenses</string>
     <string name="account_details">Account details</string>
-    <string name="item_for">item for</string>
-    <string name="see_more">See more…</string>
     <string name="payment_details">Payment Details</string>
-    <string name="save">Save</string>
-    <string name="delete">Delete</string>
     <string name="developer_name">Mark Njung\'e</string>
     <string name="developer_contact">contact@marknjunge.com</string>
-    <string name="paid">Paid</string>
     <string name="checkout">Checkout</string>
 
     <plurals name="order_info">

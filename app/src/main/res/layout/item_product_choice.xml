@@ -14,7 +14,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/colorTextPrimary"
         android:textStyle="bold"
-        tools:text="@string/toppings" />
+        tools:text="Toppings" />
 
     <TextView
         android:id="@+id/tvChoiceRequired"

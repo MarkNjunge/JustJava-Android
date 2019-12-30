@@ -7,16 +7,12 @@ buildscript {
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
-        maven {
-            url 'https://maven.fabric.io/public'
-        }
 
     }
     dependencies {
         classpath Dependencies.androidGradlePlugin
         classpath Dependencies.googleServices
         classpath Dependencies.kotlinGradlePlugin
-        classpath Dependencies.fabric
         classpath Dependencies.serializationPlugin
 
         // NOTE: Do not place your application dependencies here; they belong

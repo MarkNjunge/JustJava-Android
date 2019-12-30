@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.ProductsRepository
-import com.marknjunge.core.model.Product
+import com.marknjunge.core.data.model.Product
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val productsRepository: ProductsRepository) : ViewModel() {

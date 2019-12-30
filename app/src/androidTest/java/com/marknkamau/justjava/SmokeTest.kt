@@ -1,9 +1,7 @@
 package com.marknkamau.justjava
 
 import androidx.test.core.app.ActivityScenario
-import com.marknjunge.core.data.local.DrinksProvider
 import com.marknkamau.justjava.testUtils.*
-import com.marknkamau.justjava.testUtils.mocks.MockOrderService
 import com.marknkamau.justjava.ui.main.MainActivity
 import org.junit.Test
 
@@ -29,9 +27,5 @@ class SmokeTest {
 
         // Place order
         onViewWithId(R.id.btnPlaceOrder).scrollTo().click()
-
-        // Check order is displayed
-        val order = MockOrderService.orderPairs.last().first
-        onViewWithText(order.orderId).isDisplayed()
     }
 }
