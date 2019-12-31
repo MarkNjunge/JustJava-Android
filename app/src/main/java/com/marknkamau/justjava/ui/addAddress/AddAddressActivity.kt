@@ -1,10 +1,17 @@
 package com.marknkamau.justjava.ui.addAddress
 
+import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -17,6 +24,10 @@ import com.marknjunge.core.data.model.Address
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_add_address.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
 class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -27,6 +38,9 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var googleMap: GoogleMap
     private lateinit var target: LatLng
+    private val PERMISSIONS_REQUEST = 99
+    private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
+    private val uiCoroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +88,35 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap.setOnCameraIdleListener {
             target = googleMap.cameraPosition.target
         }
+
+
+        if (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            getLastLocation()
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSIONS_REQUEST
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSIONS_REQUEST) {
+            if (grantResults.permissionsGranted()) {
+                getLastLocation()
+            }
+        }
+    }
+
+    private fun getLastLocation() {
+        uiCoroutineScope.launch {
+            val location: Location? = fusedLocationClient.lastLocation.await()
+            location?.let {
+                val userLoc = LatLng(it.latitude, it.longitude)
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLoc, 14f))
+            }
+        }
     }
 
     private fun isValid(): Boolean {
@@ -88,4 +131,9 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun LatLng.asString() = "$latitude,$longitude"
+
+    private fun Context.hasPermission(permission: String) =
+        ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+    private fun IntArray.permissionsGranted() = this.isNotEmpty() && this[0] == PackageManager.PERMISSION_GRANTED
 }
