@@ -35,6 +35,8 @@ object Versions {
     const val serialization = "0.13.0"
     const val retrofitSerialization = "0.4.0"
     const val places = "2.0.0"
+    const val sentry = "1.7.27"
+    const val sentryGradlePlugin = "1.7.27"
 }
 
 object Dependencies {
@@ -81,6 +83,9 @@ object Dependencies {
     val koin = "org.koin:koin-android:${Versions.koin}"
     val koinViewModel = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
     val shimmer = "com.facebook.shimmer:shimmer:${Versions.shimmer}"
+
+    val sentryGradlePlugin = "io.sentry:sentry-android-gradle-plugin:${Versions.sentryGradlePlugin}"
+    val sentry = "io.sentry:sentry-android:${Versions.sentry}"
 
     val mockk = "io.mockk:mockk:${Versions.mockk}"
     val mockAndroid = "io.mockk:mockk-android:${Versions.mockk}"

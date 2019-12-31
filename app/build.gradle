@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.sentry.android.gradle'
 
 // A properties file is located at projectFolder/keys.properties
 def keysPropertiesFile = rootProject.file("keys.properties")
@@ -21,6 +22,7 @@ android {
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
 
         buildConfigField("String", "googleClientId", '"565628649475-4vp8dm790n2kuuhqpu3o662e9odht703.apps.googleusercontent.com"')
+        buildConfigField("String", "sentryDsn", keys['SENTRY_DSN'])
         resValue "string", "google_maps_key", keys['GOOGLE_MAPS_API_KEY'] // Generates @strings/google_maps_key
     }
     signingConfigs {
@@ -77,6 +79,7 @@ dependencies {
     implementation Dependencies.playServicesAuth
     implementation Dependencies.playServicesMaps
     implementation Dependencies.places
+    implementation Dependencies.sentry
 
     // Test libraries
     testImplementation Dependencies.junit
