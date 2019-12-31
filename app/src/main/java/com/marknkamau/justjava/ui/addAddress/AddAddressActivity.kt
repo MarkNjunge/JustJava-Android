@@ -83,6 +83,7 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val nrb = LatLng(-1.286481, 36.817297)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nrb, 14f))
+        googleMap.isMyLocationEnabled = true
         googleMap.uiSettings.isMyLocationButtonEnabled = true
 
         googleMap.setOnCameraIdleListener {
