@@ -133,10 +133,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/btnChangeDeliveryAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView36"
-            tools:text="Unamed Road, Unamed Estate" />
+            tools:text="Unamed Road, Unamed Estate"
+            tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnChangeDeliveryAddress"
@@ -145,8 +147,25 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="Change"
+            android:visibility="gone"
             app:layout_constraintBaseline_toBaselineOf="@+id/tvDeliveryAddress"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAddDeliveryAddress"
+            style="@style/AppTheme.Button.OutlinedAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:text="Add Delivery Address"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDeliveryAddress"
+            tools:visibility="visible" />
 
         <View
             android:id="@+id/view12"
@@ -157,7 +176,7 @@
             android:background="#000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDeliveryAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/btnAddDeliveryAddress" />
 
         <TextView
             android:id="@+id/textView38"

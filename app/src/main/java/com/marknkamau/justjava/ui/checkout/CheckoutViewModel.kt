@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.repository.OrdersRepository
+import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.models.CartItem
 import kotlinx.coroutines.launch
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 class CheckoutViewModel(
     private val preferencesRepository: PreferencesRepository,
     private val dbRepository: DbRepository,
-    private val ordersRepository: OrdersRepository
+    private val ordersRepository: OrdersRepository,
+    private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _items = MutableLiveData<List<CartItem>>()
     val items: LiveData<List<CartItem>> = _items
@@ -55,6 +57,18 @@ class CheckoutViewModel(
             liveData.value =
                 ordersRepository.placeOrder(PlaceOrderDto(paymentMethod.s, items, address.id, additionalComments))
 
+            _loading.value = false
+        }
+
+        return liveData
+    }
+
+    fun addAddress(address: Address): LiveData<Resource<Address>> {
+        val liveData = MutableLiveData<Resource<Address>>()
+
+        viewModelScope.launch {
+            _loading.value = true
+            liveData.value = usersRepository.addAddress(address)
             _loading.value = false
         }
 

@@ -1,9 +1,11 @@
 package com.marknkamau.justjava.ui.checkout
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.TaskStackBuilder
@@ -13,6 +15,7 @@ import com.marknjunge.core.data.model.PaymentMethod
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
@@ -26,8 +29,9 @@ class CheckoutActivity : AppCompatActivity() {
 
     private val checkoutViewModel: CheckoutViewModel by viewModel()
     private lateinit var paymentMethod: PaymentMethod
-    private lateinit var deliveryAddress: Address
+    private var deliveryAddress: Address? = null
     private lateinit var user: User
+    private val ADD_ADDRESS_REQ = 99
 
     @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +54,16 @@ class CheckoutActivity : AppCompatActivity() {
         checkoutViewModel.getCartItems()
         user = checkoutViewModel.getUser()
         if (user.address.isEmpty()) {
-            // TODO Handle no address
+            btnAddDeliveryAddress.visibility = View.VISIBLE
+            btnChangeDeliveryAddress.visibility = View.GONE
+            tvDeliveryAddress.visibility = View.GONE
         } else {
+            btnAddDeliveryAddress.visibility = View.GONE
+            btnChangeDeliveryAddress.visibility = View.VISIBLE
+            tvDeliveryAddress.visibility = View.VISIBLE
+
             deliveryAddress = user.address[0]
-            tvDeliveryAddress.text = deliveryAddress.streetAddress
+            tvDeliveryAddress.text = deliveryAddress!!.streetAddress
         }
 
         btnChangeDeliveryAddress.setOnClickListener {
@@ -64,7 +74,34 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         btnPlaceOrder.setOnClickListener {
-            placeOrder()
+            if (valid()) {
+                placeOrder()
+            }
+        }
+        btnAddDeliveryAddress.setOnClickListener {
+            startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ADD_ADDRESS_REQ && resultCode == Activity.RESULT_OK) {
+            val address = data?.extras!![AddAddressActivity.ADDRESS_KEY] as Address
+
+            checkoutViewModel.addAddress(address).observe(this, Observer { resource ->
+                when (resource) {
+                    is Resource.Success -> {
+                        btnAddDeliveryAddress.visibility = View.GONE
+                        btnChangeDeliveryAddress.visibility = View.VISIBLE
+                        tvDeliveryAddress.visibility = View.VISIBLE
+
+                        deliveryAddress = address
+                        tvDeliveryAddress.text = deliveryAddress!!.streetAddress
+                    }
+                    is Resource.Failure -> toast(resource.message)
+                }
+            })
         }
     }
 
@@ -91,7 +128,7 @@ class CheckoutActivity : AppCompatActivity() {
             .setTitle(R.string.delivery_address)
             .setItems(addresses) { _, which ->
                 deliveryAddress = user.address[which]
-                tvDeliveryAddress.text = deliveryAddress.streetAddress
+                tvDeliveryAddress.text = deliveryAddress!!.streetAddress
             }
             .create()
             .show()
@@ -115,7 +152,7 @@ class CheckoutActivity : AppCompatActivity() {
             if (etAdditionalComments.trimmedText.isNotEmpty()) etAdditionalComments.trimmedText else null
 
         btnPlaceOrder.isEnabled = false
-        checkoutViewModel.placeOrder(paymentMethod, deliveryAddress, additionalComments)
+        checkoutViewModel.placeOrder(paymentMethod, deliveryAddress!!, additionalComments)
             .observe(this, Observer { resource ->
                 btnPlaceOrder.isEnabled = true
                 when (resource) {
@@ -136,5 +173,16 @@ class CheckoutActivity : AppCompatActivity() {
                 }
             })
 
+    }
+
+    private fun valid(): Boolean {
+        var isValid = true
+
+        if (deliveryAddress == null) {
+            toast("A delivery address is required", Toast.LENGTH_LONG)
+            isValid = false
+        }
+
+        return isValid
     }
 }
