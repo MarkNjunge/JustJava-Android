@@ -83,8 +83,6 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
 
         val nrb = LatLng(-1.286481, 36.817297)
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(nrb, 14f))
-        googleMap.isMyLocationEnabled = true
-        googleMap.uiSettings.isMyLocationButtonEnabled = true
 
         googleMap.setOnCameraIdleListener {
             target = googleMap.cameraPosition.target
@@ -93,6 +91,8 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             getLastLocation()
+            googleMap.isMyLocationEnabled = true
+            googleMap.uiSettings.isMyLocationButtonEnabled = true
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -106,6 +106,8 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
         if (requestCode == PERMISSIONS_REQUEST) {
             if (grantResults.permissionsGranted()) {
                 getLastLocation()
+                googleMap.isMyLocationEnabled = true
+                googleMap.uiSettings.isMyLocationButtonEnabled = true
             }
         }
     }
