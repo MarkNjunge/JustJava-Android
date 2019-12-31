@@ -65,7 +65,11 @@ class MainActivity : BaseActivity() {
 
         viewModel.products.observe(this, Observer { resource ->
             when(resource){
-                is Resource.Success -> adapter.setItems(resource.data)
+                is Resource.Success -> {
+                    TransitionManager.beginDelayedTransition(rootMainActivity)
+                    rvProducts.visibility = View.VISIBLE
+                    adapter.setItems(resource.data)
+                }
                 is Resource.Failure -> toast(resource.message)
             }
 

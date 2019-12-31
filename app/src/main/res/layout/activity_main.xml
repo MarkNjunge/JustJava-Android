@@ -10,8 +10,10 @@
         android:id="@+id/rvProducts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:itemCount="8"
-        tools:listitem="@layout/item_product" />
+        tools:listitem="@layout/item_product"
+        tools:visibility="visible" />
 
     <!-- Loading indicator -->
     <com.facebook.shimmer.ShimmerFrameLayout
