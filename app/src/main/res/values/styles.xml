@@ -31,6 +31,7 @@
 
     <style name="AppTheme.SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
 

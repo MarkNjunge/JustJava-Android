@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.google.firebase.iid.FirebaseInstanceId
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.repository.UsersRepository
+import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.network.FirebaseService
 import com.marknkamau.justjava.ui.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +31,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_splash)
 
         if (preferencesRepository.isSignedIn) {
             coroutineScope.launch {
