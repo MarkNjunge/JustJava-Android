@@ -52,19 +52,7 @@ class CheckoutActivity : AppCompatActivity() {
         observeLoading()
 
         checkoutViewModel.getCartItems()
-        user = checkoutViewModel.getUser()
-        if (user.address.isEmpty()) {
-            btnAddDeliveryAddress.visibility = View.VISIBLE
-            btnChangeDeliveryAddress.visibility = View.GONE
-            tvDeliveryAddress.visibility = View.GONE
-        } else {
-            btnAddDeliveryAddress.visibility = View.GONE
-            btnChangeDeliveryAddress.visibility = View.VISIBLE
-            tvDeliveryAddress.visibility = View.VISIBLE
-
-            deliveryAddress = user.address[0]
-            tvDeliveryAddress.text = deliveryAddress!!.streetAddress
-        }
+        loadAddressList()
 
         btnChangeDeliveryAddress.setOnClickListener {
             showChangeDeliveryAddressDialog()
@@ -96,8 +84,7 @@ class CheckoutActivity : AppCompatActivity() {
                         btnChangeDeliveryAddress.visibility = View.VISIBLE
                         tvDeliveryAddress.visibility = View.VISIBLE
 
-                        deliveryAddress = address
-                        tvDeliveryAddress.text = deliveryAddress!!.streetAddress
+                        loadAddressList()
                     }
                     is Resource.Failure -> toast(resource.message)
                 }
@@ -120,6 +107,22 @@ class CheckoutActivity : AppCompatActivity() {
             val total = items.fold(0.0, { acc, c -> acc + c.cartItem.totalPrice })
             tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
         })
+    }
+
+    private fun loadAddressList(){
+        user = checkoutViewModel.getUser()
+        if (user.address.isEmpty()) {
+            btnAddDeliveryAddress.visibility = View.VISIBLE
+            btnChangeDeliveryAddress.visibility = View.GONE
+            tvDeliveryAddress.visibility = View.GONE
+        } else {
+            btnAddDeliveryAddress.visibility = View.GONE
+            btnChangeDeliveryAddress.visibility = View.VISIBLE
+            tvDeliveryAddress.visibility = View.VISIBLE
+
+            deliveryAddress = user.address[0]
+            tvDeliveryAddress.text = deliveryAddress!!.streetAddress
+        }
     }
 
     private fun showChangeDeliveryAddressDialog() {
