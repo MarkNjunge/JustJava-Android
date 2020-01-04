@@ -50,10 +50,11 @@ It is only used in `release` builds.
 
 1. Create a project on [Sentry](https://sentry.io/)
 2. Take note of the project's DSN. _[Where can I find my DSN?](https://forum.sentry.io/t/where-can-i-find-my-dsn/4877)_
+3. Create a `sentry.properties` file. See [Proguard](https://docs.sentry.io/clients/java/integrations/#proguard) instructions.
 
 ## Installation
 
-1. Clone the repository
+1. Clone the repository.
 2. Create a `keys.properties` file based on`keys.properties.sample`.
 3. Add the `play-services.json` file from firebase to `./app`.
 4. Open and build in Android Studio.
