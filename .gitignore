@@ -39,3 +39,5 @@ justjavastaff/justjavastaff-release.apk
 sync.ffs_db
 keys.properties
 *.apk
+sentry.properties
+app/release
