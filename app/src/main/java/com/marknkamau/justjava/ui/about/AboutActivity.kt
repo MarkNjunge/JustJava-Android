@@ -24,7 +24,7 @@ class AboutActivity : AppCompatActivity() {
         imgLinkedInAbout.setOnClickListener { openUrl("https://linkedin.com/in/marknjunge") }
         imgWebsiteAbout.setOnClickListener { openUrl("https://marknjunge.com") }
         imgGithubAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge") }
-        tvPrivacyPolicyAbout.setOnClickListener { openUrl("https://marknjunge.com/justjava/privacy") }
+        tvPrivacyPolicyAbout.setOnClickListener { openUrl("https://justjava.store/privacy") }
 
         // See https://github.com/google/play-services-plugins/pull/62
         tvLicensesAbout.visibility = View.GONE
