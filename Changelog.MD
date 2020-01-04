@@ -1,5 +1,16 @@
 # JustJava changelog
 
+# 2.0.0
+
+- Change backend from Firebase
+- Add Google Sign In
+
+- Use dynamic products list
+- Add Google Sign In
+- Add ability to have multiple delivery addresses
+- Add card payment
+- Disable backup on uninstall
+
 # 1.7.0
 
 - Update UI design
