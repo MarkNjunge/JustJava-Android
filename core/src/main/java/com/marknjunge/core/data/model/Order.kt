@@ -34,5 +34,5 @@ data class Order(
 	val status: String,
 
 	@SerialName("addressId")
-	val addressId: Long
+	val addressId: Long? = null
 )

@@ -119,7 +119,7 @@ class OrderDetailActivity : AppCompatActivity() {
         tv_order_orderId.text = order.id
         tv_order_orderStatus.text = order.status
         tv_order_orderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
-        tv_order_address.text = address?.streetAddress ?: order.addressId.toString()
+        tv_order_address.text = address?.streetAddress ?: "[Deleted address]"
         if (order.additionalComments != null) {
             tv_order_additionalComments.text = order.additionalComments
         } else {
