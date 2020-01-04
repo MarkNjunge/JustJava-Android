@@ -1,4 +1,9 @@
 ############################
+# JustJava
+############################
+-keep class com.marknjunge.core.data.model.** { *; }
+
+############################
 # Retrofit
 ############################
 # Retrofit does reflection on generic parameters. InnerClasses is required to use Signature and
