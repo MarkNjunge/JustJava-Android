@@ -26,7 +26,9 @@ class SignInViewModel(
             _loading.value = true
             liveData.value = authRepository.signInWithGoogle(idToken)
 
-            usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            if(liveData.value is Resource.Success){
+                usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            }
 
             _loading.value = false
         }
@@ -41,7 +43,9 @@ class SignInViewModel(
             _loading.value = true
             liveData.value = authRepository.signIn(email, password)
 
-            usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            if(liveData.value is Resource.Success){
+                usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            }
 
             _loading.value = false
         }

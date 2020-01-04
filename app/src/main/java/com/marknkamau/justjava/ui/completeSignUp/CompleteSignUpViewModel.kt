@@ -19,7 +19,6 @@ class CompleteSignUpViewModel(private val usersRepository: UsersRepository, priv
         viewModelScope.launch {
             _loading.value = true
             liveData.value = usersRepository.updateUser(firstName, lastName, mobile, email)
-            usersRepository.updateFcmToken(firebaseService.getFcmToken())
             _loading.value = false
         }
 

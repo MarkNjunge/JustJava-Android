@@ -32,7 +32,9 @@ class SignUpViewModel(
             _loading.value = true
             livedata.value = authRepository.signUp(firstName, lastName, mobile, email, password)
 
-            usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            if(livedata.value is Resource.Success){
+                usersRepository.updateFcmToken(firebaseService.getFcmToken())
+            }
 
             _loading.value = false
         }
