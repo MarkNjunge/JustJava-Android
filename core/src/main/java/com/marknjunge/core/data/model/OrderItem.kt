@@ -16,7 +16,7 @@ data class OrderItem(
 	val totalPrice: Double,
 
 	@SerialName("productBasePrice")
-	val productBasePrice: Int,
+	val productBasePrice: Double,
 
 	@SerialName("productName")
 	val productName: String,

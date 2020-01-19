@@ -21,5 +21,5 @@ data class VerifyOrderResponse(
 	val index: Int,
 
 	@SerialName("newPrice")
-	val newPrice: Int
+	val newPrice: Double
 )

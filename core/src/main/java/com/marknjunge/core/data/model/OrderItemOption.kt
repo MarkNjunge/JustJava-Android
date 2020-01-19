@@ -15,7 +15,7 @@ data class OrderItemOption(
 	val optionId: Int,
 
 	@SerialName("optionPrice")
-	val optionPrice: Int,
+	val optionPrice: Double,
 
 	@SerialName("id")
 	val id: Int,

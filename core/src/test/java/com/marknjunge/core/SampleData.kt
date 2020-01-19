@@ -7,7 +7,7 @@ import com.marknjunge.core.data.model.Product
 import com.marknjunge.core.data.model.ProductChoice
 import com.marknjunge.core.data.model.ProductChoiceOption
 
-object SampleData {
+internal object SampleData {
     val address = Address(0, "Street", "instructions", "-1,1")
     val user = User(1, "fName", "lName", 0L, "254712345678", "contact@mail.com", "token", "PASSWORD", listOf(address))
     val session = Session("", 0L, 0)
