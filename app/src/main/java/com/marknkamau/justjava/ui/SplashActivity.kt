@@ -1,20 +1,9 @@
 package com.marknkamau.justjava.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
-import com.google.firebase.iid.FirebaseInstanceId
-import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.repository.UsersRepository
-import com.marknkamau.justjava.R
-import com.marknkamau.justjava.data.network.FirebaseService
+import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.ui.main.MainActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import org.koin.android.ext.android.inject
 
 /**
  * Created by MarkNjunge.
@@ -23,40 +12,12 @@ import org.koin.android.ext.android.inject
  */
 
 class SplashActivity : AppCompatActivity() {
-    private val preferencesRepository: PreferencesRepository by inject()
-    private val usersRepository: UsersRepository by inject()
-    private val firebaseService:FirebaseService by inject()
-
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
-        if (preferencesRepository.isSignedIn) {
-            coroutineScope.launch {
-                updateFcmToken()
-                updateLocalUser()
-                proceedToMainActivity()
-            }
-        } else {
-            proceedToMainActivity()
-        }
-    }
-
-    private suspend fun updateFcmToken() {
-        usersRepository.updateFcmToken(firebaseService.getFcmToken())
-    }
-
-    private suspend fun updateLocalUser() {
-        usersRepository.getCurrentUser().collect {  }
-    }
-
-    private fun proceedToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
     }
-
 
 }
