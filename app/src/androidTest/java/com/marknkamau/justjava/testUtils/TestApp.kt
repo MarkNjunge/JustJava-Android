@@ -1,34 +1,63 @@
 package com.marknkamau.justjava.testUtils
 
-import androidx.room.Room
-import androidx.test.platform.app.InstrumentationRegistry
+import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.repository.*
 import com.marknkamau.justjava.JustJavaApp
-import com.marknkamau.justjava.data.db.AppDatabase
-import com.marknkamau.justjava.testUtils.mocks.*
+import com.marknkamau.justjava.data.db.DbRepository
+import com.marknkamau.justjava.data.network.FirebaseService
+import com.marknkamau.justjava.di.viewModelModule
+import com.marknkamau.justjava.utils.NotificationHelper
+import io.mockk.mockk
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
+import timber.log.Timber
 
 class TestApp : JustJavaApp() {
 
     companion object {
-        val mockPreferencesRepository = MockPreferencesRepository.create()
-        val mockNotificationHelper = MockNotificationHelper.create()
+        val mockPreferencesRepository = mockk<PreferencesRepository>()
+        val mockNotificationHelper = mockk<NotificationHelper>()
+        val mockFirebaseService = mockk<FirebaseService>()
+
+        val mockAuthRepository = mockk<AuthRepository>()
+        val mockProductsRepository = mockk<ProductsRepository>()
+        val mockUsersRepository = mockk<UsersRepository>()
+        val mockCartRepository = mockk<CartRepository>()
+        val mockOrdersRepository = mockk<OrdersRepository>()
+        val mockPaymentsRepository = mockk<PaymentsRepository>()
+
+        val mockDbRepository = mockk<DbRepository>()
     }
 
-    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
-
     override fun onCreate() {
+        Timber.plant(object : Timber.DebugTree() {
+            override fun createStackElementTag(element: StackTraceElement): String {
+                return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
+            }
+        })
 
         startKoin {
-            modules(listOf(mockAppModule))
+            modules(listOf(mockAppModule, mockRepositoriesModule, viewModelModule, mockDbModule))
         }
     }
 
     private val mockAppModule = module {
         single { mockPreferencesRepository }
-        single { Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java).build() }
-        single { get<AppDatabase>().cartDao() }
         single { mockNotificationHelper }
+        single { mockFirebaseService }
+    }
+
+    private val mockRepositoriesModule = module {
+        single { mockAuthRepository }
+        single { mockProductsRepository }
+        single { mockUsersRepository }
+        single { mockCartRepository }
+        single { mockOrdersRepository }
+        single { mockPaymentsRepository }
+    }
+
+    private val mockDbModule = module {
+        single { mockDbRepository }
     }
 
 }
