@@ -15,6 +15,7 @@ import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -28,6 +29,9 @@ class AddressBookViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
     @MockK
     private lateinit var usersRepository: UsersRepository
 
@@ -37,7 +41,7 @@ class AddressBookViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = AddressBookViewModel(usersRepository)
     }
 
@@ -45,6 +49,7 @@ class AddressBookViewModelTest {
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test

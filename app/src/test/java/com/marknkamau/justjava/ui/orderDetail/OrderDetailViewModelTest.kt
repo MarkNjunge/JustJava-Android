@@ -11,15 +11,19 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
 import org.junit.rules.TestRule
 
-class OrderDetailViewModelTest{
+class OrderDetailViewModelTest {
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var ordersRepository: OrdersRepository
@@ -33,7 +37,7 @@ class OrderDetailViewModelTest{
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = OrderDetailViewModel(ordersRepository, preferencesRepository)
     }
 
@@ -41,10 +45,11 @@ class OrderDetailViewModelTest{
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `can get order`(){
+    fun `can get order`() {
         val resource = Resource.Success(SampleData.order)
         coEvery { ordersRepository.getOrderById(any()) } returns resource
 
@@ -56,7 +61,7 @@ class OrderDetailViewModelTest{
     }
 
     @Test
-    fun `can get user`(){
+    fun `can get user`() {
         every { preferencesRepository.user } returns SampleData.user
 
         Assert.assertEquals(SampleData.user, viewModel.getUser())

@@ -16,14 +16,18 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
 import org.junit.rules.TestRule
 
-class CheckoutViewModelTest{
+class CheckoutViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var preferencesRepository: PreferencesRepository
@@ -40,7 +44,7 @@ class CheckoutViewModelTest{
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = CheckoutViewModel(preferencesRepository, dbRepository, ordersRepository, usersRepository)
     }
 
@@ -48,24 +52,25 @@ class CheckoutViewModelTest{
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `can get sign in status`(){
-        every { preferencesRepository.isSignedIn } returns  true
+    fun `can get sign in status`() {
+        every { preferencesRepository.isSignedIn } returns true
 
         Assert.assertEquals(true, viewModel.isSignedIn())
     }
 
     @Test
-    fun `can get user`(){
+    fun `can get user`() {
         every { preferencesRepository.user } returns SampleData.user
 
         Assert.assertEquals(SampleData.user, viewModel.getUser())
     }
 
     @Test
-    fun `can get cart items`(){
+    fun `can get cart items`() {
         coEvery { dbRepository.getCartItems() } returns SampleData.cartItems
 
         val observer = spyk<Observer<List<CartItem>>>()
@@ -81,11 +86,11 @@ class CheckoutViewModelTest{
 
         viewModel.clearCart()
 
-        coVerify{ dbRepository.clearCart() }
+        coVerify { dbRepository.clearCart() }
     }
 
     @Test
-    fun `can place order`(){
+    fun `can place order`() {
         val resource = Resource.Success(SampleData.order)
         coEvery { dbRepository.getCartItems() } returns SampleData.cartItems
         coEvery { ordersRepository.placeOrder(any()) } returns resource

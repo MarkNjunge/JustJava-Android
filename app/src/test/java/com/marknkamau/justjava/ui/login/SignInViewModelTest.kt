@@ -7,10 +7,14 @@ import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.data.network.FirebaseService
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
+import io.mockk.spyk
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -19,9 +23,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class SignInViewModelTest{
+class SignInViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var authRepository: AuthRepository
@@ -39,7 +46,7 @@ class SignInViewModelTest{
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         viewModel = SignInViewModel(authRepository, usersRepository, firebaseService)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
 
         coEvery { firebaseService.getFcmToken() } returns ""
         coEvery { usersRepository.updateFcmToken(any()) } returns Resource.Success(Unit)
@@ -49,10 +56,11 @@ class SignInViewModelTest{
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `can sign in with google`(){
+    fun `can sign in with google`() {
         val resource = Resource.Success(User(1, "", "", 0, "", "", "", "", listOf()))
         coEvery { authRepository.signInWithGoogle(any()) } returns resource
 
@@ -63,7 +71,7 @@ class SignInViewModelTest{
     }
 
     @Test
-    fun `can sign in`(){
+    fun `can sign in`() {
         val resource = Resource.Success(User(1, "", "", 0, "", "", "", "", listOf()))
         coEvery { authRepository.signIn(any(), any()) } returns resource
 

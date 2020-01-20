@@ -14,6 +14,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -22,9 +23,12 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class SignUpViewModelTest{
+class SignUpViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var authRepository: AuthRepository
@@ -42,7 +46,7 @@ class SignUpViewModelTest{
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         viewModel = SignUpViewModel(authRepository, usersRepository, firebaseService)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
 
         coEvery { firebaseService.getFcmToken() } returns ""
         coEvery { usersRepository.updateFcmToken(any()) } returns Resource.Success(Unit)
@@ -52,10 +56,11 @@ class SignUpViewModelTest{
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `can sign up`(){
+    fun `can sign up`() {
         val resource = Resource.Success(User(1, "", "", 0, "", "", "", "", listOf()))
         coEvery { authRepository.signUp(any(), any(), any(), any(), any()) } returns resource
 

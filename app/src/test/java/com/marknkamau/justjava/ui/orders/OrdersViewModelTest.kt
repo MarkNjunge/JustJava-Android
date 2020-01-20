@@ -5,8 +5,6 @@ import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Order
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.OrdersRepository
-import com.marknjunge.core.data.repository.UsersRepository
-import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import com.marknkamau.justjava.utils.SampleData
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -15,6 +13,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -28,6 +27,9 @@ class OrdersViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
     @MockK
     private lateinit var ordersRepository: OrdersRepository
 
@@ -37,7 +39,7 @@ class OrdersViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = OrdersViewModel(ordersRepository)
     }
 
@@ -45,6 +47,7 @@ class OrdersViewModelTest {
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test

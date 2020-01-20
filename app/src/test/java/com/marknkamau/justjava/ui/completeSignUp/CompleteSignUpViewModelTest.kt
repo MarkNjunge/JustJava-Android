@@ -12,6 +12,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -23,6 +24,9 @@ import org.junit.rules.TestRule
 class CompleteSignUpViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var usersRepository: UsersRepository
@@ -37,7 +41,7 @@ class CompleteSignUpViewModelTest {
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         viewModel = CompleteSignUpViewModel(usersRepository, firebaseService)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
 
         coEvery { firebaseService.getFcmToken() } returns ""
         coEvery { usersRepository.updateFcmToken(any()) } returns Resource.Success(Unit)
@@ -47,6 +51,7 @@ class CompleteSignUpViewModelTest {
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test

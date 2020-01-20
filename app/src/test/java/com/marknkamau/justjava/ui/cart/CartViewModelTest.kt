@@ -14,6 +14,7 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.*
@@ -23,6 +24,9 @@ import org.junit.rules.TestRule
 class CartViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
 
     @MockK
     private lateinit var preferencesRepository: PreferencesRepository
@@ -37,7 +41,7 @@ class CartViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = CartViewModel(preferencesRepository, dbRepository, cartRepository)
     }
 
@@ -45,11 +49,12 @@ class CartViewModelTest {
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
-    fun `can get sign in status`(){
-        every { preferencesRepository.isSignedIn } returns  true
+    fun `can get sign in status`() {
+        every { preferencesRepository.isSignedIn } returns true
 
         assertEquals(true, viewModel.isSignedIn())
     }

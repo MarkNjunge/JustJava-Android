@@ -8,6 +8,7 @@ import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -20,6 +21,9 @@ class ProductDetailsViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
     @MockK
     private lateinit var dbRepository: DbRepository
 
@@ -30,13 +34,14 @@ class ProductDetailsViewModelTest {
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         viewModel = ProductDetailsViewModel(dbRepository)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
     }
 
     @ExperimentalCoroutinesApi
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test

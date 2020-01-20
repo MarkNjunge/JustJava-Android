@@ -5,8 +5,6 @@ import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.ApiResponse
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.PaymentsRepository
-import com.marknjunge.core.data.repository.UsersRepository
-import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -14,6 +12,7 @@ import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -26,6 +25,9 @@ class PayCardViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
+    @ExperimentalCoroutinesApi
+    private val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
     @MockK
     private lateinit var paymentsRepository: PaymentsRepository
 
@@ -35,7 +37,7 @@ class PayCardViewModelTest {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
         viewModel = PayCardViewModel(paymentsRepository)
     }
 
@@ -43,6 +45,7 @@ class PayCardViewModelTest {
     @After
     fun teardown() {
         Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
     }
 
     @Test
