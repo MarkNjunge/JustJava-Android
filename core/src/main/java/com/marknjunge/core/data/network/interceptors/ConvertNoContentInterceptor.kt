@@ -20,7 +20,6 @@ class ConvertNoContentInterceptor : Interceptor {
 
             val apiResponse = ApiResponse("No content")
             val rawBody = JsonConfiguration.appConfig.stringify(ApiResponse.serializer(), apiResponse)
-            Timber.d(rawBody)
 
             Response.Builder()
                 .code(200)
