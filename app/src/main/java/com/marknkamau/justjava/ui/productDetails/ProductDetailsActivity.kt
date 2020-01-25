@@ -97,7 +97,6 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
 
         productDetailsViewModel.addItemToCart(appProduct, quantity).observe(this, Observer {
-            startActivity(Intent(this, MainActivity::class.java))
             finish()
         })
     }
