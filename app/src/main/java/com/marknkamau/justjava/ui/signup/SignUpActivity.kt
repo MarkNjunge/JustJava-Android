@@ -65,6 +65,8 @@ class SignUpActivity : AppCompatActivity() {
     private fun isValid(): Boolean {
         var isValid = true
 
+        etMobileNumber.setText(PhoneNumberUtils.sanitize(etMobileNumber.text.toString()))
+
         val justJavaEmailPattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
         val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmail.trimmedText)
 
@@ -99,9 +101,6 @@ class SignUpActivity : AppCompatActivity() {
 
         if (etMobileNumber.trimmedText.isEmpty()) {
             tilMobileNumber.error = getString(R.string.required)
-            isValid = false
-        } else if (etMobileNumber.trimmedText.length != 12) {
-            tilMobileNumber.error = "Please enter a valid mobile number"
             isValid = false
         }
 

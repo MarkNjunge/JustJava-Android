@@ -9,10 +9,7 @@ import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.utils.isValidEmail
-import com.marknkamau.justjava.utils.resetErrorOnChange
-import com.marknkamau.justjava.utils.toast
-import com.marknkamau.justjava.utils.trimmedText
+import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_complete_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -80,6 +77,8 @@ class CompleteSignUpActivity : AppCompatActivity() {
     private fun isValid(): Boolean {
         var valid = true
 
+        etMobileNumber.setText(PhoneNumberUtils.sanitize(etMobileNumber.text.toString()))
+
         if (etFirstName.trimmedText.isEmpty()) {
             valid = false
             tilFirstName.error = "Required"
@@ -93,9 +92,6 @@ class CompleteSignUpActivity : AppCompatActivity() {
         if (etMobileNumber.trimmedText.isEmpty()) {
             valid = false
             tilMobileNumber.error = "Required"
-        } else if (etMobileNumber.trimmedText.length != 12) {
-            valid = false
-            tilMobileNumber.error = "Please enter a valid mobile number"
         }
 
         if (etEmail.trimmedText.isEmpty()) {
