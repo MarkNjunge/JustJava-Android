@@ -68,7 +68,7 @@ val viewModelModule = module {
     viewModel { SignInViewModel(get(), get(), get()) }
     viewModel { CompleteSignUpViewModel(get(), get()) }
     viewModel { SignUpViewModel(get(), get(), get()) }
-    viewModel { ProfileViewModel(get()) }
+    viewModel { ProfileViewModel(get(), get()) }
     viewModel { AddressBookViewModel(get()) }
     viewModel { CheckoutViewModel(get(), get(), get(), get()) }
     viewModel { OrdersViewModel(get()) }

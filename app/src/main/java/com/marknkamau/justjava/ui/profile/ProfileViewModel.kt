@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
+import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val usersRepository: UsersRepository) : ViewModel() {
+class ProfileViewModel(private val usersRepository: UsersRepository,private val authRepository: AuthRepository) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -31,6 +32,18 @@ class ProfileViewModel(private val usersRepository: UsersRepository) : ViewModel
         viewModelScope.launch {
             _loading.value = true
             livedata.value = usersRepository.updateUser(firstName, lastName, mobile, email)
+            _loading.value = false
+        }
+
+        return livedata
+    }
+
+    fun signOut():LiveData<Resource<Unit>>{
+        val livedata = MutableLiveData<Resource<Unit>>()
+
+        viewModelScope.launch {
+            _loading.value = true
+            livedata.value = authRepository.signOut()
             _loading.value = false
         }
 

@@ -52,6 +52,9 @@ class ProfileActivity : BaseActivity() {
         llOrders.setOnClickListener {
             startActivity(Intent(this, OrdersActivity::class.java))
         }
+        btnLogout.setOnClickListener {
+            signOut()
+        }
         btnDeleteAccount.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Delete account")
@@ -120,6 +123,20 @@ class ProfileActivity : BaseActivity() {
                 is Resource.Failure -> toast(resource.message)
             }
             exitEditMode()
+        })
+    }
+
+    private fun signOut() {
+        profileViewModel.signOut().observe(this, Observer { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    invalidateOptionsMenu()
+                    finish()
+                }
+                is Resource.Failure -> {
+                    toast(resource.message)
+                }
+            }
         })
     }
 

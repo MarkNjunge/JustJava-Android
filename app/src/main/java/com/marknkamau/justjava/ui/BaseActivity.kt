@@ -4,26 +4,17 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
-import com.marknkamau.justjava.utils.toast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    private val authRepository: AuthRepository by inject()
     private val preferencesRepository: PreferencesRepository by inject()
-    private val coroutineScope by lazy { CoroutineScope(Dispatchers.Main) }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -40,7 +31,6 @@ abstract class BaseActivity : AppCompatActivity() {
             menu?.findItem(R.id.menu_profile)?.isVisible = false
         }
 
-        menu?.findItem(R.id.menu_logout)?.isVisible = preferencesRepository.isSignedIn
         return true
     }
 
@@ -58,31 +48,11 @@ abstract class BaseActivity : AppCompatActivity() {
                 }
                 return true
             }
-            R.id.menu_logout -> {
-                logout()
-                return true
-            }
             R.id.menu_about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun logout() {
-        coroutineScope.launch {
-            when (val resource = authRepository.signOut()) {
-                is Resource.Success -> {
-                    // If this is ProfileActivity, leave it
-                    (this@BaseActivity as? ProfileActivity)?.finish()
-                    toast("Logged out")
-
-                    invalidateOptionsMenu()
-                }
-                is Resource.Failure -> toast(resource.message)
-            }
-
         }
     }
 

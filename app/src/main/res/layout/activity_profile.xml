@@ -242,14 +242,31 @@
         app:layout_constraintTop_toBottomOf="@+id/llOrders" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        style="@style/AppTheme.Button.OutlinedAccent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="Sign out"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteAccount"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnDeleteAccount"
         style="@style/AppTheme.Button.Danger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
         android:text="Delete Account"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnLogout"
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
