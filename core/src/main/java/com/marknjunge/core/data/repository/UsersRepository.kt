@@ -4,6 +4,7 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.model.UpdateFcmTokenDto
 import com.marknjunge.core.data.model.UpdateUserDto
+import com.marknjunge.core.data.network.GoogleSignInClientStub
 import com.marknjunge.core.data.network.UsersService
 import com.marknjunge.core.utils.call
 import com.marknjunge.core.utils.parseException
@@ -22,11 +23,14 @@ interface UsersRepository {
     suspend fun deleteAddress(address: Address): Resource<Unit>
 
     suspend fun updateFcmToken(token: String): Resource<Unit>
+
+    suspend fun deleteUser():Resource<Unit>
 }
 
 internal class ApiUsersRepository(
     private val usersService: UsersService,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
+    private val googleSignInClient: GoogleSignInClientStub
 ) : UsersRepository {
     override suspend fun getCurrentUser(): Flow<Resource<User>> = flow {
         emit(Resource.Success(preferencesRepository.user!!))
@@ -99,6 +103,18 @@ internal class ApiUsersRepository(
             val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
             preferencesRepository.user = updatedUser
             Resource.Success(Unit)
+        }
+    }
+
+    override suspend fun deleteUser(): Resource<Unit> = withContext(Dispatchers.IO) {
+        call {
+            val res = usersService.deleteUser(preferencesRepository.sessionId)
+            if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
+                googleSignInClient.signOut()
+            }
+            preferencesRepository.user = null
+            preferencesRepository.sessionId = ""
+            Resource.Success(res)
         }
     }
 

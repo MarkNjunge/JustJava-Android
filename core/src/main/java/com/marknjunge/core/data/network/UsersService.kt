@@ -21,4 +21,7 @@ internal interface UsersService {
 
     @DELETE("users/current/addresses/{id}")
     suspend fun deleteAddress(@Header("session-id") sessionId: String, @Path("id") addressId: Long)
+
+    @DELETE("users/current")
+    suspend fun deleteUser(@Header("session-id") sessionId: String)
 }

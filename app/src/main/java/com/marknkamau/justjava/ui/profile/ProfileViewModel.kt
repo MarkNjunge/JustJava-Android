@@ -36,4 +36,16 @@ class ProfileViewModel(private val usersRepository: UsersRepository) : ViewModel
 
         return livedata
     }
+
+    fun deleteAccount():LiveData<Resource<Unit>>{
+        val livedata = MutableLiveData<Resource<Unit>>()
+
+        viewModelScope.launch {
+            _loading.value = true
+            livedata.value = usersRepository.deleteUser()
+            _loading.value = false
+        }
+
+        return livedata
+    }
 }

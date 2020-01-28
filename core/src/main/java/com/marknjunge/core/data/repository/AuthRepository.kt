@@ -4,6 +4,7 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.model.SignInGoogleDto
 import com.marknjunge.core.data.network.AuthService
+import com.marknjunge.core.data.network.GoogleSignInClientStub
 import com.marknjunge.core.utils.call
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -26,7 +27,8 @@ interface AuthRepository {
 
 internal class ApiAuthRepository(
     private val authService: AuthService,
-    private val preferencesRepository: PreferencesRepository
+    private val preferencesRepository: PreferencesRepository,
+    private val googleSignInClient: GoogleSignInClientStub
 ) : AuthRepository {
     override suspend fun signInWithGoogle(idToken: String): Resource<User> = withContext(Dispatchers.IO) {
         call {
@@ -71,6 +73,9 @@ internal class ApiAuthRepository(
     override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO) {
         call {
             authService.signOut(preferencesRepository.sessionId)
+            if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
+                googleSignInClient.signOut()
+            }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
 

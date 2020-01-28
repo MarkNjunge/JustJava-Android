@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
@@ -50,6 +51,14 @@ class ProfileActivity : BaseActivity() {
         }
         llOrders.setOnClickListener {
             startActivity(Intent(this, OrdersActivity::class.java))
+        }
+        btnDeleteAccount.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Delete account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Delete") { _, _ -> deleteAccount() }
+                .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+                .show()
         }
 
         profileViewModel.getCurrentUser()
@@ -111,6 +120,19 @@ class ProfileActivity : BaseActivity() {
                 is Resource.Failure -> toast(resource.message)
             }
             exitEditMode()
+        })
+    }
+
+    private fun deleteAccount() {
+        profileViewModel.deleteAccount().observe(this, Observer { resource ->
+            when (resource) {
+                is Resource.Success -> {
+                    finish()
+                }
+                is Resource.Failure -> {
+                    toast(resource.message)
+                }
+            }
         })
     }
 

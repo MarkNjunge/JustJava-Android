@@ -106,6 +106,12 @@
         <item name="android:textColor">@color/color_states_button</item>
     </style>
 
+    <style name="AppTheme.Button.Danger" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/colorDanger</item>
+        <item name="android:textColor">@color/colorDanger</item>
+        <item name="rippleColor">@color/colorDanger</item>
+    </style>
+
     <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
     </style>

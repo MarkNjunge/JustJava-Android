@@ -17,14 +17,12 @@ import com.marknkamau.justjava.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity : AppCompatActivity() {
 
     private val authRepository: AuthRepository by inject()
     private val preferencesRepository: PreferencesRepository by inject()
-    private val googleSignInClient: GoogleSignInClient by inject()
     private val coroutineScope by lazy { CoroutineScope(Dispatchers.Main) }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -73,15 +71,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun logout() {
-        val signedInWithGoogle = preferencesRepository.user!!.signInMethod == "GOOGLE"
-
         coroutineScope.launch {
             when (val resource = authRepository.signOut()) {
                 is Resource.Success -> {
-                    if (signedInWithGoogle) {
-                        googleSignInClient.signOut().await()
-                    }
-
                     // If this is ProfileActivity, leave it
                     (this@BaseActivity as? ProfileActivity)?.finish()
                     toast("Logged out")

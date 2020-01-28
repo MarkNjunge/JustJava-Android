@@ -9,4 +9,5 @@
     <color name="colorTextTertiary">#E0E0E0</color>
     <color name="colorDisabled">#CCCCCC</color>
     <color name="colorDisabledText">#888888</color>
+    <color name="colorDanger">#E53E3E</color>
 </resources>

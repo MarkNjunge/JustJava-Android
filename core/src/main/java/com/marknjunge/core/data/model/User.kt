@@ -29,6 +29,7 @@ data class User(
     @SerialName("fcmToken")
     val fcmToken: String?,
 
+    // TODO Use enum
     @SerialName("signInMethod")
     val signInMethod: String,
 
