@@ -169,9 +169,6 @@ class ProfileActivity : BaseActivity() {
         if (etMobile.trimmedText.isEmpty()) {
             tilMobile.error = "Required"
             valid = false
-        } else if (etMobile.trimmedText.length != 12) {
-            tilMobile.error = "A valid mobile number is required"
-            valid = false
         }
 
         if (etEmail.trimmedText.isEmpty()) {
