@@ -2,15 +2,16 @@ package com.marknjunge.core.di
 
 import com.marknjunge.core.data.network.NetworkProvider
 import com.marknjunge.core.data.repository.*
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    val networkProvider = NetworkProvider()
+    single { NetworkProvider(androidContext()) }
 
-    single<AuthRepository> { ApiAuthRepository(networkProvider.authService, get(), get()) }
-    single<ProductsRepository> { ApiProductsRepository(networkProvider.apiService) }
-    single<UsersRepository> { ApiUsersRepository(networkProvider.usersService, get(), get()) }
-    single<CartRepository> { ApiCartRepository(networkProvider.cartService) }
-    single<OrdersRepository> { ApiOrdersRepository(networkProvider.ordersService, get()) }
-    single<PaymentsRepository> { ApiPaymentsRepository(networkProvider.paymentsService, get()) }
+    single<AuthRepository> { ApiAuthRepository(get<NetworkProvider>().authService, get(), get()) }
+    single<ProductsRepository> { ApiProductsRepository(get<NetworkProvider>().apiService) }
+    single<UsersRepository> { ApiUsersRepository(get<NetworkProvider>().usersService, get(), get(), get()) }
+    single<CartRepository> { ApiCartRepository(get<NetworkProvider>().cartService) }
+    single<OrdersRepository> { ApiOrdersRepository(get<NetworkProvider>().ordersService, get()) }
+    single<PaymentsRepository> { ApiPaymentsRepository(get<NetworkProvider>().paymentsService, get()) }
 }

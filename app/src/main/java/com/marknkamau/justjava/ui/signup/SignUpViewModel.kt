@@ -8,13 +8,11 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
-import com.marknkamau.justjava.data.network.FirebaseService
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
     private val authRepository: AuthRepository,
-    private val usersRepository: UsersRepository,
-    private val firebaseService: FirebaseService
+    private val usersRepository: UsersRepository
 ) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
@@ -33,7 +31,7 @@ class SignUpViewModel(
             livedata.value = authRepository.signUp(firstName, lastName, mobile, email, password)
 
             if(livedata.value is Resource.Success){
-                usersRepository.updateFcmToken(firebaseService.getFcmToken())
+                usersRepository.updateFcmToken()
             }
 
             _loading.value = false

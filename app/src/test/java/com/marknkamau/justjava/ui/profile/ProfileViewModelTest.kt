@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
+import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.utils.SampleData
 import io.mockk.MockKAnnotations
@@ -33,6 +34,9 @@ class ProfileViewModelTest {
     @MockK
     private lateinit var usersRepository: UsersRepository
 
+    @MockK
+    private lateinit var authRepository: AuthRepository
+
     private lateinit var viewModel: ProfileViewModel
 
     @ExperimentalCoroutinesApi
@@ -40,7 +44,7 @@ class ProfileViewModelTest {
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
         Dispatchers.setMain(testDispatcher)
-        viewModel = ProfileViewModel(usersRepository)
+        viewModel = ProfileViewModel(usersRepository, authRepository)
     }
 
     @ExperimentalCoroutinesApi

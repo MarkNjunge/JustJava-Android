@@ -1,9 +1,11 @@
 package com.marknjunge.core.data.network
 
+import android.content.Context
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
+import com.marknjunge.core.data.network.interceptors.NetworkConnectionInterceptor
 import com.marknjunge.core.utils.appConfig
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType
@@ -11,7 +13,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-internal class NetworkProvider {
+internal class NetworkProvider(private val context: Context) {
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
 
@@ -46,6 +48,7 @@ internal class NetworkProvider {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val builder = OkHttpClient.Builder()
+        builder.addInterceptor(NetworkConnectionInterceptor(context))
         builder.addNetworkInterceptor(ConvertNoContentInterceptor())
         builder.addNetworkInterceptor(loggingInterceptor)
 

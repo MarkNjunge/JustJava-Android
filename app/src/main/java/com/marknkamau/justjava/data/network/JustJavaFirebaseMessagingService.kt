@@ -73,7 +73,7 @@ class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinCompone
 
     override fun onNewToken(token: String) {
         coroutineScope.launch {
-            when (val resource = usersRepository.updateFcmToken(token)) {
+            when (val resource = usersRepository.updateFcmToken()) {
                 is Resource.Success -> Timber.d("FCM token updated")
                 is Resource.Failure -> Timber.d("FCM token update failed: ${resource.message}")
             }

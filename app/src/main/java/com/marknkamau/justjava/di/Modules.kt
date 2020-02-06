@@ -5,13 +5,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.network.FirebaseService
 import com.marknjunge.core.data.network.GoogleSignInClientStub
 import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.data.db.AppDatabase
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.db.DbRepositoryImpl
 import com.marknkamau.justjava.data.network.AppFirebaseService
-import com.marknkamau.justjava.data.network.FirebaseService
 import com.marknkamau.justjava.data.network.GoogleSignInClientStubImpl
 import com.marknkamau.justjava.data.preferences.PreferencesRepositoryImpl
 import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
@@ -65,9 +65,9 @@ val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { ProductDetailsViewModel(get()) }
     viewModel { CartViewModel(get(), get(), get()) }
-    viewModel { SignInViewModel(get(), get(), get()) }
-    viewModel { CompleteSignUpViewModel(get(), get()) }
-    viewModel { SignUpViewModel(get(), get(), get()) }
+    viewModel { SignInViewModel(get(), get()) }
+    viewModel { CompleteSignUpViewModel(get()) }
+    viewModel { SignUpViewModel(get(), get()) }
     viewModel { ProfileViewModel(get(), get()) }
     viewModel { AddressBookViewModel(get()) }
     viewModel { CheckoutViewModel(get(), get(), get(), get()) }
