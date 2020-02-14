@@ -1,9 +1,8 @@
 package com.marknjunge.core.data.network
 
-import com.marknjunge.core.data.model.SignInDto
+import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.model.SignInGoogleDto
 import com.marknjunge.core.data.model.SignInResponse
-import com.marknjunge.core.data.model.SignUpDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Header
@@ -21,4 +20,10 @@ internal interface AuthService {
 
     @DELETE("auth/signout")
     suspend fun signOut(@Header("session-id") sessionId: String)
+
+    @POST("auth/requestPasswordReset")
+    suspend fun requestPasswordReset(@Body body: RequestPasswordResetDto): ApiResponse
+
+    @POST("auth/resetPassword")
+    suspend fun resetPassword(@Body body: ResetPasswordDto): ApiResponse
 }

@@ -2,7 +2,11 @@ package com.marknkamau.justjava.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -32,6 +36,9 @@ class SignInActivity : AppCompatActivity() {
 
         tilEmail.resetErrorOnChange(etEmail)
         tilPassword.resetErrorOnChange(etPassword)
+        tvForgotPassword.setOnClickListener {
+            showForgotPasswordDialog()
+        }
         btnSignInGoogle.setOnClickListener {
             startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
             hideKeyboard()
@@ -70,9 +77,41 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
+    private fun showForgotPasswordDialog() {
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("Reset password")
+
+        val view =
+            LayoutInflater.from(this).inflate(R.layout.dialog_reset_password, findViewById(android.R.id.content), false)
+        val input: EditText = view.findViewById(R.id.etEmailAddress)
+        dialog.setView(view)
+
+        dialog.setPositiveButton("Reset") { _, _ ->
+            Timber.d(input.text.toString())
+            val email = input.text.toString().trim()
+            if (email.isNotEmpty()) {
+                requestPasswordReset(email)
+            }
+        }
+        dialog.setNegativeButton("Cancel") { d, _ ->
+            d.cancel()
+        }
+
+        dialog.show()
+    }
+
+    private fun requestPasswordReset(email: String) {
+        signInViewModel.requestPasswordReset(email).observe(this, Observer { resource ->
+            when (resource) {
+                is Resource.Success -> toast("A password reset email has been sent")
+                is Resource.Failure -> toast(resource.message, Toast.LENGTH_LONG)
+            }
+        })
+    }
+
     private fun signIn() {
         signInViewModel.signIn(etEmail.trimmedText, etPassword.trimmedText).observe(this, Observer { resource ->
-            when(resource){
+            when (resource) {
                 is Resource.Success -> finish()
                 is Resource.Failure -> toast(resource.message)
             }

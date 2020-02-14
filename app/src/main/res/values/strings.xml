@@ -56,6 +56,7 @@
     <string name="developer_name">Mark Njung\'e</string>
     <string name="developer_contact">contact@marknjunge.com</string>
     <string name="checkout">Checkout</string>
+    <string name="reset_password_error_message">Something went wrong.\n\nTry opening the link from the email again.</string>
 
     <plurals name="order_info">
         <item quantity="one">item for</item>

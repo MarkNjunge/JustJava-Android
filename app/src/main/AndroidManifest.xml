@@ -15,6 +15,21 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".ui.resetPassword.ResetPasswordActivity"
+            android:theme="@style/AppTheme.NoBar">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="justjava.store"
+                    android:pathPattern="/reset-password"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.payCard.PayCardActivity" />
         <activity android:name=".ui.payMpesa.PayMpesaActivity" />
         <activity android:name=".ui.orderDetail.OrderDetailActivity" />
@@ -24,10 +39,10 @@
         <activity android:name=".ui.checkout.CheckoutActivity" />
         <activity
             android:name=".ui.addAddress.AddAddressActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:parentActivityName=".ui.addressBook.AddressBookActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
-            android:theme="@style/AppTheme.TranslucentStatus"/>
+            android:theme="@style/AppTheme.TranslucentStatus" />
         <activity
             android:name=".ui.addressBook.AddressBookActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />
@@ -90,7 +105,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />

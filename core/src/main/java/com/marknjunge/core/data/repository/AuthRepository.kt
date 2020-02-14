@@ -23,6 +23,10 @@ interface AuthRepository {
     suspend fun signIn(email: String, password: String): Resource<User>
 
     suspend fun signOut(): Resource<Unit>
+
+    suspend fun requestPasswordReset(email: String): Resource<ApiResponse>
+
+    suspend fun resetPassword(token: String, newPassword: String): Resource<ApiResponse>
 }
 
 internal class ApiAuthRepository(
@@ -73,13 +77,27 @@ internal class ApiAuthRepository(
     override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO) {
         call {
             authService.signOut(preferencesRepository.sessionId)
-            if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
+            if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
 
             Resource.Success(Unit)
+        }
+    }
+
+    override suspend fun requestPasswordReset(email: String) = withContext(Dispatchers.IO) {
+        call {
+            val response = authService.requestPasswordReset(RequestPasswordResetDto(email))
+            Resource.Success(response)
+        }
+    }
+
+    override suspend fun resetPassword(token: String, newPassword: String) = withContext(Dispatchers.IO) {
+        call {
+            val response = authService.resetPassword(ResetPasswordDto(token, newPassword))
+            Resource.Success(response)
         }
     }
 }
