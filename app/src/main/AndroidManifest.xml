@@ -74,8 +74,7 @@
             android:name=".ui.login.SignInActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoBar"
-            android:windowSoftInputMode="adjustPan" />
+            android:theme="@style/AppTheme.NoBar" />
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:configChanges="orientation|keyboardHidden"
