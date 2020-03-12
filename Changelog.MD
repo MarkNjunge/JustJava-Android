@@ -1,6 +1,14 @@
 # JustJava changelog
 
-# 2.0.0
+# 2.1.0
+
+- Improve app launch time
+- Remove mobile number length restriction
+- Add delete account feature
+- Add password reset
+- Update login and signup design
+
+## 2.0.0
 
 - Change backend from Firebase
 - Add Google Sign In
@@ -11,7 +19,7 @@
 - Add card payment
 - Disable backup on uninstall
 
-# 1.7.0
+## 1.7.0
 
 - Update UI design
 - Remove checkout screen and combine it with cart
