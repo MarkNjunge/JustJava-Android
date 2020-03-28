@@ -18,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.RectangularBounds
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.marknjunge.core.data.model.Address
@@ -51,6 +52,8 @@ class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         val placesAutoComplete = placeAutoCompleteFragment as AutocompleteSupportFragment
+        val locationBias = RectangularBounds.newInstance(LatLng(-1.451148, 36.592911), LatLng(-1.147189, 37.108095))
+        placesAutoComplete.setLocationBias(locationBias)
         placesAutoComplete.setPlaceFields(listOf(Place.Field.LAT_LNG, Place.Field.NAME))
         placesAutoComplete.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
