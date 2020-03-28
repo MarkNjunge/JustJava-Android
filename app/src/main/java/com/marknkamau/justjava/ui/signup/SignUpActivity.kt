@@ -27,7 +27,6 @@ class SignUpActivity : AppCompatActivity() {
         tilPassword.resetErrorOnChange(etPassword)
         tilFirstName.resetErrorOnChange(etFirstName)
         tilLastName.resetErrorOnChange(etLastName)
-        tilMobileNumber.resetErrorOnChange(etMobileNumber)
 
         btnSignup.setOnClickListener {
             if (isValid()) {
@@ -51,7 +50,6 @@ class SignUpActivity : AppCompatActivity() {
         signUpViewModel.signUp(
             etFirstName.trimmedText,
             etLastName.trimmedText,
-            etMobileNumber.trimmedText,
             etEmail.trimmedText,
             etPassword.trimmedText
         ).observe(this, Observer { resource ->
@@ -64,8 +62,6 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun isValid(): Boolean {
         var isValid = true
-
-        etMobileNumber.setText(PhoneNumberUtils.sanitize(etMobileNumber.text.toString()))
 
         val justJavaEmailPattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
         val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmail.trimmedText)
@@ -96,11 +92,6 @@ class SignUpActivity : AppCompatActivity() {
 
         if (etLastName.trimmedText.isEmpty()) {
             tilLastName.error = getString(R.string.required)
-            isValid = false
-        }
-
-        if (etMobileNumber.trimmedText.isEmpty()) {
-            tilMobileNumber.error = getString(R.string.required)
             isValid = false
         }
 

@@ -46,7 +46,6 @@
         <activity
             android:name=".ui.addressBook.AddressBookActivity"
             android:parentActivityName=".ui.profile.ProfileActivity" />
-        <activity android:name=".ui.completeSignUp.CompleteSignUpActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/AppTheme.SplashTheme">

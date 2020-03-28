@@ -15,7 +15,6 @@ interface AuthRepository {
     suspend fun signUp(
         firstName: String,
         lastName: String,
-        mobile: String,
         email: String,
         password: String
     ): Resource<User>
@@ -48,12 +47,11 @@ internal class ApiAuthRepository(
     override suspend fun signUp(
         firstName: String,
         lastName: String,
-        mobile: String,
         email: String,
         password: String
     ): Resource<User> = withContext(Dispatchers.IO) {
         call {
-            val signUpDto = SignUpDto(firstName, lastName, password, mobile, email)
+            val signUpDto = SignUpDto(firstName, lastName, password, email)
             val response = authService.signUp(signUpDto)
 
             preferencesRepository.user = response.user

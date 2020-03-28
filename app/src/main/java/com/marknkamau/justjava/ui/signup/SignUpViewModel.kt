@@ -20,7 +20,6 @@ class SignUpViewModel(
     fun signUp(
         firstName: String,
         lastName: String,
-        mobile: String,
         email: String,
         password: String
     ): LiveData<Resource<User>> {
@@ -28,7 +27,7 @@ class SignUpViewModel(
 
         viewModelScope.launch {
             _loading.value = true
-            livedata.value = authRepository.signUp(firstName, lastName, mobile, email, password)
+            livedata.value = authRepository.signUp(firstName, lastName, email, password)
 
             if(livedata.value is Resource.Success){
                 usersRepository.updateFcmToken()

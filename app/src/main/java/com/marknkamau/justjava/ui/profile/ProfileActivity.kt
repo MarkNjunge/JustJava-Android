@@ -166,11 +166,6 @@ class ProfileActivity : BaseActivity() {
             valid = false
         }
 
-        if (etMobile.trimmedText.isEmpty()) {
-            tilMobile.error = "Required"
-            valid = false
-        }
-
         if (etEmail.trimmedText.isEmpty()) {
             tilEmail.error = "Required"
             valid = false

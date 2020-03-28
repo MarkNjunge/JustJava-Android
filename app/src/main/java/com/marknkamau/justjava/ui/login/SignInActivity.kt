@@ -14,7 +14,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.completeSignUp.CompleteSignUpActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -122,9 +121,6 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.signInWithGoogle(idToken).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    if (resource.data.mobileNumber == null) { // Account has just been created
-                        CompleteSignUpActivity.start(this, resource.data)
-                    }
                     finish()
                 }
                 is Resource.Failure -> {

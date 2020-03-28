@@ -125,25 +125,6 @@
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMobileNumber"
-            style="@style/AppTheme.InputField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Mobile Number">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMobileNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:text="254"
-                android:textSize="14sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignup"
             style="@style/AppTheme.Button.FilledAccent"

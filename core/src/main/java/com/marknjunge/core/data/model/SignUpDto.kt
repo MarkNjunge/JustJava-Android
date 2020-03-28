@@ -14,9 +14,6 @@ data class SignUpDto(
     @SerialName("password")
     val password: String,
 
-    @SerialName("mobileNumber")
-    val mobileNumber: String,
-
     @SerialName("email")
     val email: String
 )

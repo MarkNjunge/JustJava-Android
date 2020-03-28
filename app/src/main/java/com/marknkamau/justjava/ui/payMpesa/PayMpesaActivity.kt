@@ -39,7 +39,9 @@ class PayMpesaActivity : AppCompatActivity() {
         orderId = intent.extras!![ORDER_ID_KEY] as String
 
         val user = payMpesaViewModel.getUser()
-        et_payMpesa_mobilerNumber.setText(user.mobileNumber)
+        user.mobileNumber?.let{
+            et_payMpesa_mobilerNumber.setText(it)
+        }
 
         observeLoading()
 
