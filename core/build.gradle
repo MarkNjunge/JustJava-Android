@@ -4,12 +4,22 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 
+def localPropertiesFile = rootProject.file("local.properties")
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(localPropertiesFile))
+
+// Ability to provide a different debug url
+def debugApiBaseUrl = localProperties.getProperty("debugApiBaseUrl")
+if (debugApiBaseUrl == null) {
+    debugApiBaseUrl = "https://dev.justjava.store/"
+}
+
 android {
 
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "API_BASE_URL", "\"https://dev.justjava.store/\""
+            buildConfigField "String", "API_BASE_URL", debugApiBaseUrl
         }
         release {
             minifyEnabled true

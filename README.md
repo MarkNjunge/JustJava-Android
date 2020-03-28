@@ -61,6 +61,10 @@ It is only used in `release` builds.
 3. Add the `play-services.json` file from firebase to `./app`.
 4. Open and build in Android Studio.
 
+(optional) To overwrite the API url in debug mode, add `debugApiBaseUrl="http://10.0.2.2:3000"` to
+local.properties. **Note:** If your url is not https, you will need to add it to
+[network_security_config.xml](./core/src/main/res/xml/network_security_config.xml)
+
 ## Screenshots
 
 ![App](/images/branding.png)
