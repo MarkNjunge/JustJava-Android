@@ -23,6 +23,8 @@ interface AuthRepository {
 
     suspend fun signOut(): Resource<Unit>
 
+    suspend fun signOutLocally(): Resource<Unit>
+
     suspend fun requestPasswordReset(email: String): Resource<ApiResponse>
 
     suspend fun resetPassword(token: String, newPassword: String): Resource<ApiResponse>
@@ -75,6 +77,18 @@ internal class ApiAuthRepository(
     override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO) {
         call {
             authService.signOut(preferencesRepository.sessionId)
+            if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
+                googleSignInClient.signOut()
+            }
+            preferencesRepository.user = null
+            preferencesRepository.sessionId = ""
+
+            Resource.Success(Unit)
+        }
+    }
+
+    override suspend fun signOutLocally(): Resource<Unit> = withContext(Dispatchers.IO) {
+        call {
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }
