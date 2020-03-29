@@ -11,7 +11,7 @@ localProperties.load(new FileInputStream(localPropertiesFile))
 // Ability to provide a different debug url
 def debugApiBaseUrl = localProperties.getProperty("debugApiBaseUrl")
 if (debugApiBaseUrl == null) {
-    debugApiBaseUrl = "https://dev.justjava.store/"
+    debugApiBaseUrl = "\"https://dev.justjava.store/\""
 }
 
 android {
