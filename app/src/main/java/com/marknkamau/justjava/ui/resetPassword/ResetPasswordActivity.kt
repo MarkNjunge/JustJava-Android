@@ -63,7 +63,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                         .addNextIntentWithParentStack(intent)
                         .startActivities()
                 }
-                is Resource.Failure -> toast(resource.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
             }
             pbLoading.visibility = View.GONE
         }

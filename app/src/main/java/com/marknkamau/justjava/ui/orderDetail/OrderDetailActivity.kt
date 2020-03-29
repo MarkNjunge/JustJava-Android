@@ -106,7 +106,7 @@ class OrderDetailActivity : AppCompatActivity() {
                     contentOrderDetails.visibility = View.VISIBLE
                     displayOrderDetails(resource.data)
                 }
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
         })
     }

@@ -17,14 +17,14 @@ internal fun <T> parseException(e:Exception):Resource<T>{
                 try {
                     val apiResponse = JsonConfiguration.appConfig.parse(ApiResponse.serializer(), errorString)
                     Timber.e("${e.response()?.code()}, $errorString")
-                    Resource.Failure<T>(apiResponse.message)
+                    Resource.Failure<T>(apiResponse)
                 } catch (e: JsonDecodingException) {
-                    Resource.Failure<T>(errorString)
+                    Resource.Failure<T>(ApiResponse(errorString))
                 }
-            } ?: Resource.Failure(genericErrorMessage)
+            } ?: Resource.Failure(ApiResponse(genericErrorMessage))
         }
         else -> {
-            Resource.Failure(e.message ?: genericErrorMessage)
+            Resource.Failure(ApiResponse(e.message ?: genericErrorMessage))
         }
     }
 }

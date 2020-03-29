@@ -75,7 +75,7 @@ class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinCompone
         coroutineScope.launch {
             when (val resource = usersRepository.updateFcmToken()) {
                 is Resource.Success -> Timber.d("FCM token updated")
-                is Resource.Failure -> Timber.d("FCM token update failed: ${resource.message}")
+                is Resource.Failure -> Timber.d("FCM token update failed: ${resource.response.message}")
             }
         }
     }

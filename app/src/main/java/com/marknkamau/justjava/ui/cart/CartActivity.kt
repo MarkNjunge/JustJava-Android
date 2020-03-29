@@ -191,7 +191,7 @@ class CartActivity : BaseActivity() {
                     }
                 }
                 is Resource.Failure -> {
-                    Toast.makeText(this@CartActivity, resource.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@CartActivity, resource.response.message, Toast.LENGTH_SHORT).show()
                 }
             }
         })

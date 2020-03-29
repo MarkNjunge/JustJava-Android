@@ -83,7 +83,7 @@ class ProfileActivity : BaseActivity() {
                     etMobile.setText(resource.data.mobileNumber)
                 }
                 is Resource.Failure -> {
-                    toast(resource.message)
+                    toast(resource.response.message)
                 }
             }
         })
@@ -120,7 +120,7 @@ class ProfileActivity : BaseActivity() {
         ).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> toast("Profile updated")
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
             exitEditMode()
         })
@@ -134,7 +134,7 @@ class ProfileActivity : BaseActivity() {
                     finish()
                 }
                 is Resource.Failure -> {
-                    toast(resource.message)
+                    toast(resource.response.message)
                 }
             }
         })
@@ -147,7 +147,7 @@ class ProfileActivity : BaseActivity() {
                     finish()
                 }
                 is Resource.Failure -> {
-                    toast(resource.message)
+                    toast(resource.response.message)
                 }
             }
         })

@@ -70,7 +70,7 @@ class MainActivity : BaseActivity() {
                     rvProducts.visibility = View.VISIBLE
                     adapter.setItems(resource.data)
                 }
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
 
         })

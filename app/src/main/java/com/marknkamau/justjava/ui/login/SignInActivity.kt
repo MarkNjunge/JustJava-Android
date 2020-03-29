@@ -103,7 +103,7 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.requestPasswordReset(email).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> toast("A password reset email has been sent")
-                is Resource.Failure -> toast(resource.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
             }
         })
     }
@@ -112,7 +112,7 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.signIn(etEmail.trimmedText, etPassword.trimmedText).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> finish()
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
         })
     }
@@ -124,7 +124,7 @@ class SignInActivity : AppCompatActivity() {
                     finish()
                 }
                 is Resource.Failure -> {
-                    toast(resource.message)
+                    toast(resource.response.message)
                 }
             }
         })

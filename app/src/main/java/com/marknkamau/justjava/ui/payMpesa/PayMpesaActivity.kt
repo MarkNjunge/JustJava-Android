@@ -68,7 +68,7 @@ class PayMpesaActivity : AppCompatActivity() {
                     toast("Request successful")
                     finish()
                 }
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
         })
     }

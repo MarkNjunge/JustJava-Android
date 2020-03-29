@@ -62,11 +62,11 @@ open class JustJavaApp : Application() {
                 when(val resource = usersRepository.updateFcmToken()){
                     is Resource.Success -> usersRepository.getCurrentUser().collect { }
                     is Resource.Failure -> {
-                        if(resource.message == "Invalid session-id"){
+                        if(resource.response.message == "Invalid session-id"){
                             Timber.d("Signed out")
                             authRepository.signOutLocally()
                         }else{
-                            toast(resource.message)
+                            toast(resource.response.message)
                         }
                     }
                 }

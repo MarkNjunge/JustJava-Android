@@ -64,7 +64,7 @@ class OrdersActivity : AppCompatActivity() {
         ordersViewModel.orders.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> adapter.setItems(resource.data.sortedBy { it.datePlaced }.reversed())
-                is Resource.Failure -> toast(resource.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
             }
         })
     }

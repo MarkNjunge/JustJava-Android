@@ -55,7 +55,7 @@ class SignUpActivity : AppCompatActivity() {
         ).observe(this, Observer { resource ->
             when(resource){
                 is Resource.Success -> finish()
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
         })
     }

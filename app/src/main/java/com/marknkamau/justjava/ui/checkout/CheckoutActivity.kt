@@ -86,7 +86,7 @@ class CheckoutActivity : AppCompatActivity() {
 
                         loadAddressList()
                     }
-                    is Resource.Failure -> toast(resource.message)
+                    is Resource.Failure -> toast(resource.response.message)
                 }
             })
         }
@@ -171,7 +171,7 @@ class CheckoutActivity : AppCompatActivity() {
                             .startActivities()
                     }
                     is Resource.Failure -> {
-                        toast(resource.message)
+                        toast(resource.response.message)
                     }
                 }
             })

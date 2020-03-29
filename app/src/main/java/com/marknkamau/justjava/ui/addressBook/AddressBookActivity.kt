@@ -58,7 +58,7 @@ class AddressBookActivity : AppCompatActivity() {
             addressBookViewModel.addAddress(address).observe(this, Observer { resource ->
                 when (resource) {
                     is Resource.Success -> addressBookViewModel.getAddresses()
-                    is Resource.Failure -> toast(resource.message)
+                    is Resource.Failure -> toast(resource.response.message)
                 }
             })
         }
@@ -103,7 +103,7 @@ class AddressBookActivity : AppCompatActivity() {
                     }
                 }
                 is Resource.Failure -> {
-                    toast(resource.message)
+                    toast(resource.response.message)
                 }
             }
         })
@@ -113,7 +113,7 @@ class AddressBookActivity : AppCompatActivity() {
         addressBookViewModel.deleteAddress(address).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> addressBookViewModel.getAddresses()
-                is Resource.Failure -> toast(resource.message)
+                is Resource.Failure -> toast(resource.response.message)
             }
         })
     }
