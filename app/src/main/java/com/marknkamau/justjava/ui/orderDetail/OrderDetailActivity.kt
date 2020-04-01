@@ -154,7 +154,7 @@ class OrderDetailActivity : AppCompatActivity() {
 
         val address = orderDetailViewModel.getUser().address.firstOrNull { it.id == order.addressId }
         tv_order_orderId.text = order.id
-        tv_order_orderStatus.text = order.status
+        tv_order_orderStatus.text = order.status.s
         tv_order_orderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
         tv_order_address.text = address?.streetAddress ?: "[Deleted address]"
         if (order.additionalComments != null) {

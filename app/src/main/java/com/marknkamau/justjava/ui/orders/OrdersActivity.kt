@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Order
+import com.marknjunge.core.data.model.OrderStatus
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
@@ -45,11 +46,19 @@ class OrdersActivity : AppCompatActivity() {
     @SuppressLint("DefaultLocale")
     private fun observeOrders() {
         val adapter: BaseRecyclerViewAdapter<Order> = BaseRecyclerViewAdapter(R.layout.item_order) { order ->
-            tvOrderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
-            tvOrderItemsCount.text = resources.getQuantityString(R.plurals.item_s, order.items.size, order.items.size)
-            tvOrderStatus.text = order.status.toLowerCase().capitalize().replace("_", " ")
+            tvOrderId.text = order.id
+            tvOrderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM yyyy")
+            tvOrderStatus.text = order.status.s.capitalize().replace("_", " ")
             tvOrderItems.text = order.items.joinToString{ it.productName }
             tvOrderTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
+
+            when(order.status){
+                OrderStatus.PENDING -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_pending)
+                OrderStatus.CONFIRMED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_confirmed)
+                OrderStatus.IN_PROGRESS -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_in_progress)
+                OrderStatus.COMPLETED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_completed)
+                OrderStatus.CANCELLED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_cancelled)
+            }
             rootOrderItem.setOnClickListener {
                 OrderDetailActivity.start(this@OrdersActivity, order.id)
             }

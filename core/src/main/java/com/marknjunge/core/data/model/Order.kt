@@ -31,7 +31,7 @@ data class Order(
 	val paymentStatus: PaymentStatus,
 
 	@SerialName("status")
-	val status: String,
+	val status: OrderStatus,
 
 	@SerialName("addressId")
 	val addressId: Long? = null
