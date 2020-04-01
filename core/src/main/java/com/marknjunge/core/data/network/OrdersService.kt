@@ -1,10 +1,9 @@
 package com.marknjunge.core.data.network
 
-import com.marknjunge.core.data.model.Order
-import com.marknjunge.core.data.model.PlaceOrderDto
+import com.marknjunge.core.data.model.*
 import retrofit2.http.*
 
-internal interface OrdersService{
+internal interface OrdersService {
     @POST("/orders/place")
     suspend fun placeOrder(@Header("session-id") sessionId: String, @Body body: PlaceOrderDto): Order
 
@@ -13,4 +12,7 @@ internal interface OrdersService{
 
     @GET("/orders/{id}")
     suspend fun getOrderById(@Header("session-id") sessionId: String, @Path("id") id: String): Order
+
+    @POST("/orders/{id}/paymentMethod")
+    suspend fun changePaymentMethod(@Header("session-id") sessionId: String, @Path("id") id: String, @Body changePaymentMethodDto: ChangePaymentMethodDto): ApiResponse
 }
