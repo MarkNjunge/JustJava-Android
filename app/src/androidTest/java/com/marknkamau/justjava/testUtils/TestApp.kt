@@ -4,7 +4,6 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.repository.*
 import com.marknkamau.justjava.JustJavaApp
 import com.marknkamau.justjava.data.db.DbRepository
-import com.marknkamau.justjava.data.network.FirebaseService
 import com.marknkamau.justjava.di.viewModelModule
 import com.marknkamau.justjava.utils.NotificationHelper
 import io.mockk.mockk
@@ -17,7 +16,6 @@ class TestApp : JustJavaApp() {
     companion object {
         val mockPreferencesRepository = mockk<PreferencesRepository>()
         val mockNotificationHelper = mockk<NotificationHelper>()
-        val mockFirebaseService = mockk<FirebaseService>()
 
         val mockAuthRepository = mockk<AuthRepository>()
         val mockProductsRepository = mockk<ProductsRepository>()
@@ -44,7 +42,6 @@ class TestApp : JustJavaApp() {
     private val mockAppModule = module {
         single { mockPreferencesRepository }
         single { mockNotificationHelper }
-        single { mockFirebaseService }
     }
 
     private val mockRepositoriesModule = module {

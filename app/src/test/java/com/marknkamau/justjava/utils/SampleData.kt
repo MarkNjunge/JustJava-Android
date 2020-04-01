@@ -21,5 +21,5 @@ internal object SampleData {
 
     val orderItem = OrderItem(1, 0, 100.0, 100.0, "Product", listOf(OrderItemOption(0, "Choice", 0, 10.0, 0, "Option")))
     val order =
-        Order(null, 0, 100.0, PaymentMethod.MPESA, "abc123", 0, listOf(orderItem), PaymentStatus.PAID, "status", 0)
+        Order(null, 0, 100.0, PaymentMethod.MPESA, "abc123", 0, listOf(orderItem), PaymentStatus.PAID, OrderStatus.PENDING, 0)
 }

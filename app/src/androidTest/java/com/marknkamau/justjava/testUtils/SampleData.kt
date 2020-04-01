@@ -32,5 +32,5 @@ object SampleData {
 
     val orderItem = OrderItem(1, 1, 120.0, 120.0, "Americano", listOf(OrderItemOption(1, "Single, double or triple", 3, 0.0, 44, "Single")))
     val order =
-        Order(null, 1579505466, 120.0, PaymentMethod.MPESA, "AGV7OBST", 1, listOf(orderItem), PaymentStatus.PAID, "status", 0)
+        Order(null, 1579505466, 120.0, PaymentMethod.MPESA, "AGV7OBST", 1, listOf(orderItem), PaymentStatus.PAID, OrderStatus.PENDING, 0)
 }

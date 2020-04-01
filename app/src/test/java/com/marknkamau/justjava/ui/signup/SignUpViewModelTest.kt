@@ -62,10 +62,10 @@ class SignUpViewModelTest {
     @Test
     fun `can sign up`() {
         val resource = Resource.Success(User(1, "", "", 0, "", "", "", "", listOf()))
-        coEvery { authRepository.signUp(any(), any(), any(), any(), any()) } returns resource
+        coEvery { authRepository.signUp(any(), any(), any(), any()) } returns resource
 
         val observer = spyk<Observer<Resource<User>>>()
-        viewModel.signUp("", "", "", "", "").observeForever(observer)
+        viewModel.signUp("", "", "", "").observeForever(observer)
 
         verify { observer.onChanged(resource) }
     }
