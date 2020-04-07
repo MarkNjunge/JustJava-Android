@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.marknjunge.core.data.model.OrderStatus
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.data.models.NotificationReason
@@ -66,6 +67,11 @@ class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinCompone
                 NotificationReason.PAYMENT_CANCELLED -> {
                     // Show notification
                     notificationHelper.showPaymentNotification("Your payment was not successful. Please try again.")
+                }
+                NotificationReason.ORDER_STATUS_UPDATED -> {
+                    val orderId = data["orderId"] as String
+                    val orderStatus = OrderStatus.valueOf(data["orderStatus"] as String)
+                    notificationHelper.showOrderStatusNotification(orderId, orderStatus)
                 }
             }
         }

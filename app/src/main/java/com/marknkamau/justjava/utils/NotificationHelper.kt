@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.marknjunge.core.data.model.OrderStatus
 import com.marknkamau.justjava.R
 import kotlin.random.Random
 
@@ -23,6 +24,7 @@ interface NotificationHelper {
 
     fun showCompletedOrderNotification()
     fun showPaymentNotification(body: String)
+    fun showOrderStatusNotification(id: String, status: OrderStatus)
     fun showNotification(title: String, body: String, channelId: String = defaultChannelId)
 }
 
@@ -62,13 +64,24 @@ class NotificationHelperImpl(private val context: Context) : NotificationHelper 
         showNotification("Order Payment", body, paymentsChannelId)
     }
 
+    override fun showOrderStatusNotification(id: String, orderStatus: OrderStatus) {
+        val body = when(orderStatus){
+            OrderStatus.PENDING -> "Your order is now pending."
+            OrderStatus.CONFIRMED -> "Your order has been confirmed!"
+            OrderStatus.IN_PROGRESS -> "Your order is now in progress."
+            OrderStatus.COMPLETED -> "Your order has been completed!"
+            OrderStatus.CANCELLED -> "Your order has been cancelled."
+        }
+        showNotification("Order updated", body, ordersChannelId)
+    }
+
     override fun showNotification(title: String, body: String, channelId: String) {
         val notification = NotificationCompat.Builder(context, channelId)
-                .setSmallIcon(R.drawable.ic_just_java_logo_black)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
-                .build()
+            .setSmallIcon(R.drawable.ic_just_java_logo_black)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+            .build()
 
         notificationManager.notify(Random.nextInt(), notification)
     }
