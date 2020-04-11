@@ -49,10 +49,10 @@ class OrdersActivity : AppCompatActivity() {
             tvOrderId.text = order.id
             tvOrderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM yyyy")
             tvOrderStatus.text = order.status.s.capitalize().replace("_", " ")
-            tvOrderItems.text = order.items.joinToString{ it.productName }
+            tvOrderItems.text = order.items.joinToString { it.productName }
             tvOrderTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
 
-            when(order.status){
+            when (order.status) {
                 OrderStatus.PENDING -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_pending)
                 OrderStatus.CONFIRMED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_confirmed)
                 OrderStatus.IN_PROGRESS -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_in_progress)
@@ -72,7 +72,16 @@ class OrdersActivity : AppCompatActivity() {
 
         ordersViewModel.orders.observe(this, Observer { resource ->
             when (resource) {
-                is Resource.Success -> adapter.setItems(resource.data.sortedBy { it.datePlaced }.reversed())
+                is Resource.Success -> {
+                    if (resource.data.isEmpty()) {
+                        llNoOrders.visibility = View.VISIBLE
+                        rvOrders.visibility = View.GONE
+                    } else {
+                        llNoOrders.visibility = View.GONE
+                        rvOrders.visibility = View.VISIBLE
+                        adapter.setItems(resource.data.sortedBy { it.datePlaced }.reversed())
+                    }
+                }
                 is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
             }
         })
