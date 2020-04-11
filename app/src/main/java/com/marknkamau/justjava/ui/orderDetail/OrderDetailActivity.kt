@@ -83,6 +83,7 @@ class OrderDetailActivity : AppCompatActivity() {
                     if (orderId == orderId) {
                         Timber.d("The current order has been paid for!")
                         btnPayOrder.visibility = View.GONE
+                        btnChangePaymentMethod.visibility = View.GONE
                         tv_order_paymentStatus.text = PaymentStatus.PAID.s
                         toast("Payment received")
                     }
