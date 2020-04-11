@@ -31,7 +31,7 @@ interface NotificationHelper {
 class NotificationHelperImpl(private val context: Context) : NotificationHelper {
     override val defaultChannelId = "defaultNotificationChannel"
     override val ordersChannelId = "ordersNotificationChannel"
-    override val paymentsChannelId = "ordersNotificationChannel"
+    override val paymentsChannelId = "paymentsNotificationChannel"
 
     private val notificationManager by lazy {
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
