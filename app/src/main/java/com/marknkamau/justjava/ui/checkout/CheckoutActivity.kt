@@ -83,6 +83,7 @@ class CheckoutActivity : AppCompatActivity() {
                         btnAddDeliveryAddress.visibility = View.GONE
                         btnChangeDeliveryAddress.visibility = View.VISIBLE
                         tvDeliveryAddress.visibility = View.VISIBLE
+                        btnPlaceOrder.isEnabled = true
 
                         loadAddressList()
                     }
@@ -115,6 +116,7 @@ class CheckoutActivity : AppCompatActivity() {
             btnAddDeliveryAddress.visibility = View.VISIBLE
             btnChangeDeliveryAddress.visibility = View.GONE
             tvDeliveryAddress.visibility = View.GONE
+            btnPlaceOrder.isEnabled = false
         } else {
             btnAddDeliveryAddress.visibility = View.GONE
             btnChangeDeliveryAddress.visibility = View.VISIBLE
