@@ -2,9 +2,9 @@ package com.marknjunge.core.utils
 
 import com.marknjunge.core.data.model.Resource
 
-internal suspend fun <T> call(block: suspend () -> Resource<T>): Resource<T> {
+internal suspend fun <T> call(block: suspend () -> T): Resource<T> {
     return try {
-        block()
+        Resource.Success(block())
     } catch (e: Exception) {
         return parseException(e)
     }

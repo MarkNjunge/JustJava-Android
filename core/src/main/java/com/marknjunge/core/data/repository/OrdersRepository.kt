@@ -21,27 +21,26 @@ internal class ApiOrdersRepository(
 ) : OrdersRepository {
     override suspend fun placeOrder(dto: PlaceOrderDto): Resource<Order> {
         return call {
-            Resource.Success(ordersService.placeOrder(preferencesRepository.sessionId, dto))
+            ordersService.placeOrder(preferencesRepository.sessionId, dto)
         }
     }
 
     override suspend fun getOrders(): Resource<List<Order>> {
         return call {
-            Resource.Success(ordersService.getOrders(preferencesRepository.sessionId))
+            ordersService.getOrders(preferencesRepository.sessionId)
         }
     }
 
     override suspend fun changePaymentMethod(id: String, method: PaymentMethod): Resource<ApiResponse> {
         return call {
             val dto = ChangePaymentMethodDto(method)
-            val response = ordersService.changePaymentMethod(preferencesRepository.sessionId, id, dto)
-            Resource.Success(response)
+            ordersService.changePaymentMethod(preferencesRepository.sessionId, id, dto)
         }
     }
 
     override suspend fun getOrderById(id: String): Resource<Order> {
         return call {
-            Resource.Success(ordersService.getOrderById(preferencesRepository.sessionId, id))
+            ordersService.getOrderById(preferencesRepository.sessionId, id)
         }
     }
 }

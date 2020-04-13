@@ -17,7 +17,7 @@ internal class ApiCartRepository(
 ) : CartRepository {
     override suspend fun verifyOrder(dto: VerifyOrderDto): Resource<List<VerifyOrderResponse>> {
         return call {
-            Resource.Success(cartService.verifyCart(preferencesRepository.sessionId, dto))
+            cartService.verifyCart(preferencesRepository.sessionId, dto)
         }
     }
 }

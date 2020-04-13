@@ -9,12 +9,7 @@ import com.marknjunge.core.utils.call
 interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): Resource<User>
 
-    suspend fun signUp(
-        firstName: String,
-        lastName: String,
-        email: String,
-        password: String
-    ): Resource<User>
+    suspend fun signUp(firstName: String, lastName: String, email: String, password: String): Resource<User>
 
     suspend fun signIn(email: String, password: String): Resource<User>
 
@@ -39,7 +34,7 @@ internal class ApiAuthRepository(
             preferencesRepository.user = response.user
             preferencesRepository.sessionId = response.session.sessionId
 
-            Resource.Success(response.user)
+            response.user
         }
     }
 
@@ -56,7 +51,7 @@ internal class ApiAuthRepository(
             preferencesRepository.user = response.user
             preferencesRepository.sessionId = response.session.sessionId
 
-            Resource.Success(response.user)
+            response.user
         }
     }
 
@@ -67,7 +62,7 @@ internal class ApiAuthRepository(
             preferencesRepository.user = response.user
             preferencesRepository.sessionId = response.session.sessionId
 
-            Resource.Success(response.user)
+            response.user
         }
     }
 
@@ -79,8 +74,6 @@ internal class ApiAuthRepository(
             }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
-
-            Resource.Success(Unit)
         }
     }
 
@@ -91,22 +84,18 @@ internal class ApiAuthRepository(
             }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
-
-            Resource.Success(Unit)
         }
     }
 
     override suspend fun requestPasswordReset(email: String): Resource<ApiResponse> {
         return call {
-            val response = authService.requestPasswordReset(RequestPasswordResetDto(email))
-            Resource.Success(response)
+            authService.requestPasswordReset(RequestPasswordResetDto(email))
         }
     }
 
     override suspend fun resetPassword(token: String, newPassword: String): Resource<ApiResponse> {
         return call {
-            val response = authService.resetPassword(ResetPasswordDto(token, newPassword))
-            Resource.Success(response)
+            authService.resetPassword(ResetPasswordDto(token, newPassword))
         }
     }
 }

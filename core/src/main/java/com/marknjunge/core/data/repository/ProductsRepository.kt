@@ -12,7 +12,7 @@ interface ProductsRepository {
 internal class ApiProductsRepository(private val apiService: ApiService) : ProductsRepository {
     override suspend fun getProducts(): Resource<List<Product>> {
         return call {
-            Resource.Success(apiService.getProducts())
+            apiService.getProducts()
         }
     }
 }

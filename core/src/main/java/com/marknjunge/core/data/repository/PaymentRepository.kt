@@ -31,12 +31,7 @@ internal class ApiPaymentsRepository(
 ) : PaymentsRepository {
     override suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse> {
         return call {
-            Resource.Success(
-                paymentsService.requestMpesa(
-                    preferencesRepository.sessionId,
-                    RequestMpesaDto(mobileNumber, orderId)
-                )
-            )
+            paymentsService.requestMpesa(preferencesRepository.sessionId, RequestMpesaDto(mobileNumber, orderId))
         }
     }
 
@@ -53,21 +48,19 @@ internal class ApiPaymentsRepository(
         billingCountry: String
     ): Resource<ApiResponse> {
         return call {
-            Resource.Success(
-                paymentsService.initiateCardPayment(
-                    preferencesRepository.sessionId,
-                    InitiateCardPaymentDto(
-                        orderId,
-                        cardNo,
-                        cvv,
-                        expiryMonth,
-                        expiryYear,
-                        billingZip,
-                        billingCity,
-                        billingAddress,
-                        billingState,
-                        billingCountry
-                    )
+            paymentsService.initiateCardPayment(
+                preferencesRepository.sessionId,
+                InitiateCardPaymentDto(
+                    orderId,
+                    cardNo,
+                    cvv,
+                    expiryMonth,
+                    expiryYear,
+                    billingZip,
+                    billingCity,
+                    billingAddress,
+                    billingState,
+                    billingCountry
                 )
             )
         }

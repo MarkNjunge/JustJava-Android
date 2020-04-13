@@ -61,8 +61,6 @@ internal class ApiUsersRepository(
                     email = email
                 )
                 preferencesRepository.user = updatedUser
-
-                Resource.Success(Unit)
             }
         }
 
@@ -79,7 +77,7 @@ internal class ApiUsersRepository(
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.add(saveAddress)
             preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
-            Resource.Success(saveAddress)
+            saveAddress
         }
     }
 
@@ -89,7 +87,6 @@ internal class ApiUsersRepository(
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.remove(address)
             preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
-            Resource.Success(Unit)
         }
     }
 
@@ -99,19 +96,17 @@ internal class ApiUsersRepository(
             usersService.updateFcmToken(preferencesRepository.sessionId, UpdateFcmTokenDto(token))
             val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
             preferencesRepository.user = updatedUser
-            Resource.Success(Unit)
         }
     }
 
     override suspend fun deleteUser(): Resource<Unit> {
         return call {
-            val res = usersService.deleteUser(preferencesRepository.sessionId)
+            usersService.deleteUser(preferencesRepository.sessionId)
             if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
                 googleSignInClient.signOut()
             }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
-            Resource.Success(res)
         }
     }
 
