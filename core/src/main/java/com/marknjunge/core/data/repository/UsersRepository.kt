@@ -2,17 +2,13 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
-import com.marknjunge.core.data.model.UpdateFcmTokenDto
-import com.marknjunge.core.data.model.UpdateUserDto
 import com.marknjunge.core.data.network.FirebaseService
 import com.marknjunge.core.data.network.GoogleSignInClientStub
 import com.marknjunge.core.data.network.UsersService
 import com.marknjunge.core.utils.call
 import com.marknjunge.core.utils.parseException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 
 interface UsersRepository {
     suspend fun getCurrentUser(): Flow<Resource<User>>
@@ -47,9 +43,8 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun updateUser(firstName: String, lastName: String, mobile: String, email: String) =
-        withContext(Dispatchers.IO) {
-            call {
+    override suspend fun updateUser(firstName: String, lastName: String, mobile: String, email: String): Resource<Unit> {
+            return call {
                 usersService.updateUser(
                     preferencesRepository.sessionId,
                     UpdateUserDto(
@@ -71,8 +66,8 @@ internal class ApiUsersRepository(
             }
         }
 
-    override suspend fun addAddress(address: Address): Resource<Address> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun addAddress(address: Address): Resource<Address> {
+        return call {
             val saveAddress = usersService.saveAddress(
                 preferencesRepository.sessionId,
                 SaveAddressDto(
@@ -88,8 +83,8 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun deleteAddress(address: Address): Resource<Unit> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun deleteAddress(address: Address): Resource<Unit> {
+        return call {
             usersService.deleteAddress(preferencesRepository.sessionId, address.id)
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.remove(address)
@@ -98,8 +93,8 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun updateFcmToken() = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun updateFcmToken(): Resource<Unit> {
+        return call {
             val token = firebaseService.getFcmToken()
             usersService.updateFcmToken(preferencesRepository.sessionId, UpdateFcmTokenDto(token))
             val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
@@ -108,8 +103,8 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun deleteUser(): Resource<Unit> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun deleteUser(): Resource<Unit> {
+        return call {
             val res = usersService.deleteUser(preferencesRepository.sessionId)
             if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
                 googleSignInClient.signOut()

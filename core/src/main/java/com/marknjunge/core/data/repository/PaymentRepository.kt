@@ -1,14 +1,12 @@
 package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.model.ApiResponse
 import com.marknjunge.core.data.model.InitiateCardPaymentDto
 import com.marknjunge.core.data.model.RequestMpesaDto
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.network.PaymentsService
-import com.marknjunge.core.data.model.ApiResponse
 import com.marknjunge.core.utils.call
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 interface PaymentsRepository {
     suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse>
@@ -31,8 +29,8 @@ internal class ApiPaymentsRepository(
     private val paymentsService: PaymentsService,
     private val preferencesRepository: PreferencesRepository
 ) : PaymentsRepository {
-    override suspend fun requestMpesa(mobileNumber: String, orderId: String) = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse> {
+        return call {
             Resource.Success(
                 paymentsService.requestMpesa(
                     preferencesRepository.sessionId,
@@ -53,8 +51,8 @@ internal class ApiPaymentsRepository(
         billingAddress: String,
         billingState: String,
         billingCountry: String
-    ) = withContext(Dispatchers.IO) {
-        call {
+    ): Resource<ApiResponse> {
+        return call {
             Resource.Success(
                 paymentsService.initiateCardPayment(
                     preferencesRepository.sessionId,

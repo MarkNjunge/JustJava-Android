@@ -2,12 +2,9 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
-import com.marknjunge.core.data.model.SignInGoogleDto
 import com.marknjunge.core.data.network.AuthService
 import com.marknjunge.core.data.network.GoogleSignInClientStub
 import com.marknjunge.core.utils.call
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): Resource<User>
@@ -35,8 +32,8 @@ internal class ApiAuthRepository(
     private val preferencesRepository: PreferencesRepository,
     private val googleSignInClient: GoogleSignInClientStub
 ) : AuthRepository {
-    override suspend fun signInWithGoogle(idToken: String): Resource<User> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun signInWithGoogle(idToken: String): Resource<User> {
+        return call {
             val response = authService.signInWithGoogle(SignInGoogleDto(idToken))
 
             preferencesRepository.user = response.user
@@ -51,8 +48,8 @@ internal class ApiAuthRepository(
         lastName: String,
         email: String,
         password: String
-    ): Resource<User> = withContext(Dispatchers.IO) {
-        call {
+    ): Resource<User> {
+        return call {
             val signUpDto = SignUpDto(firstName, lastName, password, email)
             val response = authService.signUp(signUpDto)
 
@@ -63,8 +60,8 @@ internal class ApiAuthRepository(
         }
     }
 
-    override suspend fun signIn(email: String, password: String): Resource<User> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun signIn(email: String, password: String): Resource<User> {
+        return call {
             val response = authService.signIn(SignInDto(email, password))
 
             preferencesRepository.user = response.user
@@ -74,8 +71,8 @@ internal class ApiAuthRepository(
         }
     }
 
-    override suspend fun signOut(): Resource<Unit> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun signOut(): Resource<Unit> {
+        return call {
             authService.signOut(preferencesRepository.sessionId)
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
@@ -87,8 +84,8 @@ internal class ApiAuthRepository(
         }
     }
 
-    override suspend fun signOutLocally(): Resource<Unit> = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun signOutLocally(): Resource<Unit> {
+        return call {
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }
@@ -99,15 +96,15 @@ internal class ApiAuthRepository(
         }
     }
 
-    override suspend fun requestPasswordReset(email: String) = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun requestPasswordReset(email: String): Resource<ApiResponse> {
+        return call {
             val response = authService.requestPasswordReset(RequestPasswordResetDto(email))
             Resource.Success(response)
         }
     }
 
-    override suspend fun resetPassword(token: String, newPassword: String) = withContext(Dispatchers.IO) {
-        call {
+    override suspend fun resetPassword(token: String, newPassword: String): Resource<ApiResponse> {
+        return call {
             val response = authService.resetPassword(ResetPasswordDto(token, newPassword))
             Resource.Success(response)
         }
