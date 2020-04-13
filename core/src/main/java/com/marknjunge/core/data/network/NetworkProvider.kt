@@ -12,6 +12,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 
 internal class NetworkProvider(private val context: Context) {
     private val apiBaseUrl = BuildConfig.API_BASE_URL
@@ -51,6 +52,8 @@ internal class NetworkProvider(private val context: Context) {
         builder.addInterceptor(NetworkConnectionInterceptor(context))
         builder.addNetworkInterceptor(ConvertNoContentInterceptor())
         builder.addNetworkInterceptor(loggingInterceptor)
+        builder.readTimeout(30, TimeUnit.SECONDS)
+        builder.connectTimeout(30, TimeUnit.SECONDS)
 
         return builder
             .build()
