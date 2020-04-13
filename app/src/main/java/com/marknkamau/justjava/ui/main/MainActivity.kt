@@ -30,6 +30,7 @@ class MainActivity : BaseActivity() {
 
         initializeLoadingIndicator()
         initializeRecyclerView()
+        observeSwipeToRefresh()
 
         viewModel.getProducts()
     }
@@ -38,6 +39,7 @@ class MainActivity : BaseActivity() {
         viewModel.loading.observe(this, Observer { loading ->
             TransitionManager.beginDelayedTransition(rootMainActivity)
             shimmerLayout.visibility = if (loading) View.VISIBLE else View.GONE
+            if(loading) layoutFailed.visibility = View.GONE
         })
     }
 
@@ -70,9 +72,19 @@ class MainActivity : BaseActivity() {
                     rvProducts.visibility = View.VISIBLE
                     adapter.setItems(resource.data)
                 }
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> {
+                    layoutFailed.visibility = View.VISIBLE
+                    toast(resource.response.message)
+                }
             }
 
         })
+    }
+
+    private fun observeSwipeToRefresh(){
+        swipeRefresh.setOnRefreshListener {
+            swipeRefresh.isRefreshing = false
+            viewModel.getProducts()
+        }
     }
 }
