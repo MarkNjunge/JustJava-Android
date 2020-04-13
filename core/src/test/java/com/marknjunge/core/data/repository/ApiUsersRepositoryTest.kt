@@ -3,7 +3,7 @@ package com.marknjunge.core.data.repository
 import com.marknjunge.core.SampleData
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.network.UsersService
+import com.marknjunge.core.data.network.service.UsersService
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.runBlocking

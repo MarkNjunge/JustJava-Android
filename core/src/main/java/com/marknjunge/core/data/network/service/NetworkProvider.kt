@@ -1,4 +1,4 @@
-package com.marknjunge.core.data.network
+package com.marknjunge.core.data.network.service
 
 import android.content.Context
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory

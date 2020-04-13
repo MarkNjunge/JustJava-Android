@@ -4,7 +4,7 @@ import com.marknjunge.core.SampleData
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.SignInResponse
-import com.marknjunge.core.data.network.AuthService
+import com.marknjunge.core.data.network.service.AuthService
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

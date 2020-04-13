@@ -2,7 +2,7 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.VerifyOrderDto
-import com.marknjunge.core.data.network.CartService
+import com.marknjunge.core.data.network.service.CartService
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

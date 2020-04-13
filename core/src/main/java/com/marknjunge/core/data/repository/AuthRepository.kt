@@ -2,8 +2,8 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
-import com.marknjunge.core.data.network.AuthService
-import com.marknjunge.core.data.network.GoogleSignInClientStub
+import com.marknjunge.core.data.network.service.AuthService
+import com.marknjunge.core.data.network.GoogleSignInService
 import com.marknjunge.core.utils.call
 
 interface AuthRepository {
@@ -25,7 +25,7 @@ interface AuthRepository {
 internal class ApiAuthRepository(
     private val authService: AuthService,
     private val preferencesRepository: PreferencesRepository,
-    private val googleSignInClient: GoogleSignInClientStub
+    private val googleSignInClient: GoogleSignInService
 ) : AuthRepository {
     override suspend fun signInWithGoogle(idToken: String): Resource<User> {
         return call {

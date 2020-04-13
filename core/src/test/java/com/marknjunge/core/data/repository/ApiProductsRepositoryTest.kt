@@ -2,7 +2,7 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.SampleData
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.network.ApiService
+import com.marknjunge.core.data.network.service.ApiService
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

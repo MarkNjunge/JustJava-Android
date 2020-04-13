@@ -2,9 +2,9 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
-import com.marknjunge.core.data.network.FirebaseService
-import com.marknjunge.core.data.network.GoogleSignInClientStub
-import com.marknjunge.core.data.network.UsersService
+import com.marknjunge.core.data.network.service.FirebaseService
+import com.marknjunge.core.data.network.GoogleSignInService
+import com.marknjunge.core.data.network.service.UsersService
 import com.marknjunge.core.utils.call
 import com.marknjunge.core.utils.parseException
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +27,7 @@ interface UsersRepository {
 internal class ApiUsersRepository(
     private val usersService: UsersService,
     private val preferencesRepository: PreferencesRepository,
-    private val googleSignInClient: GoogleSignInClientStub,
+    private val googleSignInClient: GoogleSignInService,
     private val firebaseService: FirebaseService
 ) : UsersRepository {
     override suspend fun getCurrentUser(): Flow<Resource<User>> = flow {

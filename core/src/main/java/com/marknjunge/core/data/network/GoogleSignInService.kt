@@ -1,5 +1,5 @@
 package com.marknjunge.core.data.network
 
-interface GoogleSignInClientStub {
+interface GoogleSignInService {
     suspend fun signOut()
 }

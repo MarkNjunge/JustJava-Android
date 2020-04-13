@@ -1,7 +1,7 @@
 package com.marknkamau.justjava.data.network
 
 import com.google.firebase.iid.FirebaseInstanceId
-import com.marknjunge.core.data.network.FirebaseService
+import com.marknjunge.core.data.network.service.FirebaseService
 import kotlinx.coroutines.tasks.await
 
 class AppFirebaseService : FirebaseService {

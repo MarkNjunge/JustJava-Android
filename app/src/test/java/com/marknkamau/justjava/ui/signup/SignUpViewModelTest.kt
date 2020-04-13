@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
-import com.marknjunge.core.data.network.FirebaseService
+import com.marknjunge.core.data.network.service.FirebaseService
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
 import io.mockk.MockKAnnotations

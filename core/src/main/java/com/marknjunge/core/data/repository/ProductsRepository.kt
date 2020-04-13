@@ -2,7 +2,7 @@ package com.marknjunge.core.data.repository
 
 import com.marknjunge.core.data.model.Product
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.network.ApiService
+import com.marknjunge.core.data.network.service.ApiService
 import com.marknjunge.core.utils.call
 
 interface ProductsRepository {

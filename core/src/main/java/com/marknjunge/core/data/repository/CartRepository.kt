@@ -4,7 +4,7 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.VerifyOrderDto
 import com.marknjunge.core.data.model.VerifyOrderResponse
-import com.marknjunge.core.data.network.CartService
+import com.marknjunge.core.data.network.service.CartService
 import com.marknjunge.core.utils.call
 
 interface CartRepository {

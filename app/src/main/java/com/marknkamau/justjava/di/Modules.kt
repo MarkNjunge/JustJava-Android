@@ -5,14 +5,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.marknjunge.core.data.local.PreferencesRepository
-import com.marknjunge.core.data.network.FirebaseService
-import com.marknjunge.core.data.network.GoogleSignInClientStub
+import com.marknjunge.core.data.network.service.FirebaseService
+import com.marknjunge.core.data.network.GoogleSignInService
 import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.data.db.AppDatabase
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.db.DbRepositoryImpl
 import com.marknkamau.justjava.data.network.AppFirebaseService
-import com.marknkamau.justjava.data.network.GoogleSignInClientStubImpl
+import com.marknkamau.justjava.data.network.GoogleSignInServiceImpl
 import com.marknkamau.justjava.data.preferences.PreferencesRepositoryImpl
 import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import com.marknkamau.justjava.ui.cart.CartViewModel
@@ -45,7 +45,7 @@ val appModule = module {
         GoogleSignIn.getClient(androidContext(), gso)
     }
 
-    single<GoogleSignInClientStub> { GoogleSignInClientStubImpl(get()) }
+    single<GoogleSignInService> { GoogleSignInServiceImpl(get()) }
 
     single<FirebaseService> { AppFirebaseService() }
 }
