@@ -28,7 +28,7 @@ open class JustJavaApp : Application() {
     private val usersRepository: UsersRepository by inject()
     private val authRepository: AuthRepository by inject()
 
-    private val coroutineScope = CoroutineScope(Dispatchers.IO)
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate() {
         super.onCreate()
@@ -59,13 +59,13 @@ open class JustJavaApp : Application() {
 
         if (preferencesRepository.isSignedIn) {
             coroutineScope.launch {
-                when(val resource = usersRepository.updateFcmToken()){
+                when (val resource = usersRepository.updateFcmToken()) {
                     is Resource.Success -> usersRepository.getCurrentUser().collect { }
                     is Resource.Failure -> {
-                        if(resource.response.message == "Invalid session-id"){
+                        if (resource.response.message == "Invalid session-id") {
                             Timber.d("Signed out")
                             authRepository.signOutLocally()
-                        }else{
+                        } else {
                             toast(resource.response.message)
                         }
                     }
