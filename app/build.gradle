@@ -13,8 +13,8 @@ android {
     defaultConfig {
         applicationId "com.marknkamau.justjava"
 
-        versionCode 12
-        versionName "2.1.0"
+        versionCode 13
+        versionName "2.2.0"
 
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

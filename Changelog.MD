@@ -1,6 +1,16 @@
 # JustJava changelog
 
-# 2.1.0
+## 2.2.0
+- Bias places autocomplete to Nairobi
+- Remove mobile number requirement
+- Fix invalid session-id errors by logging out
+- Add option to change payment method
+- Disable place order button when there is no no delivery address
+- Fix payments notification channel being the same as orders channel
+- Add illustration when there aren't any orders
+- Add pull to refresh in products screen
+
+## 2.1.0
 
 - Improve app launch time
 - Remove mobile number length restriction
