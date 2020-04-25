@@ -8,14 +8,14 @@ import androidx.lifecycle.Observer
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.addressBook.AddressBookActivity
 import com.marknkamau.justjava.ui.orders.OrdersActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ProfileActivity : BaseActivity() {
+class ProfileActivity : ToolbarActivity() {
 
     private var isInEditMode = false
     private val profileViewModel: ProfileViewModel by viewModel()

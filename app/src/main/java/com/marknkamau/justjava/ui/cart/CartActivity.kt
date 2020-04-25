@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
-import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_cart.*
 import kotlinx.android.synthetic.main.item_cart_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CartActivity : BaseActivity() {
+class CartActivity : ToolbarActivity() {
 
     private val cartViewModel: CartViewModel by viewModel()
     private lateinit var items: List<CartItem>

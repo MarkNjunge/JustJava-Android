@@ -11,7 +11,7 @@ import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.Product
 import com.marknkamau.justjava.R
-import com.marknkamau.justjava.ui.BaseActivity
+import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_product.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : ToolbarActivity() {
     private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {

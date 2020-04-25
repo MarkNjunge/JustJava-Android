@@ -12,7 +12,7 @@ import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 import org.koin.android.ext.android.inject
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class ToolbarActivity : AppCompatActivity() {
 
     private val preferencesRepository: PreferencesRepository by inject()
 
