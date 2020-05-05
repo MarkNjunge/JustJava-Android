@@ -54,14 +54,6 @@ class PayCardViewModelTest {
         coEvery {
             paymentsRepository.initiateCardPayment(
                 any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
                 any()
             )
         } returns resource
