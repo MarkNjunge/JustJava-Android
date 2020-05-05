@@ -1,16 +1,12 @@
 package com.marknjunge.core.utils.serialization
 
 import com.marknjunge.core.data.model.PaymentMethod
-import kotlinx.serialization.Decoder
-import kotlinx.serialization.Encoder
-import kotlinx.serialization.SerialDescriptor
-import kotlinx.serialization.Serializer
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.*
 
 @Serializer(forClass = PaymentMethod::class)
 object PaymentMethodSerializer {
     override val descriptor: SerialDescriptor
-        get() = StringDescriptor
+        get() = PrimitiveDescriptor("paymentMethodSerializer", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): PaymentMethod {
         return PaymentMethod.valueOf(decoder.decodeString())
