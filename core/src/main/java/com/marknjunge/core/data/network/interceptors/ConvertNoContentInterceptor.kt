@@ -8,7 +8,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Protocol
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
-import timber.log.Timber
 
 class ConvertNoContentInterceptor : Interceptor {
     private val mediaType = "application/json".toMediaType()

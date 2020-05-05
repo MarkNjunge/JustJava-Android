@@ -8,5 +8,8 @@ import retrofit2.http.POST
 
 internal interface CartService {
     @POST("orders/verify")
-    suspend fun verifyCart(@Header("session-id") sessionId: String, @Body body: VerifyOrderDto): List<VerifyOrderResponse>
+    suspend fun verifyCart(
+        @Header("session-id") sessionId: String,
+        @Body body: VerifyOrderDto
+    ): List<VerifyOrderResponse>
 }

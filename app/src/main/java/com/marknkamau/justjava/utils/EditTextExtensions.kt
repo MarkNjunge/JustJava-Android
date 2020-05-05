@@ -22,8 +22,8 @@ fun EditText.onTextChanged(onChange: () -> Unit) {
 }
 
 val EditText.trimmedText: String
-    get() =  this.text.trim().toString()
+    get() = this.text.trim().toString()
 
-fun TextInputLayout.resetErrorOnChange(editText: EditText){
+fun TextInputLayout.resetErrorOnChange(editText: EditText) {
     editText.onTextChanged { this.error = null }
 }

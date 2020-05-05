@@ -52,9 +52,7 @@ data class DateTime(
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun parse(format: String, source: String): DateTime =
-        SimpleDateFormat(format).parse(source)?.toDateTime()
-            ?: throw Exception("Source does not match format")
+    fun parse(format: String, source: String): DateTime? = SimpleDateFormat(format).parse(source)?.toDateTime()
 }
 
 /**

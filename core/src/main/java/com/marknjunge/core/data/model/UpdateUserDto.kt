@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class UpdateUserDto(
-	@SerialName("firstName")
-	val firstName: String,
+    @SerialName("firstName")
+	   val firstName: String,
 
-	@SerialName("lastName")
-	val lastName: String,
+    @SerialName("lastName")
+	   val lastName: String,
 
-	@SerialName("mobileNumber")
-	val mobileNumber: String,
+    @SerialName("mobileNumber")
+	   val mobileNumber: String,
 
-	@SerialName("email")
-	val email: String
+    @SerialName("email")
+	   val email: String
 )

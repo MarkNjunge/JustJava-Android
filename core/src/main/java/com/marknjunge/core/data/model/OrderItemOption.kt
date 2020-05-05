@@ -5,21 +5,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class OrderItemOption(
-	@SerialName("choiceId")
-	val choiceId: Int,
+    @SerialName("choiceId")
+	   val choiceId: Int,
 
-	@SerialName("choiceName")
-	val choiceName: String,
+    @SerialName("choiceName")
+	   val choiceName: String,
 
-	@SerialName("optionId")
-	val optionId: Int,
+    @SerialName("optionId")
+	   val optionId: Int,
 
-	@SerialName("optionPrice")
-	val optionPrice: Double,
+    @SerialName("optionPrice")
+	   val optionPrice: Double,
 
-	@SerialName("id")
-	val id: Int,
+    @SerialName("id")
+	   val id: Int,
 
-	@SerialName("optionName")
-	val optionName: String
+    @SerialName("optionName")
+	   val optionName: String
 )

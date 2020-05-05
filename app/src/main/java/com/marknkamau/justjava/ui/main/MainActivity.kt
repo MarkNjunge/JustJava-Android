@@ -38,14 +38,14 @@ class MainActivity : ToolbarActivity() {
         viewModel.loading.observe(this, Observer { loading ->
             TransitionManager.beginDelayedTransition(rootMainActivity)
             shimmerLayout.visibility = if (loading) View.VISIBLE else View.GONE
-            if(loading) layoutFailed.visibility = View.GONE
+            if (loading) layoutFailed.visibility = View.GONE
         })
     }
 
     private fun initializeRecyclerView() {
         val adapter: BaseRecyclerViewAdapter<Product> = BaseRecyclerViewAdapter(R.layout.item_product) { product ->
             tvProductName.text = product.name
-            tvProductPrice.text = context.resources.getString(R.string.price_listing, CurrencyFormatter.format(product.price))
+            tvProductPrice.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(product.price))
 
             Picasso.get().load(product.image).placeholder(R.drawable.plain_brown).into(imgProductImage)
 
@@ -65,7 +65,7 @@ class MainActivity : ToolbarActivity() {
         rvProducts.adapter = adapter
 
         viewModel.products.observe(this, Observer { resource ->
-            when(resource){
+            when (resource) {
                 is Resource.Success -> {
                     TransitionManager.beginDelayedTransition(rootMainActivity)
                     rvProducts.visibility = View.VISIBLE
@@ -76,11 +76,10 @@ class MainActivity : ToolbarActivity() {
                     handleApiError(resource)
                 }
             }
-
         })
     }
 
-    private fun observeSwipeToRefresh(){
+    private fun observeSwipeToRefresh() {
         swipeRefresh.setOnRefreshListener {
             swipeRefresh.isRefreshing = false
             viewModel.getProducts()

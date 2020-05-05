@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
@@ -30,7 +29,6 @@ class PayMpesaActivity : BaseActivity() {
             }
             context.startActivity(intent)
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +39,7 @@ class PayMpesaActivity : BaseActivity() {
         orderId = intent.extras!![ORDER_ID_KEY] as String
 
         val user = payMpesaViewModel.getUser()
-        user.mobileNumber?.let{
+        user.mobileNumber?.let {
             et_payMpesa_mobilerNumber.setText(it)
         }
 

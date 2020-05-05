@@ -11,7 +11,10 @@ import com.marknjunge.core.data.repository.UsersRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ProfileViewModel(private val usersRepository: UsersRepository,private val authRepository: AuthRepository) : ViewModel() {
+class ProfileViewModel(
+    private val usersRepository: UsersRepository,
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 
@@ -38,7 +41,7 @@ class ProfileViewModel(private val usersRepository: UsersRepository,private val 
         return livedata
     }
 
-    fun signOut():LiveData<Resource<Unit>>{
+    fun signOut(): LiveData<Resource<Unit>> {
         val livedata = MutableLiveData<Resource<Unit>>()
 
         viewModelScope.launch {
@@ -50,7 +53,7 @@ class ProfileViewModel(private val usersRepository: UsersRepository,private val 
         return livedata
     }
 
-    fun deleteAccount():LiveData<Resource<Unit>>{
+    fun deleteAccount(): LiveData<Resource<Unit>> {
         val livedata = MutableLiveData<Resource<Unit>>()
 
         viewModelScope.launch {

@@ -35,5 +35,4 @@ abstract class BaseActivity : AppCompatActivity() {
             .addNextIntentWithParentStack(intent)
             .startActivities()
     }
-
 }

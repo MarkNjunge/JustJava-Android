@@ -21,6 +21,10 @@ buildscript {
     }
 }
 
+plugins {
+    id 'io.gitlab.arturbosch.detekt' version "1.8.0"
+}
+
 allprojects {
     repositories {
         google()
@@ -40,6 +44,28 @@ task clean(type: Delete) {
 }
 
 subprojects {
+    apply {
+        plugin("io.gitlab.arturbosch.detekt")
+    }
+
+    dependencies {
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0"
+    }
+
+    detekt {
+        failFast = true
+        buildUponDefaultConfig = true
+        autoCorrect = true
+        config = rootProject.files("config/detekt/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
+
+        reports {
+            html {
+                enabled = true
+                destination = file("build/reports/detekt.html")
+            }
+        }
+    }
+
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
             android {

@@ -25,4 +25,3 @@ data class CartProductEntity(
     @ColumnInfo(name = "quantity")
     var quantity: Int
 ) : Parcelable
-

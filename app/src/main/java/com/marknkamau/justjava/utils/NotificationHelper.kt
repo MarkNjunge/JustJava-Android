@@ -65,7 +65,7 @@ class NotificationHelperImpl(private val context: Context) : NotificationHelper 
     }
 
     override fun showOrderStatusNotification(id: String, orderStatus: OrderStatus) {
-        val body = when(orderStatus){
+        val body = when (orderStatus) {
             OrderStatus.PENDING -> "Your order is now pending."
             OrderStatus.CONFIRMED -> "Your order has been confirmed!"
             OrderStatus.IN_PROGRESS -> "Your order is now in progress."

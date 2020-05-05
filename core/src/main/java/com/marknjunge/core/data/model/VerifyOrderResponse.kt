@@ -5,21 +5,21 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class VerifyOrderResponse(
-	@SerialName("itemId")
-	val itemId: Int,
+    @SerialName("itemId")
+	   val itemId: Int,
 
-	@SerialName("errorString")
-	val errorString: String,
+    @SerialName("errorString")
+	   val errorString: String,
 
-	@SerialName("errorType")
-	val errorType: ErrorType,
+    @SerialName("errorType")
+	   val errorType: ErrorType,
 
-	@SerialName("errorModel")
-	val errorModel: ErrorModel,
+    @SerialName("errorModel")
+	   val errorModel: ErrorModel,
 
-	@SerialName("index")
-	val index: Int,
+    @SerialName("index")
+	   val index: Int,
 
-	@SerialName("newPrice")
-	val newPrice: Double
+    @SerialName("newPrice")
+	   val newPrice: Double
 )

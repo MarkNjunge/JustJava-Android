@@ -29,7 +29,7 @@ class SignUpViewModel(
             _loading.value = true
             livedata.value = authRepository.signUp(firstName, lastName, email, password)
 
-            if(livedata.value is Resource.Success){
+            if (livedata.value is Resource.Success) {
                 usersRepository.updateFcmToken()
             }
 

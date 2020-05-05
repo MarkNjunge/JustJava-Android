@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.Status
@@ -36,11 +35,11 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     companion object {
         const val ADDRESS_KEY = "address"
+        private const val PERMISSIONS_REQUEST = 99
     }
 
     private lateinit var googleMap: GoogleMap
     private lateinit var target: LatLng
-    private val PERMISSIONS_REQUEST = 99
     private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
     private val uiCoroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -66,7 +65,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             override fun onError(status: Status) {
                 Timber.d(status.statusMessage)
             }
-
         })
 
         btnAddAddress.setOnClickListener {
@@ -91,7 +89,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         googleMap.setOnCameraIdleListener {
             target = googleMap.cameraPosition.target
         }
-
 
         if (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             getLastLocation()

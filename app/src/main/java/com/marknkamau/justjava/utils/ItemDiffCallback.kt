@@ -2,7 +2,10 @@ package com.marknkamau.justjava.utils
 
 import androidx.recyclerview.widget.DiffUtil
 
-class ItemDiffCallback<T>(private val oldList: MutableList<T>, private val newList: MutableList<T>) : DiffUtil.Callback() {
+class ItemDiffCallback<T>(
+    private val oldList: MutableList<T>,
+    private val newList: MutableList<T>
+) : DiffUtil.Callback() {
     override fun getOldListSize() = oldList.size
 
     override fun getNewListSize() = newList.size

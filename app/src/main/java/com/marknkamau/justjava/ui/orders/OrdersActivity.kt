@@ -3,8 +3,6 @@ package com.marknkamau.justjava.ui.orders
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +16,6 @@ import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DateTime
-import com.marknkamau.justjava.utils.toast
 import kotlinx.android.synthetic.main.activity_orders.*
 import kotlinx.android.synthetic.main.item_order.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

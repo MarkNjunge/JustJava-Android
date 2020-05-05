@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui.signup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
@@ -54,7 +53,7 @@ class SignUpActivity : BaseActivity() {
             etEmail.trimmedText,
             etPassword.trimmedText
         ).observe(this, Observer { resource ->
-            when(resource){
+            when (resource) {
                 is Resource.Success -> finish()
                 is Resource.Failure -> handleApiError(resource)
             }

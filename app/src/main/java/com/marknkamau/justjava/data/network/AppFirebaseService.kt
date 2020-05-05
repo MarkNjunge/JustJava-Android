@@ -8,5 +8,4 @@ class AppFirebaseService : FirebaseService {
     private val firebaseInstanceId by lazy { FirebaseInstanceId.getInstance() }
 
     override suspend fun getFcmToken(): String = firebaseInstanceId.instanceId.await().token
-
 }

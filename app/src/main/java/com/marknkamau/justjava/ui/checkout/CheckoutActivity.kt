@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.TaskStackBuilder
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Address
@@ -28,11 +27,14 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CheckoutActivity : BaseActivity() {
 
+    companion object {
+        private const val ADD_ADDRESS_REQ = 99
+    }
+
     private val checkoutViewModel: CheckoutViewModel by viewModel()
     private lateinit var paymentMethod: PaymentMethod
     private var deliveryAddress: Address? = null
     private lateinit var user: User
-    private val ADD_ADDRESS_REQ = 99
     override var requiresSignedIn = true
 
     @SuppressLint("DefaultLocale")
@@ -112,7 +114,7 @@ class CheckoutActivity : BaseActivity() {
         })
     }
 
-    private fun loadAddressList(){
+    private fun loadAddressList() {
         user = checkoutViewModel.getUser()
         if (user.address.isEmpty()) {
             btnAddDeliveryAddress.visibility = View.VISIBLE
@@ -177,7 +179,6 @@ class CheckoutActivity : BaseActivity() {
                     is Resource.Failure -> handleApiError(resource)
                 }
             })
-
     }
 
     private fun valid(): Boolean {

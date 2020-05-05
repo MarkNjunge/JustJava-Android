@@ -5,7 +5,6 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.utils.appConfig
 import com.marknkamau.justjava.utils.PreferenceUtils
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
 class PreferencesRepositoryImpl(private val context: Context) : PreferencesRepository {

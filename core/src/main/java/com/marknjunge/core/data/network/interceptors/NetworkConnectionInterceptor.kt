@@ -24,5 +24,4 @@ internal class NetworkConnectionInterceptor(private val context: Context) : Inte
             return it != null
         }
     }
-
 }

@@ -5,9 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceOrderItemOptionsDto(
-	@SerialName("choiceId")
-	val choiceId: Long,
+    @SerialName("choiceId")
+	   val choiceId: Long,
 
-	@SerialName("optionId")
-	val optionId: Long
+    @SerialName("optionId")
+	   val optionId: Long
 )

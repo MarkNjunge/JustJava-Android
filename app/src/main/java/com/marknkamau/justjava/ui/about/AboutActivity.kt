@@ -18,7 +18,8 @@ class AboutActivity : AppCompatActivity() {
         setContentView(R.layout.activity_about)
 
         imgBackAbout.setOnClickListener { finish() }
-        tvAppVersionAbout.text = "v${BuildConfig.VERSION_NAME} ${if (BuildConfig.BUILD_TYPE == "debug") "(debug)" else ""}"
+        val appVersion = "v${BuildConfig.VERSION_NAME} ${if (BuildConfig.BUILD_TYPE == "debug") "(debug)" else ""}"
+        tvAppVersionAbout.text = appVersion
         tvSourceCodeAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge/JustJava-Android") }
         imgEmailAbout.setOnClickListener { sendEmail() }
         imgLinkedInAbout.setOnClickListener { openUrl("https://linkedin.com/in/marknjunge") }
@@ -33,11 +34,10 @@ class AboutActivity : AppCompatActivity() {
     private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 
     private fun sendEmail() {
-        val addresses = arrayOf("contact@marknjunge.com") //Has to be String array or it will ignore
+        val addresses = arrayOf("contact@marknjunge.com") // Has to be String array or it will ignore
         val intent = Intent(Intent.ACTION_SENDTO)
         intent.data = Uri.parse("mailto:") // only email apps should handle this
         intent.putExtra(Intent.EXTRA_EMAIL, addresses)
         startActivity(intent)
     }
-
 }

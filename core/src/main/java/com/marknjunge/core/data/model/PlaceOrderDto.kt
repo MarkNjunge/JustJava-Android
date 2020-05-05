@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PlaceOrderDto(
-	@SerialName("paymentMethod")
-	val paymentMethod: String,
+    @SerialName("paymentMethod")
+	   val paymentMethod: String,
 
-	@SerialName("items")
-	val items: List<PlaceOrderItemDto>,
+    @SerialName("items")
+	   val items: List<PlaceOrderItemDto>,
 
-	@SerialName("addressId")
-	val addressId: Long,
+    @SerialName("addressId")
+	   val addressId: Long,
 
-	@SerialName("additionalComments")
-	val additionalComments: String? = null
+    @SerialName("additionalComments")
+	   val additionalComments: String? = null
 )

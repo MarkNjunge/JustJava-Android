@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.lifecycle.Observer
@@ -17,7 +16,6 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProduct
 import com.marknkamau.justjava.data.models.toAppModel
 import com.marknkamau.justjava.ui.base.BaseActivity
-import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.replace
 import com.squareup.picasso.Picasso
@@ -114,7 +112,6 @@ class ProductDetailsActivity : BaseActivity() {
         tvQuantityDetail.text = quantity.toString()
         updateTotal()
     }
-
 
     private fun updateTotal() {
         val total = appProduct.calculateTotal(quantity)

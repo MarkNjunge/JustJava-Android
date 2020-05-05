@@ -6,33 +6,33 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Order(
 
-	@SerialName("additionalComments")
-	val additionalComments: String?,
+    @SerialName("additionalComments")
+	   val additionalComments: String?,
 
-	@SerialName("datePlaced")
-	val datePlaced: Long,
+    @SerialName("datePlaced")
+	   val datePlaced: Long,
 
-	@SerialName("totalPrice")
-	val totalPrice: Double,
+    @SerialName("totalPrice")
+	   val totalPrice: Double,
 
-	@SerialName("paymentMethod")
-	val paymentMethod: PaymentMethod,
+    @SerialName("paymentMethod")
+	   val paymentMethod: PaymentMethod,
 
-	@SerialName("id")
-	val id: String,
+    @SerialName("id")
+	   val id: String,
 
-	@SerialName("userId")
-	val userId: Int,
+    @SerialName("userId")
+	   val userId: Int,
 
-	@SerialName("items")
-	val items: List<OrderItem>,
+    @SerialName("items")
+	   val items: List<OrderItem>,
 
-	@SerialName("paymentStatus")
-	val paymentStatus: PaymentStatus,
+    @SerialName("paymentStatus")
+	   val paymentStatus: PaymentStatus,
 
-	@SerialName("status")
-	val status: OrderStatus,
+    @SerialName("status")
+	   val status: OrderStatus,
 
-	@SerialName("addressId")
-	val addressId: Long? = null
+    @SerialName("addressId")
+	   val addressId: Long? = null
 )

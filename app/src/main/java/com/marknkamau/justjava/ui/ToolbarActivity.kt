@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
@@ -36,10 +35,10 @@ abstract class ToolbarActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.menu_cart -> {
                 startActivity(Intent(this, CartActivity::class.java))
-                return true
+                true
             }
             R.id.menu_profile -> {
                 if (preferencesRepository.isSignedIn) {
@@ -47,14 +46,13 @@ abstract class ToolbarActivity : BaseActivity() {
                 } else {
                     startActivity(Intent(this, SignInActivity::class.java))
                 }
-                return true
+                true
             }
             R.id.menu_about -> {
                 startActivity(Intent(this, AboutActivity::class.java))
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ChangePaymentMethodDto (
+data class ChangePaymentMethodDto(
     @SerialName("paymentMethod")
     val paymentMethod: PaymentMethod
 )

@@ -70,9 +70,7 @@ open class JustJavaApp : Application() {
                         }
                     }
                 }
-
             }
         }
     }
-
 }

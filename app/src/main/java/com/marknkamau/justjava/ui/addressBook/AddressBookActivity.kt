@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
@@ -21,15 +20,17 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
-import com.marknkamau.justjava.utils.toast
 import kotlinx.android.synthetic.main.activity_address_book.*
 import kotlinx.android.synthetic.main.item_address.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddressBookActivity : BaseActivity() {
 
+    companion object {
+        private const val ADD_ADDRESS_REQ = 99
+    }
+
     private val addressBookViewModel: AddressBookViewModel by viewModel()
-    private val ADD_ADDRESS_REQ = 99
     private lateinit var adapter: BaseRecyclerViewAdapter<Address>
     override var requiresSignedIn = true
 
@@ -196,7 +197,6 @@ class AddressBookActivity : BaseActivity() {
 
                     super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                 }
-
             }
 
         val itemTouchHelper = ItemTouchHelper(touchHelperCallback)

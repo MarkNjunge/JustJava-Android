@@ -8,14 +8,14 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class ProductChoiceOption(
-	@SerialName("id")
-	val id: Int,
-	@SerialName("price")
-	val price: Double,
+    @SerialName("id")
+	   val id: Int,
+    @SerialName("price")
+	   val price: Double,
 
-	@SerialName("name")
-	val name: String,
+    @SerialName("name")
+	   val name: String,
 
-	@SerialName("description")
-	val description: String? = null
+    @SerialName("description")
+	   val description: String? = null
 ) : Parcelable

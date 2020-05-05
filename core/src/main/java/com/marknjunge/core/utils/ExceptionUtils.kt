@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonDecodingException
 import retrofit2.HttpException
 import timber.log.Timber
 
-internal fun <T> parseException(e:Exception):Resource<T>{
+internal fun <T> parseException(e: Exception): Resource<T> {
     Timber.e(e)
     val genericErrorMessage = "Something went wrong. Please try again."
 

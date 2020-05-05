@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,7 +22,10 @@ import timber.log.Timber
 
 class SignInActivity : BaseActivity() {
 
-    private val RC_SIGN_IN = 99
+    companion object {
+        private const val RC_SIGN_IN = 99
+    }
+
     private val googleSignInClient: GoogleSignInClient by inject()
     private val signInViewModel by viewModel<SignInViewModel>()
 
@@ -121,7 +122,7 @@ class SignInActivity : BaseActivity() {
     private fun signInWithGoogle(idToken: String) {
         signInViewModel.signInWithGoogle(idToken).observe(this, Observer { resource ->
             when (resource) {
-                is Resource.Success ->  finish()
+                is Resource.Success -> finish()
                 is Resource.Failure -> handleApiError(resource)
             }
         })
@@ -145,5 +146,4 @@ class SignInActivity : BaseActivity() {
 
         return valid
     }
-
 }

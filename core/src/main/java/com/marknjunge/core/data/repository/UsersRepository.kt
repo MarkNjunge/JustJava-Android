@@ -21,7 +21,7 @@ interface UsersRepository {
 
     suspend fun updateFcmToken(): Resource<Unit>
 
-    suspend fun deleteUser():Resource<Unit>
+    suspend fun deleteUser(): Resource<Unit>
 }
 
 internal class ApiUsersRepository(
@@ -30,6 +30,8 @@ internal class ApiUsersRepository(
     private val googleSignInClient: GoogleSignInService,
     private val firebaseService: FirebaseService
 ) : UsersRepository {
+
+    @Suppress("TooGenericExceptionCaught")
     override suspend fun getCurrentUser(): Flow<Resource<User>> = flow {
         emit(Resource.Success(preferencesRepository.user!!))
 
@@ -43,26 +45,31 @@ internal class ApiUsersRepository(
         }
     }
 
-    override suspend fun updateUser(firstName: String, lastName: String, mobile: String, email: String): Resource<Unit> {
-            return call {
-                usersService.updateUser(
-                    preferencesRepository.sessionId,
-                    UpdateUserDto(
-                        firstName,
-                        lastName,
-                        mobile,
-                        email
-                    )
+    override suspend fun updateUser(
+        firstName: String,
+        lastName: String,
+        mobile: String,
+        email: String
+    ): Resource<Unit> {
+        return call {
+            usersService.updateUser(
+                preferencesRepository.sessionId,
+                UpdateUserDto(
+                    firstName,
+                    lastName,
+                    mobile,
+                    email
                 )
-                val updatedUser = preferencesRepository.user!!.copy(
-                    firstName = firstName,
-                    lastName = lastName,
-                    mobileNumber = mobile,
-                    email = email
-                )
-                preferencesRepository.user = updatedUser
-            }
+            )
+            val updatedUser = preferencesRepository.user!!.copy(
+                firstName = firstName,
+                lastName = lastName,
+                mobileNumber = mobile,
+                email = email
+            )
+            preferencesRepository.user = updatedUser
         }
+    }
 
     override suspend fun addAddress(address: Address): Resource<Address> {
         return call {
@@ -102,12 +109,11 @@ internal class ApiUsersRepository(
     override suspend fun deleteUser(): Resource<Unit> {
         return call {
             usersService.deleteUser(preferencesRepository.sessionId)
-            if (preferencesRepository.user!!.signInMethod == "GOOGLE"){
+            if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }
             preferencesRepository.user = null
             preferencesRepository.sessionId = ""
         }
     }
-
 }

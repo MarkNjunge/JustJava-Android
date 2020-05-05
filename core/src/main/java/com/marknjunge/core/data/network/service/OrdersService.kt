@@ -14,5 +14,9 @@ internal interface OrdersService {
     suspend fun getOrderById(@Header("session-id") sessionId: String, @Path("id") id: String): Order
 
     @POST("/orders/{id}/paymentMethod")
-    suspend fun changePaymentMethod(@Header("session-id") sessionId: String, @Path("id") id: String, @Body changePaymentMethodDto: ChangePaymentMethodDto): ApiResponse
+    suspend fun changePaymentMethod(
+        @Header("session-id") sessionId: String,
+        @Path("id") id: String,
+        @Body changePaymentMethodDto: ChangePaymentMethodDto
+    ): ApiResponse
 }

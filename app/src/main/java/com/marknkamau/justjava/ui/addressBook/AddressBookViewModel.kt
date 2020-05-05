@@ -38,7 +38,7 @@ class AddressBookViewModel(private val usersRepository: UsersRepository) : ViewM
         return liveData
     }
 
-    fun deleteAddress(address: Address):LiveData<Resource<Unit>>{
+    fun deleteAddress(address: Address): LiveData<Resource<Unit>> {
         val livedata = MutableLiveData<Resource<Unit>>()
 
         viewModelScope.launch {

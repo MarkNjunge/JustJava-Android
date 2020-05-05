@@ -95,4 +95,3 @@ private fun List<ProductChoiceOption>.toAppOption(): List<AppProductChoiceOption
         it.description
     )
 }.sortedBy { it.price }
-
