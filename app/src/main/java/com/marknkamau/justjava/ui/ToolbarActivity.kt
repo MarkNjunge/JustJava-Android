@@ -7,12 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.about.AboutActivity
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
 import org.koin.android.ext.android.inject
 
-abstract class ToolbarActivity : AppCompatActivity() {
+abstract class ToolbarActivity : BaseActivity() {
 
     private val preferencesRepository: PreferencesRepository by inject()
 

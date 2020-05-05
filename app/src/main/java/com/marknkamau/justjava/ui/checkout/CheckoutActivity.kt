@@ -16,6 +16,7 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
@@ -25,13 +26,14 @@ import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_checkout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutActivity : BaseActivity() {
 
     private val checkoutViewModel: CheckoutViewModel by viewModel()
     private lateinit var paymentMethod: PaymentMethod
     private var deliveryAddress: Address? = null
     private lateinit var user: User
     private val ADD_ADDRESS_REQ = 99
+    override var requiresSignedIn = true
 
     @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +89,7 @@ class CheckoutActivity : AppCompatActivity() {
 
                         loadAddressList()
                     }
-                    is Resource.Failure -> toast(resource.response.message)
+                    is Resource.Failure -> handleApiError(resource)
                 }
             })
         }
@@ -172,9 +174,7 @@ class CheckoutActivity : AppCompatActivity() {
                             .addNextIntentWithParentStack(intent)
                             .startActivities()
                     }
-                    is Resource.Failure -> {
-                        toast(resource.response.message)
-                    }
+                    is Resource.Failure -> handleApiError(resource)
                 }
             })
 

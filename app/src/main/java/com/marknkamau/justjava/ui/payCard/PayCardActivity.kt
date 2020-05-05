@@ -8,16 +8,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.resetErrorOnChange
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_pay_card.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PayCardActivity : AppCompatActivity() {
+class PayCardActivity : BaseActivity() {
 
     private val payCardViewModel: PayCardViewModel by viewModel()
     private lateinit var orderId: String
+    override var requiresSignedIn = true
 
     companion object {
         private const val ORDER_ID_KEY = "order_id"
@@ -74,7 +76,7 @@ class PayCardActivity : AppCompatActivity() {
                     toast("Payment successful")
                     finish()
                 }
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

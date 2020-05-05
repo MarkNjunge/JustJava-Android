@@ -23,6 +23,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.marknjunge.core.data.model.Address
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 
-class AddAddressActivity : AppCompatActivity(), OnMapReadyCallback {
+class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     companion object {
         const val ADDRESS_KEY = "address"

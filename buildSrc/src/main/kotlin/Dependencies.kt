@@ -37,6 +37,7 @@ object Versions {
     const val places = "2.0.0"
     const val sentry = "1.7.27"
     const val sentryGradlePlugin = "1.7.27"
+    const val lifecycleRuntime = "2.2.0"
 }
 
 object Dependencies {
@@ -53,6 +54,7 @@ object Dependencies {
     val serializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
 
     const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
+    const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
 
     val material = "com.google.android.material:material:${Versions.material}"
     val cardview = "androidx.cardview:cardview:${Versions.cardview}"

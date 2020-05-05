@@ -7,13 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
-class SignUpActivity : AppCompatActivity() {
+class SignUpActivity : BaseActivity() {
 
     private val signUpViewModel: SignUpViewModel by viewModel()
 
@@ -55,7 +56,7 @@ class SignUpActivity : AppCompatActivity() {
         ).observe(this, Observer { resource ->
             when(resource){
                 is Resource.Success -> finish()
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

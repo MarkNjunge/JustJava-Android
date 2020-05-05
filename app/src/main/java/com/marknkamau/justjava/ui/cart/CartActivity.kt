@@ -190,9 +190,7 @@ class CartActivity : ToolbarActivity() {
                         // TODO Handle changed products
                     }
                 }
-                is Resource.Failure -> {
-                    Toast.makeText(this@CartActivity, resource.response.message, Toast.LENGTH_SHORT).show()
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

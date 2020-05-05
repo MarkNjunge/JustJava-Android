@@ -9,6 +9,7 @@ import androidx.core.app.TaskStackBuilder
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.utils.resetErrorOnChange
@@ -19,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-class ResetPasswordActivity : AppCompatActivity() {
+class ResetPasswordActivity : BaseActivity() {
 
     private val authRepository: AuthRepository by inject()
     private val uiScope = CoroutineScope(Dispatchers.Main)
@@ -63,7 +64,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                         .addNextIntentWithParentStack(intent)
                         .startActivities()
                 }
-                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> handleApiError(resource)
             }
             pbLoading.visibility = View.GONE
         }

@@ -8,16 +8,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.resetErrorOnChange
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
 import kotlinx.android.synthetic.main.activity_pay_mpesa.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class PayMpesaActivity : AppCompatActivity() {
+class PayMpesaActivity : BaseActivity() {
 
     private lateinit var orderId: String
     private val payMpesaViewModel: PayMpesaViewModel by viewModel()
+    override var requiresSignedIn = true
 
     companion object {
         private const val ORDER_ID_KEY = "order_id"
@@ -68,7 +70,7 @@ class PayMpesaActivity : AppCompatActivity() {
                     toast("Request successful")
                     finish()
                 }
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

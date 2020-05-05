@@ -13,6 +13,7 @@ import com.marknjunge.core.data.model.Order
 import com.marknjunge.core.data.model.OrderStatus
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
@@ -22,9 +23,10 @@ import kotlinx.android.synthetic.main.activity_orders.*
 import kotlinx.android.synthetic.main.item_order.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OrdersActivity : AppCompatActivity() {
+class OrdersActivity : BaseActivity() {
 
     private val ordersViewModel: OrdersViewModel by viewModel()
+    override var requiresSignedIn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +84,7 @@ class OrdersActivity : AppCompatActivity() {
                         adapter.setItems(resource.data.sortedBy { it.datePlaced }.reversed())
                     }
                 }
-                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

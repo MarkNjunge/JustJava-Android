@@ -19,17 +19,19 @@ import com.marknjunge.core.data.model.Address
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.toast
 import kotlinx.android.synthetic.main.activity_address_book.*
 import kotlinx.android.synthetic.main.item_address.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AddressBookActivity : AppCompatActivity() {
+class AddressBookActivity : BaseActivity() {
 
     private val addressBookViewModel: AddressBookViewModel by viewModel()
     private val ADD_ADDRESS_REQ = 99
     private lateinit var adapter: BaseRecyclerViewAdapter<Address>
+    override var requiresSignedIn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +60,7 @@ class AddressBookActivity : AppCompatActivity() {
             addressBookViewModel.addAddress(address).observe(this, Observer { resource ->
                 when (resource) {
                     is Resource.Success -> addressBookViewModel.getAddresses()
-                    is Resource.Failure -> toast(resource.response.message)
+                    is Resource.Failure -> handleApiError(resource)
                 }
             })
         }
@@ -102,9 +104,7 @@ class AddressBookActivity : AppCompatActivity() {
                         adapter.setItems(resource.data.address)
                     }
                 }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -113,7 +113,7 @@ class AddressBookActivity : AppCompatActivity() {
         addressBookViewModel.deleteAddress(address).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> addressBookViewModel.getAddresses()
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

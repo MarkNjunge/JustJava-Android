@@ -19,6 +19,7 @@ class ProfileActivity : ToolbarActivity() {
 
     private var isInEditMode = false
     private val profileViewModel: ProfileViewModel by viewModel()
+    override var requiresSignedIn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,9 +83,7 @@ class ProfileActivity : ToolbarActivity() {
                     etEmail.setText(resource.data.email)
                     etMobile.setText(resource.data.mobileNumber)
                 }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -120,7 +119,7 @@ class ProfileActivity : ToolbarActivity() {
         ).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> toast("Profile updated")
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
             exitEditMode()
         })
@@ -133,9 +132,7 @@ class ProfileActivity : ToolbarActivity() {
                     invalidateOptionsMenu()
                     finish()
                 }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -146,9 +143,7 @@ class ProfileActivity : ToolbarActivity() {
                 is Resource.Success -> {
                     finish()
                 }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

@@ -16,6 +16,7 @@ import com.marknjunge.core.data.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProduct
 import com.marknkamau.justjava.data.models.toAppModel
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.replace
@@ -24,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_product_details.*
 import kotlinx.android.synthetic.main.content_product_details.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ProductDetailsActivity : AppCompatActivity() {
+class ProductDetailsActivity : BaseActivity() {
 
     companion object {
         private const val PRODUCT_KEY = "product_key"

@@ -5,6 +5,7 @@ import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.network.service.AuthService
 import com.marknjunge.core.data.network.GoogleSignInService
 import com.marknjunge.core.utils.call
+import timber.log.Timber
 
 interface AuthRepository {
     suspend fun signInWithGoogle(idToken: String): Resource<User>
@@ -79,6 +80,7 @@ internal class ApiAuthRepository(
 
     override suspend fun signOutLocally(): Resource<Unit> {
         return call {
+            Timber.d("signOutLocally")
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }

@@ -62,6 +62,8 @@ dependencies {
 
     // ViewModel
     implementation Dependencies.viewModelKtx
+    // Lifecycle
+    implementation Dependencies.lifecycleRuntimeKtx
 
     // Room
     implementation Dependencies.roomRuntime

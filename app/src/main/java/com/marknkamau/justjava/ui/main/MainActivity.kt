@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
-import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.Product
+import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
-import com.marknkamau.justjava.utils.toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_product.view.*
@@ -74,7 +73,7 @@ class MainActivity : ToolbarActivity() {
                 }
                 is Resource.Failure -> {
                     layoutFailed.visibility = View.VISIBLE
-                    toast(resource.response.message)
+                    handleApiError(resource)
                 }
             }
 

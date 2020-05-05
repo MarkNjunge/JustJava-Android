@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.*
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.network.JustJavaFirebaseMessagingService
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
 import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
@@ -29,12 +30,13 @@ import kotlinx.android.synthetic.main.item_order_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class OrderDetailActivity : AppCompatActivity() {
+class OrderDetailActivity : BaseActivity() {
 
     private val orderDetailViewModel: OrderDetailViewModel by viewModel()
     private lateinit var order: Order
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
     private lateinit var broadcastReceiver: BroadcastReceiver
+    override var requiresSignedIn = true
 
     companion object {
         const val ORDER_ID_KEY = "order_id"
@@ -116,7 +118,7 @@ class OrderDetailActivity : AppCompatActivity() {
                     contentOrderDetails.visibility = View.VISIBLE
                     displayOrderDetails(resource.data)
                 }
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -142,9 +144,7 @@ class OrderDetailActivity : AppCompatActivity() {
                     order = order.copy(paymentMethod = paymentMethod)
                     displayOrderDetails(order)
                 }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }

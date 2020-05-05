@@ -14,6 +14,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.*
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -21,7 +22,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
-class SignInActivity : AppCompatActivity() {
+class SignInActivity : BaseActivity() {
 
     private val RC_SIGN_IN = 99
     private val googleSignInClient: GoogleSignInClient by inject()
@@ -103,7 +104,7 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.requestPasswordReset(email).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> toast("A password reset email has been sent")
-                is Resource.Failure -> toast(resource.response.message, Toast.LENGTH_LONG)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -112,7 +113,7 @@ class SignInActivity : AppCompatActivity() {
         signInViewModel.signIn(etEmail.trimmedText, etPassword.trimmedText).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> finish()
-                is Resource.Failure -> toast(resource.response.message)
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
@@ -120,12 +121,8 @@ class SignInActivity : AppCompatActivity() {
     private fun signInWithGoogle(idToken: String) {
         signInViewModel.signInWithGoogle(idToken).observe(this, Observer { resource ->
             when (resource) {
-                is Resource.Success -> {
-                    finish()
-                }
-                is Resource.Failure -> {
-                    toast(resource.response.message)
-                }
+                is Resource.Success ->  finish()
+                is Resource.Failure -> handleApiError(resource)
             }
         })
     }
