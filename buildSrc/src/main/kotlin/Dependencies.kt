@@ -5,8 +5,8 @@ object AndroidConfig {
 }
 
 object Versions {
-    val kotlin = "1.3.50"
-    val coroutines = "1.3.1"
+    val kotlin = "1.3.70"
+    val coroutines = "1.3.5"
     val material = "1.0.0"
     val cardview = "1.0.0"
     val legacySupport = "1.0.0"
@@ -32,7 +32,7 @@ object Versions {
     const val shimmer = "0.5.0"
     const val archCoreTesting = "2.1.0"
     const val playServices = "17.0.0"
-    const val serialization = "0.13.0"
+    const val serialization = "0.20.0"
     const val retrofitSerialization = "0.4.0"
     const val places = "2.0.0"
     const val sentry = "1.7.27"
