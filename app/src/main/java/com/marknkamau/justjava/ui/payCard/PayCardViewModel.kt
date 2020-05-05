@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.PaymentsRepository
 import com.marknjunge.core.data.model.ApiResponse
+import com.marknjunge.core.data.model.CardDetails
 import kotlinx.coroutines.launch
 
 class PayCardViewModel(
@@ -28,15 +29,17 @@ class PayCardViewModel(
             _loading.value = true
             livedata.value = paymentsRepository.initiateCardPayment(
                 orderId,
-                cardNo,
-                cvv,
-                expiryMonth,
-                expiryYear,
-                "07205",
-                "Hillside",
-                "470 Mundet PI",
-                "NJ",
-                "US"
+                CardDetails(
+                    cardNo,
+                    cvv,
+                    expiryMonth,
+                    expiryYear,
+                    "07205",
+                    "Hillside",
+                    "470 Mundet PI",
+                    "NJ",
+                    "US"
+                )
             )
             _loading.value = false
         }
