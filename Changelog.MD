@@ -1,5 +1,9 @@
 # JustJava changelog
 
+## 2.2.1
+
+- Handle rejected session-id
+
 ## 2.2.0
 - Bias places autocomplete to Nairobi
 - Remove mobile number requirement
