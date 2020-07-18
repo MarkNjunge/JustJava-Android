@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.orders
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -51,13 +52,24 @@ class OrdersActivity : BaseActivity() {
             tvOrderItems.text = order.items.joinToString { it.productName }
             tvOrderTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
 
-            when (order.status) {
-                OrderStatus.PENDING -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_pending)
-                OrderStatus.CONFIRMED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_confirmed)
-                OrderStatus.IN_PROGRESS -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_in_progress)
-                OrderStatus.COMPLETED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_completed)
-                OrderStatus.CANCELLED -> tvOrderStatus.setBackgroundResource(R.drawable.bg_order_cancelled)
+            val statusTextColor = when (order.status) {
+                OrderStatus.PENDING -> R.color.colorOrderPendingText
+                OrderStatus.CONFIRMED -> R.color.colorOrderConfirmedText
+                OrderStatus.IN_PROGRESS -> R.color.colorOrderInProgressText
+                OrderStatus.COMPLETED -> R.color.colorOrderCompletedText
+                OrderStatus.CANCELLED -> R.color.colorOrderCancelledText
             }
+            tvOrderStatus.setTextColor(ContextCompat.getColor(context, statusTextColor))
+
+            val statusDrawable = when (order.status) {
+                OrderStatus.PENDING -> R.drawable.bg_order_pending
+                OrderStatus.CONFIRMED -> R.drawable.bg_order_confirmed
+                OrderStatus.IN_PROGRESS -> R.drawable.bg_order_in_progress
+                OrderStatus.COMPLETED -> R.drawable.bg_order_completed
+                OrderStatus.CANCELLED -> R.drawable.bg_order_cancelled
+            }
+            tvOrderStatus.setBackgroundResource(statusDrawable)
+
             rootOrderItem.setOnClickListener {
                 OrderDetailActivity.start(this@OrdersActivity, order.id)
             }

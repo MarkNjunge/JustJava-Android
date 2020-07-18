@@ -11,9 +11,14 @@
     <color name="colorDisabledText">#888888</color>
     <color name="colorDanger">#E53E3E</color>
 
-    <color name="colorOrderPending">#41535D</color>
-    <color name="colorOrderConfirmed">#D8801C</color>
-    <color name="colorOrderInProgress">#28549F</color>
-    <color name="colorOrderCompleted">#2D5D36</color>
-    <color name="colorOrderCancelled">#A51D1D</color>
+    <color name="colorOrderPendingText">#333333</color>
+    <color name="colorOrderPending">#DEDEDE</color>
+    <color name="colorOrderConfirmedText">#D8801C</color>
+    <color name="colorOrderConfirmed">#F9EBDA</color>
+    <color name="colorOrderInProgressText">#28549F</color>
+    <color name="colorOrderInProgress">#DCE3F0</color>
+    <color name="colorOrderCompletedText">#2D5D36</color>
+    <color name="colorOrderCompleted">#DDE5DE</color>
+    <color name="colorOrderCancelledText">#A51D1D</color>
+    <color name="colorOrderCancelled">#F1DADA</color>
 </resources>
