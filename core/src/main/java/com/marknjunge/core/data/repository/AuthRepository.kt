@@ -3,8 +3,8 @@ package com.marknjunge.core.data.repository
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.network.service.AuthService
-import com.marknjunge.core.data.network.GoogleSignInService
-import com.marknjunge.core.utils.call
+import com.marknjunge.core.data.network.service.GoogleSignInService
+import com.marknjunge.core.data.network.call
 import timber.log.Timber
 
 interface AuthRepository {

@@ -1,10 +1,16 @@
-package com.marknjunge.core.data.network.service
+package com.marknjunge.core.data.network
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
 import com.marknjunge.core.data.network.interceptors.NetworkConnectionInterceptor
+import com.marknjunge.core.data.network.service.*
+import com.marknjunge.core.data.network.service.ApiService
+import com.marknjunge.core.data.network.service.AuthService
+import com.marknjunge.core.data.network.service.CartService
+import com.marknjunge.core.data.network.service.OrdersService
+import com.marknjunge.core.data.network.service.UsersService
 import com.marknjunge.core.utils.appConfig
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.MediaType.Companion.toMediaType

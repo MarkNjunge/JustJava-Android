@@ -3,7 +3,7 @@ package com.marknjunge.core.data.repository
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.*
 import com.marknjunge.core.data.network.service.PaymentsService
-import com.marknjunge.core.utils.call
+import com.marknjunge.core.data.network.call
 
 interface PaymentsRepository {
     suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse>

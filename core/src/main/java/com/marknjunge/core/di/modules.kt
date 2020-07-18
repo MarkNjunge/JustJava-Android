@@ -1,6 +1,6 @@
 package com.marknjunge.core.di
 
-import com.marknjunge.core.data.network.service.NetworkProvider
+import com.marknjunge.core.data.network.NetworkProvider
 import com.marknjunge.core.data.repository.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module

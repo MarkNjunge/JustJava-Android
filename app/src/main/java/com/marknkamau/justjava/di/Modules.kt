@@ -6,7 +6,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.network.service.FirebaseService
-import com.marknjunge.core.data.network.GoogleSignInService
+import com.marknjunge.core.data.network.service.GoogleSignInService
 import com.marknkamau.justjava.BuildConfig
 import com.marknkamau.justjava.data.db.AppDatabase
 import com.marknkamau.justjava.data.db.DbRepository

@@ -5,7 +5,7 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.VerifyOrderDto
 import com.marknjunge.core.data.model.VerifyOrderResponse
 import com.marknjunge.core.data.network.service.CartService
-import com.marknjunge.core.utils.call
+import com.marknjunge.core.data.network.call
 
 interface CartRepository {
     suspend fun verifyOrder(dto: VerifyOrderDto): Resource<List<VerifyOrderResponse>>

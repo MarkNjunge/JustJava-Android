@@ -1,4 +1,4 @@
-package com.marknjunge.core.data.network
+package com.marknjunge.core.data.network.service
 
 interface GoogleSignInService {
     suspend fun signOut()
