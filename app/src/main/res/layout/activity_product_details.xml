@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:scaleType="centerCrop"
-                android:transitionName="drinkImage"
+                android:transitionName="productImage"
                 tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />
 
             <include layout="@layout/content_product_details" />
