@@ -17,7 +17,6 @@ android {
         versionCode 14
         versionName "2.2.1"
 
-        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "com.marknkamau.justjava.testUtils.TestApplicationRunner"
