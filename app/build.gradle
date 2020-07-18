@@ -51,51 +51,51 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     //Android libraries
-    implementation Dependencies.material
-    implementation Dependencies.cardview
-    implementation Dependencies.appcompat
-    implementation Dependencies.recycerview
-    implementation Dependencies.constraintLayout
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0-alpha06"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
 
     // Firebase libraries
-    implementation Dependencies.firebaseMessaging
+    implementation "com.google.firebase:firebase-messaging:19.0.1"
 
     // ViewModel
-    implementation Dependencies.viewModelKtx
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.1.0"
     // Lifecycle
-    implementation Dependencies.lifecycleRuntimeKtx
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
     // Room
-    implementation Dependencies.roomRuntime
-    implementation Dependencies.roomKotlin
-    kapt Dependencies.roomCompiler
+    implementation "androidx.room:room-runtime:2.1.0"
+    implementation "androidx.room:room-ktx:2.1.0"
+    kapt "androidx.room:room-compiler:2.1.0"
 
     // DI
-    implementation Dependencies.koin
-    implementation Dependencies.koinViewModel
+    implementation "org.koin:koin-android:2.0.1"
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
 
     // Other libraries
-    implementation Dependencies.picasso
-    implementation Dependencies.timber
-    implementation Dependencies.shimmer
-    implementation Dependencies.playServicesAuth
-    implementation Dependencies.playServicesMaps
-    implementation Dependencies.places
-    implementation Dependencies.sentry
+    implementation "com.squareup.picasso:picasso:2.71828"
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
+    implementation "com.google.android.gms:play-services-auth:17.0.0"
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.google.android.libraries.places:places:2.0.0"
+    implementation "io.sentry:sentry-android:1.7.27"
 
     // Test libraries
-    testImplementation Dependencies.junit
-    testImplementation Dependencies.mockk
-    testImplementation Dependencies.coroutinesTest
-    testImplementation Dependencies.archCoreTesting
-    androidTestImplementation Dependencies.mockk
-    androidTestImplementation Dependencies.mockAndroid
-    androidTestImplementation Dependencies.testRunner
-    androidTestImplementation Dependencies.testRules
-    androidTestImplementation Dependencies.espressoCore
-    androidTestImplementation Dependencies.espressoIntents
-    androidTestImplementation Dependencies.espressoContrib
-    androidTestImplementation Dependencies.androidXTestCore
+    testImplementation "junit:junit:4.12"
+    testImplementation "io.mockk:mockk:1.9.2"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.5"
+    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    androidTestImplementation "io.mockk:mockk:1.9.2"
+    androidTestImplementation "io.mockk:mockk-android:1.9.2"
+    androidTestImplementation "androidx.test:runner:1.3.0-alpha01"
+    androidTestImplementation "androidx.test:rules:1.3.0-alpha01"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0-alpha01"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:3.3.0-alpha01"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:3.3.0-alpha01"
+    androidTestImplementation "androidx.test:core:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'
