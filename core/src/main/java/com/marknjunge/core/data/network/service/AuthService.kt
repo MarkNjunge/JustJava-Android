@@ -5,7 +5,6 @@ import com.marknjunge.core.data.model.SignInGoogleDto
 import com.marknjunge.core.data.model.SignInResponse
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.Header
 import retrofit2.http.POST
 
 internal interface AuthService {
@@ -19,7 +18,7 @@ internal interface AuthService {
     suspend fun signIn(@Body body: SignInDto): SignInResponse
 
     @DELETE("auth/signout")
-    suspend fun signOut(@Header("session-id") sessionId: String)
+    suspend fun signOut()
 
     @POST("auth/requestPasswordReset")
     suspend fun requestPasswordReset(@Body body: RequestPasswordResetDto): ApiResponse

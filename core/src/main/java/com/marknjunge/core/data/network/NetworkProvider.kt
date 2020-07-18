@@ -3,8 +3,10 @@ package com.marknjunge.core.data.network
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
+import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
 import com.marknjunge.core.data.network.interceptors.NetworkConnectionInterceptor
+import com.marknjunge.core.data.network.interceptors.SessionIdInterceptor
 import com.marknjunge.core.data.network.service.*
 import com.marknjunge.core.data.network.service.ApiService
 import com.marknjunge.core.data.network.service.AuthService
@@ -19,7 +21,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-internal class NetworkProvider(private val context: Context) {
+internal class NetworkProvider(private val context: Context, private val preferencesRepository: PreferencesRepository) {
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
 
@@ -54,6 +56,7 @@ internal class NetworkProvider(private val context: Context) {
 
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(NetworkConnectionInterceptor(context))
+        builder.addInterceptor(SessionIdInterceptor(preferencesRepository))
         builder.addNetworkInterceptor(ConvertNoContentInterceptor())
         builder.addNetworkInterceptor(loggingInterceptor)
         builder.readTimeout(30, TimeUnit.SECONDS)

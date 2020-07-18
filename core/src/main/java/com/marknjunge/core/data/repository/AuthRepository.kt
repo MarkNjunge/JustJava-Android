@@ -69,7 +69,7 @@ internal class ApiAuthRepository(
 
     override suspend fun signOut(): Resource<Unit> {
         return call {
-            authService.signOut(preferencesRepository.sessionId)
+            authService.signOut()
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }

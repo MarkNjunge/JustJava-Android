@@ -36,7 +36,7 @@ internal class ApiUsersRepository(
         emit(Resource.Success(preferencesRepository.user!!))
 
         try {
-            val user = usersService.getCurrentUser(preferencesRepository.sessionId)
+            val user = usersService.getCurrentUser()
             preferencesRepository.user = user
             emit(Resource.Success(user))
         } catch (e: Exception) {
@@ -52,15 +52,7 @@ internal class ApiUsersRepository(
         email: String
     ): Resource<Unit> {
         return call {
-            usersService.updateUser(
-                preferencesRepository.sessionId,
-                UpdateUserDto(
-                    firstName,
-                    lastName,
-                    mobile,
-                    email
-                )
-            )
+            usersService.updateUser(UpdateUserDto(firstName, lastName, mobile, email))
             val updatedUser = preferencesRepository.user!!.copy(
                 firstName = firstName,
                 lastName = lastName,
@@ -74,12 +66,7 @@ internal class ApiUsersRepository(
     override suspend fun addAddress(address: Address): Resource<Address> {
         return call {
             val saveAddress = usersService.saveAddress(
-                preferencesRepository.sessionId,
-                SaveAddressDto(
-                    address.streetAddress,
-                    address.deliveryInstructions,
-                    address.latLng
-                )
+                SaveAddressDto(address.streetAddress, address.deliveryInstructions, address.latLng)
             )
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.add(saveAddress)
@@ -90,7 +77,7 @@ internal class ApiUsersRepository(
 
     override suspend fun deleteAddress(address: Address): Resource<Unit> {
         return call {
-            usersService.deleteAddress(preferencesRepository.sessionId, address.id)
+            usersService.deleteAddress(address.id)
             val addresses = preferencesRepository.user!!.address.toMutableList()
             addresses.remove(address)
             preferencesRepository.user = preferencesRepository.user!!.copy(address = addresses)
@@ -100,7 +87,7 @@ internal class ApiUsersRepository(
     override suspend fun updateFcmToken(): Resource<Unit> {
         return call {
             val token = firebaseService.getFcmToken()
-            usersService.updateFcmToken(preferencesRepository.sessionId, UpdateFcmTokenDto(token))
+            usersService.updateFcmToken(UpdateFcmTokenDto(token))
             val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
             preferencesRepository.user = updatedUser
         }
@@ -108,7 +95,7 @@ internal class ApiUsersRepository(
 
     override suspend fun deleteUser(): Resource<Unit> {
         return call {
-            usersService.deleteUser(preferencesRepository.sessionId)
+            usersService.deleteUser()
             if (preferencesRepository.user!!.signInMethod == "GOOGLE") {
                 googleSignInClient.signOut()
             }
