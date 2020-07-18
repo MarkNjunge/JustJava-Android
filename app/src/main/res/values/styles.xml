@@ -106,6 +106,8 @@
     <style name="AppTheme.Button.OutlinedAccent" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/color_states_button</item>
         <item name="android:textColor">@color/color_states_button_outline_text</item>
+        <item name="rippleColor">#40F57C00</item>
+        <item name="strokeWidth">2dp</item>
     </style>
 
     <style name="AppTheme.Button.Text" parent="Widget.MaterialComponents.Button.TextButton">
@@ -115,7 +117,8 @@
     <style name="AppTheme.Button.Danger" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/colorDanger</item>
         <item name="android:textColor">@color/colorDanger</item>
-        <item name="rippleColor">@color/colorDanger</item>
+        <item name="rippleColor">#40E53E3E</item>
+        <item name="strokeWidth">2dp</item>
     </style>
 
     <style name="AppTheme.InputField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">

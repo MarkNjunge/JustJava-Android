@@ -1,6 +1,7 @@
 package com.marknkamau.justjava.ui.addAddress
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -92,8 +93,6 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         if (hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
             getLastLocation()
-            googleMap.isMyLocationEnabled = true
-            googleMap.uiSettings.isMyLocationButtonEnabled = true
         } else {
             ActivityCompat.requestPermissions(
                 this,
@@ -107,12 +106,11 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         if (requestCode == PERMISSIONS_REQUEST) {
             if (grantResults.permissionsGranted()) {
                 getLastLocation()
-                googleMap.isMyLocationEnabled = true
-                googleMap.uiSettings.isMyLocationButtonEnabled = true
             }
         }
     }
 
+    @SuppressLint("MissingPermission")
     private fun getLastLocation() {
         uiCoroutineScope.launch {
             val location: Location? = fusedLocationClient.lastLocation.await()
