@@ -24,6 +24,14 @@ android {
         buildConfigField("String", "googleClientId", '"565628649475-4vp8dm790n2kuuhqpu3o662e9odht703.apps.googleusercontent.com"')
         buildConfigField("String", "sentryDsn", keys['SENTRY_DSN'])
         resValue "string", "google_maps_key", keys['GOOGLE_MAPS_API_KEY'] // Generates @strings/google_maps_key
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += [
+                        "room.incremental": "true",
+                ]
+            }
+        }
     }
 
     compileOptions {
