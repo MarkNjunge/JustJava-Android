@@ -47,7 +47,6 @@ dependencies {
     implementation Dependencies.retrofit
     implementation Dependencies.retrofitSerialization
     implementation Dependencies.okhttpLogging
-    implementation Dependencies.retrofitCoroutinesAdapter
 
     // Other
     api Dependencies.koin

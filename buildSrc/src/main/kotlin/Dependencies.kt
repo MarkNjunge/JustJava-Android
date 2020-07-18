@@ -13,7 +13,6 @@ object Versions {
     val appCompat = "1.1.0"
     val recyclerview = "1.1.0-alpha06"
     val retrofit = "2.6.0"
-    val retrofitCoroutinesAdapter = "0.9.2"
     val okhttpLogging = "4.0.0"
     val timber = "4.7.1"
     val room = "2.1.0"
@@ -75,7 +74,6 @@ object Dependencies {
 
 
     val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    val retrofitCoroutinesAdapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${Versions.retrofitCoroutinesAdapter}"
     val retrofitSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.retrofitSerialization}"
     val okhttpLogging = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttpLogging}"
 

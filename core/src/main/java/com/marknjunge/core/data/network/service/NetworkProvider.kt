@@ -1,7 +1,6 @@
 package com.marknjunge.core.data.network.service
 
 import android.content.Context
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.marknjunge.core.BuildConfig
 import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
@@ -39,7 +38,6 @@ internal class NetworkProvider(private val context: Context) {
         return Retrofit.Builder()
             .baseUrl(apiBaseUrl)
             .addConverterFactory(JsonConfiguration.appConfig.asConverterFactory(mediaType))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(provideOkHttpClient())
             .build()
     }
