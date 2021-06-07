@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -32,7 +33,10 @@ class ProductDetailsActivity : BaseActivity() {
             val intent = Intent(context, ProductDetailsActivity::class.java)
             intent.putExtra(PRODUCT_KEY, product)
 
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(context as Activity, *sharedElements)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                context as Activity,
+                *sharedElements
+            )
 
             context.startActivity(intent, options.toBundle())
         }
@@ -51,6 +55,12 @@ class ProductDetailsActivity : BaseActivity() {
 
         setProductDetails()
 
+        val statusBarHeight = getStatusBarHeight()
+        imgBackDetail.layoutParams =
+            (imgBackDetail.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                topMargin = statusBarHeight
+            }
+
         imgBackDetail.setOnClickListener { finish() }
         imgMinusQtyDetail.setOnClickListener { minusQty() }
         imgAddQtyDetail.setOnClickListener { addQty() }
@@ -60,8 +70,10 @@ class ProductDetailsActivity : BaseActivity() {
     private fun setProductDetails() {
         tvProductName.text = appProduct.name
         tvProductDescription.text = appProduct.description
-        tvProductPrice.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
-        tvSubtotalDetail.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
+        tvProductPrice.text =
+            resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
+        tvSubtotalDetail.text =
+            resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
         tvQuantityDetail.text = quantity.toString()
         Picasso.get().load(appProduct.image).noFade().into(imgProductImage)
 
@@ -90,7 +102,11 @@ class ProductDetailsActivity : BaseActivity() {
         val errors = appProduct.validate()
 
         if (errors.isNotEmpty()) {
-            Toast.makeText(this, "You have not selected a choice for: ${errors.joinToString(", ")}", Toast.LENGTH_LONG)
+            Toast.makeText(
+                this,
+                "You have not selected a choice for: ${errors.joinToString(", ")}",
+                Toast.LENGTH_LONG
+            )
                 .show()
             return
         }
@@ -116,5 +132,14 @@ class ProductDetailsActivity : BaseActivity() {
     private fun updateTotal() {
         val total = appProduct.calculateTotal(quantity)
         tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
+    }
+
+    private fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        return result
     }
 }
