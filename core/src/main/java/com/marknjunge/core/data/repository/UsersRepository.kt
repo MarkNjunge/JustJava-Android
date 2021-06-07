@@ -86,10 +86,12 @@ internal class ApiUsersRepository(
 
     override suspend fun updateFcmToken(): Resource<Unit> {
         return call {
-            val token = firebaseService.getFcmToken()
-            usersService.updateFcmToken(UpdateFcmTokenDto(token))
-            val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
-            preferencesRepository.user = updatedUser
+            if (preferencesRepository.user != null) {
+                val token = firebaseService.getFcmToken()
+                usersService.updateFcmToken(UpdateFcmTokenDto(token))
+                val updatedUser = preferencesRepository.user!!.copy(fcmToken = token)
+                preferencesRepository.user = updatedUser
+            }
         }
     }
 
