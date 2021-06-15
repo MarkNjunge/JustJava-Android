@@ -8,11 +8,11 @@ import androidx.lifecycle.Observer
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityProfileBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.addressBook.AddressBookActivity
 import com.marknkamau.justjava.ui.orders.OrdersActivity
 import com.marknkamau.justjava.utils.*
-import kotlinx.android.synthetic.main.activity_profile.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : ToolbarActivity() {
@@ -20,43 +20,45 @@ class ProfileActivity : ToolbarActivity() {
     private var isInEditMode = false
     private val profileViewModel: ProfileViewModel by viewModel()
     override var requiresSignedIn = true
+    private lateinit var binding: ActivityProfileBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_profile)
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = "Profile"
 
         observeLoading()
         observeUser()
 
-        tilFirstName.resetErrorOnChange(etFirstName)
-        tilLastName.resetErrorOnChange(etLastName)
-        tilEmail.resetErrorOnChange(etEmail)
-        tilMobile.resetErrorOnChange(etMobile)
+        binding.tilFirstName.resetErrorOnChange(binding.etFirstName)
+        binding.tilLastName.resetErrorOnChange(binding.etLastName)
+        binding.tilEmail.resetErrorOnChange(binding.etEmail)
+        binding.tilMobile.resetErrorOnChange(binding.etMobile)
 
-        btnEdit.setOnClickListener {
+        binding.btnEdit.setOnClickListener {
             if (isInEditMode) {
                 exitEditMode()
             } else {
                 enterEditMode()
             }
         }
-        btnUpdate.setOnClickListener {
+        binding.btnUpdate.setOnClickListener {
             if (isValid()) {
                 hideKeyboard()
                 updateUser()
             }
         }
-        llAddressBook.setOnClickListener {
+        binding.llAddressBook.setOnClickListener {
             startActivity(Intent(this, AddressBookActivity::class.java))
         }
-        llOrders.setOnClickListener {
+        binding.llOrders.setOnClickListener {
             startActivity(Intent(this, OrdersActivity::class.java))
         }
-        btnLogout.setOnClickListener {
+        binding.btnLogout.setOnClickListener {
             signOut()
         }
-        btnDeleteAccount.setOnClickListener {
+        binding.btnDeleteAccount.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("Delete account")
                 .setMessage("Are you sure you want to delete your account?")
@@ -70,7 +72,7 @@ class ProfileActivity : ToolbarActivity() {
 
     private fun observeLoading() {
         profileViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
@@ -78,10 +80,10 @@ class ProfileActivity : ToolbarActivity() {
         profileViewModel.user.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    etFirstName.setText(resource.data.firstName)
-                    etLastName.setText(resource.data.lastName)
-                    etEmail.setText(resource.data.email)
-                    etMobile.setText(resource.data.mobileNumber)
+                    binding.etFirstName.setText(resource.data.firstName)
+                    binding.etLastName.setText(resource.data.lastName)
+                    binding.etEmail.setText(resource.data.email)
+                    binding.etMobile.setText(resource.data.mobileNumber)
                 }
                 is Resource.Failure -> handleApiError(resource)
             }
@@ -89,33 +91,33 @@ class ProfileActivity : ToolbarActivity() {
     }
 
     private fun enterEditMode() {
-        TransitionManager.beginDelayedTransition(rootProfileActivity)
-        etFirstName.isEnabled = true
-        etLastName.isEnabled = true
-        etEmail.isEnabled = true
-        etMobile.isEnabled = true
-        btnEdit.text = "Cancel"
+        TransitionManager.beginDelayedTransition(binding.root)
+        binding.etFirstName.isEnabled = true
+        binding.etLastName.isEnabled = true
+        binding.etEmail.isEnabled = true
+        binding.etMobile.isEnabled = true
+        binding.btnEdit.text = "Cancel"
         isInEditMode = true
-        btnUpdate.visibility = View.VISIBLE
+        binding.btnUpdate.visibility = View.VISIBLE
     }
 
     private fun exitEditMode() {
-        TransitionManager.beginDelayedTransition(rootProfileActivity)
-        etFirstName.isEnabled = false
-        etLastName.isEnabled = false
-        etEmail.isEnabled = false
-        etMobile.isEnabled = false
-        btnEdit.text = "Edit"
+        TransitionManager.beginDelayedTransition(binding.root)
+        binding.etFirstName.isEnabled = false
+        binding.etLastName.isEnabled = false
+        binding.etEmail.isEnabled = false
+        binding.etMobile.isEnabled = false
+        binding.btnEdit.text = "Edit"
         isInEditMode = false
-        btnUpdate.visibility = View.GONE
+        binding.btnUpdate.visibility = View.GONE
     }
 
     private fun updateUser() {
         profileViewModel.updateUser(
-            etFirstName.trimmedText,
-            etLastName.trimmedText,
-            etMobile.trimmedText,
-            etEmail.trimmedText
+            binding.etFirstName.trimmedText,
+            binding.etLastName.trimmedText,
+            binding.etMobile.trimmedText,
+            binding.etEmail.trimmedText
         ).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> toast("Profile updated")
@@ -151,21 +153,21 @@ class ProfileActivity : ToolbarActivity() {
     private fun isValid(): Boolean {
         var valid = true
 
-        if (etFirstName.trimmedText.isEmpty()) {
-            tilFirstName.error = "Required"
+        if (binding.etFirstName.trimmedText.isEmpty()) {
+            binding.tilFirstName.error = "Required"
             valid = false
         }
 
-        if (etLastName.trimmedText.isEmpty()) {
-            tilLastName.error = "Required"
+        if (binding.etLastName.trimmedText.isEmpty()) {
+            binding.tilLastName.error = "Required"
             valid = false
         }
 
-        if (etEmail.trimmedText.isEmpty()) {
-            tilEmail.error = "Required"
+        if (binding.etEmail.trimmedText.isEmpty()) {
+            binding.tilEmail.error = "Required"
             valid = false
-        } else if (!etEmail.trimmedText.isValidEmail()) {
-            tilEmail.error = "A valid email is required"
+        } else if (!binding.etEmail.trimmedText.isValidEmail()) {
+            binding.tilEmail.error = "A valid email is required"
             valid = false
         }
 

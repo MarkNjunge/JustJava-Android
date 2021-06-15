@@ -1,8 +1,7 @@
 package com.marknjunge.core.data.network.interceptors
 
 import com.marknjunge.core.data.model.ApiResponse
-import com.marknjunge.core.utils.appConfig
-import kotlinx.serialization.json.JsonConfiguration
+import com.marknjunge.core.utils.appJsonConfig
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Protocol
@@ -18,7 +17,7 @@ class ConvertNoContentInterceptor : Interceptor {
         return if (response.code == 204 || response.body?.contentLength() == 0L) {
 
             val apiResponse = ApiResponse("No content")
-            val rawBody = JsonConfiguration.appConfig.stringify(ApiResponse.serializer(), apiResponse)
+            val rawBody = appJsonConfig.encodeToString(ApiResponse.serializer(), apiResponse)
 
             Response.Builder()
                 .code(200)

@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
-import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityPayMpesaBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.resetErrorOnChange
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
-import kotlinx.android.synthetic.main.activity_pay_mpesa.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PayMpesaActivity : BaseActivity() {
@@ -19,6 +18,7 @@ class PayMpesaActivity : BaseActivity() {
     private lateinit var orderId: String
     private val payMpesaViewModel: PayMpesaViewModel by viewModel()
     override var requiresSignedIn = true
+    private lateinit var binding: ActivityPayMpesaBinding
 
     companion object {
         private const val ORDER_ID_KEY = "order_id"
@@ -33,20 +33,21 @@ class PayMpesaActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_pay_mpesa)
+        binding = ActivityPayMpesaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = "Pay for order"
 
         orderId = intent.extras!![ORDER_ID_KEY] as String
 
         val user = payMpesaViewModel.getUser()
         user.mobileNumber?.let {
-            et_payMpesa_mobilerNumber.setText(it)
+            binding.etPayMpesaMobilerNumber.setText(it)
         }
 
         observeLoading()
 
-        til_payMpesa_mobileNumber.resetErrorOnChange(et_payMpesa_mobilerNumber)
-        btn_payMpesa_pay.setOnClickListener {
+        binding.tilPayMpesaMobileNumber.resetErrorOnChange(binding.etPayMpesaMobilerNumber)
+        binding.btnPayMpesaPay.setOnClickListener {
             if (valid()) {
                 payMpesa()
             }
@@ -55,29 +56,30 @@ class PayMpesaActivity : BaseActivity() {
 
     private fun observeLoading() {
         payMpesaViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun payMpesa() {
-        btn_payMpesa_pay.isEnabled = false
-        payMpesaViewModel.payMpesa(et_payMpesa_mobilerNumber.trimmedText, orderId).observe(this, Observer { resource ->
-            btn_payMpesa_pay.isEnabled = true
-            when (resource) {
-                is Resource.Success -> {
-                    toast("Request successful")
-                    finish()
+        binding.btnPayMpesaPay.isEnabled = false
+        payMpesaViewModel.payMpesa(binding.etPayMpesaMobilerNumber.trimmedText, orderId)
+            .observe(this, Observer { resource ->
+                binding.btnPayMpesaPay.isEnabled = true
+                when (resource) {
+                    is Resource.Success -> {
+                        toast("Request successful")
+                        finish()
+                    }
+                    is Resource.Failure -> handleApiError(resource)
                 }
-                is Resource.Failure -> handleApiError(resource)
-            }
-        })
+            })
     }
 
     private fun valid(): Boolean {
         var isValid = true
 
-        if (et_payMpesa_mobilerNumber.trimmedText.length != 12) {
-            til_payMpesa_mobileNumber.error = "Enter a valid mobile number"
+        if (binding.etPayMpesaMobilerNumber.trimmedText.length != 12) {
+            binding.tilPayMpesaMobileNumber.error = "Enter a valid mobile number"
             isValid = false
         }
 

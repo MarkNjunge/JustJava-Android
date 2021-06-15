@@ -7,28 +7,30 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.marknkamau.justjava.BuildConfig
-import com.marknkamau.justjava.R
-import kotlinx.android.synthetic.main.activity_about.*
+import com.marknkamau.justjava.databinding.ActivityAboutBinding
 
 class AboutActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityAboutBinding
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_about)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        imgBackAbout.setOnClickListener { finish() }
+        binding.imgBackAbout.setOnClickListener { finish() }
         val appVersion = "v${BuildConfig.VERSION_NAME} ${if (BuildConfig.BUILD_TYPE == "debug") "(debug)" else ""}"
-        tvAppVersionAbout.text = appVersion
-        tvSourceCodeAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge/JustJava-Android") }
-        imgEmailAbout.setOnClickListener { sendEmail() }
-        imgLinkedInAbout.setOnClickListener { openUrl("https://linkedin.com/in/marknjunge") }
-        imgWebsiteAbout.setOnClickListener { openUrl("https://marknjunge.com") }
-        imgGithubAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge") }
-        tvPrivacyPolicyAbout.setOnClickListener { openUrl("https://justjava.store/privacy") }
+        binding.tvAppVersionAbout.text = appVersion
+        binding.tvSourceCodeAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge/JustJava-Android") }
+        binding.imgEmailAbout.setOnClickListener { sendEmail() }
+        binding.imgLinkedInAbout.setOnClickListener { openUrl("https://linkedin.com/in/marknjunge") }
+        binding.imgWebsiteAbout.setOnClickListener { openUrl("https://marknjunge.com") }
+        binding.imgGithubAbout.setOnClickListener { openUrl("https://github.com/MarkNjunge") }
+        binding.tvPrivacyPolicyAbout.setOnClickListener { openUrl("https://justjava.store/privacy") }
 
         // See https://github.com/google/play-services-plugins/pull/62
-        tvLicensesAbout.visibility = View.GONE
+        binding.tvLicensesAbout.visibility = View.GONE
     }
 
     private fun openUrl(url: String) = startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))

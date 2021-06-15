@@ -3,9 +3,8 @@ package com.marknkamau.justjava.data.preferences
 import android.content.Context
 import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.User
-import com.marknjunge.core.utils.appConfig
+import com.marknjunge.core.utils.appJsonConfig
 import com.marknkamau.justjava.utils.PreferenceUtils
-import kotlinx.serialization.json.JsonConfiguration
 
 class PreferencesRepositoryImpl(private val context: Context) : PreferencesRepository {
     companion object {
@@ -16,7 +15,7 @@ class PreferencesRepositoryImpl(private val context: Context) : PreferencesRepos
     private val prefUtils by lazy {
         PreferenceUtils(
             context.getSharedPreferences("justjava_prefs", Context.MODE_PRIVATE),
-            JsonConfiguration.appConfig
+            appJsonConfig
         )
     }
 

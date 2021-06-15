@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.Status
@@ -23,9 +25,10 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.marknjunge.core.data.model.Address
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityAddAddressBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
+import com.marknkamau.justjava.utils.getStatusBarHeight
 import com.marknkamau.justjava.utils.trimmedText
-import kotlinx.android.synthetic.main.activity_add_address.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +42,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         private const val PERMISSIONS_REQUEST = 99
     }
 
+    private lateinit var binding: ActivityAddAddressBinding
     private lateinit var googleMap: GoogleMap
     private lateinit var target: LatLng
     private val fusedLocationClient by lazy { LocationServices.getFusedLocationProviderClient(this) }
@@ -46,20 +50,23 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_address)
+        binding = ActivityAddAddressBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = "Add Address"
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        val placesAutoComplete = placeAutoCompleteFragment as AutocompleteSupportFragment
+        val placesAutoComplete =
+            supportFragmentManager.findFragmentById(R.id.placeAutoCompleteFragment) as AutocompleteSupportFragment
+
         val locationBias = RectangularBounds.newInstance(LatLng(-1.451148, 36.592911), LatLng(-1.147189, 37.108095))
         placesAutoComplete.setLocationBias(locationBias)
         placesAutoComplete.setPlaceFields(listOf(Place.Field.LAT_LNG, Place.Field.NAME))
         placesAutoComplete.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, 14f))
-                etAddress.setText(place.name)
+                binding.etAddress.setText(place.name)
                 target = place.latLng!!
             }
 
@@ -68,11 +75,17 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
             }
         })
 
-        btnAddAddress.setOnClickListener {
+        val statusBarHeight = getStatusBarHeight()
+        binding.placeAutoCompleteCard.layoutParams =
+            (binding.placeAutoCompleteCard.layoutParams as ViewGroup.MarginLayoutParams).apply {
+                topMargin += statusBarHeight
+            }
+
+        binding.btnAddAddress.setOnClickListener {
             if (isValid()) {
                 val deliveryInstructions =
-                    if (etDeliveryInstructions.trimmedText.isEmpty()) null else etDeliveryInstructions.trimmedText
-                val address = Address(0L, etAddress.trimmedText, deliveryInstructions, target.asString())
+                    if (binding.etDeliveryInstructions.trimmedText.isEmpty()) null else binding.etDeliveryInstructions.trimmedText
+                val address = Address(0L, binding.etAddress.trimmedText, deliveryInstructions, target.asString())
                 val intent = Intent()
                 intent.putExtra(ADDRESS_KEY, address)
                 setResult(Activity.RESULT_OK, intent)
@@ -124,8 +137,8 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     private fun isValid(): Boolean {
         var valid = true
 
-        if (etAddress.trimmedText.isEmpty()) {
-            tilAddress.error = "Required"
+        if (binding.etAddress.trimmedText.isEmpty()) {
+            binding.tilAddress.error = "Required"
             valid = false
         }
 

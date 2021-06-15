@@ -16,12 +16,12 @@ import com.marknjunge.core.data.model.Product
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProduct
 import com.marknkamau.justjava.data.models.toAppModel
+import com.marknkamau.justjava.databinding.ActivityProductDetailsBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
+import com.marknkamau.justjava.utils.getStatusBarHeight
 import com.marknkamau.justjava.utils.replace
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_product_details.*
-import kotlinx.android.synthetic.main.content_product_details.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductDetailsActivity : BaseActivity() {
@@ -45,10 +45,12 @@ class ProductDetailsActivity : BaseActivity() {
     private lateinit var appProduct: AppProduct
     private var quantity = 1
     private val productDetailsViewModel: ProductDetailsViewModel by viewModel()
+    private lateinit var binding: ActivityProductDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_product_details)
+        binding = ActivityProductDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val product = intent.extras!!.getParcelable(PRODUCT_KEY) as Product
         appProduct = product.toAppModel()
@@ -56,34 +58,34 @@ class ProductDetailsActivity : BaseActivity() {
         setProductDetails()
 
         val statusBarHeight = getStatusBarHeight()
-        imgBackDetail.layoutParams =
-            (imgBackDetail.layoutParams as ViewGroup.MarginLayoutParams).apply {
+        binding.imgBackDetail.layoutParams =
+            (binding.imgBackDetail.layoutParams as ViewGroup.MarginLayoutParams).apply {
                 topMargin = statusBarHeight
             }
 
-        imgBackDetail.setOnClickListener { finish() }
-        imgMinusQtyDetail.setOnClickListener { minusQty() }
-        imgAddQtyDetail.setOnClickListener { addQty() }
-        btnAddToCart.setOnClickListener { addToCart() }
+        binding.imgBackDetail.setOnClickListener { finish() }
+        binding.content.imgMinusQtyDetail.setOnClickListener { minusQty() }
+        binding.content.imgAddQtyDetail.setOnClickListener { addQty() }
+        binding.content.btnAddToCart.setOnClickListener { addToCart() }
     }
 
     private fun setProductDetails() {
-        tvProductName.text = appProduct.name
-        tvProductDescription.text = appProduct.description
-        tvProductPrice.text =
+        binding.content.tvProductName.text = appProduct.name
+        binding.content.tvProductDescription.text = appProduct.description
+        binding.content.tvProductPrice.text =
             resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
-        tvSubtotalDetail.text =
+        binding.content.tvSubtotalDetail.text =
             resources.getString(R.string.price_listing, CurrencyFormatter.format(appProduct.price))
-        tvQuantityDetail.text = quantity.toString()
-        Picasso.get().load(appProduct.image).noFade().into(imgProductImage)
+        binding.content.tvQuantityDetail.text = quantity.toString()
+        Picasso.get().load(appProduct.image).noFade().into(binding.imgProductImage)
 
         appProduct.choices?.let { c ->
             // Use new object so that it is mutable
             var choices = c
 
             val choicesAdapter = ChoicesAdapter(this)
-            rvProductChoices.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-            rvProductChoices.adapter = choicesAdapter
+            binding.content.rvProductChoices.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            binding.content.rvProductChoices.adapter = choicesAdapter
             choicesAdapter.setItems(choices.sortedBy { it.id })
 
             choicesAdapter.onChoiceUpdated = { choice ->
@@ -118,28 +120,20 @@ class ProductDetailsActivity : BaseActivity() {
 
     private fun addQty() {
         quantity += 1
-        tvQuantityDetail.text = quantity.toString()
+        binding.content.tvQuantityDetail.text = quantity.toString()
         updateTotal()
     }
 
     private fun minusQty() {
         if (quantity == 1) return
         quantity -= 1
-        tvQuantityDetail.text = quantity.toString()
+        binding.content.tvQuantityDetail.text = quantity.toString()
         updateTotal()
     }
 
     private fun updateTotal() {
         val total = appProduct.calculateTotal(quantity)
-        tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
+        binding.content.tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
     }
 
-    private fun getStatusBarHeight(): Int {
-        var result = 0
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
 }

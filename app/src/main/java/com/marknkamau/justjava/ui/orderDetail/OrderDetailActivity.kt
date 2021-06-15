@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.*
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.network.JustJavaFirebaseMessagingService
+import com.marknkamau.justjava.databinding.ActivityOrderDetailBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
@@ -22,10 +23,6 @@ import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DateTime
 import com.marknkamau.justjava.utils.toast
-import kotlinx.android.synthetic.main.activity_order_detail.*
-import kotlinx.android.synthetic.main.activity_order_detail.pbLoading
-import kotlinx.android.synthetic.main.incl_order_details.*
-import kotlinx.android.synthetic.main.item_order_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -36,6 +33,7 @@ class OrderDetailActivity : BaseActivity() {
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
     private lateinit var broadcastReceiver: BroadcastReceiver
     override var requiresSignedIn = true
+    private lateinit var binding: ActivityOrderDetailBinding
 
     companion object {
         const val ORDER_ID_KEY = "order_id"
@@ -50,7 +48,8 @@ class OrderDetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_order_detail)
+        binding = ActivityOrderDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val orderId = intent.extras!![ORDER_ID_KEY] as String
         supportActionBar?.title = "Order - $orderId"
@@ -60,10 +59,10 @@ class OrderDetailActivity : BaseActivity() {
 
         orderDetailViewModel.getOrder(orderId)
 
-        btnChangePaymentMethod.setOnClickListener {
+        binding.btnChangePaymentMethod.setOnClickListener {
             showChangePaymentMethodDialog()
         }
-        btnPayOrder.setOnClickListener {
+        binding.btnPayOrder.setOnClickListener {
             when (order.paymentMethod) {
                 PaymentMethod.MPESA -> PayMpesaActivity.start(this, orderId)
                 PaymentMethod.CARD -> PayCardActivity.start(this, orderId)
@@ -83,9 +82,9 @@ class OrderDetailActivity : BaseActivity() {
 
                     if (orderId == orderId) {
                         Timber.d("The current order has been paid for!")
-                        btnPayOrder.visibility = View.GONE
-                        btnChangePaymentMethod.visibility = View.GONE
-                        tv_order_paymentStatus.text = PaymentStatus.PAID.s
+                        binding.btnPayOrder.visibility = View.GONE
+                        binding.btnChangePaymentMethod.visibility = View.GONE
+                        binding.tvOrderPaymentStatus.text = PaymentStatus.PAID.s
                         toast("Payment received")
                     }
                 }
@@ -106,7 +105,7 @@ class OrderDetailActivity : BaseActivity() {
 
     private fun observeLoading() {
         orderDetailViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
@@ -114,7 +113,7 @@ class OrderDetailActivity : BaseActivity() {
         orderDetailViewModel.order.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    contentOrderDetails.visibility = View.VISIBLE
+                    binding.contentOrderDetails.visibility = View.VISIBLE
                     displayOrderDetails(resource.data)
                 }
                 is Resource.Failure -> handleApiError(resource)
@@ -153,38 +152,33 @@ class OrderDetailActivity : BaseActivity() {
         this.order = order
 
         val address = orderDetailViewModel.getUser().address.firstOrNull { it.id == order.addressId }
-        tv_order_orderId.text = order.id
-        tv_order_orderStatus.text = order.status.s
-        tv_order_orderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
-        tv_order_address.text = address?.streetAddress ?: "[Deleted address]"
+        binding.inclOrderDetails.tvOrderOrderId.text = order.id
+        binding.inclOrderDetails.tvOrderOrderStatus.text = order.status.s
+        binding.inclOrderDetails.tvOrderOrderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
+        binding.inclOrderDetails.tvOrderAddress.text = address?.streetAddress ?: "[Deleted address]"
         if (order.additionalComments != null) {
-            tv_order_additionalComments.text = order.additionalComments
+            binding.inclOrderDetails.tvOrderAdditionalComments.text = order.additionalComments
         } else {
-            tv_order_additionalComments.visibility = View.GONE
-            tv_order_additionalCommentsTitle.visibility = View.GONE
+            binding.inclOrderDetails.tvOrderAdditionalComments.visibility = View.GONE
+            binding.inclOrderDetails.tvOrderAdditionalCommentsTitle.visibility = View.GONE
         }
 
-        val adapater = BaseRecyclerViewAdapter<OrderItem>(R.layout.item_order_item) { item ->
-            tv_orderDetail_productName.text = item.productName
-            tv_orderDetail_quantity.text = "${item.quantity}x"
-            tv_orderDetail_price.text = getString(R.string.price_listing, CurrencyFormatter.format(item.totalPrice))
-            tv_orderDetail_options.text = item.options.joinToString(", ") { it.optionName }
-        }
-        rv_order_items.layoutManager = LinearLayoutManager(this@OrderDetailActivity, RecyclerView.VERTICAL, false)
-        rv_order_items.adapter = adapater
-        adapater.setItems(order.items)
+        val adapter = OrderItemsAdapter(this)
+        binding.rvOrderItems.layoutManager = LinearLayoutManager(this@OrderDetailActivity, RecyclerView.VERTICAL, false)
+        binding.rvOrderItems.adapter = adapter
+        adapter.setItems(order.items)
 
-        tv_order_paymentMethod.text = order.paymentMethod.toString()
-        tv_order_paymentStatus.text = order.paymentStatus.toString()
+        binding.tvOrderPaymentMethod.text = order.paymentMethod.toString()
+        binding.tvOrderPaymentStatus.text = order.paymentStatus.toString()
         if (order.paymentStatus == PaymentStatus.PAID) {
-            btnChangePaymentMethod.visibility = View.GONE
+            binding.btnChangePaymentMethod.visibility = View.GONE
         }
         if (order.paymentStatus == PaymentStatus.PAID || order.paymentMethod == PaymentMethod.CASH) {
-            btnPayOrder.visibility = View.GONE
+            binding.btnPayOrder.visibility = View.GONE
         } else {
-            btnPayOrder.visibility = View.VISIBLE
+            binding.btnPayOrder.visibility = View.VISIBLE
         }
 
-        tv_order_total.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
+        binding.tvOrderTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(order.totalPrice))
     }
 }

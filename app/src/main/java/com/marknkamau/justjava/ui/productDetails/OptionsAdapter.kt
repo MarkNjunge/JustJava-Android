@@ -2,21 +2,22 @@ package com.marknkamau.justjava.ui.productDetails
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProductChoiceOption
+import com.marknkamau.justjava.databinding.ItemProductChoiceOptionBinding
 import com.marknkamau.justjava.utils.CurrencyFormatter
-import kotlinx.android.synthetic.main.item_product_choice_option.view.*
 
 class OptionsAdapter(private val context: Context) : RecyclerView.Adapter<OptionsAdapter.ViewHolder>() {
 
     private val items by lazy { mutableListOf<AppProductChoiceOption>() }
     var onSelected: ((option: AppProductChoiceOption, checked: Boolean) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate(R.layout.item_product_choice_option))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemProductChoiceOptionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
 
     override fun getItemCount() = items.size
 
@@ -30,22 +31,18 @@ class OptionsAdapter(private val context: Context) : RecyclerView.Adapter<Option
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(
+        private val binding: ItemProductChoiceOptionBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(option: AppProductChoiceOption, context: Context) {
-            itemView.run {
-                val formattedPrice = CurrencyFormatter.format(option.price)
-                tvOptionPrice.text = context.getString(R.string.price_listing_w_add, formattedPrice)
-                cbOptionTitle.text = option.name
-                cbOptionTitle.isChecked = option.isChecked
+            val formattedPrice = CurrencyFormatter.format(option.price)
+            binding.tvOptionPrice.text = context.getString(R.string.price_listing_w_add, formattedPrice)
+            binding.cbOptionTitle.text = option.name
+            binding.cbOptionTitle.isChecked = option.isChecked
 
-                cbOptionTitle.setOnClickListener {
-                    onSelected?.invoke(option, cbOptionTitle.isChecked)
-                }
+            binding.cbOptionTitle.setOnClickListener {
+                onSelected?.invoke(option, binding.cbOptionTitle.isChecked)
             }
         }
-    }
-
-    private fun ViewGroup.inflate(layoutRes: Int): View {
-        return LayoutInflater.from(context).inflate(layoutRes, this, false)
     }
 }

@@ -8,13 +8,7 @@ import com.marknjunge.core.data.network.interceptors.ConvertNoContentInterceptor
 import com.marknjunge.core.data.network.interceptors.NetworkConnectionInterceptor
 import com.marknjunge.core.data.network.interceptors.SessionIdInterceptor
 import com.marknjunge.core.data.network.service.*
-import com.marknjunge.core.data.network.service.ApiService
-import com.marknjunge.core.data.network.service.AuthService
-import com.marknjunge.core.data.network.service.CartService
-import com.marknjunge.core.data.network.service.OrdersService
-import com.marknjunge.core.data.network.service.UsersService
-import com.marknjunge.core.utils.appConfig
-import kotlinx.serialization.json.JsonConfiguration
+import com.marknjunge.core.utils.appJsonConfig
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -45,7 +39,7 @@ internal class NetworkProvider(private val context: Context, private val prefere
     private fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(apiBaseUrl)
-            .addConverterFactory(JsonConfiguration.appConfig.asConverterFactory(mediaType))
+            .addConverterFactory(appJsonConfig.asConverterFactory(mediaType))
             .client(provideOkHttpClient())
             .build()
     }

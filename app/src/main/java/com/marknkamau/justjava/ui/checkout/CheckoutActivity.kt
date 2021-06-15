@@ -14,6 +14,7 @@ import com.marknjunge.core.data.model.PaymentMethod
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityCheckoutBinding
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
@@ -22,7 +23,6 @@ import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
-import kotlinx.android.synthetic.main.activity_checkout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CheckoutActivity : BaseActivity() {
@@ -36,11 +36,13 @@ class CheckoutActivity : BaseActivity() {
     private var deliveryAddress: Address? = null
     private lateinit var user: User
     override var requiresSignedIn = true
+    private lateinit var binding: ActivityCheckoutBinding
 
     @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+        binding = ActivityCheckoutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = "Checkout"
 
         // Should already be checked before launching this activity
@@ -50,7 +52,7 @@ class CheckoutActivity : BaseActivity() {
 
         // Set mpesa as the default payment method
         paymentMethod = PaymentMethod.MPESA
-        tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
+        binding.tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
 
         observeCartItems()
         observeLoading()
@@ -58,19 +60,19 @@ class CheckoutActivity : BaseActivity() {
         checkoutViewModel.getCartItems()
         loadAddressList()
 
-        btnChangeDeliveryAddress.setOnClickListener {
+        binding.btnChangeDeliveryAddress.setOnClickListener {
             showChangeDeliveryAddressDialog()
         }
-        btnChangePaymentMethod.setOnClickListener {
+        binding.btnChangePaymentMethod.setOnClickListener {
             showChangePaymentMethodDialog()
         }
 
-        btnPlaceOrder.setOnClickListener {
+        binding.btnPlaceOrder.setOnClickListener {
             if (valid()) {
                 placeOrder()
             }
         }
-        btnAddDeliveryAddress.setOnClickListener {
+        binding.btnAddDeliveryAddress.setOnClickListener {
             startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
         }
     }
@@ -84,10 +86,10 @@ class CheckoutActivity : BaseActivity() {
             checkoutViewModel.addAddress(address).observe(this, Observer { resource ->
                 when (resource) {
                     is Resource.Success -> {
-                        btnAddDeliveryAddress.visibility = View.GONE
-                        btnChangeDeliveryAddress.visibility = View.VISIBLE
-                        tvDeliveryAddress.visibility = View.VISIBLE
-                        btnPlaceOrder.isEnabled = true
+                        binding.btnAddDeliveryAddress.visibility = View.GONE
+                        binding.btnChangeDeliveryAddress.visibility = View.VISIBLE
+                        binding.tvDeliveryAddress.visibility = View.VISIBLE
+                        binding.btnPlaceOrder.isEnabled = true
 
                         loadAddressList()
                     }
@@ -99,7 +101,7 @@ class CheckoutActivity : BaseActivity() {
 
     private fun observeLoading() {
         checkoutViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
@@ -107,27 +109,27 @@ class CheckoutActivity : BaseActivity() {
         checkoutViewModel.items.observe(this, Observer { items ->
             if (items.isEmpty()) finish()
 
-            tvCartItems.text = items.joinToString(", ") { it.cartItem.productName }
-            tvCartItemsCount.text = resources.getQuantityString(R.plurals.item_s, items.size, items.size)
+            binding.tvCartItems.text = items.joinToString(", ") { it.cartItem.productName }
+            binding.tvCartItemsCount.text = resources.getQuantityString(R.plurals.item_s, items.size, items.size)
             val total = items.fold(0.0, { acc, c -> acc + c.cartItem.totalPrice })
-            tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
+            binding.tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
         })
     }
 
     private fun loadAddressList() {
         user = checkoutViewModel.getUser()
         if (user.address.isEmpty()) {
-            btnAddDeliveryAddress.visibility = View.VISIBLE
-            btnChangeDeliveryAddress.visibility = View.GONE
-            tvDeliveryAddress.visibility = View.GONE
-            btnPlaceOrder.isEnabled = false
+            binding.btnAddDeliveryAddress.visibility = View.VISIBLE
+            binding.btnChangeDeliveryAddress.visibility = View.GONE
+            binding.tvDeliveryAddress.visibility = View.GONE
+            binding.btnPlaceOrder.isEnabled = false
         } else {
-            btnAddDeliveryAddress.visibility = View.GONE
-            btnChangeDeliveryAddress.visibility = View.VISIBLE
-            tvDeliveryAddress.visibility = View.VISIBLE
+            binding.btnAddDeliveryAddress.visibility = View.GONE
+            binding.btnChangeDeliveryAddress.visibility = View.VISIBLE
+            binding.tvDeliveryAddress.visibility = View.VISIBLE
 
             deliveryAddress = user.address[0]
-            tvDeliveryAddress.text = deliveryAddress!!.streetAddress
+            binding.tvDeliveryAddress.text = deliveryAddress!!.streetAddress
         }
     }
 
@@ -137,7 +139,7 @@ class CheckoutActivity : BaseActivity() {
             .setTitle(R.string.delivery_address)
             .setItems(addresses) { _, which ->
                 deliveryAddress = user.address[which]
-                tvDeliveryAddress.text = deliveryAddress!!.streetAddress
+                binding.tvDeliveryAddress.text = deliveryAddress!!.streetAddress
             }
             .create()
             .show()
@@ -150,7 +152,7 @@ class CheckoutActivity : BaseActivity() {
             .setTitle(R.string.payment_method)
             .setItems(paymentMethods) { _, which ->
                 paymentMethod = PaymentMethod.values()[which]
-                tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
+                binding.tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
             }
             .create()
             .show()
@@ -158,12 +160,12 @@ class CheckoutActivity : BaseActivity() {
 
     private fun placeOrder() {
         val additionalComments =
-            if (etAdditionalComments.trimmedText.isNotEmpty()) etAdditionalComments.trimmedText else null
+            if (binding.etAdditionalComments.trimmedText.isNotEmpty()) binding.etAdditionalComments.trimmedText else null
 
-        btnPlaceOrder.isEnabled = false
+        binding.btnPlaceOrder.isEnabled = false
         checkoutViewModel.placeOrder(paymentMethod, deliveryAddress!!, additionalComments)
             .observe(this, Observer { resource ->
-                btnPlaceOrder.isEnabled = true
+                binding.btnPlaceOrder.isEnabled = true
                 when (resource) {
                     is Resource.Success -> {
                         checkoutViewModel.clearCart()

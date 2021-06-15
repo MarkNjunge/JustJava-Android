@@ -12,8 +12,8 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "com.google.gms:google-services:4.3.3"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:1.3.72"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:1.5.10"
         classpath "io.sentry:sentry-android-gradle-plugin:1.7.35"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -74,11 +74,6 @@ subprojects {
                 defaultConfig {
                     minSdkVersion 21
                     targetSdkVersion 28
-                }
-
-                // Required for @Parcelize
-                androidExtensions {
-                    experimental = true
                 }
             }
         }

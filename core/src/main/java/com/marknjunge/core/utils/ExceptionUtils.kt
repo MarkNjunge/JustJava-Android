@@ -2,8 +2,7 @@ package com.marknjunge.core.utils
 
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.ApiResponse
-import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.json.JsonDecodingException
+import kotlinx.serialization.SerializationException
 import retrofit2.HttpException
 import timber.log.Timber
 
@@ -15,10 +14,10 @@ internal fun <T> parseException(e: Exception): Resource<T> {
         is HttpException -> {
             e.response()?.errorBody()?.string()?.let { errorString ->
                 try {
-                    val apiResponse = JsonConfiguration.appConfig.parse(ApiResponse.serializer(), errorString)
+                    val apiResponse = appJsonConfig.decodeFromString(ApiResponse.serializer(), errorString)
                     Timber.e("${e.response()?.code()}, $errorString")
                     Resource.Failure<T>(apiResponse)
-                } catch (e: JsonDecodingException) {
+                } catch (e: SerializationException) {
                     Resource.Failure<T>(ApiResponse(errorString))
                 }
             } ?: Resource.Failure(ApiResponse(genericErrorMessage))

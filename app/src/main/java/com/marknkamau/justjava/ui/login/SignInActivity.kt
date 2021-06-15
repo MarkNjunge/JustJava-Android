@@ -12,10 +12,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivitySignInBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.*
-import kotlinx.android.synthetic.main.activity_sign_in.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
@@ -28,27 +28,29 @@ class SignInActivity : BaseActivity() {
 
     private val googleSignInClient: GoogleSignInClient by inject()
     private val signInViewModel by viewModel<SignInViewModel>()
+    private lateinit var binding: ActivitySignInBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        binding = ActivitySignInBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initializeLoading()
 
-        tilEmail.resetErrorOnChange(etEmail)
-        tilPassword.resetErrorOnChange(etPassword)
-        tvForgotPassword.setOnClickListener {
+        binding.tilEmail.resetErrorOnChange(binding.etEmail)
+        binding.tilPassword.resetErrorOnChange(binding.etPassword)
+        binding.tvForgotPassword.setOnClickListener {
             showForgotPasswordDialog()
         }
-        btnSignInGoogle.setOnClickListener {
+        binding.btnSignInGoogle.setOnClickListener {
             startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
             hideKeyboard()
         }
-        llSignUp.setOnClickListener {
+        binding.llSignUp.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
             finish()
         }
-        btnSignIn.setOnClickListener {
+        binding.btnSignIn.setOnClickListener {
             if (isValid()) {
                 hideKeyboard()
                 signIn()
@@ -58,7 +60,7 @@ class SignInActivity : BaseActivity() {
 
     private fun initializeLoading() {
         signInViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
@@ -111,12 +113,13 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun signIn() {
-        signInViewModel.signIn(etEmail.trimmedText, etPassword.trimmedText).observe(this, Observer { resource ->
-            when (resource) {
-                is Resource.Success -> finish()
-                is Resource.Failure -> handleApiError(resource)
-            }
-        })
+        signInViewModel.signIn(binding.etEmail.trimmedText, binding.etPassword.trimmedText)
+            .observe(this, Observer { resource ->
+                when (resource) {
+                    is Resource.Success -> finish()
+                    is Resource.Failure -> handleApiError(resource)
+                }
+            })
     }
 
     private fun signInWithGoogle(idToken: String) {
@@ -131,16 +134,16 @@ class SignInActivity : BaseActivity() {
     private fun isValid(): Boolean {
         var valid = true
 
-        if (etEmail.trimmedText.isEmpty()) {
-            tilEmail.error = "Required"
+        if (binding.etEmail.trimmedText.isEmpty()) {
+            binding.tilEmail.error = "Required"
             valid = false
-        } else if (!etEmail.trimmedText.isValidEmail()) {
-            tilEmail.error = "Incorrect email"
+        } else if (!binding.etEmail.trimmedText.isValidEmail()) {
+            binding.tilEmail.error = "Incorrect email"
             valid = false
         }
 
-        if (etPassword.trimmedText.isEmpty()) {
-            tilPassword.error = "Required"
+        if (binding.etPassword.trimmedText.isEmpty()) {
+            binding.tilPassword.error = "Required"
             valid = false
         }
 

@@ -6,35 +6,37 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivitySignUpBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.*
-import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
 class SignUpActivity : BaseActivity() {
 
     private val signUpViewModel: SignUpViewModel by viewModel()
+    private lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         observeLoading()
 
-        tilEmail.resetErrorOnChange(etEmail)
-        tilPassword.resetErrorOnChange(etPassword)
-        tilFirstName.resetErrorOnChange(etFirstName)
-        tilLastName.resetErrorOnChange(etLastName)
+        binding.tilEmail.resetErrorOnChange(binding.etEmail)
+        binding.tilPassword.resetErrorOnChange(binding.etPassword)
+        binding.tilFirstName.resetErrorOnChange(binding.etFirstName)
+        binding.tilLastName.resetErrorOnChange(binding.etLastName)
 
-        btnSignup.setOnClickListener {
+        binding.btnSignup.setOnClickListener {
             if (isValid()) {
                 hideKeyboard()
                 signUp()
             }
         }
-        llSignIn.setOnClickListener {
+        binding.llSignIn.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
@@ -42,16 +44,16 @@ class SignUpActivity : BaseActivity() {
 
     private fun observeLoading() {
         signUpViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun signUp() {
         signUpViewModel.signUp(
-            etFirstName.trimmedText,
-            etLastName.trimmedText,
-            etEmail.trimmedText,
-            etPassword.trimmedText
+            binding.etFirstName.trimmedText,
+            binding.etLastName.trimmedText,
+            binding.etEmail.trimmedText,
+            binding.etPassword.trimmedText
         ).observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> finish()
@@ -64,34 +66,34 @@ class SignUpActivity : BaseActivity() {
         var isValid = true
 
         val justJavaEmailPattern = Pattern.compile("^([a-zA-Z0-9_.-])+@justjava.com+")
-        val justJavaEmailMatcher = justJavaEmailPattern.matcher(etEmail.trimmedText)
+        val justJavaEmailMatcher = justJavaEmailPattern.matcher(binding.etEmail.trimmedText)
 
-        if (etEmail.trimmedText.isEmpty()) {
-            tilEmail.error = getString(R.string.required)
+        if (binding.etEmail.trimmedText.isEmpty()) {
+            binding.tilEmail.error = getString(R.string.required)
             isValid = false
         } else if (justJavaEmailMatcher.matches()) {
-            tilEmail.error = "Can not use @justjava.com"
+            binding.tilEmail.error = "Can not use @justjava.com"
             isValid = false
-        } else if (!etEmail.trimmedText.isValidEmail()) {
-            tilEmail.error = "Incorrect email"
-            isValid = false
-        }
-
-        if (etPassword.trimmedText.isEmpty()) {
-            tilPassword.error = getString(R.string.required)
-            isValid = false
-        } else if (etPassword.trimmedText.length < 6) {
-            tilPassword.error = "At least 6 characters"
+        } else if (!binding.etEmail.trimmedText.isValidEmail()) {
+            binding.tilEmail.error = "Incorrect email"
             isValid = false
         }
 
-        if (etFirstName.trimmedText.isEmpty()) {
-            tilFirstName.error = getString(R.string.required)
+        if (binding.etPassword.trimmedText.isEmpty()) {
+            binding.tilPassword.error = getString(R.string.required)
+            isValid = false
+        } else if (binding.etPassword.trimmedText.length < 6) {
+            binding.tilPassword.error = "At least 6 characters"
             isValid = false
         }
 
-        if (etLastName.trimmedText.isEmpty()) {
-            tilLastName.error = getString(R.string.required)
+        if (binding.etFirstName.trimmedText.isEmpty()) {
+            binding.tilFirstName.error = getString(R.string.required)
+            isValid = false
+        }
+
+        if (binding.etLastName.trimmedText.isEmpty()) {
+            binding.tilLastName.error = getString(R.string.required)
             isValid = false
         }
 

@@ -11,21 +11,19 @@ import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Product
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityMainBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
-import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
-import com.marknkamau.justjava.utils.CurrencyFormatter
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_product.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ToolbarActivity() {
     private val viewModel: MainViewModel by viewModel()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initializeLoadingIndicator()
         initializeRecyclerView()
@@ -36,43 +34,35 @@ class MainActivity : ToolbarActivity() {
 
     private fun initializeLoadingIndicator() {
         viewModel.loading.observe(this, Observer { loading ->
-            TransitionManager.beginDelayedTransition(rootMainActivity)
-            shimmerLayout.visibility = if (loading) View.VISIBLE else View.GONE
-            if (loading) layoutFailed.visibility = View.GONE
+            TransitionManager.beginDelayedTransition(binding.root)
+            binding.shimmerLayout.visibility = if (loading) View.VISIBLE else View.GONE
+            if (loading) binding.layoutFailed.visibility = View.GONE
         })
     }
 
     private fun initializeRecyclerView() {
-        val adapter: BaseRecyclerViewAdapter<Product> = BaseRecyclerViewAdapter(R.layout.item_product) { product ->
-            tvProductName.text = product.name
-            tvProductPrice.text = resources.getString(R.string.price_listing, CurrencyFormatter.format(product.price))
-
-            Picasso.get().load(product.image).placeholder(R.drawable.plain_brown).into(imgProductImage)
-
-            productItem.setOnClickListener {
-                ProductDetailsActivity.start(
-                    this@MainActivity,
-                    product,
-                    Pair(imgProductImage, "productImage")
-                )
-            }
+        val adapter = ProductsAdapter { product: Product, view: View ->
+            ProductDetailsActivity.start(
+                this@MainActivity,
+                product,
+                Pair(view, "productImage")
+            )
         }
-
-        rvProducts.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        binding.rvProducts.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val dividerItemDecoration = DividerItemDecoration(this, RecyclerView.VERTICAL)
         dividerItemDecoration.setDrawable(getDrawable(R.drawable.custom_item_divider)!!)
-        rvProducts.addItemDecoration(dividerItemDecoration)
-        rvProducts.adapter = adapter
+        binding.rvProducts.addItemDecoration(dividerItemDecoration)
+        binding.rvProducts.adapter = adapter
 
         viewModel.products.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    TransitionManager.beginDelayedTransition(rootMainActivity)
-                    rvProducts.visibility = View.VISIBLE
+                    TransitionManager.beginDelayedTransition(binding.root)
+                    binding.rvProducts.visibility = View.VISIBLE
                     adapter.setItems(resource.data)
                 }
                 is Resource.Failure -> {
-                    layoutFailed.visibility = View.VISIBLE
+                    binding.layoutFailed.visibility = View.VISIBLE
                     handleApiError(resource)
                 }
             }
@@ -80,8 +70,8 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun observeSwipeToRefresh() {
-        swipeRefresh.setOnRefreshListener {
-            swipeRefresh.isRefreshing = false
+        binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false
             viewModel.getProducts()
         }
     }

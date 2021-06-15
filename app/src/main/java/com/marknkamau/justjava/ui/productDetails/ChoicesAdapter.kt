@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.AppProductChoice
+import com.marknkamau.justjava.databinding.ItemProductChoiceBinding
 import com.marknkamau.justjava.utils.replace
-import kotlinx.android.synthetic.main.item_product_choice.view.*
 
 class ChoicesAdapter(private val context: Context) : RecyclerView.Adapter<ChoicesAdapter.ViewHolder>() {
     private val items by lazy { mutableListOf<AppProductChoice>() }
     lateinit var onChoiceUpdated: (choice: AppProductChoice) -> Unit
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolder(parent.inflate(R.layout.item_product_choice))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val binding = ItemProductChoiceBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
+    }
 
     override fun getItemCount() = items.size
 
@@ -30,56 +31,50 @@ class ChoicesAdapter(private val context: Context) : RecyclerView.Adapter<Choice
         notifyDataSetChanged()
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(private val binding: ItemProductChoiceBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(choice: AppProductChoice, context: Context) {
-            itemView.run {
-                // Set choice details
-                tvChoiceTitle.text = choice.name
-                tvChoiceRequired.visibility = if (choice.isRequired) View.VISIBLE else View.GONE
+            // Set choice details
+            binding.tvChoiceTitle.text = choice.name
+            binding.tvChoiceRequired.visibility = if (choice.isRequired) View.VISIBLE else View.GONE
 
-                // Set options adapter
-                val optionsAdapter = OptionsAdapter(context)
-                rvChoiceOptions.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-                rvChoiceOptions.adapter = optionsAdapter
+            // Set options adapter
+            val optionsAdapter = OptionsAdapter(context)
+            binding.rvChoiceOptions.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            binding.rvChoiceOptions.adapter = optionsAdapter
 
-                // If a choice is required, auto select the first element
-                if (choice.isRequired) {
-                    choice.options = choice.options.replace(choice.options[0], choice.options[0].copy(isChecked = true))
-                }
+            // If a choice is required, auto select the first element
+            if (choice.isRequired) {
+                choice.options = choice.options.replace(choice.options[0], choice.options[0].copy(isChecked = true))
+            }
 
-                // Set items to the adapter
+            // Set items to the adapter
+            optionsAdapter.setItems(choice.options)
+
+            optionsAdapter.onSelected = { option, checked ->
+                choice.options = choice.options
+                    .map {
+                        // If only 1 value can be selected, reset all to unchecked
+                        // otherwise, keep as is
+                        if (choice.isSingleSelectable) {
+                            it.copy(isChecked = false)
+                        } else {
+                            it
+                        }
+                    }
+                    .map {
+                        // When the same option is arrived at, change it to the new state,
+                        // otherwise, keep as is
+                        if (it.id == option.id) {
+                            it.copy(isChecked = checked)
+                        } else {
+                            it
+                        }
+                    }
+
                 optionsAdapter.setItems(choice.options)
 
-                optionsAdapter.onSelected = { option, checked ->
-                    choice.options = choice.options
-                        .map {
-                            // If only 1 value can be selected, reset all to unchecked
-                            // otherwise, keep as is
-                            if (choice.isSingleSelectable) {
-                                it.copy(isChecked = false)
-                            } else {
-                                it
-                            }
-                        }
-                        .map {
-                            // When the same option is arrived at, change it to the new state,
-                            // otherwise, keep as is
-                            if (it.id == option.id) {
-                                it.copy(isChecked = checked)
-                            } else {
-                                it
-                            }
-                        }
-
-                    optionsAdapter.setItems(choice.options)
-
-                    onChoiceUpdated(choice)
-                }
+                onChoiceUpdated(choice)
             }
         }
-    }
-
-    private fun ViewGroup.inflate(layoutRes: Int): View {
-        return LayoutInflater.from(context).inflate(layoutRes, this, false)
     }
 }

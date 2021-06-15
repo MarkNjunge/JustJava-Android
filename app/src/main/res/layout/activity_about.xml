@@ -9,15 +9,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/imgBackAbout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:contentDescription="@string/back_button"
+            android:padding="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_arrow_back" />
@@ -55,8 +55,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFF"
             android:alpha=".54"
+            android:textColor="#FFF"
             app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             tools:text="1.6.0 (debug)" />

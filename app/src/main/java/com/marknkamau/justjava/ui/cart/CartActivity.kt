@@ -16,24 +16,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.models.CartItem
+import com.marknkamau.justjava.databinding.ActivityCartBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
-import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
 import com.marknkamau.justjava.utils.CurrencyFormatter
-import kotlinx.android.synthetic.main.activity_cart.*
-import kotlinx.android.synthetic.main.item_cart_item.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CartActivity : ToolbarActivity() {
 
     private val cartViewModel: CartViewModel by viewModel()
     private lateinit var items: List<CartItem>
+    private lateinit var binding: ActivityCartBinding
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_cart)
+        binding = ActivityCartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = getString(R.string.cart)
 
         observeLoading()
@@ -41,7 +41,7 @@ class CartActivity : ToolbarActivity() {
 
         cartViewModel.getCartItems()
 
-        btnCheckout.setOnClickListener {
+        binding.btnCheckout.setOnClickListener {
             val clz = if (cartViewModel.isSignedIn()) CheckoutActivity::class.java else SignInActivity::class.java
             startActivity(Intent(this, clz))
         }
@@ -49,27 +49,17 @@ class CartActivity : ToolbarActivity() {
 
     private fun observeLoading() {
         cartViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     @SuppressLint("SetTextI18n")
     private fun initializeRecyclerView() {
-        val adapter = BaseRecyclerViewAdapter<CartItem>(R.layout.item_cart_item) { item ->
-            tv_cartItem_productName.text = item.cartItem.productName
-            tv_cartItem_quantity.text = "${item.cartItem.quantity}x"
-
-            tv_cartItem_totalPrice.text =
-                getString(R.string.price_listing, CurrencyFormatter.format(item.cartItem.totalPrice))
-            tv_cartItem_options.text = item.options.joinToString(", ") { it.optionName }
-
-            rootCartItem.setOnLongClickListener {
-                cartViewModel.deleteItem(item)
-                true
-            }
+        val adapter = CartItemsAdapter(this) { item ->
+            cartViewModel.deleteItem(item)
         }
 
-        rvCart.apply {
+        binding.rvCart.apply {
             addItemDecoration(DividerItemDecoration(this@CartActivity, RecyclerView.VERTICAL))
             layoutManager = LinearLayoutManager(this@CartActivity, RecyclerView.VERTICAL, false)
             this.adapter = adapter
@@ -80,15 +70,15 @@ class CartActivity : ToolbarActivity() {
         cartViewModel.items.observe(this, Observer { items ->
             this.items = items
             if (items.isEmpty()) {
-                layoutCartContent.visibility = View.GONE
-                layoutCartEmpty.visibility = View.VISIBLE
+                binding.layoutCartContent.visibility = View.GONE
+                binding.layoutCartEmpty.visibility = View.VISIBLE
             } else {
-                layoutCartContent.visibility = View.VISIBLE
-                layoutCartEmpty.visibility = View.GONE
+                binding.layoutCartContent.visibility = View.VISIBLE
+                binding.layoutCartEmpty.visibility = View.GONE
 
                 adapter.setItems(items)
                 val cartTotal = items.map { it.cartItem.totalPrice }.foldRight(0.0, { total, acc -> total + acc })
-                tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(cartTotal))
+                binding.tvCartTotal.text = getString(R.string.price_listing, CurrencyFormatter.format(cartTotal))
 
                 verifyCartItems()
             }
@@ -176,12 +166,12 @@ class CartActivity : ToolbarActivity() {
             }
 
         val itemTouchHelper = ItemTouchHelper(touchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(rvCart)
+        itemTouchHelper.attachToRecyclerView(binding.rvCart)
     }
 
     private fun verifyCartItems() {
         cartViewModel.verifyOrder(items).observe(this, Observer { resource ->
-            btnCheckout.isEnabled = true
+            binding.btnCheckout.isEnabled = true
             when (resource) {
                 is Resource.Success -> {
                     if (resource.data.isNotEmpty()) {

@@ -17,11 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Address
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
+import com.marknkamau.justjava.databinding.ActivityAddressBookBinding
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
 import com.marknkamau.justjava.ui.base.BaseActivity
-import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
-import kotlinx.android.synthetic.main.activity_address_book.*
-import kotlinx.android.synthetic.main.item_address.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddressBookActivity : BaseActivity() {
@@ -30,19 +28,21 @@ class AddressBookActivity : BaseActivity() {
         private const val ADD_ADDRESS_REQ = 99
     }
 
+    private lateinit var binding: ActivityAddressBookBinding
     private val addressBookViewModel: AddressBookViewModel by viewModel()
-    private lateinit var adapter: BaseRecyclerViewAdapter<Address>
+    private lateinit var adapter: AddressAdapter
     override var requiresSignedIn = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_address_book)
+        binding = ActivityAddressBookBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         supportActionBar?.title = "Address Book"
 
-        btnAddAddress.setOnClickListener {
+        binding.btnAddAddress.setOnClickListener {
             startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
         }
-        fabAddAddress.setOnClickListener {
+        binding.fabAddAddress.setOnClickListener {
             startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
         }
 
@@ -69,39 +69,32 @@ class AddressBookActivity : BaseActivity() {
 
     private fun observeLoading() {
         addressBookViewModel.loading.observe(this, Observer { loading ->
-            pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun initializeRecyclerView() {
-        adapter = BaseRecyclerViewAdapter(R.layout.item_address) { item ->
-            tvStreetAddress.text = item.streetAddress
-            tvDeliveryInstructions.text = item.deliveryInstructions
-            tvDeliveryInstructions.visibility = if (item.deliveryInstructions == null) View.GONE else View.VISIBLE
-
-            rootAddress.setOnLongClickListener {
-                deleteAddress(item)
-                true
-            }
+        adapter = AddressAdapter{address ->
+            deleteAddress(address)
         }
 
-        rvAddresses.apply {
+        binding.rvAddresses.apply {
             addItemDecoration(DividerItemDecoration(this@AddressBookActivity, RecyclerView.VERTICAL))
             layoutManager = LinearLayoutManager(this@AddressBookActivity, RecyclerView.VERTICAL, false)
         }
-        rvAddresses.adapter = adapter
+        binding.rvAddresses.adapter = adapter
         handleRecyclerViewSwipe()
 
         addressBookViewModel.user.observe(this, Observer { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    TransitionManager.beginDelayedTransition(rootAddressBook)
+                    TransitionManager.beginDelayedTransition(binding.root)
                     if (resource.data.address.isEmpty()) {
-                        layoutAddressesContent.visibility = View.GONE
-                        layoutAddressesEmpty.visibility = View.VISIBLE
+                        binding.layoutAddressesContent.visibility = View.GONE
+                        binding.layoutAddressesEmpty.visibility = View.VISIBLE
                     } else {
-                        layoutAddressesContent.visibility = View.VISIBLE
-                        layoutAddressesEmpty.visibility = View.GONE
+                        binding.layoutAddressesContent.visibility = View.VISIBLE
+                        binding.layoutAddressesEmpty.visibility = View.GONE
                         adapter.setItems(resource.data.address)
                     }
                 }
@@ -200,6 +193,6 @@ class AddressBookActivity : BaseActivity() {
             }
 
         val itemTouchHelper = ItemTouchHelper(touchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(rvAddresses)
+        itemTouchHelper.attachToRecyclerView(binding.rvAddresses)
     }
 }

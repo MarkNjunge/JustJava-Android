@@ -2,9 +2,9 @@ package com.marknkamau.justjava.utils
 
 import android.content.SharedPreferences
 import kotlinx.serialization.DeserializationStrategy
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.SerializationStrategy
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonDecodingException
 
 class PreferenceUtils(val preferences: SharedPreferences, val json: Json) {
     fun set(key: String, value: Any) {
@@ -34,8 +34,8 @@ class PreferenceUtils(val preferences: SharedPreferences, val json: Json) {
     inline fun <reified T> getObject(key: String, serializer: DeserializationStrategy<T>): T? {
         return try {
             val s: String = get(key, "")
-            json.parse(serializer, s)
-        } catch (e: JsonDecodingException) {
+            json.decodeFromString(serializer, s)
+        } catch (e: SerializationException) {
             // If it failed to parse the json, it means the value is null
             null
         }
@@ -45,7 +45,7 @@ class PreferenceUtils(val preferences: SharedPreferences, val json: Json) {
         if (value == null) {
             set(key, "")
         } else {
-            val s = json.stringify(serializer, value)
+            val s = json.encodeToString(serializer, value)
             set(key, s)
         }
     }

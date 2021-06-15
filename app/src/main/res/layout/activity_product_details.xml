@@ -24,7 +24,9 @@
                 android:transitionName="productImage"
                 tools:srcCompat="@tools:sample/backgrounds/scenic[0]" />
 
-            <include layout="@layout/content_product_details" />
+            <include
+                android:id="@+id/content"
+                layout="@layout/content_product_details" />
 
         </LinearLayout>
     </ScrollView>
