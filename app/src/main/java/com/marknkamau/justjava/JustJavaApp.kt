@@ -12,7 +12,6 @@ import com.marknkamau.justjava.di.dbModule
 import com.marknkamau.justjava.di.viewModelModule
 import com.marknkamau.justjava.utils.ReleaseTree
 import com.marknkamau.justjava.utils.toast
-import io.sentry.SentryOptions
 import io.sentry.android.core.SentryAndroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

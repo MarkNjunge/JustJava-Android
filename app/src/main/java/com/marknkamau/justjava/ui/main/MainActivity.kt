@@ -14,9 +14,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityMainBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
-import io.sentry.Sentry
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class MainActivity : ToolbarActivity() {
     private val viewModel: MainViewModel by viewModel()
