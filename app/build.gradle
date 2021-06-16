@@ -43,7 +43,7 @@ android {
     }
 
     signingConfigs {
-        debug {
+        debugConfig {
             storeFile file("../keystore/justjava-debug.jks")
             storePassword "justjava-debug"
             keyAlias "key0"
@@ -53,7 +53,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debugConfig
         }
         release {
             minifyEnabled true

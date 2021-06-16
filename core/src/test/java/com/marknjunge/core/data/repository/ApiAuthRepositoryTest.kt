@@ -5,6 +5,7 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.SignInResponse
 import com.marknjunge.core.data.network.service.AuthService
+import com.marknjunge.core.data.network.service.GoogleSignInService
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -22,12 +23,15 @@ class ApiAuthRepositoryTest {
     @MockK
     private lateinit var preferencesRepository: PreferencesRepository
 
+    @MockK
+    private lateinit var googleSignInService: GoogleSignInService
+
     private lateinit var repo: ApiAuthRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxUnitFun = true)
-        repo = ApiAuthRepository(authService, preferencesRepository)
+        repo = ApiAuthRepository(authService, preferencesRepository, googleSignInService)
     }
 
     @Test
@@ -56,7 +60,7 @@ class ApiAuthRepositoryTest {
     fun `verify signUp runs and saves user,sessionId`() = runBlocking {
         coEvery { authService.signUp(any()) } returns SignInResponse(SampleData.user, SampleData.session)
 
-        val resource = repo.signUp("", "", "", "", "")
+        val resource = repo.signUp("", "", "", "")
 
         coVerify { authService.signUp(any()) }
         coVerify { preferencesRepository.user = SampleData.user }
@@ -68,7 +72,7 @@ class ApiAuthRepositoryTest {
     fun `verify signUp handles error`() = runBlocking {
         coEvery { authService.signUp(any()) } throws Exception("Error")
 
-        val resource = repo.signUp("", "", "", "", "")
+        val resource = repo.signUp("", "", "", "")
 
         coVerify { authService.signUp(any()) }
         Assert.assertTrue(resource is Resource.Failure)
