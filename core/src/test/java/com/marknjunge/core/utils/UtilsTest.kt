@@ -3,7 +3,7 @@ package com.marknjunge.core.utils
 import org.junit.Assert
 import org.junit.Test
 
-class UtilsTest{
+class UtilsTest {
     @Test
     fun should_sanitizePhoneNumber() {
         val num1 = "0712345678"

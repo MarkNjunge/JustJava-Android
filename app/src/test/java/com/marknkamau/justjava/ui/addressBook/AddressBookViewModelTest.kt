@@ -85,5 +85,4 @@ class AddressBookViewModelTest {
 
         verify { observer.onChanged(resource) }
     }
-
 }

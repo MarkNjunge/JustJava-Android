@@ -3,7 +3,7 @@ package com.marknkamau.justjava.utils
 import org.junit.Assert
 import org.junit.Test
 
-class PhoneNumberUtilsKtTest {
+class PhoneNumberUtilsTest {
     @Test
     fun `starts with zero`() {
         val number = "0712345678"

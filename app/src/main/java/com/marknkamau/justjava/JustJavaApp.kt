@@ -10,9 +10,10 @@ import com.marknjunge.core.di.repositoriesModule
 import com.marknkamau.justjava.di.appModule
 import com.marknkamau.justjava.di.dbModule
 import com.marknkamau.justjava.di.viewModelModule
+import com.marknkamau.justjava.utils.ReleaseTree
 import com.marknkamau.justjava.utils.toast
-import io.sentry.Sentry
-import io.sentry.android.AndroidSentryClientFactory
+import io.sentry.SentryOptions
+import io.sentry.android.core.SentryAndroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -36,11 +37,14 @@ open class JustJavaApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
                 override fun createStackElementTag(element: StackTraceElement): String {
-                    return "Timber ${super.createStackElementTag(element)}.${element.methodName}"
+                    return "Timber ${element.methodName} (${element.fileName}:${element.lineNumber})"
                 }
             })
         } else {
-            Sentry.init(BuildConfig.sentryDsn, AndroidSentryClientFactory(this))
+            Timber.plant(ReleaseTree())
+            SentryAndroid.init(this) { options ->
+                options.dsn = BuildConfig.sentryDsn
+            }
         }
 
         startKoin {

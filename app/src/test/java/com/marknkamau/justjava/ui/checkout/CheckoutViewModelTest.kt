@@ -111,5 +111,4 @@ class CheckoutViewModelTest {
 
         verify { observer.onChanged(resource) }
     }
-
 }

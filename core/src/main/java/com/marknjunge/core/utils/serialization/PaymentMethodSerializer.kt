@@ -8,8 +8,9 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object PaymentMethodSerializer : KSerializer<PaymentMethod>{
-    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("paymentMethodSerializer", PrimitiveKind.STRING)
+object PaymentMethodSerializer : KSerializer<PaymentMethod> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("paymentMethodSerializer", PrimitiveKind.STRING)
 
     override fun deserialize(decoder: Decoder): PaymentMethod {
         return PaymentMethod.valueOf(decoder.decodeString())
@@ -18,5 +19,4 @@ object PaymentMethodSerializer : KSerializer<PaymentMethod>{
     override fun serialize(encoder: Encoder, value: PaymentMethod) {
         encoder.encodeString(value.s)
     }
-
 }

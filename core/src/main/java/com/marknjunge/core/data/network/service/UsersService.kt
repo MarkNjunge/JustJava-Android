@@ -11,7 +11,7 @@ internal interface UsersService {
     suspend fun getCurrentUser(): User
 
     @PATCH("users/current")
-    suspend fun updateUser(@Body body: UpdateUserDto): Unit
+    suspend fun updateUser(@Body body: UpdateUserDto)
 
     @PATCH("users/current/fcm")
     suspend fun updateFcmToken(@Body body: UpdateFcmTokenDto)

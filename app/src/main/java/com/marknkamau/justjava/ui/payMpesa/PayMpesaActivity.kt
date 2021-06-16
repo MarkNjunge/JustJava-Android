@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.databinding.ActivityPayMpesaBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
@@ -55,7 +54,7 @@ class PayMpesaActivity : BaseActivity() {
     }
 
     private fun observeLoading() {
-        payMpesaViewModel.loading.observe(this, Observer { loading ->
+        payMpesaViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -63,7 +62,7 @@ class PayMpesaActivity : BaseActivity() {
     private fun payMpesa() {
         binding.btnPayMpesaPay.isEnabled = false
         payMpesaViewModel.payMpesa(binding.etPayMpesaMobilerNumber.trimmedText, orderId)
-            .observe(this, Observer { resource ->
+            .observe(this, { resource ->
                 binding.btnPayMpesaPay.isEnabled = true
                 when (resource) {
                     is Resource.Success -> {

@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
-import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityProfileBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.addressBook.AddressBookActivity
@@ -71,13 +69,13 @@ class ProfileActivity : ToolbarActivity() {
     }
 
     private fun observeLoading() {
-        profileViewModel.loading.observe(this, Observer { loading ->
+        profileViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun observeUser() {
-        profileViewModel.user.observe(this, Observer { resource ->
+        profileViewModel.user.observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     binding.etFirstName.setText(resource.data.firstName)
@@ -118,7 +116,7 @@ class ProfileActivity : ToolbarActivity() {
             binding.etLastName.trimmedText,
             binding.etMobile.trimmedText,
             binding.etEmail.trimmedText
-        ).observe(this, Observer { resource ->
+        ).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> toast("Profile updated")
                 is Resource.Failure -> handleApiError(resource)
@@ -128,7 +126,7 @@ class ProfileActivity : ToolbarActivity() {
     }
 
     private fun signOut() {
-        profileViewModel.signOut().observe(this, Observer { resource ->
+        profileViewModel.signOut().observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     invalidateOptionsMenu()
@@ -140,7 +138,7 @@ class ProfileActivity : ToolbarActivity() {
     }
 
     private fun deleteAccount() {
-        profileViewModel.deleteAccount().observe(this, Observer { resource ->
+        profileViewModel.deleteAccount().observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     finish()

@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.core.KoinComponent
+import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 /**
@@ -39,7 +39,7 @@ class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinCompone
             notificationHelper.showNotification(it.title ?: "JustJava", it.body ?: "")
         }
 
-        remoteMessage.data?.let { data ->
+        remoteMessage.data.let { data ->
             Timber.d(data.toString())
             val reason = data["reason"]
             if (reason == null) {

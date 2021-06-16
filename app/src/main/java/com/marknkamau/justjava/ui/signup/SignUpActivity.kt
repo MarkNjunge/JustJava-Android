@@ -3,13 +3,15 @@ package com.marknkamau.justjava.ui.signup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivitySignUpBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
-import com.marknkamau.justjava.utils.*
+import com.marknkamau.justjava.utils.hideKeyboard
+import com.marknkamau.justjava.utils.isValidEmail
+import com.marknkamau.justjava.utils.resetErrorOnChange
+import com.marknkamau.justjava.utils.trimmedText
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.regex.Pattern
 
@@ -43,7 +45,7 @@ class SignUpActivity : BaseActivity() {
     }
 
     private fun observeLoading() {
-        signUpViewModel.loading.observe(this, Observer { loading ->
+        signUpViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -54,7 +56,7 @@ class SignUpActivity : BaseActivity() {
             binding.etLastName.trimmedText,
             binding.etEmail.trimmedText,
             binding.etPassword.trimmedText
-        ).observe(this, Observer { resource ->
+        ).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> finish()
                 is Resource.Failure -> handleApiError(resource)

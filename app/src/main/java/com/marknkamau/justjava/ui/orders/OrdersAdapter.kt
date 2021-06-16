@@ -1,6 +1,5 @@
 package com.marknkamau.justjava.ui.orders
 
-
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ItemOrderBinding
 import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.DateTime
+import com.marknkamau.justjava.utils.capitalize
 
 class OrdersAdapter(
     private val context: Context,

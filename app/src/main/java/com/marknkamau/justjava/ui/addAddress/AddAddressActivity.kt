@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -65,9 +64,10 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
         placesAutoComplete.setPlaceFields(listOf(Place.Field.LAT_LNG, Place.Field.NAME))
         placesAutoComplete.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.latLng, 14f))
+                val latLng = place.latLng!!
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14f))
                 binding.etAddress.setText(place.name)
-                target = place.latLng!!
+                target = latLng
             }
 
             override fun onError(status: Status) {
@@ -83,8 +83,9 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
 
         binding.btnAddAddress.setOnClickListener {
             if (isValid()) {
-                val deliveryInstructions =
-                    if (binding.etDeliveryInstructions.trimmedText.isEmpty()) null else binding.etDeliveryInstructions.trimmedText
+                val deliveryInstructions = if (binding.etDeliveryInstructions.trimmedText.isEmpty()) null else {
+                    binding.etDeliveryInstructions.trimmedText
+                }
                 val address = Address(0L, binding.etAddress.trimmedText, deliveryInstructions, target.asString())
                 val intent = Intent()
                 intent.putExtra(ADDRESS_KEY, address)
@@ -116,6 +117,7 @@ class AddAddressActivity : BaseActivity(), OnMapReadyCallback {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSIONS_REQUEST) {
             if (grantResults.permissionsGranted()) {
                 getLastLocation()

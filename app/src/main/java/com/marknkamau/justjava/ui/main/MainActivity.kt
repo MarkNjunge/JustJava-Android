@@ -2,8 +2,8 @@ package com.marknkamau.justjava.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.util.Pair
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +14,9 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityMainBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
+import io.sentry.Sentry
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MainActivity : ToolbarActivity() {
     private val viewModel: MainViewModel by viewModel()
@@ -33,7 +35,7 @@ class MainActivity : ToolbarActivity() {
     }
 
     private fun initializeLoadingIndicator() {
-        viewModel.loading.observe(this, Observer { loading ->
+        viewModel.loading.observe(this, { loading ->
             TransitionManager.beginDelayedTransition(binding.root)
             binding.shimmerLayout.visibility = if (loading) View.VISIBLE else View.GONE
             if (loading) binding.layoutFailed.visibility = View.GONE
@@ -50,11 +52,11 @@ class MainActivity : ToolbarActivity() {
         }
         binding.rvProducts.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val dividerItemDecoration = DividerItemDecoration(this, RecyclerView.VERTICAL)
-        dividerItemDecoration.setDrawable(getDrawable(R.drawable.custom_item_divider)!!)
+        dividerItemDecoration.setDrawable(AppCompatResources.getDrawable(this, R.drawable.custom_item_divider)!!)
         binding.rvProducts.addItemDecoration(dividerItemDecoration)
         binding.rvProducts.adapter = adapter
 
-        viewModel.products.observe(this, Observer { resource ->
+        viewModel.products.observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     TransitionManager.beginDelayedTransition(binding.root)

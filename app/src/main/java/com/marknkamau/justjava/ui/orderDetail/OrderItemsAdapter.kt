@@ -48,7 +48,8 @@ class OrderItemsAdapter(
         fun bind(item: OrderItem) {
             binding.tvOrderDetailProductName.text = item.productName
             binding.tvOrderDetailQuantity.text = "${item.quantity}x"
-            binding.tvOrderDetailPrice.text = context.getString(R.string.price_listing, CurrencyFormatter.format(item.totalPrice))
+            binding.tvOrderDetailPrice.text =
+                context.getString(R.string.price_listing, CurrencyFormatter.format(item.totalPrice))
             binding.tvOrderDetailOptions.text = item.options.joinToString(", ") { it.optionName }
         }
     }

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.marknjunge.core.data.model.Product
@@ -52,7 +51,7 @@ class ProductDetailsActivity : BaseActivity() {
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val product = intent.extras!!.getParcelable(PRODUCT_KEY) as Product
+        val product = intent.extras?.get(PRODUCT_KEY) as Product? ?: throw IllegalArgumentException("No product passed")
         appProduct = product.toAppModel()
 
         setProductDetails()
@@ -113,7 +112,7 @@ class ProductDetailsActivity : BaseActivity() {
             return
         }
 
-        productDetailsViewModel.addItemToCart(appProduct, quantity).observe(this, Observer {
+        productDetailsViewModel.addItemToCart(appProduct, quantity).observe(this, {
             finish()
         })
     }
@@ -135,5 +134,4 @@ class ProductDetailsActivity : BaseActivity() {
         val total = appProduct.calculateTotal(quantity)
         binding.content.tvSubtotalDetail.text = getString(R.string.price_listing, CurrencyFormatter.format(total))
     }
-
 }

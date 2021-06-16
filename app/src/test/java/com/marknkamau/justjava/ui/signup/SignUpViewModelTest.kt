@@ -69,5 +69,4 @@ class SignUpViewModelTest {
 
         verify { observer.onChanged(resource) }
     }
-
 }

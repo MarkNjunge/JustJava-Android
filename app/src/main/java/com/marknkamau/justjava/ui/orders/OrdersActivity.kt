@@ -3,7 +3,6 @@ package com.marknkamau.justjava.ui.orders
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,7 +31,7 @@ class OrdersActivity : BaseActivity() {
     }
 
     private fun observeLoading() {
-        ordersViewModel.loading.observe(this, Observer { loading ->
+        ordersViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -49,7 +48,7 @@ class OrdersActivity : BaseActivity() {
         binding.rvOrders.addItemDecoration(dividerItemDecoration)
         binding.rvOrders.adapter = adapter
 
-        ordersViewModel.orders.observe(this, Observer { resource ->
+        ordersViewModel.orders.observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     if (resource.data.isEmpty()) {

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.databinding.ActivityPayCardBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
@@ -52,7 +51,7 @@ class PayCardActivity : BaseActivity() {
     }
 
     private fun observeLoading() {
-        payCardViewModel.loading.observe(this, Observer { loading ->
+        payCardViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -68,7 +67,7 @@ class PayCardActivity : BaseActivity() {
             expiryMonth,
             expiryYear,
             binding.etPayCardCvv.trimmedText
-        ).observe(this, Observer { resource ->
+        ).observe(this, { resource ->
             binding.btnPayCardPay.isEnabled = true
             when (resource) {
                 is Resource.Success -> {

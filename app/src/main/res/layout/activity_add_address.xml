@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.marknkamau.justjava.ui.addAddress.AddAddressActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="0dp"
@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <fragment
+        <androidx.fragment.app.FragmentContainerView
             android:id="@+id/placeAutoCompleteFragment"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         android:layout_height="48dp"
         android:layout_marginBottom="24dp"
         android:alpha=".87"
-        android:tint="@color/colorPrimary"
+        app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -6,9 +6,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.TaskStackBuilder
-import androidx.lifecycle.Observer
 import com.marknjunge.core.data.model.Address
 import com.marknjunge.core.data.model.PaymentMethod
 import com.marknjunge.core.data.model.Resource
@@ -21,15 +21,13 @@ import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
+import com.marknkamau.justjava.utils.capitalize
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 class CheckoutActivity : BaseActivity() {
-
-    companion object {
-        private const val ADD_ADDRESS_REQ = 99
-    }
 
     private val checkoutViewModel: CheckoutViewModel by viewModel()
     private lateinit var paymentMethod: PaymentMethod
@@ -52,7 +50,7 @@ class CheckoutActivity : BaseActivity() {
 
         // Set mpesa as the default payment method
         paymentMethod = PaymentMethod.MPESA
-        binding.tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
+        binding.tvPaymentMethod.text = paymentMethod.s.capitalize()
 
         observeCartItems()
         observeLoading()
@@ -72,41 +70,39 @@ class CheckoutActivity : BaseActivity() {
                 placeOrder()
             }
         }
-        binding.btnAddDeliveryAddress.setOnClickListener {
-            startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
-        }
-    }
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val address = result.data?.extras!![AddAddressActivity.ADDRESS_KEY] as Address
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+                    checkoutViewModel.addAddress(address).observe(this, { resource ->
+                        when (resource) {
+                            is Resource.Success -> {
+                                binding.btnAddDeliveryAddress.visibility = View.GONE
+                                binding.btnChangeDeliveryAddress.visibility = View.VISIBLE
+                                binding.tvDeliveryAddress.visibility = View.VISIBLE
+                                binding.btnPlaceOrder.isEnabled = true
 
-        if (requestCode == ADD_ADDRESS_REQ && resultCode == Activity.RESULT_OK) {
-            val address = data?.extras!![AddAddressActivity.ADDRESS_KEY] as Address
-
-            checkoutViewModel.addAddress(address).observe(this, Observer { resource ->
-                when (resource) {
-                    is Resource.Success -> {
-                        binding.btnAddDeliveryAddress.visibility = View.GONE
-                        binding.btnChangeDeliveryAddress.visibility = View.VISIBLE
-                        binding.tvDeliveryAddress.visibility = View.VISIBLE
-                        binding.btnPlaceOrder.isEnabled = true
-
-                        loadAddressList()
-                    }
-                    is Resource.Failure -> handleApiError(resource)
+                                loadAddressList()
+                            }
+                            is Resource.Failure -> handleApiError(resource)
+                        }
+                    })
                 }
-            })
+            }
+        binding.btnAddDeliveryAddress.setOnClickListener {
+            resultLauncher.launch(Intent(this, AddAddressActivity::class.java))
         }
     }
 
     private fun observeLoading() {
-        checkoutViewModel.loading.observe(this, Observer { loading ->
+        checkoutViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun observeCartItems() {
-        checkoutViewModel.items.observe(this, Observer { items ->
+        checkoutViewModel.items.observe(this, { items ->
             if (items.isEmpty()) finish()
 
             binding.tvCartItems.text = items.joinToString(", ") { it.cartItem.productName }
@@ -147,24 +143,25 @@ class CheckoutActivity : BaseActivity() {
 
     @SuppressLint("DefaultLocale")
     private fun showChangePaymentMethodDialog() {
-        val paymentMethods = PaymentMethod.values().map { it.s.toLowerCase().capitalize() }.toTypedArray()
+        val paymentMethods = PaymentMethod.values().map { it.s.capitalize() }.toTypedArray()
         AlertDialog.Builder(this)
             .setTitle(R.string.payment_method)
             .setItems(paymentMethods) { _, which ->
                 paymentMethod = PaymentMethod.values()[which]
-                binding.tvPaymentMethod.text = paymentMethod.s.toLowerCase().capitalize()
+                binding.tvPaymentMethod.text = paymentMethod.s.capitalize()
             }
             .create()
             .show()
     }
 
     private fun placeOrder() {
-        val additionalComments =
-            if (binding.etAdditionalComments.trimmedText.isNotEmpty()) binding.etAdditionalComments.trimmedText else null
+        val additionalComments = if (binding.etAdditionalComments.trimmedText.isNotEmpty()) {
+            binding.etAdditionalComments.trimmedText
+        } else null
 
         binding.btnPlaceOrder.isEnabled = false
         checkoutViewModel.placeOrder(paymentMethod, deliveryAddress!!, additionalComments)
-            .observe(this, Observer { resource ->
+            .observe(this, { resource ->
                 binding.btnPlaceOrder.isEnabled = true
                 when (resource) {
                     is Resource.Success -> {

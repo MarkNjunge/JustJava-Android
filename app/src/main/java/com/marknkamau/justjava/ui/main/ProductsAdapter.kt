@@ -79,5 +79,4 @@ class ProductsAdapter(
             return newList[newItemPosition]!! == oldList[oldItemPosition]
         }
     }
-
 }

@@ -8,7 +8,6 @@ import com.marknjunge.core.data.model.VerifyOrderResponse
 import com.marknjunge.core.data.repository.CartRepository
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.models.CartItem
-import com.marknkamau.justjava.ui.addressBook.AddressBookViewModel
 import com.marknkamau.justjava.utils.SampleData
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
@@ -17,8 +16,11 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.setMain
-import org.junit.*
-import org.junit.Assert.*
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.rules.TestRule
 
 class CartViewModelTest {

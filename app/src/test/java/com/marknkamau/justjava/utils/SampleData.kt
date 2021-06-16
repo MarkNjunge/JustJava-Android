@@ -20,6 +20,6 @@ internal object SampleData {
     val verifyOrderResponse = VerifyOrderResponse(0, "error", ErrorType.MISSING, ErrorModel.CHOICE, 0, 200.0)
 
     val orderItem = OrderItem(1, 0, 100.0, 100.0, "Product", listOf(OrderItemOption(0, "Choice", 0, 10.0, 0, "Option")))
-    val order =
-        Order(null, 0, 100.0, PaymentMethod.MPESA, "abc123", 0, listOf(orderItem), PaymentStatus.PAID, OrderStatus.PENDING, 0)
+    val order = Order(null, 0, 100.0,
+        PaymentMethod.MPESA, "abc123", 0, listOf(orderItem), PaymentStatus.PAID, OrderStatus.PENDING, 0)
 }

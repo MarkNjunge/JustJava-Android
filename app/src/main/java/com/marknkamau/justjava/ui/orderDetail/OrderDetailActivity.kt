@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +18,7 @@ import com.marknkamau.justjava.databinding.ActivityOrderDetailBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
-import com.marknkamau.justjava.utils.BaseRecyclerViewAdapter
-import com.marknkamau.justjava.utils.CurrencyFormatter
-import com.marknkamau.justjava.utils.DateTime
-import com.marknkamau.justjava.utils.toast
+import com.marknkamau.justjava.utils.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 
@@ -104,13 +100,13 @@ class OrderDetailActivity : BaseActivity() {
     }
 
     private fun observeLoading() {
-        orderDetailViewModel.loading.observe(this, Observer { loading ->
+        orderDetailViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun observeOrder() {
-        orderDetailViewModel.order.observe(this, Observer { resource ->
+        orderDetailViewModel.order.observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     binding.contentOrderDetails.visibility = View.VISIBLE
@@ -123,7 +119,7 @@ class OrderDetailActivity : BaseActivity() {
 
     @SuppressLint("DefaultLocale")
     private fun showChangePaymentMethodDialog() {
-        val paymentMethods = PaymentMethod.values().map { it.s.toLowerCase().capitalize() }.toTypedArray()
+        val paymentMethods = PaymentMethod.values().map { it.s.capitalize() }.toTypedArray()
         AlertDialog.Builder(this)
             .setTitle(R.string.payment_method)
             .setItems(paymentMethods) { _, which ->
@@ -135,7 +131,7 @@ class OrderDetailActivity : BaseActivity() {
     }
 
     private fun changePaymentMethod(paymentMethod: PaymentMethod) {
-        orderDetailViewModel.changePaymentMethod(order.id, paymentMethod).observe(this, Observer { resource ->
+        orderDetailViewModel.changePaymentMethod(order.id, paymentMethod).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     toast(resource.data.message)
@@ -154,7 +150,8 @@ class OrderDetailActivity : BaseActivity() {
         val address = orderDetailViewModel.getUser().address.firstOrNull { it.id == order.addressId }
         binding.inclOrderDetails.tvOrderOrderId.text = order.id
         binding.inclOrderDetails.tvOrderOrderStatus.text = order.status.s
-        binding.inclOrderDetails.tvOrderOrderDate.text = DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
+        binding.inclOrderDetails.tvOrderOrderDate.text =
+            DateTime.fromTimestamp(order.datePlaced).format("hh:mm a, d MMM")
         binding.inclOrderDetails.tvOrderAddress.text = address?.streetAddress ?: "[Deleted address]"
         if (order.additionalComments != null) {
             binding.inclOrderDetails.tvOrderAdditionalComments.text = order.additionalComments

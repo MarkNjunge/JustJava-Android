@@ -10,7 +10,10 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imgBackAbout"
@@ -117,7 +120,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/about_contact_email_content_desc"
         android:padding="8dp"
-        android:tint="@color/colorTextSecondary"
+        app:tint="@color/colorTextSecondary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:srcCompat="@drawable/ic_mail" />
@@ -130,7 +133,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/about_view_linkedin_content_desc"
         android:padding="8dp"
-        android:tint="@color/colorTextSecondary"
+        app:tint="@color/colorTextSecondary"
         app:layout_constraintStart_toEndOf="@+id/imgEmailAbout"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:srcCompat="@drawable/ic_linkedin" />
@@ -143,7 +146,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/about_view_website_content_desc"
         android:padding="8dp"
-        android:tint="@color/colorTextSecondary"
+        app:tint="@color/colorTextSecondary"
         app:layout_constraintStart_toEndOf="@+id/imgLinkedInAbout"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:srcCompat="@drawable/ic_website" />
@@ -156,7 +159,7 @@
         android:layout_marginTop="8dp"
         android:contentDescription="@string/about_view_github_content_desc"
         android:padding="8dp"
-        android:tint="@color/colorTextSecondary"
+        app:tint="@color/colorTextSecondary"
         app:layout_constraintStart_toEndOf="@+id/imgWebsiteAbout"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:srcCompat="@drawable/ic_github_mark" />

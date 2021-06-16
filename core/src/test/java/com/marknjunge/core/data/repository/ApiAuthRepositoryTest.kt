@@ -95,5 +95,4 @@ class ApiAuthRepositoryTest {
         coVerify { authService.signIn(any()) }
         Assert.assertTrue(resource is Resource.Failure)
     }
-
 }

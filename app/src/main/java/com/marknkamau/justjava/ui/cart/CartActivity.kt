@@ -8,7 +8,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +47,7 @@ class CartActivity : ToolbarActivity() {
     }
 
     private fun observeLoading() {
-        cartViewModel.loading.observe(this, Observer { loading ->
+        cartViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -67,7 +66,7 @@ class CartActivity : ToolbarActivity() {
 
         handleRecyclerViewSwipe()
 
-        cartViewModel.items.observe(this, Observer { items ->
+        cartViewModel.items.observe(this, { items ->
             this.items = items
             if (items.isEmpty()) {
                 binding.layoutCartContent.visibility = View.GONE
@@ -170,13 +169,11 @@ class CartActivity : ToolbarActivity() {
     }
 
     private fun verifyCartItems() {
-        cartViewModel.verifyOrder(items).observe(this, Observer { resource ->
+        cartViewModel.verifyOrder(items).observe(this, { resource ->
             binding.btnCheckout.isEnabled = true
             when (resource) {
                 is Resource.Success -> {
-                    if (resource.data.isNotEmpty()) {
-                        // TODO Handle changed products
-                    }
+                    // TODO Handle changed products
                 }
                 is Resource.Failure -> handleApiError(resource)
             }

@@ -8,8 +8,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,10 +24,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddressBookActivity : BaseActivity() {
 
-    companion object {
-        private const val ADD_ADDRESS_REQ = 99
-    }
-
     private lateinit var binding: ActivityAddressBookBinding
     private val addressBookViewModel: AddressBookViewModel by viewModel()
     private lateinit var adapter: AddressAdapter
@@ -39,11 +35,24 @@ class AddressBookActivity : BaseActivity() {
         setContentView(binding.root)
         supportActionBar?.title = "Address Book"
 
+        val resultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val address = result.data?.extras!![AddAddressActivity.ADDRESS_KEY] as Address
+
+                    addressBookViewModel.addAddress(address).observe(this, { resource ->
+                        when (resource) {
+                            is Resource.Success -> addressBookViewModel.getAddresses()
+                            is Resource.Failure -> handleApiError(resource)
+                        }
+                    })
+                }
+            }
         binding.btnAddAddress.setOnClickListener {
-            startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
+            resultLauncher.launch(Intent(this, AddAddressActivity::class.java))
         }
         binding.fabAddAddress.setOnClickListener {
-            startActivityForResult(Intent(this, AddAddressActivity::class.java), ADD_ADDRESS_REQ)
+            resultLauncher.launch(Intent(this, AddAddressActivity::class.java))
         }
 
         observeLoading()
@@ -52,29 +61,14 @@ class AddressBookActivity : BaseActivity() {
         addressBookViewModel.getAddresses()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == ADD_ADDRESS_REQ && resultCode == Activity.RESULT_OK) {
-            val address = data?.extras!![AddAddressActivity.ADDRESS_KEY] as Address
-
-            addressBookViewModel.addAddress(address).observe(this, Observer { resource ->
-                when (resource) {
-                    is Resource.Success -> addressBookViewModel.getAddresses()
-                    is Resource.Failure -> handleApiError(resource)
-                }
-            })
-        }
-    }
-
     private fun observeLoading() {
-        addressBookViewModel.loading.observe(this, Observer { loading ->
+        addressBookViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
 
     private fun initializeRecyclerView() {
-        adapter = AddressAdapter{address ->
+        adapter = AddressAdapter { address ->
             deleteAddress(address)
         }
 
@@ -85,7 +79,7 @@ class AddressBookActivity : BaseActivity() {
         binding.rvAddresses.adapter = adapter
         handleRecyclerViewSwipe()
 
-        addressBookViewModel.user.observe(this, Observer { resource ->
+        addressBookViewModel.user.observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> {
                     TransitionManager.beginDelayedTransition(binding.root)
@@ -104,7 +98,7 @@ class AddressBookActivity : BaseActivity() {
     }
 
     private fun deleteAddress(address: Address) {
-        addressBookViewModel.deleteAddress(address).observe(this, Observer { resource ->
+        addressBookViewModel.deleteAddress(address).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> addressBookViewModel.getAddresses()
                 is Resource.Failure -> handleApiError(resource)
@@ -128,7 +122,7 @@ class AddressBookActivity : BaseActivity() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val item = adapter.items[viewHolder.adapterPosition]
+                    val item = adapter.items[viewHolder.bindingAdapterPosition]
                     deleteAddress(item)
                 }
 

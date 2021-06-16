@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
@@ -59,7 +58,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun initializeLoading() {
-        signInViewModel.loading.observe(this, Observer { loading ->
+        signInViewModel.loading.observe(this, { loading ->
             binding.pbLoading.visibility = if (loading) View.VISIBLE else View.GONE
         })
     }
@@ -104,7 +103,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun requestPasswordReset(email: String) {
-        signInViewModel.requestPasswordReset(email).observe(this, Observer { resource ->
+        signInViewModel.requestPasswordReset(email).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> toast("A password reset email has been sent")
                 is Resource.Failure -> handleApiError(resource)
@@ -114,7 +113,7 @@ class SignInActivity : BaseActivity() {
 
     private fun signIn() {
         signInViewModel.signIn(binding.etEmail.trimmedText, binding.etPassword.trimmedText)
-            .observe(this, Observer { resource ->
+            .observe(this, { resource ->
                 when (resource) {
                     is Resource.Success -> finish()
                     is Resource.Failure -> handleApiError(resource)
@@ -123,7 +122,7 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun signInWithGoogle(idToken: String) {
-        signInViewModel.signInWithGoogle(idToken).observe(this, Observer { resource ->
+        signInViewModel.signInWithGoogle(idToken).observe(this, { resource ->
             when (resource) {
                 is Resource.Success -> finish()
                 is Resource.Failure -> handleApiError(resource)

@@ -2,19 +2,16 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
-        classpath "com.google.gms:google-services:4.3.3"
+        classpath "com.google.gms:google-services:4.3.8"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10"
         classpath "org.jetbrains.kotlin:kotlin-serialization:1.5.10"
-        classpath "io.sentry:sentry-android-gradle-plugin:1.7.35"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,20 +19,16 @@ buildscript {
 }
 
 plugins {
-    id 'io.gitlab.arturbosch.detekt' version "1.8.0"
+    id 'io.gitlab.arturbosch.detekt' version "1.17.1"
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
-        maven {
-            url 'https://maven.google.com/'
-        }
-
     }
 }
 
@@ -49,7 +42,7 @@ subprojects {
     }
 
     dependencies {
-        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.8.0"
+        detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.17.1"
     }
 
     detekt {
@@ -69,11 +62,11 @@ subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
             android {
-                compileSdkVersion 28
+                compileSdkVersion 30
 
                 defaultConfig {
                     minSdkVersion 21
-                    targetSdkVersion 28
+                    targetSdkVersion 30
                 }
             }
         }
