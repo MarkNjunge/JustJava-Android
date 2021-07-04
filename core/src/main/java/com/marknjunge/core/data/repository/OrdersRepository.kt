@@ -14,7 +14,7 @@ interface OrdersRepository {
     suspend fun getOrderById(id: String): Resource<Order>
 }
 
-internal class ApiOrdersRepository(private val ordersService: OrdersService) : OrdersRepository {
+class ApiOrdersRepository(private val ordersService: OrdersService) : OrdersRepository {
     override suspend fun placeOrder(dto: PlaceOrderDto): Resource<Order> {
         return call {
             ordersService.placeOrder(dto)

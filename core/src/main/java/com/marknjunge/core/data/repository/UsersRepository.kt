@@ -24,7 +24,7 @@ interface UsersRepository {
     suspend fun deleteUser(): Resource<Unit>
 }
 
-internal class ApiUsersRepository(
+class ApiUsersRepository(
     private val usersService: UsersService,
     private val preferencesRepository: PreferencesRepository,
     private val googleSignInClient: GoogleSignInService,

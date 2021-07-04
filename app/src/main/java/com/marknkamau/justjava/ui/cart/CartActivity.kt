@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,11 +21,12 @@ import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.checkout.CheckoutActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.utils.CurrencyFormatter
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CartActivity : ToolbarActivity() {
 
-    private val cartViewModel: CartViewModel by viewModel()
+    private val cartViewModel: CartViewModel by viewModels()
     private lateinit var items: List<CartItem>
     private lateinit var binding: ActivityCartBinding
 

@@ -10,11 +10,11 @@ import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.cart.CartActivity
 import com.marknkamau.justjava.ui.login.SignInActivity
 import com.marknkamau.justjava.ui.profile.ProfileActivity
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
 abstract class ToolbarActivity : BaseActivity() {
 
-    private val preferencesRepository: PreferencesRepository by inject()
+    @Inject lateinit var preferencesRepository: PreferencesRepository
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater

@@ -1,8 +1,8 @@
 package com.marknkamau.justjava.data.db
 
 import com.marknkamau.justjava.data.models.AppProduct
-import com.marknkamau.justjava.data.models.CartOptionEntity
 import com.marknkamau.justjava.data.models.CartItem
+import com.marknkamau.justjava.data.models.CartOptionEntity
 import com.marknkamau.justjava.data.models.CartProductEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

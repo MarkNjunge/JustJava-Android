@@ -2,6 +2,7 @@ package com.marknkamau.justjava.ui.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -14,10 +15,11 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityMainBinding
 import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.productDetails.ProductDetailsActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ToolbarActivity() {
-    private val viewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

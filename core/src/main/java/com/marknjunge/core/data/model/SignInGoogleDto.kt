@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SignInGoogleDto(
+data class SignInGoogleDto(
     @SerialName("idToken")
     val idToken: String
 )

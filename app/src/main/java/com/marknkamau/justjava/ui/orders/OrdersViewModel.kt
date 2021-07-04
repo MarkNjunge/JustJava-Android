@@ -7,9 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.model.Order
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.OrdersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class OrdersViewModel(private val ordersRepository: OrdersRepository) : ViewModel() {
+@HiltViewModel
+class OrdersViewModel @Inject constructor(private val ordersRepository: OrdersRepository) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 

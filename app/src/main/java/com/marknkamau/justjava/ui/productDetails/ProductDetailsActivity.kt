@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,8 +22,9 @@ import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.getStatusBarHeight
 import com.marknkamau.justjava.utils.replace
 import com.squareup.picasso.Picasso
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProductDetailsActivity : BaseActivity() {
 
     companion object {
@@ -43,7 +45,7 @@ class ProductDetailsActivity : BaseActivity() {
 
     private lateinit var appProduct: AppProduct
     private var quantity = 1
-    private val productDetailsViewModel: ProductDetailsViewModel by viewModel()
+    private val productDetailsViewModel: ProductDetailsViewModel by viewModels()
     private lateinit var binding: ActivityProductDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

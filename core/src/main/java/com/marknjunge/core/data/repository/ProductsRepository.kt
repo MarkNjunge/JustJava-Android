@@ -9,7 +9,7 @@ interface ProductsRepository {
     suspend fun getProducts(): Resource<List<Product>>
 }
 
-internal class ApiProductsRepository(private val apiService: ApiService) : ProductsRepository {
+class ApiProductsRepository(private val apiService: ApiService) : ProductsRepository {
     override suspend fun getProducts(): Resource<List<Product>> {
         return call {
             apiService.getProducts()

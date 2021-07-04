@@ -8,10 +8,13 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ProfileViewModel(
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
     private val usersRepository: UsersRepository,
     private val authRepository: AuthRepository
 ) : ViewModel() {

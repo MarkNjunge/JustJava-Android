@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.transition.TransitionManager
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,12 +21,13 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityAddressBookBinding
 import com.marknkamau.justjava.ui.addAddress.AddAddressActivity
 import com.marknkamau.justjava.ui.base.BaseActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddressBookActivity : BaseActivity() {
 
     private lateinit var binding: ActivityAddressBookBinding
-    private val addressBookViewModel: AddressBookViewModel by viewModel()
+    private val addressBookViewModel: AddressBookViewModel by viewModels()
     private lateinit var adapter: AddressAdapter
     override var requiresSignedIn = true
 

@@ -10,9 +10,12 @@ import com.marknjunge.core.data.repository.OrdersRepository
 import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.data.db.DbRepository
 import com.marknkamau.justjava.data.models.CartItem
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CheckoutViewModel(
+@HiltViewModel
+class CheckoutViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
     private val dbRepository: DbRepository,
     private val ordersRepository: OrdersRepository,

@@ -7,7 +7,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.POST
 
-internal interface AuthService {
+interface AuthService {
     @POST("auth/google")
     suspend fun signInWithGoogle(@Body body: SignInGoogleDto): SignInResponse
 

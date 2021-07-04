@@ -3,7 +3,7 @@ package com.marknjunge.core.data.network.service
 import com.marknjunge.core.data.model.*
 import retrofit2.http.*
 
-internal interface OrdersService {
+interface OrdersService {
     @POST("/orders/place")
     suspend fun placeOrder(@Body body: PlaceOrderDto): Order
 

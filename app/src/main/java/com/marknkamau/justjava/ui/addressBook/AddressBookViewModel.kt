@@ -8,10 +8,13 @@ import com.marknjunge.core.data.model.Address
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.model.User
 import com.marknjunge.core.data.repository.UsersRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddressBookViewModel(private val usersRepository: UsersRepository) : ViewModel() {
+@HiltViewModel
+class AddressBookViewModel @Inject constructor(private val usersRepository: UsersRepository) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean> = _loading
 

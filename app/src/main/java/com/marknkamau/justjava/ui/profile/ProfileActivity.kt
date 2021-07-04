@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.profile
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.transition.TransitionManager
 import com.marknjunge.core.data.model.Resource
@@ -11,12 +12,13 @@ import com.marknkamau.justjava.ui.ToolbarActivity
 import com.marknkamau.justjava.ui.addressBook.AddressBookActivity
 import com.marknkamau.justjava.ui.orders.OrdersActivity
 import com.marknkamau.justjava.utils.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileActivity : ToolbarActivity() {
 
     private var isInEditMode = false
-    private val profileViewModel: ProfileViewModel by viewModel()
+    private val profileViewModel: ProfileViewModel by viewModels()
     override var requiresSignedIn = true
     private lateinit var binding: ActivityProfileBinding
 

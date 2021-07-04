@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -15,18 +16,20 @@ import com.marknkamau.justjava.databinding.ActivitySignInBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.signup.SignUpActivity
 import com.marknkamau.justjava.utils.*
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SignInActivity : BaseActivity() {
 
     companion object {
         private const val RC_SIGN_IN = 99
     }
 
-    private val googleSignInClient: GoogleSignInClient by inject()
-    private val signInViewModel by viewModel<SignInViewModel>()
+    @Inject
+    lateinit var googleSignInClient: GoogleSignInClient
+    private val signInViewModel: SignInViewModel by viewModels()
     private lateinit var binding: ActivitySignInBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

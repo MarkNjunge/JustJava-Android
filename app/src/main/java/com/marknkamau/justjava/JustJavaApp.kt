@@ -6,27 +6,26 @@ import com.marknjunge.core.data.local.PreferencesRepository
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknjunge.core.data.repository.UsersRepository
-import com.marknjunge.core.di.repositoriesModule
-import com.marknkamau.justjava.di.appModule
-import com.marknkamau.justjava.di.dbModule
-import com.marknkamau.justjava.di.viewModelModule
 import com.marknkamau.justjava.utils.ReleaseTree
 import com.marknkamau.justjava.utils.toast
+import dagger.hilt.android.HiltAndroidApp
 import io.sentry.android.core.SentryAndroid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import timber.log.Timber
+import javax.inject.Inject
 
 @Suppress("unused")
+@HiltAndroidApp
 open class JustJavaApp : Application() {
-    private val preferencesRepository: PreferencesRepository by inject()
-    private val usersRepository: UsersRepository by inject()
-    private val authRepository: AuthRepository by inject()
+    @Inject
+    lateinit var preferencesRepository: PreferencesRepository
+    @Inject
+    lateinit var usersRepository: UsersRepository
+    @Inject
+    lateinit var authRepository: AuthRepository
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
@@ -44,18 +43,6 @@ open class JustJavaApp : Application() {
             SentryAndroid.init(this) { options ->
                 options.dsn = BuildConfig.sentryDsn
             }
-        }
-
-        startKoin {
-            androidContext(this@JustJavaApp)
-            modules(
-                listOf(
-                    appModule,
-                    repositoriesModule,
-                    viewModelModule,
-                    dbModule
-                )
-            )
         }
 
         Places.initialize(this, getString(R.string.google_api_key))

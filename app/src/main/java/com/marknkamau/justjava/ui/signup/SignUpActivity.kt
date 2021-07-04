@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.signup
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivitySignUpBinding
@@ -12,12 +13,13 @@ import com.marknkamau.justjava.utils.hideKeyboard
 import com.marknkamau.justjava.utils.isValidEmail
 import com.marknkamau.justjava.utils.resetErrorOnChange
 import com.marknkamau.justjava.utils.trimmedText
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.regex.Pattern
 
+@AndroidEntryPoint
 class SignUpActivity : BaseActivity() {
 
-    private val signUpViewModel: SignUpViewModel by viewModel()
+    private val signUpViewModel: SignUpViewModel by viewModels()
     private lateinit var binding: ActivitySignUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

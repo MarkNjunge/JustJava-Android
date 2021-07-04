@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class SaveAddressDto(
+data class SaveAddressDto(
     @SerialName("streetAddress")
     val streetAddress: String,
 

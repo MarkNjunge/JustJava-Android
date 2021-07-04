@@ -5,12 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.marknjunge.core.data.local.PreferencesRepository
+import com.marknjunge.core.data.model.ApiResponse
 import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.PaymentsRepository
-import com.marknjunge.core.data.model.ApiResponse
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PayMpesaViewModel(
+@HiltViewModel
+class PayMpesaViewModel @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
     private val paymentsRepository: PaymentsRepository
 ) : ViewModel() {

@@ -8,11 +8,13 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.ui.main.MainActivity
 import com.marknkamau.justjava.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import javax.inject.Inject
 
+@AndroidEntryPoint
 abstract class BaseActivity : AppCompatActivity() {
-    private val authRepository: AuthRepository by inject()
+    @Inject lateinit var authRepository: AuthRepository
     protected open var requiresSignedIn = false
 
     protected fun handleApiError(resource: Resource.Failure<Any>) {

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.TaskStackBuilder
 import com.marknjunge.core.data.model.Address
@@ -24,12 +25,13 @@ import com.marknkamau.justjava.utils.CurrencyFormatter
 import com.marknkamau.justjava.utils.capitalize
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class CheckoutActivity : BaseActivity() {
 
-    private val checkoutViewModel: CheckoutViewModel by viewModel()
+    private val checkoutViewModel: CheckoutViewModel by viewModels()
     private lateinit var paymentMethod: PaymentMethod
     private var deliveryAddress: Address? = null
     private lateinit var user: User

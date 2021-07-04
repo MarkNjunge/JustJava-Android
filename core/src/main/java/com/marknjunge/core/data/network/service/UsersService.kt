@@ -6,7 +6,7 @@ import com.marknjunge.core.data.model.UpdateFcmTokenDto
 import com.marknjunge.core.data.model.UpdateUserDto
 import retrofit2.http.*
 
-internal interface UsersService {
+interface UsersService {
     @GET("users/current")
     suspend fun getCurrentUser(): User
 

@@ -10,7 +10,7 @@ interface PaymentsRepository {
     suspend fun initiateCardPayment(orderId: String, cardDetails: CardDetails): Resource<ApiResponse>
 }
 
-internal class ApiPaymentsRepository(private val paymentsService: PaymentsService) : PaymentsRepository {
+class ApiPaymentsRepository(private val paymentsService: PaymentsService) : PaymentsRepository {
     override suspend fun requestMpesa(mobileNumber: String, orderId: String): Resource<ApiResponse> {
         return call {
             paymentsService.requestMpesa(RequestMpesaDto(mobileNumber, orderId))

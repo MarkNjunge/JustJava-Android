@@ -2,8 +2,7 @@ package com.marknkamau.justjava.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 /**
  * A class to be used to easily handle dates.

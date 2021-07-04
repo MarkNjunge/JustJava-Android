@@ -10,7 +10,7 @@ interface CartRepository {
     suspend fun verifyOrder(dto: VerifyOrderDto): Resource<List<VerifyOrderResponse>>
 }
 
-internal class ApiCartRepository(private val cartService: CartService) : CartRepository {
+class ApiCartRepository(private val cartService: CartService) : CartRepository {
     override suspend fun verifyOrder(dto: VerifyOrderDto): Resource<List<VerifyOrderResponse>> {
         return call {
             cartService.verifyCart(dto)

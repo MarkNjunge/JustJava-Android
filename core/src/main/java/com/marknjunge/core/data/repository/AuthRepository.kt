@@ -23,7 +23,7 @@ interface AuthRepository {
     suspend fun resetPassword(token: String, newPassword: String): Resource<ApiResponse>
 }
 
-internal class ApiAuthRepository(
+class ApiAuthRepository(
     private val authService: AuthService,
     private val preferencesRepository: PreferencesRepository,
     private val googleSignInClient: GoogleSignInService

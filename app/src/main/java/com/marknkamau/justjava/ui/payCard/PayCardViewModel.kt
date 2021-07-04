@@ -4,13 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.repository.PaymentsRepository
 import com.marknjunge.core.data.model.ApiResponse
 import com.marknjunge.core.data.model.CardDetails
+import com.marknjunge.core.data.model.Resource
+import com.marknjunge.core.data.repository.PaymentsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PayCardViewModel(
+@HiltViewModel
+class PayCardViewModel @Inject constructor(
     private val paymentsRepository: PaymentsRepository
 ) : ViewModel() {
     private val _loading = MutableLiveData<Boolean>()

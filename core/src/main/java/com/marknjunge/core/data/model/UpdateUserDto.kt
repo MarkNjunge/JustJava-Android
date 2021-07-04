@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class UpdateUserDto(
+data class UpdateUserDto(
     @SerialName("firstName")
 	   val firstName: String,
 

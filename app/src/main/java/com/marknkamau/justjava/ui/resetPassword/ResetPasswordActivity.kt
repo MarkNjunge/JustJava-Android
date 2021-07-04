@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.app.TaskStackBuilder
 import com.marknjunge.core.data.model.Resource
-import com.marknjunge.core.data.repository.AuthRepository
 import com.marknkamau.justjava.R
 import com.marknkamau.justjava.databinding.ActivityResetPasswordBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
@@ -16,11 +15,9 @@ import com.marknkamau.justjava.utils.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 
 class ResetPasswordActivity : BaseActivity() {
 
-    private val authRepository: AuthRepository by inject()
     private val uiScope = CoroutineScope(Dispatchers.Main)
     private lateinit var token: String
     private lateinit var binding: ActivityResetPasswordBinding

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,12 +20,13 @@ import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
 import com.marknkamau.justjava.utils.*
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 
+@AndroidEntryPoint
 class OrderDetailActivity : BaseActivity() {
 
-    private val orderDetailViewModel: OrderDetailViewModel by viewModel()
+    private val orderDetailViewModel: OrderDetailViewModel by viewModels()
     private lateinit var order: Order
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
     private lateinit var broadcastReceiver: BroadcastReceiver

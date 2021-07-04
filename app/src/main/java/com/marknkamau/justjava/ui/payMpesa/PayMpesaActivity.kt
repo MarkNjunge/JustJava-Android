@@ -4,18 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.databinding.ActivityPayMpesaBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.utils.resetErrorOnChange
 import com.marknkamau.justjava.utils.toast
 import com.marknkamau.justjava.utils.trimmedText
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PayMpesaActivity : BaseActivity() {
 
     private lateinit var orderId: String
-    private val payMpesaViewModel: PayMpesaViewModel by viewModel()
+    private val payMpesaViewModel: PayMpesaViewModel by viewModels()
     override var requiresSignedIn = true
     private lateinit var binding: ActivityPayMpesaBinding
 

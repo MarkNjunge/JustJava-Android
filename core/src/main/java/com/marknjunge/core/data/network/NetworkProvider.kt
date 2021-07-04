@@ -15,7 +15,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 
-internal class NetworkProvider(private val context: Context, private val preferencesRepository: PreferencesRepository) {
+class NetworkProvider(private val context: Context, private val preferencesRepository: PreferencesRepository) {
     private val apiBaseUrl = BuildConfig.API_BASE_URL
     private val mediaType = "application/json".toMediaType()
 

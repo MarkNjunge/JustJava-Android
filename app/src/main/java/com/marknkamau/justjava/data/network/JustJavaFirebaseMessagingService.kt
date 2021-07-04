@@ -9,11 +9,14 @@ import com.marknjunge.core.data.model.Resource
 import com.marknjunge.core.data.repository.UsersRepository
 import com.marknkamau.justjava.data.models.NotificationReason
 import com.marknkamau.justjava.utils.NotificationHelper
+import com.marknkamau.justjava.utils.NotificationHelperImpl
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
-import org.koin.core.component.KoinComponent
 import timber.log.Timber
 
 /**
@@ -22,10 +25,19 @@ import timber.log.Timber
  * https://github.com/MarkNjunge
  */
 
-class JustJavaFirebaseMessagingService : FirebaseMessagingService(), KoinComponent {
-    private val notificationHelper: NotificationHelper by inject()
+class JustJavaFirebaseMessagingService : FirebaseMessagingService() {
+    private val notificationHelper: NotificationHelper = NotificationHelperImpl(applicationContext)
     private val broadcastManager by lazy { LocalBroadcastManager.getInstance(this) }
-    private val usersRepository: UsersRepository by inject()
+    private val usersRepository by lazy {
+        val entryPoint = EntryPointAccessors.fromApplication(applicationContext, JustJavaFCMEntryPoint::class.java)
+        entryPoint.usersRepository()
+    }
+
+    @EntryPoint
+    @InstallIn(SingletonComponent::class)
+    interface JustJavaFCMEntryPoint {
+        fun usersRepository(): UsersRepository
+    }
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 

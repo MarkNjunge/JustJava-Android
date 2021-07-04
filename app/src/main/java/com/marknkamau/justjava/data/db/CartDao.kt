@@ -1,9 +1,9 @@
 package com.marknkamau.justjava.data.db
 
 import androidx.room.*
+import com.marknkamau.justjava.data.models.CartItem
 import com.marknkamau.justjava.data.models.CartOptionEntity
 import com.marknkamau.justjava.data.models.CartProductEntity
-import com.marknkamau.justjava.data.models.CartItem
 
 @Dao
 interface CartDao {

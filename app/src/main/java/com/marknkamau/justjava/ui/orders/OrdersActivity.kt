@@ -3,6 +3,7 @@ package com.marknkamau.justjava.ui.orders
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,11 +11,12 @@ import com.marknjunge.core.data.model.Resource
 import com.marknkamau.justjava.databinding.ActivityOrdersBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
 import com.marknkamau.justjava.ui.orderDetail.OrderDetailActivity
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class OrdersActivity : BaseActivity() {
 
-    private val ordersViewModel: OrdersViewModel by viewModel()
+    private val ordersViewModel: OrdersViewModel by viewModels()
     override var requiresSignedIn = true
     private lateinit var binding: ActivityOrdersBinding
 
