@@ -17,7 +17,6 @@ import com.marknkamau.justjava.R
 import com.marknkamau.justjava.data.network.JustJavaFirebaseMessagingService
 import com.marknkamau.justjava.databinding.ActivityOrderDetailBinding
 import com.marknkamau.justjava.ui.base.BaseActivity
-import com.marknkamau.justjava.ui.payCard.PayCardActivity
 import com.marknkamau.justjava.ui.payMpesa.PayMpesaActivity
 import com.marknkamau.justjava.utils.*
 import dagger.hilt.android.AndroidEntryPoint
