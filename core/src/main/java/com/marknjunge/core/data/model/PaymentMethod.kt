@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 enum class PaymentMethod(val s: String) {
     CASH("CASH"),
     MPESA("MPESA"),
-    CARD("CARD")
+//    CARD("CARD")
 }
