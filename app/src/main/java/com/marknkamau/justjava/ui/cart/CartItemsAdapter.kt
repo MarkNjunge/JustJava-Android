@@ -54,8 +54,9 @@ class CartItemsAdapter(
 
             binding.tvCartItemProductName.text = item.cartItem.productName
             binding.tvCartItemQuantity.text = "${item.cartItem.quantity}x"
-            binding.root.setOnClickListener {
+            binding.root.setOnLongClickListener {
                 onClick(item)
+                false
             }
         }
     }
