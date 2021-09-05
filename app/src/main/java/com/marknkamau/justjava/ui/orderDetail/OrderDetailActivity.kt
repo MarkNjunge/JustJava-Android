@@ -62,7 +62,7 @@ class OrderDetailActivity : BaseActivity() {
         binding.btnPayOrder.setOnClickListener {
             when (order.paymentMethod) {
                 PaymentMethod.MPESA -> PayMpesaActivity.start(this, orderId)
-                PaymentMethod.CARD -> PayCardActivity.start(this, orderId)
+                PaymentMethod.CARD -> toast("Card payment is currently disabled")
                 else -> {
                 }
             }
