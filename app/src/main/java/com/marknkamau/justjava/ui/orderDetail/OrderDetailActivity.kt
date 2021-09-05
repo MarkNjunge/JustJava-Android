@@ -62,7 +62,9 @@ class OrderDetailActivity : BaseActivity() {
         binding.btnPayOrder.setOnClickListener {
             when (order.paymentMethod) {
                 PaymentMethod.MPESA -> PayMpesaActivity.start(this, orderId)
-                else -> {}
+                PaymentMethod.CARD -> PayCardActivity.start(this, orderId)
+                else -> {
+                }
             }
         }
     }
